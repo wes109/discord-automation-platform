@@ -1,0 +1,202 @@
+[
+    {
+        "channelName": "shopify-queue",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1124704666815565904",
+        "webhookUrl": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+    },
+    {
+        "channelName": "shopify-proxy-protection",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1124711499387109446",
+        "webhookUrl": "https://discord.com/api/webhooks/1149047429832900608/dkHFFf4UUeiKKvcCk0YDZqFQ-_Zl9J5sPOOTw8MfoRuZWAeGEqrTygpaDXtItE99nTty"
+    },
+    {
+        "channelName": "shopify-filtered-ca",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037388376912969799",
+        "webhookUrl": "https://discord.com/api/webhooks/1149049512858505216/mdCe5Hvh1LlTKJvL5UdFxmFalCOv7T5_xD-m16GDqOnSlCZFByxEdmocy1JsSYJ9wx8q"
+    },
+    {
+        "channelName": "shopify-unfiltered",
+        "discordUrl": "https://discord.com/channels/498214482229723137/658746955098357810",
+        "webhookUrl": "https://discord.com/api/webhooks/1149049636552712203/NLJLBLcYGa0w0R69Lu9XJkMMsu4LbcgmCv7lG-v7fqd9gp35TeO6CquXMyy9xIV50oGi"
+    },
+    {
+        "channelName": "shopify-variants",
+        "discordUrl": "https://discord.com/channels/498214482229723137/745690740033716315",
+        "webhookUrl": "https://discord.com/api/webhooks/1149049723328679946/NeUw6BH4OH3ULMKB2YlPrnwQCGjp8GB5AN94WnZFoHNq-uy0nEz5fB7Nr1gqDEZ2E46H"
+    },
+    {
+        "channelName": "amm-apb-ss",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037382737927090226",
+        "webhookUrl": "https://discord.com/api/webhooks/1149049813783035924/wEDGL3-Ldrl6Fs70ILCVAiE6CWm9EoCsZONx_YBNcAxFdZa7Bs2842RiNF9h_jXqYTcJ"
+    },
+    {
+        "channelName": "bandier",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037377452156133386",
+        "webhookUrl": "https://discord.com/api/webhooks/1149049909106978997/ECgzUyKnqWEV3ul83DUYbESM1yrvcdRB6Xgtl3nuCOXxNyf5oCKzz-G9KQwwLBEnGLud"
+    },
+    {
+        "channelName": "bbc-ice-cream",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037378092806713385",
+        "webhookUrl": "https://discord.com/api/webhooks/1149050329602728078/8NYSD5YqMkrWe9aV126FqdkKWKlzvc5uObd_6gL--aosbVGkz9z_lhkFexpmp7KREFDV"
+    },
+    {
+        "channelName": "bodega",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037378619074433074",
+        "webhookUrl": "https://discord.com/api/webhooks/1149050462897700924/CyG5iPvfKzXGag1NtplPQLOz9ByUGy3G5QjXF688Qu-lJxHgYxu9aigRHk1BlFiOe0E0"
+    },
+    {
+        "channelName": "brooklyn-museum",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037379459461955624",
+        "webhookUrl": "https://discord.com/api/webhooks/1149050559790334002/f9oZBfzcDrfEtUaY9uUZF081cndEpEbrudTDM4U5EsUVTuA21uYdJdamtgajTMOdNOg_"
+    },
+    {
+        "channelName": "canary-yellow",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037378836842684556",
+        "webhookUrl": "https://discord.com/api/webhooks/1149050637066195004/naHoNnJ26gd0CZ_qHLewak55mhlIDUInxXfL7rRozrWw9HRTxB9_S3SRE6k7JGpa6iLH"
+    },
+    {
+        "channelName": "concepts",
+        "discordUrl": "https://discord.com/channels/498214482229723137/672920252408922125",
+        "webhookUrl": "https://discord.com/api/webhooks/1149050728128725022/Gkj708T7qgaR8IivNbJiQvlfgX717OeBxQvpMR0OcQO41bX5ZaC2L3q8lCX0Wl_yPbRf"
+    },
+    {
+        "channelName": "cpfm",
+        "discordUrl": "https://discord.com/channels/498214482229723137/971935062989889596",
+        "webhookUrl": "https://discord.com/api/webhooks/1149050971780038716/uEe8U6-WxF6bTfnxMYA4QU22OEGdnJvC80QfCRTuJLIHZxQD7Zcc-iPnT6SJK2FedMuP"
+    },
+    {
+        "channelName": "creme321",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037379921070272572",
+        "webhookUrl": "https://discord.com/api/webhooks/1149051016122212453/8_RbnfD5-o4Ga_0cNjR63A0fe3KQkblqUO8pHm3LlGwr6i8UdBFCBgTAl11-tvuSO8kI"
+    },
+    {
+        "channelName": "darkside-initiative",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037380207822250074",
+        "webhookUrl": "https://discord.com/api/webhooks/1149051058618912908/Ba2lhQWS1de13WZZ-AGXWUa0T0t9V5fPCBmJEn2hXgh-BNMm10YWii-TeT1gHFnZ2qXD"
+    },
+    {
+        "channelName": "deadstock-ca",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037382031719534622",
+        "webhookUrl": "https://discord.com/api/webhooks/1149051105888702718/dDcbTJ2f7O8qiSUWHMSzrZOzNRz2ZmjF35cbuQ5s68s8Tlc8kUm0Qs9qfqPn_w4sMb2u"
+    },
+    {
+        "channelName": "dsm",
+        "discordUrl": "https://discord.com/channels/498214482229723137/971935394222452836",
+        "webhookUrl": "https://discord.com/api/webhooks/1149051197748170873/7Rhizb5bzHP8VZomrX9_gtLrHReM_rpMEYhqL9r0oWH7c1-68XnM1_OMGbj5CWP3O8Sx"
+    },
+    {
+        "channelName": "dtlr",
+        "discordUrl": "https://discord.com/channels/498214482229723137/971935529576824852",
+        "webhookUrl": "https://discord.com/api/webhooks/1149051247270318101/fpzlLE9V6WxPr6lxxhBVAWQdl-TpwOwGdP_PA73BoxkEmPoFn8s2AyDqdZMkMsnh46Bb"
+    },
+    {
+        "channelName": "eric emanuel",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037387813685039204",
+        "webhookUrl": "https://discord.com/api/webhooks/1149051296414965920/JMEErP_P1_ujCHKiGI_d0uXfav1PEC2_AbZo7LImHtJUhwzwMYIsG8XzrBX71TAqjfh7"
+    },
+    {
+        "channelName": "hat-club",
+        "discordUrl": "https://discord.com/channels/498214482229723137/971937199832596480",
+        "webhookUrl": "https://discord.com/api/webhooks/1162356673860603944/ypAaCv-tMEUAgAjP_UTuszRuM_anYlxUdjqPQUkc-giTR8J-kGBqqQQpt_xrO5e67YCd"
+    },
+    {
+        "channelName": "kith",
+        "discordUrl": "https://discord.com/channels/498214482229723137/658747367108902938",
+        "webhookUrl": "https://discord.com/api/webhooks/1162356798452400288/u7yiak5A_36N19bh48A4OOmaJsbd6JLMK4mXnldyhqx45fCnYDvLcR0PpOXUNFXBKQCQ"
+    },
+    {
+        "channelName": "leaders-1354",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037388750692556890",
+        "webhookUrl": "https://discord.com/api/webhooks/1162356838809997372/9lmfpPTGtEVbYUbw6AU8wZG9KDIJcGqncnK6A9m-Df9XMhHBtMxpMIihT-RJ2uebvOAy"
+    },
+    {
+        "channelName": "mambacita",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1067640220490661949",
+        "webhookUrl": "https://discord.com/api/webhooks/1162356872800636968/nc16IBaiM_nsoQteajfgagXu08kBdsv5LdRzZVlWPcn7lnFShUlx1jZsRAVHB_1fcrET"
+    },
+    {
+        "channelName": "mattel-creations",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1047599244552450088",
+        "webhookUrl": "https://discord.com/api/webhooks/1162356904639606946/N2dYl8k-cijikboP5IhlfQFMqZEkp0B583RtTvvPBEvaLB3xJXHBw_uKfka1wirzdXNi"
+    },
+    {
+        "channelName": "notre-shop",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037384444610367548",
+        "webhookUrl": "https://discord.com/api/webhooks/1162356944170930187/r09y4MJIYMtx_C4xY9MGT4IMZPsgzrQEKlHrsWyE9Ra0TdHrl5cpnTEPS_bJrLLUeDlw"
+    },
+    {
+        "channelName": "oneness-boutique",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037384493507543191",
+        "webhookUrl": "https://discord.com/api/webhooks/1162356983014363229/buQRFh5nIIM47IEBdIdDa9Hl5L_S7DTrpoKML-d_hLYp_v7deiT00zuMIiNz1-FJfKLL"
+    },
+    {
+        "channelName": "rsvp-gallery",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037384600126767124",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357017051136212/nySXfcN0dd6jBj2gtHmVPZ8vwH37ZTX0hqObCPIGfNWqVJKJFxnAG_aUCubdhepUgmAr"
+    },
+    {
+        "channelName": "saint-alfred",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037385595770654771",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357055080894464/wQWizwwvOAp33SSurjHdwtlX09hoS2CW8GtUzdZFsHUbx1KDKxKP9VL_VDAnIWcr0XJf"
+    },
+    {
+        "channelName": "shoe-palace",
+        "discordUrl": "https://discord.com/channels/498214482229723137/730386454718447676",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357096038289511/cLR9XwuW2bCinekEznczPWR_E9N8UlmCC-8Vj0C4_gH6Ye_2pjkQO7x6HKIR0oxLWlWe"
+    },
+    {
+        "channelName": "shop-nice-kicks",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037388001464045568",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357134130950205/_bRw4lYhxMGIY7MuiBXwJa2oWuBqQw_d--7x4l94xJp2Dk-22mCNN07YyUyrZUUa6u7e"
+    },
+    {
+        "channelName": "slam-jam",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037386181614252134",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357169837047829/PLUJQ7noo0Tz0oJQ7tvk2u49ctl3mca2fnW-oZQr3tWLyoaL5-LAWVLbW9rjsHDDN9Uc"
+    },
+    {
+        "channelName": "sneaker-politics",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037386204326416384",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357206684008489/z4Sf06-9VjV2qB76VZAqCG1kWuMTVUq1RP6XBhBiUv6JzG43-Xrb8sTwz6QbQIvw9hRR"
+    },
+    {
+        "channelName": "svrn",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037386609080938566",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357238808203284/mVsYlO9ArYo9XoDN9xyXxin2GUU4tGgh1uJKacVIkF27biJ4WTyJIBMOXXMFrZhogsE8"
+    },
+    {
+        "channelName": "travis-scott",
+        "discordUrl": "https://discord.com/channels/498214482229723137/745691139364880394",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357275831308358/p7p2oXfrw4S90bAjSKpbtI8_-QBECnt5ORDYoQrA410AaiQga-TKDooZboA3BNbpWWNR"
+    },
+    {
+        "channelName": "trophy-room",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037386979337314315",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357307569623130/OocJrUzYr7o_FdaMdDDGczymkC3dlpTwY7HINbamo3lGNKHXloA97OAFLTMPJ8PCobLP"
+    },
+    {
+        "channelName": "undefeated",
+        "discordUrl": "https://discord.com/channels/498214482229723137/658747349589557278",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357343112143008/eJ2wtT6OORCQIt-vIH_FhL7kDfSs1LdlIOoqfqICqptxtM_tL3ITapQFFgYnR53ejJLz"
+    },
+    {
+        "channelName": "union-la",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037387001768452156",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357380810547210/QZPEF0zXJJVHnGeQg6To1LB3xi_o_H19BJCdFjEuC5QyQV3CAbrnY6HBO6AKvTalIWYp"
+    },
+    {
+        "channelName": "unknwn",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037398573576368148",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357416927703110/ds-B75RqxPW2Q6szc9eh869MhJvqzJnwKf_b3UeObakmtPvtx5OqivLDHv_r7RmoE2u8"
+    },
+    {
+        "channelName": "wss",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037387016691789995",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357452373774336/kus6_LaTQK1q3pUlcXtIr5KJd6LFu6XmysY8xGh4GyUzriJC72IMOpQdmho3eb0uaOHX"
+    },
+    {
+        "channelName": "xhibition-ruleofnext",
+        "discordUrl": "https://discord.com/channels/498214482229723137/1037387714481365082",
+        "webhookUrl": "https://discord.com/api/webhooks/1162357491372413009/x0UXjNHfeDum2lDZRobPul7rQHLl60mAxliNCIRiNK71IiKx78JGid1Qk_uCAiJziW6E"
+    }
+]
