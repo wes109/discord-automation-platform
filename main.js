@@ -10,6 +10,10 @@ const fs = require('fs-extra');
 const path = require('path');
 const webhook = require('./webhook');
 
+// Initialize Puppeteer plugins
+puppeteer.use(StealthPlugin());
+puppeteer.use(AdblockerPlugin({ blockTrackers: true }));
+
 // Configuration
 let taskCounter = 0;
 
@@ -255,6 +259,7 @@ async function launchBrowser(profileId, headless = false) {
             headless: headless ? 'new' : false,
             defaultViewport: null,
             userDataDir: `./${profileId}`,
+            executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
             args: [
                 '--no-sandbox',
                 '--disable-gpu',
@@ -263,8 +268,8 @@ async function launchBrowser(profileId, headless = false) {
                 '--disable-background-networking',
                 '--disable-background-timer-throttling',
                 '--disable-renderer-backgrounding',
-                '--disk-cache-size=0',
-            ],
+                '--disk-cache-size=0'
+            ]
         });
         
         logTask(taskId, 'SUCCESS', 'Browser launched successfully');
