@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discord Monitor Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .target-channels-group {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #dee2e6;
+      border-radius: 0.25rem;
+      padding: 0.5rem;
+    }
+    
+    .target-channels-group .form-check {
+      margin-bottom: 0.5rem;
+    }
+    
+    .target-channels-group .form-check:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Discord Monitor Dashboard</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="#tasks">Tasks</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#config">Configuration</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <!-- Tasks Section -->
+    <section id="tasks" class="mb-5">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Monitoring Tasks</h2>
+        <div class="btn-group">
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newTaskModal">
+            <i class="bi bi-plus-circle"></i> New Task
+          </button>
+          <button class="btn btn-success" id="saveAllTasksBtn">
+            <i class="bi bi-save"></i> Save All Tasks
+          </button>
+        </div>
+      </div>
+      
+      <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> 
+        Monitor Discord channels for new messages and forward them to target channels. 
+        Each task runs independently and can be started or stopped at any time.
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover" id="tasksTable">
+              <thead>
+                <tr>
+                  <th>Label</th>
+                  <th>Status</th>
+                  <th>Channel URL</th>
+                  <th>Target Channels</th>
+                  <th>Settings</th>
+                  <th>Started</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (activeTasks && activeTasks.length > 0) { %>
+                  <% activeTasks.forEach(task => { %>
+                    <tr data-task-id="<%= task.taskId %>">
+                      <td><strong><%= task.label || task.channelUrl.split('/').pop() %></strong></td>
+                      <td>
+                        <span class="badge <%= task.status === 'running' ? 'bg-success' : (task.status === 'stopping' ? 'bg-warning' : 'bg-danger') %>">
+                          <%= task.status %>
+                        </span>
+                      </td>
+                      <td><%= task.channelUrl %></td>
+                      <td>
+                        <% if (task.webhookInfo && task.webhookInfo.length > 0) { %>
+                          <ul class="list-unstyled mb-0">
+                            <% task.webhookInfo.forEach(webhook => { %>
+                              <li>
+                                <span class="badge bg-secondary"><%= webhook.name %></span>
+                              </li>
+                            <% }); %>
+                          </ul>
+                        <% } else { %>
+                          <%= task.targetChannels.join(', ') %>
+                        <% } %>
+                      </td>
+                      <td>
+                        <% if (task.settings && task.settings.headless) { %>
+                          <span class="badge bg-info me-1">Headless</span>
+                        <% } else { %>
+                          <span class="badge bg-secondary">GUI</span>
+                        <% } %>
+                      </td>
+                      <td><%= new Date(task.startTime).toLocaleString() %></td>
+                      <td>
+                        <div class="btn-group">
+                          <button class="btn btn-sm btn-info view-logs-btn" data-task-id="<%= task.taskId %>" title="View task logs">
+                            <i class="bi bi-journal-text"></i> Logs
+                          </button>
+                          <% if (task.status === 'running') { %>
+                            <button class="btn btn-sm btn-warning stop-task-btn" data-task-id="<%= task.taskId %>" title="Stop this task">
+                              <i class="bi bi-stop-circle"></i> Stop
+                            </button>
+                          <% } %>
+                        </div>
+                      </td>
+                    </tr>
+                  <% }); %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="7" class="text-center">No active tasks</td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Configuration Section -->
+    <section id="config" class="mb-5">
+      <h2 class="mb-3">Configuration</h2>
+      
+      <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> 
+        Configure Discord webhooks and monitoring channels. These settings are used when creating new monitoring tasks.
+      </div>
+      
+      <div class="row">
+        <!-- Configuration Tabs -->
+        <div class="col-12">
+          <ul class="nav nav-tabs" id="configTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="discord-tab" data-bs-toggle="tab" data-bs-target="#discord-content" type="button" role="tab">
+                Discord Webhooks
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="monitoring-tab" data-bs-toggle="tab" data-bs-target="#monitoring-content" type="button" role="tab">
+                Monitoring Channels
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="profiles-tab" data-bs-toggle="tab" data-bs-target="#profiles-content" type="button" role="tab">
+                Chrome Profiles
+              </button>
+            </li>
+          </ul>
+          
+          <div class="tab-content p-3 border border-top-0 rounded-bottom" id="configTabsContent">
+            <!-- Discord Webhooks Tab -->
+            <div class="tab-pane fade show active" id="discord-content" role="tabpanel">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Discord Webhooks</h5>
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#newDiscordChannelModal">
+                  <i class="bi bi-plus-circle"></i> Add Webhook
+                </button>
+              </div>
+              
+              <p class="text-muted">
+                <i class="bi bi-info-circle"></i> 
+                Configure Discord webhooks for sending messages to target channels. Each webhook needs a unique name and webhook URL.
+              </p>
+              
+              <div class="table-responsive">
+                <table class="table table-hover" id="discordChannelsTable">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if (config.discord && config.discord.channels && config.discord.channels.length > 0) { %>
+                      <% config.discord.channels.forEach(channel => { %>
+                        <tr>
+                          <td><%= channel.name %></td>
+                          <td>
+                            <div class="btn-group">
+                              <button class="btn btn-sm btn-info edit-discord-channel-btn" 
+                                data-channel-name="<%= channel.name %>"
+                                data-webhook-url="<%= channel.webhook_url %>"
+                                data-channel-label="<%= channel.label || channel.name %>"
+                                title="Edit webhook">
+                                <i class="bi bi-pencil"></i>
+                              </button>
+                              <button class="btn btn-sm btn-danger delete-discord-channel-btn" 
+                                data-channel-name="<%= channel.name %>"
+                                title="Delete webhook">
+                                <i class="bi bi-trash"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      <% }); %>
+                    <% } else { %>
+                      <tr>
+                        <td colspan="2" class="text-center">No Discord webhooks configured</td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <!-- Monitoring Channels Tab -->
+            <div class="tab-pane fade" id="monitoring-content" role="tabpanel">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Monitoring Channels</h5>
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#newMonitoringChannelModal">
+                  <i class="bi bi-plus-circle"></i> Add Channel
+                </button>
+              </div>
+              
+              <p class="text-muted">
+                <i class="bi bi-info-circle"></i> 
+                Configure Discord channels to monitor for new messages. Each channel needs a URL and one or more target channels where messages will be forwarded.
+              </p>
+              
+              <div class="table-responsive">
+                <table class="table table-hover" id="monitoringChannelsTable">
+                  <thead>
+                    <tr>
+                      <th>Channel URL</th>
+                      <th>Target Channels</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if (config.monitoring && config.monitoring.channels && config.monitoring.channels.length > 0) { %>
+                      <% config.monitoring.channels.forEach(channel => { %>
+                        <tr>
+                          <td><%= channel.url %></td>
+                          <td><%= channel.targetChannels.join(', ') %></td>
+                          <td>
+                            <div class="btn-group">
+                              <button class="btn btn-sm btn-info edit-monitoring-channel-btn" 
+                                data-channel-url="<%= channel.url %>"
+                                data-target-channels="<%= channel.targetChannels.join(',') %>"
+                                title="Edit monitoring channel">
+                                <i class="bi bi-pencil"></i>
+                              </button>
+                              <button class="btn btn-sm btn-danger delete-monitoring-channel-btn" 
+                                data-channel-url="<%= channel.url %>"
+                                title="Delete monitoring channel">
+                                <i class="bi bi-trash"></i>
+                              </button>
+                              <button class="btn btn-sm btn-success start-monitoring-btn" 
+                                data-channel-url="<%= channel.url %>"
+                                data-target-channels="<%= channel.targetChannels.join(',') %>"
+                                data-bs-toggle="modal" 
+                                data-bs-target="#startMonitoringModal"
+                                title="Start monitoring this channel">
+                                <i class="bi bi-play"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      <% }); %>
+                    <% } else { %>
+                      <tr>
+                        <td colspan="3" class="text-center">No monitoring channels configured</td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <!-- Chrome Profiles Tab -->
+            <div class="tab-pane fade" id="profiles-content" role="tabpanel">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Chrome Profiles</h5>
+              </div>
+              
+              <p class="text-muted">
+                <i class="bi bi-info-circle"></i> 
+                Generate Chrome profiles for monitoring tasks. Each profile is used to maintain separate browser sessions.
+              </p>
+              
+              <div class="card">
+                <div class="card-body">
+                  <div class="row align-items-end">
+                    <div class="col-md-6">
+                      <label for="profileCount" class="form-label">Number of Profiles</label>
+                      <input type="number" class="form-control" id="profileCount" min="1" value="1">
+                    </div>
+                    <div class="col-md-6">
+                      <button class="btn btn-primary" id="generateProfilesBtn">
+                        <i class="bi bi-plus-circle"></i> Generate Profiles
+                      </button>
+                    </div>
+                  </div>
+                  <div id="profileGenerationStatus" class="mt-3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- New Task Modal -->
+  <div class="modal fade" id="newTaskModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">New Task</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="newTaskForm">
+            <div class="mb-3">
+              <label for="taskLabel" class="form-label">Task Label</label>
+              <input type="text" class="form-control" id="taskLabel" placeholder="Enter a descriptive label">
+              <div class="form-text">A descriptive name to identify this task in the dashboard</div>
+            </div>
+            <div class="mb-3">
+              <label for="channelUrl" class="form-label">Channel URL</label>
+              <input type="text" class="form-control" id="channelUrl" required>
+              <div class="form-text">The Discord channel URL to monitor</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Target Channels</label>
+              <div class="target-channels-group">
+                <% if (config.discord && config.discord.channels) { %>
+                  <% config.discord.channels.forEach(channel => { %>
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input target-channel-checkbox" id="channel_<%= channel.name %>" value="<%= channel.name %>">
+                      <label class="form-check-label" for="channel_<%= channel.name %>"><%= channel.name %></label>
+                    </div>
+                  <% }); %>
+                <% } %>
+              </div>
+              <div class="form-text">Select the Discord channels where messages will be forwarded</div>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="enableHeadless">
+              <label class="form-check-label" for="enableHeadless">Enable Headless Mode</label>
+              <div class="form-text">When enabled, the browser will run in headless mode without a visible window</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="startTaskBtn">Start</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Task Modal -->
+  <div class="modal fade" id="editTaskModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Task</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editTaskId">
+          <div class="mb-3">
+            <label for="editChannelUrl" class="form-label">Channel URL</label>
+            <input type="text" class="form-control" id="editChannelUrl" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Target Channels</label>
+            <div class="target-channels-group">
+              <% if (config.discord && config.discord.channels) { %>
+                <% config.discord.channels.forEach(channel => { %>
+                  <div class="form-check">
+                    <input type="checkbox" class="form-check-input edit-target-channel-checkbox" id="edit_channel_<%= channel.name %>" value="<%= channel.name %>">
+                    <label class="form-check-label" for="edit_channel_<%= channel.name %>"><%= channel.label || channel.name %></label>
+                  </div>
+                <% }); %>
+              <% } %>
+            </div>
+            <div class="form-text">Select the Discord channels where messages will be forwarded</div>
+          </div>
+          <div class="mb-3">
+            <label for="editTaskLabel" class="form-label">Label (Optional)</label>
+            <input type="text" class="form-control" id="editTaskLabel" placeholder="Custom label for this task">
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="editEnableHeadless">
+            <label class="form-check-label" for="editEnableHeadless">Enable Headless Mode</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="saveEditedTask()">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Discord Channel Modal -->
+  <div class="modal fade" id="newDiscordChannelModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Discord Webhook</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="newDiscordChannelForm">
+            <div class="mb-3">
+              <label for="discordChannelName" class="form-label">Channel Name</label>
+              <input type="text" class="form-control" id="discordChannelName" required>
+              <div class="form-text">A unique name to identify this webhook (used in task configuration)</div>
+            </div>
+            <div class="mb-3">
+              <label for="discordChannelLabel" class="form-label">Channel Label</label>
+              <input type="text" class="form-control" id="discordChannelLabel">
+              <div class="form-text">A descriptive label for this webhook (optional)</div>
+            </div>
+            <div class="mb-3">
+              <label for="discordWebhookUrl" class="form-label">Webhook URL</label>
+              <input type="text" class="form-control" id="discordWebhookUrl" required>
+              <div class="form-text">The Discord webhook URL for sending messages to this channel</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="saveDiscordChannelBtn">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Discord Channel Modal -->
+  <div class="modal fade" id="editDiscordChannelModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Discord Webhook</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editDiscordChannelForm">
+            <input type="hidden" id="editDiscordChannelOriginalName">
+            <div class="mb-3">
+              <label for="editDiscordChannelName" class="form-label">Channel Name</label>
+              <input type="text" class="form-control" id="editDiscordChannelName" required>
+              <div class="form-text">A unique name to identify this webhook (used in task configuration)</div>
+            </div>
+            <div class="mb-3">
+              <label for="editDiscordChannelLabel" class="form-label">Channel Label</label>
+              <input type="text" class="form-control" id="editDiscordChannelLabel">
+              <div class="form-text">A descriptive label for this webhook (optional)</div>
+            </div>
+            <div class="mb-3">
+              <label for="editDiscordWebhookUrl" class="form-label">Webhook URL</label>
+              <input type="text" class="form-control" id="editDiscordWebhookUrl" required>
+              <div class="form-text">The Discord webhook URL for sending messages to this channel</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="updateDiscordChannelBtn">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Monitoring Channel Modal -->
+  <div class="modal fade" id="newMonitoringChannelModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Monitoring Channel</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="newMonitoringChannelForm">
+            <div class="mb-3">
+              <label for="monitoringChannelUrl" class="form-label">Channel URL</label>
+              <input type="text" class="form-control" id="monitoringChannelUrl" required>
+              <div class="form-text">The Discord channel URL to monitor (e.g., https://discord.com/channels/server_id/channel_id)</div>
+            </div>
+            <div class="mb-3">
+              <label for="monitoringTargetChannels" class="form-label">Target Channels</label>
+              <select class="form-select" id="monitoringTargetChannels" multiple required>
+                <% if (config.discord && config.discord.channels) { %>
+                  <% config.discord.channels.forEach(channel => { %>
+                    <option value="<%= channel.name %>"><%= channel.name %></option>
+                  <% }); %>
+                <% } %>
+              </select>
+              <div class="form-text">The Discord channels where messages will be forwarded (hold Ctrl/Cmd to select multiple)</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="saveMonitoringChannelBtn">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Monitoring Channel Modal -->
+  <div class="modal fade" id="editMonitoringChannelModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Monitoring Channel</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editMonitoringChannelForm">
+            <input type="hidden" id="editMonitoringChannelOriginalUrl">
+            <div class="mb-3">
+              <label for="editMonitoringChannelUrl" class="form-label">Channel URL</label>
+              <input type="text" class="form-control" id="editMonitoringChannelUrl" required>
+              <div class="form-text">The Discord channel URL to monitor (e.g., https://discord.com/channels/server_id/channel_id)</div>
+            </div>
+            <div class="mb-3">
+              <label for="editMonitoringTargetChannels" class="form-label">Target Channels</label>
+              <select class="form-select" id="editMonitoringTargetChannels" multiple required>
+                <% if (config.discord && config.discord.channels) { %>
+                  <% config.discord.channels.forEach(channel => { %>
+                    <option value="<%= channel.name %>"><%= channel.name %></option>
+                  <% }); %>
+                <% } %>
+              </select>
+              <div class="form-text">The Discord channels where messages will be forwarded (hold Ctrl/Cmd to select multiple)</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="updateMonitoringChannelBtn">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start Monitoring Modal -->
+  <div class="modal fade" id="startMonitoringModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Start Monitoring</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="startMonitoringForm">
+            <div class="mb-3">
+              <label for="startMonitoringLabel" class="form-label">Task Label</label>
+              <input type="text" class="form-control" id="startMonitoringLabel" placeholder="Enter a descriptive label">
+              <div class="form-text">A descriptive name to identify this task in the dashboard</div>
+            </div>
+            <input type="hidden" id="startMonitoringChannelUrl" value="">
+            <input type="hidden" id="startMonitoringTargetChannels" value="">
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="startMonitoringEnableHeadless">
+              <label class="form-check-label" for="startMonitoringEnableHeadless">Enable Headless Mode</label>
+              <div class="form-text">When enabled, the browser will run in headless mode without a visible window</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="confirmStartMonitoringBtn">Start</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task Logs Modal -->
+  <div class="modal fade" id="taskLogsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Task Logs</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="logs-container">
+            <pre id="taskLogsContent" class="bg-dark text-light p-3 rounded"></pre>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="refreshLogsBtn">Refresh</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/profiles.js"></script>
+</body>
+</html> 

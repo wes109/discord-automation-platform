@@ -1,23 +1,70 @@
 const { Webhook, MessageBuilder } = require('discord-webhook-node');
+const fetch = require('node-fetch');
+
+exports.sendRegularMessage = async (message, webhookUrl) => {
+    console.log('[1/4] Init regular message send');
+    
+    if (!message?.content) {
+        console.log('[1/4] Abort - Missing content');
+        return;
+    }
+
+    try {
+        console.log('[2/4] Building payload');
+        const payload = {
+            content: message.content.substring(0, 2000),
+            username: message.username?.substring(0, 80) || 'Unknown User',
+            avatar_url: message.avatar_url || 'https://pbs.twimg.com/profile_images/1563967215438790656/y8DLGAKv_400x400.jpg'
+        };
+
+        console.log('[3/4] Payload:', JSON.stringify(payload));
+        console.log('[3/4] Sending to Discord API');
+        const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`HTTP ${response.status}: ${errorText}`);
+        }
+        
+        console.log('[4/4] Success');
+    } catch (error) {
+        console.log(`[4/4] Failed - ${error.message}`);
+        throw error;
+    }
+};
 
 exports.buildWebhook = async (embedArray, webhookUrl) => {
     try {
-        if (!embedArray || embedArray.length === 0) {
-            console.log('No embeds to send, skipping webhook');
-            return;
-        }
+        if (!embedArray || embedArray.length === 0) return;
 
         const hook = new Webhook(webhookUrl);
         const embedMessage = new MessageBuilder();
         embedMessage.setColor('#FF5733');
+
+        // Continue with normal embed processing for embed messages
         hook.setAvatar('https://pbs.twimg.com/profile_images/1563967215438790656/y8DLGAKv_400x400.jpg');
         hook.setUsername('Dollar Shoe Club');
+        // Handle regular messages differently from embeds
+        const regularMessage = embedArray.find(item => item.type === 'message');
+        if (regularMessage) {
+            hook.setUsername(regularMessage.username);
+            if (regularMessage.avatar_url) {
+                hook.setAvatar(regularMessage.avatar_url);
+            }
+            return await hook.send(regularMessage.content);
+        }
+
+
         let skipNext = false;
 
         embedArray.forEach((embed, index) => {
             try {
                 if (!embed || !embed.title || !embed.value) return;
-                var { title, value } = embed;
+                var { title, value, url } = embed;
 
                 switch (title.toLowerCase()) {
                     case 'author':
@@ -31,12 +78,13 @@ exports.buildWebhook = async (embedArray, webhookUrl) => {
                         break;
                     case 'title':
                         try {
-                            const titleLinkRegex = /https?:\/\/\S+/gi;
-                            if (value.match(titleLinkRegex)) {
-                                embedMessage.setURL(`${value.match(titleLinkRegex)[0]}`)
-                                value = value.replace(titleLinkRegex, '')
-                            }
+                            const { title, value, url } = embed;
+                            console.log('\nTitle embedArray:', embedArray);
+                            
                             embedMessage.setTitle(value);
+                            if (url) {
+                                embedMessage.setURL(url);
+                            }
                         } catch (err) {
                             console.error('Error processing title:', err);
                         }
@@ -70,14 +118,8 @@ exports.buildWebhook = async (embedArray, webhookUrl) => {
             }
         });
 
-        try {
-            await hook.send(embedMessage);
-        } catch (err) {
-            console.error('Error sending webhook message:', err);
-            throw err; // Re-throw to be caught by the retry mechanism
-        }
+        return await hook.send(embedMessage);
     } catch (error) {
-        console.error('Error building webhook:', error);
-        throw error; // Re-throw to be caught by the retry mechanism
+        console.error('Error sending webhook:', error);
     }
 };

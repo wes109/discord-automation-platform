@@ -2,84 +2,131 @@ const dotenv = require('dotenv');
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const AdblockerPlugin = require('puppeteer-extra-plugin-adblocker');
-const fs = require('fs-extra'); // Import the fs-extra library for file operations
-const { ScrapeData } = require('./scrape'); // Import the ScrapeData function
-const { buildWebhook } = require('./webhook'); // Import the buildWebhook function
+const fs = require('fs-extra');
+const path = require('path');
+
+// Initialize plugins
+puppeteer.use(StealthPlugin());
+puppeteer.use(AdblockerPlugin());
+
+// Parse command line arguments
+const args = process.argv.slice(2);
+const numberOfCopies = parseInt(args[0]) || 1;
 
 (async () => {
-    dotenv.config();
-    const args = process.argv.slice(2);
-
-    // Delete any folder containing the name 'my-profile' if it exists
-    const existingProfiles = await fs.readdir('.');
-    for (const profile of existingProfiles) {
-        if (profile.includes('my-profile')) {
-            console.log(`Deleting folder: ${profile}`);
-            await fs.remove(profile);
-        }
-    }
-
-    // Create a new 'my-profile' folder with the same userDataDir
-
-    // Launch Puppeteer with the userDataDir pointing to 'my-profile'
-    const browser = await puppeteer.launch({
-        headless: false, // Run Chrome in headless mode to save resources
-        userDataDir: './my-profile',
-        args: [
-            '--no-sandbox', // Disable sandboxing for less resource usage
-            '--disable-gpu', // Disable GPU for less resource usage
-            '--disable-dev-shm-usage', // Disable /dev/shm usage for less memory usage
-            '--start-maximized', // Start the browser in full-screen mode
-        ],
-        defaultViewport: null, // Ensure Puppeteer does not override the full-screen setting
-    });
-
-    const page = await browser.newPage();
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4900.0 Safari/537.36');
-
-    var discordUrl = process.env.CHANNEL_URL;
-    const discordUrlIndex = args.indexOf('--discordUrl');
-    if (discordUrlIndex !== -1) {
-        // If the flag is provided, update discordUrl with the following argument
-        discordUrl = args[discordUrlIndex + 1];
-    }
-
-    var webhookUrl = process.env.WEBHOOK_URL;
-    
-    // Set default timeout for all operations
-    page.setDefaultTimeout(600000); // 10 minutes
-    page.setDefaultNavigationTimeout(600000); // 10 minutes
-
-    console.log('Navigating to Discord...');
-    await page.goto('https://discord.com/channels/@me', { 
-        waitUntil: ['domcontentloaded', 'networkidle0'],
-        timeout: 600000 
-    });
-
-    console.log('Waiting for element to appear...');
-
     try {
-        // Wait for an element with the selector you want to wait for
-        await page.waitForSelector('div[aria-label="Servers"]', { timeout: 600000 });
+        // Load environment variables
+        dotenv.config();
+        
+        console.log(`Will generate ${numberOfCopies} profile(s)`);
 
-        console.log('Element found! Saving Cookies...');
-        const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-        await delay(3000);
+        // Clean up existing profiles
+        const baseDir = process.cwd();
+        const existingProfiles = await fs.readdir(baseDir);
+        for (const profile of existingProfiles) {
+            if (profile.startsWith('my-profile')) {
+                const profilePath = path.join(baseDir, profile);
+                console.log(`Cleaning up: ${profilePath}`);
+                await fs.remove(profilePath);
+            }
+        }
 
-        // Close the browser
+        // Create and set up main profile
+        const mainProfilePath = path.join(baseDir, 'my-profile');
+        console.log('Setting up main profile at:', mainProfilePath);
+        await fs.ensureDir(mainProfilePath);
+
+        const browser = await puppeteer.launch({
+            headless: false,
+            userDataDir: mainProfilePath,
+            args: [
+                '--no-sandbox',
+                '--disable-gpu',
+                '--disable-dev-shm-usage',
+                '--start-maximized',
+            ],
+        });
+
+        const page = await browser.newPage();
+        
+        // Enable request interception to capture auth token
+        await page.setRequestInterception(true);
+        let authToken = null;
+        
+        page.on('request', request => {
+            const headers = request.headers();
+            if (headers.authorization) {
+                authToken = headers.authorization;
+            }
+            request.continue();
+        });
+
+        console.log('Navigating to Discord...');
+        await page.goto('https://discord.com/channels/@me', { 
+            waitUntil: ['domcontentloaded', 'networkidle0'],
+            timeout: 600000 
+        });
+
+        console.log('Waiting for login...');
+        await Promise.race([
+            page.waitForSelector('div[aria-label="Servers"]', { timeout: 600000 }),
+            page.waitForSelector('button[type="submit"]', { timeout: 600000 })
+        ]);
+
+        const loginButton = await page.$('button[type="submit"]');
+        if (loginButton) {
+            console.log('Login required. Please log in manually...');
+            await page.waitForSelector('div[aria-label="Servers"]', { timeout: 600000 });
+        }
+
+        // Wait for auth token with timeout
+        console.log('Waiting for authentication token...');
+        let tokenTimeout = 60000; // 1 minute timeout
+        let startTime = Date.now();
+        
+        while (!authToken && Date.now() - startTime < tokenTimeout) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+
+        if (!authToken) {
+            throw new Error('Failed to capture authentication token');
+        }
+
+        // Save auth token and cookies
+        await fs.writeFile(path.join(mainProfilePath, 'auth-token.txt'), authToken);
+        console.log('Authentication token saved!');
+
+        const cookies = await page.cookies();
+        await fs.writeFile(
+            path.join(mainProfilePath, 'cookies.json'), 
+            JSON.stringify(cookies, null, 2)
+        );
+        console.log('Cookies saved!');
+
         await browser.close();
         
-        // Now, copy 'my-profile' folder multiple times based on the length of config.json array
-        const config = require('./config.json'); // Load configuration from config.json
-        const numberOfCopies = config.length;
-
+        // Create profile copies
+        console.log('Creating profile copies...');
         for (let i = 1; i <= numberOfCopies; i++) {
-            await fs.copy('./my-profile', `./my-profile-${i}`);
-            console.log(`Copied 'my-profile' to 'my-profile-${i}'`);
+            const copyPath = path.join(baseDir, `my-profile-${i}`);
+            await fs.copy(mainProfilePath, copyPath);
+            console.log(`Created profile: my-profile-${i}`);
         }
 
+        // Verify profiles were created
+        const finalCheck = await fs.readdir(baseDir);
+        const profileCount = finalCheck.filter(f => f.startsWith('my-profile-')).length;
+        
+        if (profileCount !== numberOfCopies) {
+            throw new Error(`Profile creation failed. Expected ${numberOfCopies} profiles but found ${profileCount}`);
+        }
+
+        console.log('✅ Profile setup completed successfully!');
+        console.log(`Created ${profileCount} profiles`);
+        process.exit(0);
+
     } catch (error) {
-        console.error('Element not found:', error);
-        await browser.close();
+        console.error('❌ Error during profile setup:', error.message);
+        process.exit(1);
     }
 })();
