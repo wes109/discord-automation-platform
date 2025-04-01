@@ -23,6 +23,40 @@
     .target-channels-group .form-check:last-child {
       margin-bottom: 0;
     }
+    
+    .content-section {
+      display: none;
+    }
+    
+    .content-section.active {
+      display: block;
+    }
+    
+    .health-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      cursor: help;
+    }
+    
+    .health-indicator.healthy {
+      background-color: #28a745;
+    }
+    
+    .health-indicator.unhealthy {
+      background-color: #dc3545;
+    }
+    
+    .health-check-cell {
+      width: 50px;
+      text-align: center;
+    }
+    
+    .health-time {
+      font-size: 0.85em;
+      color: #6c757d;
+    }
   </style>
 </head>
 <body>
@@ -35,10 +69,10 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" href="#tasks">Tasks</a>
+            <a class="nav-link active" id="tasks-nav" href="#" data-section="tasks-section">Tasks</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#config">Configuration</a>
+            <a class="nav-link" id="config-nav" href="#" data-section="config-section">Configuration</a>
           </li>
         </ul>
       </div>
@@ -47,7 +81,7 @@
 
   <div class="container mt-4">
     <!-- Tasks Section -->
-    <section id="tasks" class="mb-5">
+    <section id="tasks-section" class="content-section active mb-5">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Monitoring Tasks</h2>
         <div class="btn-group">
@@ -77,7 +111,7 @@
                   <th>Channel URL</th>
                   <th>Target Channels</th>
                   <th>Settings</th>
-                  <th>Started</th>
+                  <th id="health-column-header" style="width: 50px;">Health</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -112,7 +146,9 @@
                           <span class="badge bg-secondary">GUI</span>
                         <% } %>
                       </td>
-                      <td><%= new Date(task.startTime).toLocaleString() %></td>
+                      <td class="health-check-cell" data-task-id="<%= task.taskId %>" data-last-check="">
+                        <div class="health-indicator unhealthy" title="Not checked yet"></div>
+                      </td>
                       <td>
                         <div class="btn-group">
                           <button class="btn btn-sm btn-info view-logs-btn" data-task-id="<%= task.taskId %>" title="View task logs">
@@ -140,12 +176,12 @@
     </section>
 
     <!-- Configuration Section -->
-    <section id="config" class="mb-5">
+    <section id="config-section" class="content-section mb-5">
       <h2 class="mb-3">Configuration</h2>
       
       <div class="alert alert-info">
         <i class="bi bi-info-circle"></i> 
-        Configure Discord webhooks and monitoring channels. These settings are used when creating new monitoring tasks.
+        Configure Discord webhooks and Chrome profiles. These settings are used when creating new monitoring tasks.
       </div>
       
       <div class="row">
@@ -155,11 +191,6 @@
             <li class="nav-item" role="presentation">
               <button class="nav-link active" id="discord-tab" data-bs-toggle="tab" data-bs-target="#discord-content" type="button" role="tab">
                 Discord Webhooks
-              </button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="monitoring-tab" data-bs-toggle="tab" data-bs-target="#monitoring-content" type="button" role="tab">
-                Monitoring Channels
               </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -218,70 +249,6 @@
                     <% } else { %>
                       <tr>
                         <td colspan="2" class="text-center">No Discord webhooks configured</td>
-                      </tr>
-                    <% } %>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            
-            <!-- Monitoring Channels Tab -->
-            <div class="tab-pane fade" id="monitoring-content" role="tabpanel">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="mb-0">Monitoring Channels</h5>
-                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#newMonitoringChannelModal">
-                  <i class="bi bi-plus-circle"></i> Add Channel
-                </button>
-              </div>
-              
-              <p class="text-muted">
-                <i class="bi bi-info-circle"></i> 
-                Configure Discord channels to monitor for new messages. Each channel needs a URL and one or more target channels where messages will be forwarded.
-              </p>
-              
-              <div class="table-responsive">
-                <table class="table table-hover" id="monitoringChannelsTable">
-                  <thead>
-                    <tr>
-                      <th>Channel URL</th>
-                      <th>Target Channels</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% if (config.monitoring && config.monitoring.channels && config.monitoring.channels.length > 0) { %>
-                      <% config.monitoring.channels.forEach(channel => { %>
-                        <tr>
-                          <td><%= channel.url %></td>
-                          <td><%= channel.targetChannels.join(', ') %></td>
-                          <td>
-                            <div class="btn-group">
-                              <button class="btn btn-sm btn-info edit-monitoring-channel-btn" 
-                                data-channel-url="<%= channel.url %>"
-                                data-target-channels="<%= channel.targetChannels.join(',') %>"
-                                title="Edit monitoring channel">
-                                <i class="bi bi-pencil"></i>
-                              </button>
-                              <button class="btn btn-sm btn-danger delete-monitoring-channel-btn" 
-                                data-channel-url="<%= channel.url %>"
-                                title="Delete monitoring channel">
-                                <i class="bi bi-trash"></i>
-                              </button>
-                              <button class="btn btn-sm btn-success start-monitoring-btn" 
-                                data-channel-url="<%= channel.url %>"
-                                data-target-channels="<%= channel.targetChannels.join(',') %>"
-                                data-bs-toggle="modal" 
-                                data-bs-target="#startMonitoringModal"
-                                title="Start monitoring this channel">
-                                <i class="bi bi-play"></i>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      <% }); %>
-                    <% } else { %>
-                      <tr>
-                        <td colspan="3" class="text-center">No monitoring channels configured</td>
                       </tr>
                     <% } %>
                   </tbody>
@@ -359,14 +326,18 @@
             </div>
             <div class="mb-3 form-check">
               <input type="checkbox" class="form-check-input" id="enableHeadless">
-              <label class="form-check-label" for="enableHeadless">Enable Headless Mode</label>
-              <div class="form-text">When enabled, the browser will run in headless mode without a visible window</div>
+              <label class="form-check-label" for="enableHeadless">Headless Mode</label>
+            </div>
+            <!-- Add Regular Messages Checkbox -->
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="enableRegularMessages">
+              <label class="form-check-label" for="enableRegularMessages">Regular Messages Enabled</label>
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="startTaskBtn">Start</button>
+          <button type="button" class="btn btn-primary" id="startTaskBtn">Create Task</button>
         </div>
       </div>
     </div>
@@ -406,7 +377,12 @@
           </div>
           <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="editEnableHeadless">
-            <label class="form-check-label" for="editEnableHeadless">Enable Headless Mode</label>
+            <label class="form-check-label" for="editEnableHeadless">Headless Mode</label>
+          </div>
+          <!-- Add Regular Messages Checkbox -->
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="editEnableRegularMessages">
+            <label class="form-check-label" for="editEnableRegularMessages">Regular Messages Enabled</label>
           </div>
         </div>
         <div class="modal-footer">
@@ -488,79 +464,6 @@
     </div>
   </div>
 
-  <!-- New Monitoring Channel Modal -->
-  <div class="modal fade" id="newMonitoringChannelModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Add Monitoring Channel</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="newMonitoringChannelForm">
-            <div class="mb-3">
-              <label for="monitoringChannelUrl" class="form-label">Channel URL</label>
-              <input type="text" class="form-control" id="monitoringChannelUrl" required>
-              <div class="form-text">The Discord channel URL to monitor (e.g., https://discord.com/channels/server_id/channel_id)</div>
-            </div>
-            <div class="mb-3">
-              <label for="monitoringTargetChannels" class="form-label">Target Channels</label>
-              <select class="form-select" id="monitoringTargetChannels" multiple required>
-                <% if (config.discord && config.discord.channels) { %>
-                  <% config.discord.channels.forEach(channel => { %>
-                    <option value="<%= channel.name %>"><%= channel.name %></option>
-                  <% }); %>
-                <% } %>
-              </select>
-              <div class="form-text">The Discord channels where messages will be forwarded (hold Ctrl/Cmd to select multiple)</div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="saveMonitoringChannelBtn">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Edit Monitoring Channel Modal -->
-  <div class="modal fade" id="editMonitoringChannelModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Edit Monitoring Channel</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="editMonitoringChannelForm">
-            <input type="hidden" id="editMonitoringChannelOriginalUrl">
-            <div class="mb-3">
-              <label for="editMonitoringChannelUrl" class="form-label">Channel URL</label>
-              <input type="text" class="form-control" id="editMonitoringChannelUrl" required>
-              <div class="form-text">The Discord channel URL to monitor (e.g., https://discord.com/channels/server_id/channel_id)</div>
-            </div>
-            <div class="mb-3">
-              <label for="editMonitoringTargetChannels" class="form-label">Target Channels</label>
-              <select class="form-select" id="editMonitoringTargetChannels" multiple required>
-                <% if (config.discord && config.discord.channels) { %>
-                  <% config.discord.channels.forEach(channel => { %>
-                    <option value="<%= channel.name %>"><%= channel.name %></option>
-                  <% }); %>
-                <% } %>
-              </select>
-              <div class="form-text">The Discord channels where messages will be forwarded (hold Ctrl/Cmd to select multiple)</div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="updateMonitoringChannelBtn">Update</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Start Monitoring Modal -->
   <div class="modal fade" id="startMonitoringModal" tabindex="-1">
     <div class="modal-dialog">
@@ -617,5 +520,32 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/js/dashboard.js"></script>
   <script src="/js/profiles.js"></script>
+  <script>
+    // Add JavaScript to handle tab navigation
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get all nav links
+      const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+      
+      // Add click event to each nav link
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Remove active class from all links and sections
+          navLinks.forEach(l => l.classList.remove('active'));
+          document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.remove('active');
+          });
+          
+          // Add active class to clicked link
+          this.classList.add('active');
+          
+          // Show the corresponding section
+          const sectionId = this.getAttribute('data-section');
+          document.getElementById(sectionId).classList.add('active');
+        });
+      });
+    });
+  </script>
 </body>
 </html> 

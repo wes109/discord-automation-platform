@@ -1,1 +1,75 @@
-[]
+[
+  {
+    "taskId": "task_1743450297635",
+    "label": "te",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Sams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Sams",
+        "label": "Sams",
+        "webhook_url": "https://discord.com/api/webhooks/1343293240496885783/XNeW4KDx9KpS_n57df1JWFoT1l4aiPE7l37xuJROsuj2j-KE3xm73pO5P4wuvL-dSmJn"
+      }
+    ],
+    "settings": {
+      "label": "te",
+      "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+      "targetChannels": [
+        "Sams"
+      ],
+      "webhookInfo": [
+        {
+          "name": "Sams",
+          "label": "Sams",
+          "webhook_url": "https://discord.com/api/webhooks/1343293240496885783/XNeW4KDx9KpS_n57df1JWFoT1l4aiPE7l37xuJROsuj2j-KE3xm73pO5P4wuvL-dSmJn"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": false,
+      "startTime": "2025-03-31T19:44:57.872Z",
+      "profileId": "profile_1743450297636_h82ozp",
+      "pm2_task_id": "monitor_task_1743450297635"
+    },
+    "profileId": "profile_1743450297636_h82ozp",
+    "createdTime": "2025-03-31T19:44:58.305Z"
+  },
+  {
+    "taskId": "task_1743473642300",
+    "label": "de",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "settings": {
+      "label": "de",
+      "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+      "targetChannels": [
+        "Amazon"
+      ],
+      "webhookInfo": [
+        {
+          "name": "Amazon",
+          "label": "Amazon",
+          "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": false,
+      "enableRegularMessages": true,
+      "startTime": "2025-04-01T02:14:02.431Z",
+      "profileId": "profile_1743473642301_874xa5",
+      "pm2_task_id": "monitor_task_1743473642300"
+    },
+    "profileId": "profile_1743473642301_874xa5",
+    "createdTime": "2025-04-01T02:14:02.621Z"
+  }
+]

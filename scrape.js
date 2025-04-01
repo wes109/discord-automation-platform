@@ -110,54 +110,117 @@ async function ScrapeData(page) {
             const content = await messageContent.evaluate(node => {
                 function processNode(element) {
                     let result = '';
-                    
-                    // Process each child node
+                    let lastCharWasWhitespace = true; // Start assuming whitespace
+
                     for (const child of element.childNodes) {
+                        let currentContent = '';
+                        let isBlockElement = false; // Flag for elements that typically cause line breaks
+
                         if (child.nodeType === Node.TEXT_NODE) {
-                            // Handle text nodes
-                            result += child.textContent;
+                            currentContent = child.textContent;
                         } else if (child.nodeType === Node.ELEMENT_NODE) {
-                            // Handle different element types
-                            if (child.tagName === 'STRONG') {
-                                result += `**${processNode(child)}**`;
-                            } else if (child.tagName === 'CODE') {
-                                result += `\`${child.textContent}\``;
-                            } else if (child.classList.contains('channelMention')) {
-                                // Extract channel name from the mention
-                                const channelName = child.querySelector('.name_b75563')?.textContent || '#channel';
-                                result += `#${channelName}`;
-                            } else if (child.classList.contains('emojiContainer__75abc')) {
-                                // Handle custom emoji
-                                const emojiImg = child.querySelector('img');
-                                if (emojiImg) {
-                                    result += emojiImg.alt || ':emoji:';
+                            const tagName = child.tagName;
+
+                            // --- Block-level elements ---
+                            if (tagName === 'BR') {
+                                currentContent = '\\n';
+                                isBlockElement = true; // Treat BR as causing a break
+                            } else if (tagName === 'DIV' || tagName === 'P') { // Treat DIV/P as block, process content then add newline
+                                currentContent = processNode(child);
+                                if (currentContent && !currentContent.endsWith('\\n')) {
+                                     currentContent += '\\n';
                                 }
-                            } else if (child.tagName === 'A') {
-                                // Handle links
-                                const title = child.title || child.textContent;
-                                const href = child.href;
-                                result += `[${title}](${href})`;
-                            } else if (child.classList.contains('blockquoteContainer__75297')) {
-                                // Handle blockquotes
-                                const quote = processNode(child);
-                                result += `\n> ${quote}\n`;
-                            } else if (child.classList.contains('roleMention__75297')) {
-                                // Handle role mentions
-                                result += `@${child.textContent}`;
-                            } else if (child.tagName === 'SPAN') {
-                                // Process spans normally
-                                result += processNode(child);
-                            } else if (child.tagName === 'DIV') {
-                                // Add newlines for div breaks
-                                const processed = processNode(child);
-                                result += processed ? `\n${processed}\n` : '\n';
+                                isBlockElement = true;
+                            } else if (tagName === 'PRE') { // Code blocks
+                                const codeContent = child.textContent;
+                                const langMatch = child.querySelector('code')?.className.match(/language-(\\S+)/);
+                                const lang = langMatch ? langMatch[1] : '';
+                                currentContent = `\\n\`\`\`${lang}\\n${codeContent}\\n\`\`\`\\n`;
+                                isBlockElement = true;
+                            } else if (child.classList.contains('blockquoteContainer__75297') || tagName === 'BLOCKQUOTE') {
+                                // Ensure newline *before* quote if necessary
+                                if (result.length > 0 && !result.endsWith('\\n') && !result.endsWith(' ')) {
+                                     result += '\\n';
+                                }
+                                // Process inner content and add '>' prefix per line
+                                const quoteContent = processNode(child.querySelector('.markup__75297') || child); // Process relevant inner container or the blockquote itself
+                                const quote = quoteContent.split('\\n').map(line => `> ${line}`).join('\\n');
+                                currentContent = quote;
+                                // Ensure newline *after* quote
+                                if (!currentContent.endsWith('\\n')) {
+                                     currentContent += '\\n';
+                                }
+                                isBlockElement = true;
                             }
+
+                            // --- Inline elements ---
+                            else if (tagName === 'STRONG' || tagName === 'B') { // Bold
+                                currentContent = `**${processNode(child)}**`;
+                            } else if (tagName === 'EM' || tagName === 'I') { // Italics
+                                currentContent = `*${processNode(child)}*`;
+                            } else if (tagName === 'U') { // Underline
+                                currentContent = `__${processNode(child)}__`;
+                            } else if (tagName === 'S' || tagName === 'STRIKE') { // Strikethrough
+                                currentContent = `~~${processNode(child)}~~`;
+                            } else if (tagName === 'CODE') { // Inline code
+                                currentContent = `\`${child.textContent}\``; // Use textContent directly for inline code
+                            } else if (child.classList.contains('channelMention')) { // Channel Mention
+                                currentContent = child.textContent;
+                            } else if (child.classList.contains('emojiContainer__75abc') || (tagName === 'IMG' && child.classList.contains('emoji'))) { // Custom/Unicode Emoji
+                                const emojiImg = child.querySelector('img') || child;
+                                if (emojiImg) {
+                                    currentContent = emojiImg.alt || ':emoji:';
+                                }
+                            } else if (tagName === 'A') { // Links
+                                const linkText = processNode(child);
+                                const href = child.href;
+                                currentContent = (linkText === href || !linkText) ? href : `[${linkText}](${href})`; // Handle autolinks or use markdown
+                            } else if (child.classList.contains('roleMention__75297') || (child.classList.contains('mention') && tagName === 'SPAN')) { // Role/User Mention
+                                currentContent = child.textContent;
+                            }
+
+                            // --- Default handling for other elements (like SPAN) ---
+                             else if (child.childNodes.length > 0) {
+                                currentContent = processNode(child);
+                             }
+
+                            // --- Ignored elements ---
+                             else if (child.classList.contains('timestamp_c19a55')) {
+                                continue; // Skip timestamps
+                             }
                         }
+
+                        // --- Append content with spacing logic ---
+
+                        // 1. Add leading space if needed:
+                        //    - Not the start of the result
+                        //    - Last char wasn't whitespace
+                        //    - Current content isn't empty and doesn't start with whitespace/newline
+                        if (result.length > 0 && !lastCharWasWhitespace && currentContent && currentContent.length > 0 && !/^\\s/.test(currentContent)) {
+                             result += ' ';
+                        }
+
+                        // 2. Append current content
+                        result += currentContent;
+
+                        // 3. Update lastCharWasWhitespace flag
+                         if (currentContent && currentContent.length > 0) {
+                            lastCharWasWhitespace = /\\s$/.test(currentContent);
+                         } else if (!currentContent && result.length > 0) {
+                             // If currentContent was empty, retain the previous state
+                             lastCharWasWhitespace = /\\s$/.test(result);
+                         } else {
+                             // If currentContent was empty and result is empty, reset
+                             lastCharWasWhitespace = true;
+                         }
                     }
-                    return result.trim();
+                    // Return without internal trimming
+                    return result;
                 }
                 
-                return processNode(node);
+                const rawContent = processNode(node);
+                // Trim only the final result to remove leading/trailing whitespace from the whole message
+                return rawContent.trim();
             });
 
             // Get username

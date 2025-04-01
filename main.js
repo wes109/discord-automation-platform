@@ -24,6 +24,21 @@ let targetChannelsArg = [];
 let isHeadless = false; // Default to non-headless mode
 let taskId = null;
 let profileId = null;
+let enableRegularMessages = false; // <-- Initialize new flag (default false)
+
+console.log('Command line arguments:', args); // Debug log
+
+// First check for headless flag specifically
+if (args.includes('--headless')) {
+  isHeadless = true;
+  console.log('Headless flag detected in arguments'); // Debug log
+}
+
+// Check for enable-regular-messages flag
+if (args.includes('--enable-regular-messages')) { // <-- Check for new flag
+  enableRegularMessages = true;
+  console.log('Enable Regular Messages flag detected in arguments'); 
+}
 
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--channel' && i + 1 < args.length) {
@@ -32,8 +47,6 @@ for (let i = 0; i < args.length; i++) {
   } else if (args[i] === '--targets' && i + 1 < args.length) {
     targetChannelsArg = args[i + 1].split(',');
     i++;
-  } else if (args[i] === '--headless') {
-    isHeadless = true;
   } else if (args[i] === '--task-id' && i + 1 < args.length) {
     taskId = args[i + 1];
     i++;
@@ -42,6 +55,9 @@ for (let i = 0; i < args.length; i++) {
     i++;
   }
 }
+
+console.log('Parsed isHeadless value:', isHeadless); // Debug log
+console.log('Parsed enableRegularMessages value:', enableRegularMessages); // <-- Log parsed value
 
 // Helper function to generate task ID
 function generateTaskId() {
@@ -252,14 +268,17 @@ async function unshorten(url) {
 // Launch a browser instance for a task
 async function launchBrowser(profileId, headless = false) {
     const taskId = generateTaskId();
+    // Force headless to be a boolean
+    headless = headless === true;
+    
+    console.log('launchBrowser called with headless:', headless); // Debug log
     logTask(taskId, 'INFO', `Launching browser (Profile: ${profileId}, Headless: ${headless})`);
     
     try {
-        const browser = await puppeteer.launch({
-            headless: headless ? 'new' : false,
+        const launchOptions = {
+            headless: headless === true ? 'new' : false, // Ensure strict boolean comparison
             defaultViewport: null,
             userDataDir: `./${profileId}`,
-            executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
             args: [
                 '--no-sandbox',
                 '--disable-gpu',
@@ -270,9 +289,12 @@ async function launchBrowser(profileId, headless = false) {
                 '--disable-renderer-backgrounding',
                 '--disk-cache-size=0'
             ]
-        });
+        };
         
-        logTask(taskId, 'SUCCESS', 'Browser launched successfully');
+        console.log('Puppeteer launch options:', JSON.stringify(launchOptions, null, 2)); // Enhanced debug log
+        const browser = await puppeteer.launch(launchOptions);
+        
+        logTask(taskId, 'SUCCESS', `Browser launched successfully in ${headless ? 'headless' : 'headed'} mode`);
         return browser;
     } catch (error) {
         logTask(taskId, 'ERROR', 'Failed to launch browser', error);
@@ -296,9 +318,11 @@ async function monitorChannel(browser, channelUrl, targetChannels, taskId) {
         }
         logTask(taskId, 'SUCCESS', 'Discord client initialized successfully');
 
-        logTask(taskId, 'INFO', 'Creating new browser page...');
-        const page = await browser.newPage();
-        logTask(taskId, 'INFO', 'Browser page created, navigating to Discord channel');
+        // Get the first page instead of creating a new one
+        logTask(taskId, 'INFO', 'Getting existing browser page...');
+        const pages = await browser.pages();
+        const page = pages[0];
+        logTask(taskId, 'INFO', 'Using existing browser page, navigating to Discord channel');
         
         logTask(taskId, 'INFO', `Navigating to ${channelUrl}`);
         await page.goto(channelUrl, { waitUntil: 'networkidle0' });
@@ -307,6 +331,7 @@ async function monitorChannel(browser, channelUrl, targetChannels, taskId) {
         let lastMessageId = null;
         let cycleCount = 0;
         let lastSuccessfulScrape = null;
+        let isFirstMessage = true; // Flag to track first message
         
         while (true) {
             cycleCount++;
@@ -329,30 +354,43 @@ async function monitorChannel(browser, channelUrl, targetChannels, taskId) {
                 
                 if (data && data.newestMessageID !== lastMessageId) {
                     logTask(taskId, 'INFO', '=== NEW MESSAGE DETECTED ===');
+                    
+                    if (isFirstMessage) {
+                        logTask(taskId, 'INFO', 'First message detected - storing but not sending webhook');
+                        lastMessageId = data.newestMessageID;
+                        lastSuccessfulScrape = now;
+                        isFirstMessage = false;
+                        continue;
+                    }
+                    
                     lastMessageId = data.newestMessageID;
                     lastSuccessfulScrape = now;
 
                     // Handle regular messages
                     if (data.regularMessage) {
-                        logTask(taskId, 'INFO', 'Processing regular message:', {
-                            username: data.regularMessage.username,
-                            contentLength: data.regularMessage.content.length,
-                            hasAttachments: !!data.regularMessage.attachments
-                        });
-                        
-                        for (const channelName of targetChannels) {
-                            const channelConfig = config.discord.channels.find(c => c.name === channelName);
-                            if (channelConfig) {
-                                try {
-                                    logTask(taskId, 'INFO', `Sending regular message to channel: ${channelName}`);
-                                    await webhook.sendRegularMessage(data.regularMessage, channelConfig.webhook_url);
-                                    logTask(taskId, 'SUCCESS', `Message sent to channel: ${channelName}`);
-                                } catch (error) {
-                                    logTask(taskId, 'ERROR', `Failed to send to ${channelName}: ${error.message}`, error);
+                        if (enableRegularMessages) {
+                            logTask(taskId, 'INFO', 'Processing regular message:', {
+                                username: data.regularMessage.username,
+                                contentLength: data.regularMessage.content.length,
+                                hasAttachments: !!data.regularMessage.attachments
+                            });
+                            
+                            for (const channelName of targetChannels) {
+                                const channelConfig = config.discord.channels.find(c => c.name === channelName);
+                                if (channelConfig) {
+                                    try {
+                                        logTask(taskId, 'INFO', `Sending regular message to channel: ${channelName}`);
+                                        await webhook.sendRegularMessage(data.regularMessage, channelConfig.webhook_url);
+                                        logTask(taskId, 'SUCCESS', `Message sent to channel: ${channelName}`);
+                                    } catch (error) {
+                                        logTask(taskId, 'ERROR', `Failed to send to ${channelName}: ${error.message}`, error);
+                                    }
+                                } else {
+                                    logTask(taskId, 'WARNING', `Channel config not found for: ${channelName}`);
                                 }
-                            } else {
-                                logTask(taskId, 'WARNING', `Channel config not found for: ${channelName}`);
                             }
+                        } else {
+                            logTask(taskId, 'INFO', 'Regular message detected, but processing is disabled by flag.');
                         }
                     }
                     // Handle embeds
@@ -396,36 +434,34 @@ async function monitorChannel(browser, channelUrl, targetChannels, taskId) {
 
 // Main function
 async function main() {
-    let browser = null;
-    
+    // Store all browser instances launched
+    const browsers = []; // <-- Use an array
+
     try {
+        // Helper function for graceful shutdown
+        const shutdown = async (signal) => {
+            console.log(`Received ${signal} signal, shutting down...`);
+            logTask('SYSTEM', 'INFO', `Received ${signal} signal, shutting down...`); // Use logTask if available globally
+            // Close all tracked browsers
+            for (const browserInstance of browsers) {
+                if (browserInstance && browserInstance.isConnected()) { // Check if browser exists and is connected
+                    try {
+                        await browserInstance.close();
+                        console.log('Browser instance closed successfully.');
+                        logTask('SYSTEM', 'INFO', 'Browser instance closed successfully.');
+                    } catch (error) {
+                        console.error('Error closing a browser instance:', error);
+                        logTask('SYSTEM', 'ERROR', 'Error closing a browser instance:', error);
+                    }
+                }
+            }
+            process.exit(0);
+        };
+
         // Set up process termination handlers
-        process.on('SIGTERM', async () => {
-            console.log('Received SIGTERM signal, shutting down...');
-            if (browser) {
-                try {
-                    await browser.close();
-                    console.log('Browser closed successfully');
-                } catch (error) {
-                    console.error('Error closing browser:', error);
-                }
-            }
-            process.exit(0);
-        });
-        
-        process.on('SIGINT', async () => {
-            console.log('Received SIGINT signal, shutting down...');
-            if (browser) {
-                try {
-                    await browser.close();
-                    console.log('Browser closed successfully');
-                } catch (error) {
-                    console.error('Error closing browser:', error);
-                }
-            }
-            process.exit(0);
-        });
-        
+        process.on('SIGTERM', () => shutdown('SIGTERM'));
+        process.on('SIGINT', () => shutdown('SIGINT'));
+
         // If command line arguments are provided, use them
         if (channelUrlArg && targetChannelsArg.length > 0) {
             const taskId = generateTaskId();
@@ -437,11 +473,14 @@ async function main() {
                 throw new Error('No profile ID provided');
             }
             
-            // Launch browser with headless option and profile
-            browser = await launchBrowser(profileId, isHeadless);
-            
+            console.log('Launching browser with headless:', isHeadless);
+            const singleBrowser = await launchBrowser(profileId, isHeadless); // <-- Store locally
+            browsers.push(singleBrowser); // <-- Add to array
+
             // Monitor the specified channel
-            await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId);
+            // If monitorChannel throws, the main catch block will handle cleanup
+            await monitorChannel(singleBrowser, channelUrlArg, targetChannelsArg, taskId);
+
         } else {
             // Use configuration from config.json
             const monitoringChannels = config.monitoring.channels;
@@ -450,31 +489,73 @@ async function main() {
                 console.log('No monitoring channels configured. Exiting...');
                 process.exit(0);
             }
-            
-            // Launch browsers for each monitoring channel
+
+            // Store promises for concurrent monitoring
+            const monitorPromises = [];
+
+            // Launch browsers and start monitoring for each channel
             for (let i = 0; i < monitoringChannels.length; i++) {
                 const channel = monitoringChannels[i];
-                const taskId = generateTaskId();
-                
-                logTask(taskId, 'INFO', `Starting monitoring task for channel: ${channel.url}`);
+                const taskId = generateTaskId(); // Generate task ID for this specific monitor
+                const taskProfileId = `profile_${i + 1}`; // Generate a unique profile ID
+
+                logTask(taskId, 'INFO', `Preparing monitoring task for channel: ${channel.url}`);
                 logTask(taskId, 'INFO', `Target channels: ${channel.targetChannels.join(', ')}`);
-                logTask(taskId, 'INFO', `Headless mode: ${channel.headless || isHeadless}`);
-                
-                // Launch browser with a unique profile for each task and headless option
-                browser = await launchBrowser(i + 1, channel.headless || isHeadless);
-                
-                // Monitor the channel
-                monitorChannel(browser, channel.url, channel.targetChannels, taskId);
+                logTask(taskId, 'INFO', `Headless mode: ${isHeadless}`);
+                logTask(taskId, 'INFO', `Profile directory: ./${taskProfileId}`);
+
+                try {
+                    // Launch browser with a unique profile for each task and headless option
+                    const taskBrowser = await launchBrowser(taskProfileId, isHeadless); // <-- Store locally
+                    browsers.push(taskBrowser); // <-- Add to array
+
+                    // Start monitoring asynchronously and store the promise
+                    logTask(taskId, 'INFO', `Starting monitoring for ${channel.url}`);
+                    // Don't await here, let them run concurrently
+                    // Wrap monitorChannel call in an async IIFE to handle its errors separately if needed
+                    const monitorPromise = (async () => {
+                       try {
+                           await monitorChannel(taskBrowser, channel.url, channel.targetChannels, taskId);
+                       } catch(monitorError) {
+                           logTask(taskId, 'ERROR', `FATAL error in monitorChannel for ${channel.url}. Monitor stopped.`, monitorError);
+                           // Optionally try to close this specific browser here, though main cleanup should handle it
+                           try {
+                               if (taskBrowser && taskBrowser.isConnected()) await taskBrowser.close();
+                           } catch (closeErr) {
+                               logTask(taskId, 'ERROR', 'Error closing browser after monitor failure.', closeErr);
+                           }
+                       }
+                    })();
+                    monitorPromises.push(monitorPromise);
+
+
+                } catch (launchError) {
+                    logTask(taskId, 'ERROR', `Failed to launch browser or start monitoring for ${channel.url}`, launchError);
+                    // Decide if failure to launch one monitor should stop others
+                    // For now, we just log and continue to the next channel
+                }
             }
+
+            // Keep the main process alive while monitors are running
+            // This could be more robust, e.g., using Promise.allSettled if you need to react when monitors finish/fail
+            logTask('SYSTEM', 'INFO', `Launched ${browsers.length} monitoring tasks.`);
+            // Wait indefinitely or until a signal terminates the process
+            // This simple approach relies on signal handlers for cleanup.
+            await new Promise(() => {}); // Keeps the script running
+
         }
     } catch (error) {
-        console.error('Error in main function:', error);
-        // Try to close browser if it exists
-        if (browser) {
-            try {
-                await browser.close();
-            } catch (closeError) {
-                console.error('Error closing browser during error handling:', closeError);
+        console.error('Critical error in main function:', error);
+        logTask('SYSTEM', 'CRITICAL', 'Critical error in main function:', error);
+        // Attempt to close any browsers that were successfully added to the array
+        for (const browserInstance of browsers) {
+             if (browserInstance && browserInstance.isConnected()) {
+                try {
+                    await browserInstance.close();
+                } catch (closeError) {
+                    console.error('Error closing browser during error handling:', closeError);
+                    logTask('SYSTEM', 'ERROR', 'Error closing browser during error handling:', closeError);
+                }
             }
         }
         process.exit(1);

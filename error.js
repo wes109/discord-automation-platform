@@ -7,10 +7,10 @@ exports.logError = (error, channel, webhookUrl) => {
             .setColor('#FF5733')
             .setTitle(channel) // Use the channel as the title
             .setDescription(error)
-            .setThumbnail('https://cdn3.emoji.gg/emojis/5316_Error_512x512_by_DW.png');
+            .setThumbnail('https://i.imgur.com/DiPKO6Z.png');
 
-        hook.setAvatar('https://cdn3.emoji.gg/emojis/5316_Error_512x512_by_DW.png');
-        hook.setUsername('Dollar Shoe Club');
+        hook.setAvatar('https://i.imgur.com/DiPKO6Z.png');
+        hook.setUsername('Monitor');
 
         hook.send(embedMessage);
     } catch (error) {

@@ -2,8 +2,21 @@ const express = require('express');
 const http = require('http');
 const path = require('path');
 const fs = require('fs-extra');
-const { spawn } = require('child_process');
+const { exec, execSync } = require('child_process');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+const config = require('./config.json');
+
+// Cron job configuration
+const CRON_SCHEDULE = "*/1 * * * *"; // Default: every 5 minutes
+// Other common options:
+// "0 */12 * * *" - every 12 hours
+// "0 */1 * * *" - every hour
+// "0 */2 * * *" - every 2 hours
+// "0 */4 * * *" - every 4 hours
+// "0 */6 * * *" - every 6 hours
+// "0 */8 * * *" - every 8 hours
+// "0 */24 * * *" - every 24 hours
 
 // Initialize Express app
 const app = express();
@@ -70,219 +83,45 @@ function writeSavedTasks(tasks) {
 function saveTask(taskInfo) {
   try {
     const savedTasks = loadSavedTasks();
+    
+    // Ensure we preserve important fields like profileId
     const taskToSave = {
       taskId: taskInfo.taskId,
       label: taskInfo.label,
       channelUrl: taskInfo.channelUrl,
       targetChannels: taskInfo.targetChannels,
       webhookInfo: taskInfo.webhookInfo,
-      settings: taskInfo.settings,
-      createdTime: new Date().toISOString()
+      settings: {
+        ...taskInfo.settings,
+        // Ensure headless setting is preserved
+        headless: taskInfo.settings?.headless === true
+      },
+      // Preserve the profile ID at the top level too if it exists
+      profileId: taskInfo.settings?.profileId,
+      createdTime: taskInfo.createdTime || new Date().toISOString()
     };
+    
+    // Make sure settings has the profileId
+    if (taskInfo.settings?.profileId) {
+      taskToSave.settings.profileId = taskInfo.settings.profileId;
+    }
+    
+    console.log(`[Task Manager] Saving task ${taskInfo.taskId} with profile ID: ${taskToSave.settings.profileId || 'none'}`);
     
     // Remove any existing task with the same ID
     const updatedTasks = savedTasks.filter(t => t.taskId !== taskInfo.taskId);
     updatedTasks.push(taskToSave);
     
     fs.writeJsonSync(SAVED_TASKS_FILE, updatedTasks, { spaces: 2 });
+    
+    // Also update task settings
+    if (taskToSave.settings) {
+      writeTaskSettings(taskInfo.taskId, taskToSave.settings);
+    }
+    
     return true;
   } catch (error) {
     console.error('Error saving task:', error);
-    return false;
-  }
-}
-
-// Function to find Chrome/Puppeteer processes
-async function findChromePids(parentPid) {
-  console.log(`[Process Manager] Searching for Chrome processes under parent PID ${parentPid}`);
-  return new Promise((resolve) => {
-    const { exec } = require('child_process');
-    const cmd = `ps -A -o pid,ppid,command | grep -i "chrome.*--remote-debugging-port" | awk '$2 == ${parentPid} {print $1 " " $3}'`;
-    console.log(`[Process Manager] Executing command: ${cmd}`);
-    
-    exec(cmd, (error, stdout) => {
-      if (error) {
-        console.log(`[Process Manager] Error finding Chrome processes:`, error);
-        resolve([]);
-        return;
-      }
-      if (!stdout.trim()) {
-        console.log(`[Process Manager] No Chrome processes found under PID ${parentPid}`);
-        resolve([]);
-        return;
-      }
-      const processes = stdout.trim().split('\n').map(line => {
-        const [pid, ...cmdParts] = line.split(' ');
-        return { pid: parseInt(pid), command: cmdParts.join(' ') };
-      }).filter(proc => !isNaN(proc.pid));
-      
-      console.log(`[Process Manager] Found Chrome processes:`, processes);
-      resolve(processes.map(p => p.pid));
-    });
-  });
-}
-
-// Function to get all descendant processes for a PID
-async function getAllDescendantProcesses(parentPid) {
-  console.log(`[Process Manager] Getting all descendants of PID ${parentPid}`);
-  return new Promise((resolve) => {
-    const { exec } = require('child_process');
-    const cmd = `ps -A -o pid,ppid,command | awk '$2 == ${parentPid} {print $1 " " $3}'`;
-    console.log(`[Process Manager] Executing command: ${cmd}`);
-    
-    exec(cmd, (error, stdout) => {
-      if (error) {
-        console.log(`[Process Manager] Error finding descendant processes:`, error);
-        resolve([]);
-        return;
-      }
-      if (!stdout.trim()) {
-        console.log(`[Process Manager] No descendants found for PID ${parentPid}`);
-        resolve([]);
-        return;
-      }
-      const processes = stdout.trim().split('\n').map(line => {
-        const [pid, ...cmdParts] = line.split(' ');
-        return { pid: parseInt(pid), command: cmdParts.join(' ') };
-      }).filter(proc => !isNaN(proc.pid));
-      
-      console.log(`[Process Manager] Found descendant processes:`, processes);
-      resolve(processes);
-    });
-  });
-}
-
-// Function to check if a process exists
-async function isProcessRunning(pid) {
-  try {
-    process.kill(pid, 0);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-// Function to kill a specific process
-async function killProcess(pid, signal = 'SIGTERM') {
-  console.log(`[Process Manager] Attempting to kill PID ${pid} with ${signal}`);
-  try {
-    const running = await isProcessRunning(pid);
-    if (!running) {
-      console.log(`[Process Manager] Process ${pid} is already dead`);
-      return true;
-    }
-    
-    process.kill(pid, signal);
-    console.log(`[Process Manager] Successfully sent ${signal} to process ${pid}`);
-    
-    // Verify process was killed
-    await new Promise(resolve => setTimeout(resolve, 500));
-    const stillRunning = await isProcessRunning(pid);
-    console.log(`[Process Manager] Process ${pid} status after ${signal}: ${stillRunning ? 'still running' : 'terminated'}`);
-    
-    return !stillRunning;
-  } catch (e) {
-    console.log(`[Process Manager] Failed to send ${signal} to process ${pid}:`, e.message);
-    return false;
-  }
-}
-
-// Function to kill process and all its descendants
-async function killProcessTree(pid) {
-  console.log(`[Process Manager] ========== Starting process tree termination for PID ${pid} ==========`);
-  
-  try {
-    // First, try to find and kill Chrome/Puppeteer processes
-    console.log(`[Process Manager] Step 1: Finding Chrome processes`);
-    const chromePids = await findChromePids(pid);
-    console.log(`[Process Manager] Found ${chromePids.length} Chrome processes to kill:`, chromePids);
-    
-    // Kill Chrome processes first with SIGTERM
-    console.log(`[Process Manager] Step 2: Sending SIGTERM to Chrome processes`);
-    for (const chromePid of chromePids) {
-      await killProcess(chromePid, 'SIGTERM');
-    }
-    
-    // Get all other descendant processes
-    console.log(`[Process Manager] Step 3: Finding all descendant processes`);
-    const descendants = await getAllDescendantProcesses(pid);
-    console.log(`[Process Manager] Found ${descendants.length} total descendant processes`);
-    
-    // Send SIGTERM to all descendants except Chrome
-    console.log(`[Process Manager] Step 4: Sending SIGTERM to non-Chrome descendants`);
-    for (const proc of descendants) {
-      if (!chromePids.includes(proc.pid)) {
-        await killProcess(proc.pid, 'SIGTERM');
-      }
-    }
-    
-    // Kill parent with SIGTERM
-    console.log(`[Process Manager] Step 5: Sending SIGTERM to parent process ${pid}`);
-    await killProcess(pid, 'SIGTERM');
-    
-    // Wait longer for Chrome to cleanup
-    console.log(`[Process Manager] Step 6: Waiting 1 second before SIGKILL phase`);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Check remaining processes
-    console.log(`[Process Manager] Step 7: Checking for remaining processes`);
-    let remainingProcesses = await getAllDescendantProcesses(pid);
-    console.log(`[Process Manager] ${remainingProcesses.length} processes still running after SIGTERM`);
-    
-    if (remainingProcesses.length > 0) {
-      console.log(`[Process Manager] Step 8: Sending SIGKILL to remaining processes`);
-      for (const proc of remainingProcesses) {
-        await killProcess(proc.pid, 'SIGKILL');
-      }
-    }
-    
-    // Final check on parent
-    console.log(`[Process Manager] Step 9: Final check on parent process ${pid}`);
-    const parentRunning = await isProcessRunning(pid);
-    if (parentRunning) {
-      console.log(`[Process Manager] Parent still running, sending SIGKILL`);
-      await killProcess(pid, 'SIGKILL');
-    }
-    
-    // Use pkill as a last resort - ignore exit code 1 as it just means no processes were found
-    console.log(`[Process Manager] Step 10: Final cleanup with pkill`);
-    const { exec } = require('child_process');
-    await new Promise((resolve) => {
-      exec(`pkill -9 -P ${pid}`, (error) => {
-        if (error && error.code !== 1) {
-          console.log(`[Process Manager] pkill error:`, error);
-        } else if (error && error.code === 1) {
-          console.log(`[Process Manager] No remaining processes found for pkill cleanup`);
-        }
-        resolve();
-      });
-    });
-    
-    // Double check Chrome processes - ignore exit code 1 as it just means no processes were found
-    console.log(`[Process Manager] Step 11: Final Chrome process cleanup`);
-    await new Promise((resolve) => {
-      exec(`pkill -9 -f "chrome.*--remote-debugging-port"`, (error) => {
-        if (error && error.code !== 1) {
-          console.log(`[Process Manager] Chrome cleanup error:`, error);
-        } else if (error && error.code === 1) {
-          console.log(`[Process Manager] No Chrome processes found for cleanup`);
-        }
-        resolve();
-      });
-    });
-    
-    // Final verification
-    const finalDescendants = await getAllDescendantProcesses(pid);
-    const finalParentStatus = await isProcessRunning(pid);
-    console.log(`[Process Manager] Final status:`, {
-      parentRunning: finalParentStatus,
-      remainingDescendants: finalDescendants.length
-    });
-    
-    console.log(`[Process Manager] ========== Process tree termination complete ==========`);
-    return finalDescendants.length === 0 && !finalParentStatus;
-  } catch (error) {
-    console.error(`[Process Manager] Critical error in killProcessTree:`, error);
     return false;
   }
 }
@@ -396,6 +235,9 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     }
   }
   
+  // Ensure headless is a boolean
+  const isHeadless = taskSettings.headless === true;
+  
   // Create task settings
   const settings = {
     label: taskSettings.label || channelUrl.split('/').pop(),
@@ -403,16 +245,38 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     targetChannels,
     webhookInfo,
     enableUrlUnshortening: taskSettings.enableUrlUnshortening || false,
+    headless: isHeadless,
+    enableRegularMessages: taskSettings.enableRegularMessages === true,
     createdTime: new Date().toISOString()
+  };
+  
+  // Create the task object with headless state at all levels
+  const taskToSave = {
+    taskId,
+    ...settings,
+    headless: isHeadless, // Add at top level
+    enableRegularMessages: settings.enableRegularMessages,
+    isHeadless, // Add isHeadless flag
+    settings: {
+      ...settings,
+      headless: isHeadless, // Ensure it's in settings
+      enableRegularMessages: settings.enableRegularMessages // And here
+    }
   };
   
   // Save to saved tasks
   const savedTasks = readSavedTasks();
-  savedTasks.push({
-    taskId,
-    ...settings
-  });
+  savedTasks.push(taskToSave);
   writeSavedTasks(savedTasks);
+  
+  // Also save to task settings file
+  writeTaskSettings(taskId, settings);
+  
+  console.log('[Task Manager] Created new task with settings:', {
+    taskId,
+    headless: isHeadless,
+    taskToSave
+  });
   
   return { success: true, taskId, settings };
 }
@@ -420,9 +284,29 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
 // Function to delete a saved task
 function deleteSavedTask(taskId) {
   try {
+    // Get the task before deleting it to access its profile ID
     const savedTasks = readSavedTasks();
+    const taskToDelete = savedTasks.find(task => task.taskId === taskId);
+    
+    // Delete the task from saved tasks
     const updatedTasks = savedTasks.filter(task => task.taskId !== taskId);
     writeSavedTasks(updatedTasks);
+    
+    // Delete task settings
+    deleteTaskSettings(taskId);
+    
+    // Delete the profile folder if it exists
+    if (taskToDelete && taskToDelete.settings && taskToDelete.settings.profileId) {
+      const profilePath = path.join(__dirname, taskToDelete.settings.profileId);
+      console.log(`[Task Manager] Cleaning up profile directory for deleted task: ${profilePath}`);
+      try {
+        fs.removeSync(profilePath);
+        console.log(`[Task Manager] Profile directory removed successfully for deleted task`);
+      } catch (profileError) {
+        console.error(`[Task Manager] Error removing profile directory for deleted task:`, profileError);
+      }
+    }
+    
     return true;
   } catch (error) {
     console.error('Error deleting saved task:', error);
@@ -430,26 +314,29 @@ function deleteSavedTask(taskId) {
   }
 }
 
-// Function to start a monitoring task
+// Replace the entire startMonitoringTask function with the PM2 version
 async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}) {
   const taskId = `task_${Date.now()}`;
+  // PM2 process name - must be unique and simple
+  const pm2_task_id = `monitor_${taskId}`;
   
-  // Initialize log for this task
+  console.log(`[Task Manager] Starting PM2 task ${pm2_task_id} with settings:`, taskSettings);
+  
+  // Initialize log for this task (optional, PM2 handles logs too)
   taskLogs.set(taskId, [{
     timestamp: new Date(),
     type: 'info',
-    message: `Starting task with settings: ${JSON.stringify({
+    message: `Requesting PM2 start for task ${pm2_task_id} with settings: ${JSON.stringify({
       channelUrl,
       targetChannels,
-      headless: taskSettings.headless,
+      headless: taskSettings.headless === true,
       label: taskSettings.label
     }, null, 2)}`
   }]);
   
-  // Get webhook information
+  // Get webhook info (keep this)
   const webhookInfo = [];
   const config = readConfig();
-  
   for (const targetChannel of targetChannels) {
     const channelConfig = config.discord.channels.find(ch => ch.name === targetChannel);
     if (channelConfig) {
@@ -461,7 +348,7 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
     }
   }
   
-  // Create a unique profile for this task
+  // Create profile (keep this)
   let profileId;
   try {
     profileId = await createTaskProfile(taskId);
@@ -470,313 +357,351 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
     return { success: false, message: 'Failed to create Chrome profile' };
   }
   
-  // Save task settings
+  const isHeadless = taskSettings.headless === true;
+  const label = taskSettings.label || channelUrl.split('/').pop();
+  
+  // Save initial task settings (keep this)
   const settings = {
-    label: taskSettings.label || channelUrl.split('/').pop(),
+    label: label,
     channelUrl,
     targetChannels,
     webhookInfo,
     enableUrlUnshortening: taskSettings.enableUrlUnshortening || false,
-    headless: taskSettings.headless || false,
+    headless: isHeadless,
+    enableRegularMessages: taskSettings.enableRegularMessages === true,
     startTime: new Date().toISOString(),
-    profileId
+    profileId,
+    // Store the pm2 id in settings as well for persistence
+    pm2_task_id
   };
-  
   writeTaskSettings(taskId, settings);
   
-  // Build command line arguments
-  const args = [
-    'main.js',
-    '--channel', channelUrl,
-    '--targets', targetChannels.join(','),
-    '--task-id', taskId,
+
+  // --- Build PM2 Command ---
+  const mainScriptPath = path.join(__dirname, 'main.js'); // Ensure absolute path
+
+  // Build arguments for main.js (passed after --)
+  const scriptArgs = [
+    '--channel', `"${channelUrl}"`, // Quote URLs just in case
+    '--targets', `"${targetChannels.join(',')}"`,
+    '--task-id', taskId, // Pass the original taskId for logging within main.js if needed
     '--profile', profileId
   ];
-  
   if (settings.enableUrlUnshortening) {
-    args.push('--enable-url-unshortening');
+    scriptArgs.push('--enable-url-unshortening');
+  }
+  if (isHeadless === true) {
+    scriptArgs.push('--headless');
+  }
+  if (settings.enableRegularMessages === true) {
+    scriptArgs.push('--enable-regular-messages');
   }
 
-  if (settings.headless) {
-    args.push('--headless');
-  }
-  
-  // Spawn task process with its own process group
-  const task = spawn('node', args, {
-    detached: true,
-    stdio: ['ignore', 'pipe', 'pipe']
-  });
-  
-  // Handle task output
-  task.stdout.on('data', (data) => {
-    const message = data.toString().trim();
-    const logs = taskLogs.get(taskId) || [];
-    logs.push({
-      timestamp: new Date(),
-      type: 'info',
-      message
-    });
-    if (logs.length > MAX_LOG_ENTRIES) {
-      logs.shift();
-    }
-    taskLogs.set(taskId, logs);
-    console.log(`[${taskId}] ${message}`);
-  });
+  // Define the cron restart schedule
+  const cron_schedule = CRON_SCHEDULE;
 
-  task.stderr.on('data', (data) => {
-    const message = data.toString().trim();
+  // Construct the full PM2 command
+  // --no-autorestart prevents immediate restart on crash/exit, relies only on cron
+  const pm2Command = `pm2 start ${mainScriptPath} --name "${pm2_task_id}" --cron "${cron_schedule}" --no-autorestart -- ${scriptArgs.join(' ')}`;
+
+  console.log(`[Task Manager] Executing PM2 command: ${pm2Command}`);
+
+  // --- Execute PM2 Command ---
+  return new Promise((resolve) => {
+    exec(pm2Command, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`[Task Manager] PM2 failed to start task ${pm2_task_id}:`, error);
+        console.error(`[Task Manager] PM2 stderr:`, stderr);
+        // Add error log
     const logs = taskLogs.get(taskId) || [];
-    logs.push({
-      timestamp: new Date(),
-      type: 'error',
-      message
-    });
-    if (logs.length > MAX_LOG_ENTRIES) {
-      logs.shift();
-    }
+        logs.push({ timestamp: new Date(), type: 'error', message: `PM2 failed to start: ${error.message}. Stderr: ${stderr}` });
     taskLogs.set(taskId, logs);
-    console.error(`[${taskId}] Error: ${message}`);
-  });
+        // Clean up profile if start failed
+         fs.remove(path.join(__dirname, profileId)).catch(err => console.error(`Error cleaning up profile ${profileId} after failed start:`, err));
+        resolve({ success: false, message: `PM2 failed to start: ${error.message}` });
+        return;
+      }
+
+      console.log(`[Task Manager] PM2 stdout for starting ${pm2_task_id}:`, stdout);
+      if (stderr) { // Log stderr even if no error object
+         console.warn(`[Task Manager] PM2 stderr on start ${pm2_task_id}:`, stderr);
+      }
+
+      // Add success log
+       const logs = taskLogs.get(taskId) || [];
+       logs.push({ timestamp: new Date(), type: 'info', message: `PM2 successfully started task ${pm2_task_id}` });
+    taskLogs.set(taskId, logs);
   
-  // Store task information using taskId as the key
-  activeTasks.set(taskId, {
+      // Store task information locally for UI
+      const taskInfo = {
     taskId,
-    process: task,
+        pm2_task_id, // Store the PM2 name
     channelUrl,
     targetChannels,
     webhookInfo,
     label: settings.label,
-    settings,
+        settings: { // Store settings including profileId and pm2_task_id
+      ...settings,
+           headless: isHeadless
+    },
     startTime: new Date(),
-    status: 'running'
+        status: 'running', // Assume running initially
+        isHeadless
+      };
+      activeTasks.set(taskId, taskInfo);
+
+      // Persist the task info so it can potentially be reloaded if server.js restarts
+      // Note: PM2 handles the actual process persistence
+      saveTask(taskInfo); // Pass the full taskInfo including pm2_task_id
+
+      resolve({ success: true, taskId });
+    });
   });
-  
-  return { success: true, taskId };
 }
 
-// Function to stop a monitoring task
+// Function to stop a monitoring task using PM2
 async function stopMonitoringTask(taskId) {
-  console.log(`[Task Manager] ========== Starting task termination for task ${taskId} ==========`);
-  
-  if (!activeTasks.has(taskId)) {
-    console.log(`[Task Manager] Task not found: ${taskId}`);
-    return { success: false, message: 'Task not found' };
-  }
+  console.log(`[Task Manager] ========== Requesting PM2 stop/delete for task ${taskId} ==========`);
 
-  // Check if task is already being stopped
+  let taskInfo = activeTasks.get(taskId);
+  let pm2_task_id_to_stop;
+
+  if (!taskInfo) {
+    console.log(`[Task Manager] Task not found locally: ${taskId}. Checking saved tasks.`);
+    // Try to find pm2_task_id from saved tasks if possible
+    const savedTaskSettings = readTaskSettings()[taskId];
+    pm2_task_id_to_stop = savedTaskSettings?.pm2_task_id;
+
+    if (!pm2_task_id_to_stop) {
+         // Fallback guess if not found in settings either
+         pm2_task_id_to_stop = `monitor_${taskId}`;
+         console.warn(`[Task Manager] PM2 task ID for ${taskId} not found in active or saved settings. Using guessed name: ${pm2_task_id_to_stop}`);
+    }
+     // Proceed to attempt PM2 stop/delete even if task wasn't active
+  } else {
+      pm2_task_id_to_stop = taskInfo.pm2_task_id; // Get the PM2 name from active task
+       // Check if task is already being stopped (optional UI feedback)
   if (stoppingTasks.has(taskId)) {
-    console.log(`[Task Manager] Task ${taskId} is already being stopped`);
+        console.log(`[Task Manager] Task ${taskId} (PM2: ${pm2_task_id_to_stop}) is already being stopped.`);
     return { success: true, message: 'Task is already being stopped' };
   }
-
-  // Add to stopping tasks set
   stoppingTasks.add(taskId);
   
-  const taskInfo = activeTasks.get(taskId);
-  console.log(`[Task Manager] Stopping task ${taskInfo.taskId} with process ${taskInfo.process.pid}`);
-  
-  try {
-    // Update task status immediately
+       // Update local status immediately for UI responsiveness
     taskInfo.status = 'stopping';
     taskInfo.endTime = new Date();
     activeTasks.set(taskId, taskInfo);
-    console.log(`[Task Manager] Updated task status to stopping`);
-    
-    // Add log entry
-    const logs = taskLogs.get(taskInfo.taskId) || [];
-    logs.push({
-      timestamp: new Date(),
-      type: 'info',
-      message: 'Task stopping - initiating shutdown sequence'
-    });
-    taskLogs.set(taskInfo.taskId, logs);
-    
-    if (taskInfo.process && taskInfo.process.pid) {
-      const processGroupId = Math.abs(taskInfo.processGroup);
-      console.log(`[Task Manager] Starting process cleanup for group ${processGroupId}`);
-      
-      // First try sending SIGTERM to allow graceful shutdown
-      try {
-        taskInfo.process.kill('SIGTERM');
-        console.log(`[Task Manager] Sent initial SIGTERM to main process ${taskInfo.process.pid}`);
-      } catch (e) {
-        console.log(`[Task Manager] Failed to send initial SIGTERM:`, e.message);
-      }
-      
-      // Wait for graceful shutdown
-      console.log(`[Task Manager] Waiting 5 seconds for graceful shutdown`);
-      await new Promise(resolve => setTimeout(resolve, 5000));
-      
-      // Kill the entire process tree
-      console.log(`[Task Manager] Starting process tree termination`);
-      const killed = await killProcessTree(processGroupId);
-      console.log(`[Task Manager] Process tree termination result:`, killed);
-      
-      // Save task before removing from active tasks
-      console.log(`[Task Manager] Saving task to persistent storage`);
-      saveTask(taskInfo);
-      
-      // Remove from active tasks
-      console.log(`[Task Manager] Removing task from active tasks`);
-      activeTasks.delete(taskId);
-      
-      // Clean up the task's profile directory
-      if (taskInfo.settings && taskInfo.settings.profileId) {
-        const profilePath = path.join(__dirname, taskInfo.settings.profileId);
-        console.log(`[Task Manager] Cleaning up profile directory: ${profilePath}`);
-        try {
-          await fs.remove(profilePath);
-          console.log(`[Task Manager] Profile directory removed successfully`);
-        } catch (error) {
-          console.error(`[Task Manager] Error removing profile directory:`, error);
-        }
-      }
-      
-      // Add final log entry
-      logs.push({
-        timestamp: new Date(),
-        type: 'info',
-        message: 'Task stopped successfully'
-      });
-      taskLogs.set(taskInfo.taskId, logs);
-      
-      // Final cleanup - kill any remaining Chrome processes
-      // Note: pkill returning 1 just means no processes were found to kill, which is fine
-      console.log(`[Task Manager] Performing final Chrome cleanup`);
-      try {
-        const { execSync } = require('child_process');
-        execSync('pkill -9 -f "chrome.*--remote-debugging-port"');
-      } catch (e) {
-        // Ignore pkill errors - exit code 1 just means no matching processes were found
-        console.log(`[Task Manager] Chrome cleanup completed (no processes found)`);
-      }
-      
-      // Remove from stopping tasks set
-      stoppingTasks.delete(taskId);
-      
-      console.log(`[Task Manager] ========== Task termination complete ==========`);
-      return {
-        success: true,
-        taskId: taskInfo.taskId,
-        status: 'stopped'
-      };
-    }
-    
-    console.log(`[Task Manager] No process to clean up, just saving task`);
-    saveTask(taskInfo);
-    activeTasks.delete(taskId);
-    stoppingTasks.delete(taskId);
-    return {
-      success: true,
-      taskId: taskInfo.taskId,
-      status: 'stopped'
-    };
-  } catch (error) {
-    console.error(`[Task Manager] Critical error in stopMonitoringTask:`, error);
-    
-    // Try to save task even if there's an error
-    try {
-      saveTask(taskInfo);
-    } catch (saveError) {
-      console.error(`[Task Manager] Error saving task:`, saveError);
-    }
-    
-    // Clean up even if there's an error
-    if (activeTasks.has(taskId)) {
-      activeTasks.delete(taskId);
-    }
-    stoppingTasks.delete(taskId);
-    
-    // Add error log entry
-    const logs = taskLogs.get(taskInfo.taskId) || [];
-    logs.push({
-      timestamp: new Date(),
-      type: 'error',
-      message: `Error stopping task: ${error.message}`
-    });
-    taskLogs.set(taskInfo.taskId, logs);
-    
-    // Try one last time to kill everything
-    // Note: Ignore pkill errors as they just mean no processes were found
-    console.log(`[Task Manager] Attempting final emergency cleanup`);
-    try {
-      const { execSync } = require('child_process');
-      execSync(`pkill -9 -P ${taskInfo.process.pid}`);
-      execSync('pkill -9 -f "chrome.*--remote-debugging-port"');
-    } catch (e) {
-      // Ignore pkill errors
-      console.log(`[Task Manager] Emergency cleanup completed (no processes found)`);
-    }
-    
-    return {
-      success: true, // Return success even if there were pkill errors
-      taskId: taskInfo.taskId,
-      status: 'stopped'
-    };
+      console.log(`[Task Manager] Updated local task status to stopping for ${taskId}`);
+
+       // Add log entry (optional)
+      const logs = taskLogs.get(taskId) || [];
+      logs.push({ timestamp: new Date(), type: 'info', message: `Requesting PM2 stop/delete for ${pm2_task_id_to_stop}` });
+      taskLogs.set(taskId, logs);
   }
+
+
+  if (!pm2_task_id_to_stop) {
+      console.error(`[Task Manager] Cannot stop task ${taskId}: Could not determine PM2 task ID.`);
+       if(stoppingTasks.has(taskId)) stoppingTasks.delete(taskId); // Clean up stopping state
+      return { success: false, message: 'Internal error: Could not determine PM2 task ID.' };
+  }
+
+  // --- Execute PM2 Stop and Delete Commands ---
+  const pm2StopCommand = `pm2 stop "${pm2_task_id_to_stop}" --silent && pm2 delete "${pm2_task_id_to_stop}" --silent`;
+  console.log(`[Task Manager] Executing PM2 command: ${pm2StopCommand}`);
+
+  return new Promise((resolve) => {
+      exec(pm2StopCommand, (error, stdout, stderr) => {
+          stoppingTasks.delete(taskId); // Remove from stopping set once command finishes
+
+          const logs = taskLogs.get(taskId) || []; // Get logs if task was active
+
+          if (error) {
+              // PM2 often returns error code if process not found for delete, treat as success in cleanup
+              console.warn(`[Task Manager] PM2 command for ${pm2_task_id_to_stop} finished with potential error (may be normal if already stopped/deleted):`, error.code);
+              console.warn(`[Task Manager] PM2 stderr:`, stderr);
+              // Update local status if task was active
+              if(taskInfo) {
+                  taskInfo.status = 'stopped'; // Mark as stopped even on error
+                  logs.push({ timestamp: new Date(), type: 'warning', message: `PM2 stop/delete finished with code ${error.code}. Marking as stopped.` });
+                  taskLogs.set(taskId, logs);
+                  activeTasks.delete(taskId); // Remove from active list
+              }
+          } else {
+               console.log(`[Task Manager] PM2 stdout for stopping/deleting ${pm2_task_id_to_stop}:`, stdout);
+               if (stderr) { // Log stderr even if no error object
+                   console.warn(`[Task Manager] PM2 stderr on stop/delete ${pm2_task_id_to_stop}:`, stderr);
+               }
+               // Update final status if task was active
+              if(taskInfo) {
+                   taskInfo.status = 'stopped';
+                   logs.push({ timestamp: new Date(), type: 'info', message: `PM2 successfully stopped/deleted ${pm2_task_id_to_stop}` });
+                   taskLogs.set(taskId, logs);
+                   activeTasks.delete(taskId); // Remove from active list
+              }
+          }
+
+
+          // Delete associated profile directory - Use settings from disk if task wasn't active
+          const taskSettings = taskInfo?.settings || readTaskSettings()[taskId];
+          if (taskSettings?.profileId) {
+               const profilePath = path.join(__dirname, taskSettings.profileId);
+               fs.remove(profilePath)
+                 .then(() => console.log(`[Task Manager] Deleted profile directory: ${profilePath}`))
+                 .catch(err => console.error(`[Task Manager] Error deleting profile directory ${profilePath}:`, err));
+           } else {
+               console.log(`[Task Manager] No profile ID found for task ${taskId}, skipping profile deletion.`);
+           }
+
+           // Also delete task settings file entry
+           deleteTaskSettings(taskId);
+
+           // Resolve success because the goal is to ensure the task is not running in PM2
+           resolve({ success: true });
+      });
+  });
 }
+
+// Graceful shutdown function
+function gracefulShutdown() {
+  console.log('[Task Manager] Received shutdown signal. Attempting to stop all tasks...');
+
+  // Stop all active tasks
+  for (const [taskId, taskInfo] of activeTasks.entries()) {
+    const pm2_task_id = taskInfo.pm2_task_id;
+    const stopCommand = `pm2 stop "${pm2_task_id}" && pm2 delete "${pm2_task_id}"`;
+    console.log(`[Task Manager] Executing PM2 command: ${stopCommand}`);
+
+    exec(stopCommand, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`[Task Manager] PM2 failed to stop task ${pm2_task_id}:`, error);
+        console.error(`[Task Manager] PM2 stderr:`, stderr);
+      } else {
+        console.log(`[Task Manager] PM2 stdout for stopping ${pm2_task_id}:`, stdout);
+        if (stderr) {
+          console.warn(`[Task Manager] PM2 stderr on stop ${pm2_task_id}:`, stderr);
+        }
+        console.log(`[Task Manager] Successfully stopped task ${pm2_task_id}`);
+      }
+    });
+  }
+
+  // Exit after a short delay to allow tasks to stop
+  setTimeout(() => {
+    console.log('[Task Manager] All tasks stopped. Exiting...');
+    process.exit(0);
+  }, 5000);
+}
+
+// Handle SIGTERM and SIGINT signals
+process.on('SIGTERM', gracefulShutdown);
+process.on('SIGINT', gracefulShutdown);
 
 // Routes
 app.get('/', (req, res) => {
   const config = readConfig();
+  // Reload active tasks from PM2 maybe? Or rely on server memory? For now, use server memory.
+  // Need a way to sync state if server.js restarts but PM2 keeps tasks running.
+  // Simpler: assume server.js state is the source of truth for the UI for now.
   res.render('dashboard', { 
     config,
-    activeTasks: Array.from(activeTasks.entries()).map(([key, task]) => ({
-      key,
-      ...task
-    }))
+    activeTasks: Array.from(activeTasks.values()) // Map values directly
   });
 });
 
 // API endpoint to get all tasks
 app.get('/api/tasks', (req, res) => {
-  // Get saved tasks
-  const savedTasks = readSavedTasks().map(task => ({
+  // Get saved tasks (which are not actively running according to server.js memory)
+  const savedTasksData = readSavedTasks();
+  const activeTaskIds = new Set(activeTasks.keys());
+
+  const savedOnlyTasks = savedTasksData
+    .filter(task => !activeTaskIds.has(task.taskId)) // Filter out tasks that are currently active in memory
+    .map(task => ({
     ...task,
     status: 'saved',
-    isSaved: true
+    isSaved: true,
+    isHeadless: task.settings?.headless === true
   }));
   
-  // Get active tasks
-  const runningTasks = Array.from(activeTasks.entries()).map(([key, task]) => ({
-    key,
+  // Get active tasks from server memory
+  const runningTasks = Array.from(activeTasks.values()).map(task => ({
     ...task,
     process: undefined, // Don't send process object
-    isSaved: false
+    status: task.status || 'running', // Ensure status is included
+    isSaved: savedTasksData.some(saved => saved.taskId === task.taskId), // Check if it exists in saved file
+    isHeadless: task.settings?.headless === true || task.isHeadless === true
   }));
   
   res.json({
-    tasks: [...savedTasks, ...runningTasks]
+    tasks: [...savedOnlyTasks, ...runningTasks]
   });
 });
 
-// API endpoint to get task logs
+
+// API endpoint to get task logs (fetch from PM2)
 app.get('/api/tasks/:taskId/logs', (req, res) => {
   const { taskId } = req.params;
-  const logs = taskLogs.get(taskId) || [];
-  res.json({ logs });
+
+  // Find the PM2 task ID associated with our internal taskId
+  const taskInfo = activeTasks.get(taskId) || readTaskSettings()[taskId];
+  const pm2_task_id = taskInfo?.pm2_task_id || taskInfo?.settings?.pm2_task_id; // Check both places
+
+  if (!pm2_task_id) {
+    // If we can't find the PM2 ID, return an error or empty logs
+    console.warn(`[Logs API] Could not find pm2_task_id for taskId ${taskId}`);
+    return res.json({ logs: [{ timestamp: new Date(), type: 'error', message: 'Could not find PM2 task ID for this task.' }] });
+  }
+
+  // Construct the PM2 logs command
+  // --lines specifies max lines
+  // --nostream prevents it from waiting for more logs
+  // --raw outputs only the log message without timestamp/prefix from PM2
+  const pm2LogsCommand = `pm2 logs ${pm2_task_id} --lines ${MAX_LOG_ENTRIES} --nostream --raw`;
+  console.log(`[Logs API] Executing: ${pm2LogsCommand}`);
+
+  exec(pm2LogsCommand, { maxBuffer: 1024 * 1024 * 5 }, (error, stdout, stderr) => { // Added maxBuffer
+    if (error) {
+        // PM2 might return error code 1 if process not found, handle this gracefully
+        console.error(`[Logs API] Error fetching PM2 logs for ${pm2_task_id}: ${error.message}`);
+        console.error(`[Logs API] PM2 stderr: ${stderr}`);
+        // Try to provide a meaningful error, check if it was just not found
+        const errorMessage = stderr.includes('process or namespace not found') 
+                             ? `PM2 process ${pm2_task_id} not found. It might be stopped or deleted.`
+                             : `Failed to fetch PM2 logs: ${stderr || error.message}`;
+        return res.status(500).json({ logs: [{ timestamp: new Date(), type: 'error', message: errorMessage }] });
+    }
+
+    // Parse raw logs into the expected format
+    // Each line from stdout is a log entry. We'll add a timestamp.
+    const parsedLogs = stdout
+        .trim()
+        .split('\n')
+        .filter(line => line.trim() !== '') // Remove empty lines
+        .map(line => {
+            // Attempt to determine log type (basic heuristic)
+            let type = 'info';
+            if (line.includes('[ERROR]') || line.includes('Error:')) type = 'error';
+            else if (line.includes('[WARNING]')) type = 'warning';
+            else if (line.includes('[DEBUG]')) type = 'debug';
+            // You might need more sophisticated parsing if main.js logs JSON
+            return { timestamp: new Date(), type: type, message: line }; 
+        });
+        
+    // Reverse logs so newest appear first in modal if desired by UI (or sort by timestamp)
+    // parsedLogs.reverse(); 
+
+    res.json({ logs: parsedLogs });
+  });
 });
 
 // API endpoint to create a task without starting it
 app.post('/api/tasks/create', (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label } = req.body;
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages } = req.body;
   
-  if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
-    return res.status(400).json({ success: false, message: 'Invalid parameters' });
-  }
-  
-  const taskSettings = {
-    enableUrlUnshortening: enableUrlUnshortening || false,
-    label: label || ''
-  };
-  
-  const result = createTask(channelUrl, targetChannels, taskSettings);
-  res.json(result);
-});
-
-// API endpoint to start a task
-app.post('/api/tasks/start', async (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless } = req.body;
+  console.log('[DEBUG] Creating task with settings:', {
+    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages
+  });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
     return res.status(400).json({ success: false, message: 'Invalid parameters' });
@@ -785,8 +710,37 @@ app.post('/api/tasks/start', async (req, res) => {
   const taskSettings = {
     enableUrlUnshortening: enableUrlUnshortening || false,
     label: label || '',
-    headless: headless || false
+    headless: headless === true, // Ensure boolean conversion
+    enableRegularMessages: enableRegularMessages === true, // <-- Ensure boolean conversion
   };
+  
+  const result = createTask(channelUrl, targetChannels, taskSettings);
+  res.json(result);
+});
+
+// API endpoint to start a task
+app.post('/api/tasks/start', async (req, res) => {
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages } = req.body;
+  
+  console.log('[DEBUG] /api/tasks/start received request with headless:', headless);
+  
+  if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
+    return res.status(400).json({ success: false, message: 'Invalid parameters' });
+  }
+  
+  const taskSettings = {
+    enableUrlUnshortening: enableUrlUnshortening || false,
+    label: label || '',
+    headless: headless === true, // Strict boolean comparison
+    enableRegularMessages: enableRegularMessages === true, // <-- Get from request
+  };
+  
+  console.log('[DEBUG] Starting task with settings:', {
+    ...taskSettings,
+    channelUrl,
+    targetChannels,
+    headless: taskSettings.headless // Log the actual boolean value
+  });
   
   const result = await startMonitoringTask(channelUrl, targetChannels, taskSettings);
   res.json(result);
@@ -795,6 +749,10 @@ app.post('/api/tasks/start', async (req, res) => {
 // API endpoint to start a saved task
 app.post('/api/tasks/:taskId/start', async (req, res) => {
   const { taskId } = req.params;
+  // Get both headless and enableRegularMessages from request body if provided
+  const { headless, enableRegularMessages } = req.body || {}; 
+  
+  console.log('[DEBUG] Starting saved task with parameters:', { headless, enableRegularMessages });
   
   // Find the saved task
   const savedTasks = readSavedTasks();
@@ -803,22 +761,38 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
   if (!taskToStart) {
     return res.status(404).json({ success: false, message: 'Task not found' });
   }
+
+  // Remove from saved tasks before starting 
+  const updatedTasks = savedTasks.filter(task => task.taskId !== taskId);
+  writeSavedTasks(updatedTasks);
   
-  // Start the task
+  // Determine settings to use: prioritize request body, fallback to saved settings
+  const useHeadless = headless !== undefined ? headless === true : taskToStart.settings?.headless === true;
+  const useEnableRegularMessages = enableRegularMessages !== undefined 
+                                   ? enableRegularMessages === true 
+                                   : taskToStart.settings?.enableRegularMessages === true;
+  
+  console.log('[DEBUG] Using settings for task:', { useHeadless, useEnableRegularMessages });
+  
+  // Start the task with preserved settings and determined overrides
   const result = await startMonitoringTask(
     taskToStart.channelUrl, 
     taskToStart.targetChannels, 
     {
-      enableUrlUnshortening: taskToStart.enableUrlUnshortening,
-      label: taskToStart.label
+      // Preserve other saved settings if needed, add as necessary
+      enableUrlUnshortening: taskToStart.settings?.enableUrlUnshortening, // Example
+      label: taskToStart.label,
+      headless: useHeadless, 
+      enableRegularMessages: useEnableRegularMessages // <-- Use determined value
     }
   );
-  
-  // If successful, remove from saved tasks
-  if (result.success) {
-    deleteSavedTask(taskId);
+
+  if (!result.success) {
+    // If start failed, add back to saved tasks
+    updatedTasks.push(taskToStart);
+    writeSavedTasks(updatedTasks);
   }
-  
+
   res.json(result);
 });
 
@@ -842,7 +816,16 @@ app.delete('/api/tasks/:taskId', (req, res) => {
 // API endpoint to update task settings
 app.put('/api/tasks/:taskId/settings', (req, res) => {
   const { taskId } = req.params;
-  const { channelUrl, targetChannels, headless, label } = req.body;
+  const { channelUrl, targetChannels, headless, label, enableRegularMessages } = req.body;
+  
+  console.log('[API] Updating task settings:', {
+    taskId,
+    channelUrl,
+    targetChannels,
+    headless,
+    label,
+    enableRegularMessages
+  });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
     return res.status(400).json({ success: false, message: 'Invalid parameters' });
@@ -871,6 +854,17 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     return res.status(404).json({ success: false, message: 'Task not found' });
   }
   
+  // Create updated settings object
+  const updatedSettings = {
+    ...savedTasks[taskIndex].settings,
+    channelUrl,
+    targetChannels,
+    webhookInfo,
+    label,
+    headless: headless === true, // Ensure boolean conversion
+    enableRegularMessages: enableRegularMessages === true, // <-- Store setting
+  };
+  
   // Update task settings
   savedTasks[taskIndex] = {
     ...savedTasks[taskIndex],
@@ -878,16 +872,18 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     targetChannels,
     webhookInfo,
     label,
-    settings: {
-      ...savedTasks[taskIndex].settings,
-      headless
-    }
+    settings: updatedSettings,
+    enableRegularMessages: updatedSettings.enableRegularMessages, // <-- Add top-level flag
+    isHeadless: headless === true // Add top-level flag for consistency
   };
   
-  // Save the updated tasks
-  const success = writeSavedTasks(savedTasks);
+  console.log('[API] Updated task:', savedTasks[taskIndex]);
   
-  if (success) {
+  // Save both to saved tasks and task settings
+  const savedTasksSuccess = writeSavedTasks(savedTasks);
+  const taskSettingsSuccess = writeTaskSettings(taskId, updatedSettings);
+  
+  if (savedTasksSuccess && taskSettingsSuccess) {
     res.json({ success: true });
   } else {
     res.status(500).json({ success: false, message: 'Failed to save task settings' });
@@ -1119,6 +1115,43 @@ server.listen(port, () => {
   const savedTasks = loadSavedTasks();
   console.log(`Loaded ${savedTasks.length} saved tasks`);
   
+  // Validate saved tasks and clean up orphaned profile folders
+  try {
+    // Get all profile folders
+    const files = fs.readdirSync(__dirname);
+    const profileFolders = files.filter(file => file.startsWith('profile_'));
+    console.log(`Found ${profileFolders.length} profile folders`);
+    
+    // Get all profile IDs from saved tasks
+    const savedProfileIds = new Set();
+    savedTasks.forEach(task => {
+      if (task.settings && task.settings.profileId) {
+        savedProfileIds.add(task.settings.profileId);
+      }
+    });
+    
+    // Clean up orphaned profile folders
+    let cleanedCount = 0;
+    for (const folder of profileFolders) {
+      if (!savedProfileIds.has(folder)) {
+        try {
+          const folderPath = path.join(__dirname, folder);
+          fs.removeSync(folderPath);
+          console.log(`Cleaned up orphaned profile folder: ${folder}`);
+          cleanedCount++;
+        } catch (error) {
+          console.error(`Error removing orphaned profile folder ${folder}:`, error);
+        }
+      }
+    }
+    
+    if (cleanedCount > 0) {
+      console.log(`Cleaned up ${cleanedCount} orphaned profile folders`);
+    }
+  } catch (error) {
+    console.error('Error cleaning up profile folders:', error);
+  }
+  
   // Initialize task logs for saved tasks
   savedTasks.forEach(task => {
     if (!taskLogs.has(task.taskId)) {
@@ -1130,3 +1163,41 @@ server.listen(port, () => {
     }
   });
 }); 
+
+// --- Graceful Shutdown for server.js ---
+// Ensure server.js tells PM2 to stop all managed tasks on exit
+async function gracefulShutdown() {
+    console.log('[Server] Initiating graceful shutdown...');
+    const tasksToStop = Array.from(activeTasks.values());
+    console.log(`[Server] Attempting to stop ${tasksToStop.length} active PM2 tasks...`);
+    const stopPromises = tasksToStop.map(taskInfo => {
+      if (taskInfo.pm2_task_id) {
+        return new Promise((resolve) => {
+           const pm2StopCommand = `pm2 stop "${taskInfo.pm2_task_id}" --silent && pm2 delete "${taskInfo.pm2_task_id}" --silent`;
+           console.log(`[Server] Sending PM2 command: ${pm2StopCommand}`);
+           exec(pm2StopCommand, (error, stdout, stderr) => {
+               if (error) console.error(`[Server] Error stopping/deleting PM2 task ${taskInfo.pm2_task_id} during shutdown:`, stderr || error);
+               else console.log(`[Server] PM2 stop/delete successful for ${taskInfo.pm2_task_id}`);
+               resolve(); // Resolve regardless of error during shutdown
+           });
+        });
+      }
+      return Promise.resolve();
+    });
+
+    await Promise.all(stopPromises); // Wait for all PM2 commands to finish
+
+    console.log('[Server] PM2 stop commands issued.');
+    server.close(() => {
+        console.log('[Server] HTTP server closed.');
+        process.exit(0);
+    });
+    // Force exit after timeout if server hangs
+    setTimeout(() => {
+        console.error('[Server] Graceful shutdown timed out. Forcing exit.');
+        process.exit(1);
+    }, 10000); // 10 seconds timeout
+}
+
+process.on('SIGTERM', gracefulShutdown);
+process.on('SIGINT', gracefulShutdown);

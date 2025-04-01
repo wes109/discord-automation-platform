@@ -322,5 +322,2039 @@
     "headless": false,
     "startTime": "2025-03-15T04:02:02.646Z",
     "profileId": "profile_1742011322538_bm28qa"
+  },
+  "task_1742011712713": {
+    "label": "cost",
+    "channelUrl": "https://discord.com/channels/1149046819792375850/1343292906483744839",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:08:32.812Z",
+    "profileId": "profile_1742011712714_5lc68x"
+  },
+  "task_1742012329229": {
+    "taskId": "task_1742012329229",
+    "label": "costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098277684502614126",
+    "targetChannels": [
+      "Costco",
+      "CostcoTheBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      },
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "createdTime": "2025-03-15T04:18:49.230Z",
+    "headless": false,
+    "startTime": "2025-03-15T04:24:21.915Z",
+    "profileId": "profile_1742012661915_5s9pkl"
+  },
+  "task_1742012759512": {
+    "taskId": "task_1742012759512",
+    "label": "test",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "createdTime": "2025-03-15T04:25:59.513Z",
+    "headless": false,
+    "startTime": "2025-03-15T04:26:01.428Z",
+    "profileId": "profile_1742012761428_egybmb"
+  },
+  "task_1742012802020": {
+    "label": "test",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:26:42.140Z",
+    "profileId": "profile_1742012802021_69re90"
+  },
+  "task_1742012930355": {
+    "label": "996068628598366248",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:28:50.476Z",
+    "profileId": "profile_1742012930355_qqz3o9"
+  },
+  "task_1742013131854": {
+    "label": "996068628598366248",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:32:11.991Z",
+    "profileId": "profile_1742013131854_xjgfk7"
+  },
+  "task_1742013149704": {
+    "label": "996068628598366248",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:32:29.782Z",
+    "profileId": "profile_1742013149705_mj0m4r"
+  },
+  "task_1742013206059": {
+    "label": "Dicks",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:33:26.165Z",
+    "profileId": "profile_1742013206060_ju3zt9"
+  },
+  "task_1742013218970": {
+    "label": "test",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:33:39.049Z",
+    "profileId": "profile_1742013218970_n2wdc5"
+  },
+  "task_1742013242743": {
+    "label": "Dicks",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:34:02.865Z",
+    "profileId": "profile_1742013242743_53tdbz"
+  },
+  "task_1742013328049": {
+    "label": "996068628598366248",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:35:28.188Z",
+    "profileId": "profile_1742013328049_7aggfi"
+  },
+  "task_1742013357336": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:35:57.447Z",
+    "profileId": "profile_1742013357337_03jqfh"
+  },
+  "task_1742013442379": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:37:22.502Z",
+    "profileId": "profile_1742013442379_ljd363"
+  },
+  "task_1742013518478": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:38:38.590Z",
+    "profileId": "profile_1742013518479_ucl2yq"
+  },
+  "task_1742013539169": {
+    "label": "996068628598366248",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:38:59.252Z",
+    "profileId": "profile_1742013539169_ueql4m"
+  },
+  "task_1742013613287": {
+    "label": "996068628598366248",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:40:13.412Z",
+    "profileId": "profile_1742013613288_hiccu3"
+  },
+  "task_1742013623852": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278755157418044",
+    "targetChannels": [
+      "Target",
+      "TargetTheBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Target",
+        "label": "Target",
+        "webhook_url": "https://discord.com/api/webhooks/1343293423733706854/9lfxwQHQxkM27Gr1b06zISd5ao4WpVGY-RURQZEzMF0yLinzufCwIjxtxeZXI_17rpoC"
+      },
+      {
+        "name": "TargetTheBar",
+        "label": "TargetTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122176304382023/4iw-flHKOBpU4F1C16DY-23X8QoeY00Clle_TNIFi5oRVPuWPMZ1pnoLtwTGoSfXu9SO"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:40:23.911Z",
+    "profileId": "profile_1742013623852_t571s5"
+  },
+  "task_1742013753384": {
+    "label": "996068628598366248",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:42:33.508Z",
+    "profileId": "profile_1742013753385_5tpzp4"
+  },
+  "task_1742013805326": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T04:43:25.445Z",
+    "profileId": "profile_1742013805326_i37u6u"
+  },
+  "task_1742013962048": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:46:02.168Z",
+    "profileId": "profile_1742013962048_oun0vq"
+  },
+  "task_1742014018932": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278755157418044",
+    "targetChannels": [
+      "Target",
+      "TargetTheBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Target",
+        "label": "Target",
+        "webhook_url": "https://discord.com/api/webhooks/1343293423733706854/9lfxwQHQxkM27Gr1b06zISd5ao4WpVGY-RURQZEzMF0yLinzufCwIjxtxeZXI_17rpoC"
+      },
+      {
+        "name": "TargetTheBar",
+        "label": "TargetTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122176304382023/4iw-flHKOBpU4F1C16DY-23X8QoeY00Clle_TNIFi5oRVPuWPMZ1pnoLtwTGoSfXu9SO"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:46:59.058Z",
+    "profileId": "profile_1742014018932_vv00gn"
+  },
+  "task_1742014030449": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "createdTime": "2025-03-15T04:47:10.449Z"
+  },
+  "task_1742014033015": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T04:47:13.138Z",
+    "profileId": "profile_1742014033015_8dxe06"
+  },
+  "task_1742046084416": {
+    "label": "predixTarget",
+    "channelUrl": "https://discord.com/channels/767978836447985664/1347606121895956520",
+    "targetChannels": [
+      "TargetTheBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "TargetTheBar",
+        "label": "TargetTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122176304382023/4iw-flHKOBpU4F1C16DY-23X8QoeY00Clle_TNIFi5oRVPuWPMZ1pnoLtwTGoSfXu9SO"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "createdTime": "2025-03-15T13:41:24.417Z"
+  },
+  "task_1742046089118": {
+    "label": "predixTarget",
+    "channelUrl": "https://discord.com/channels/767978836447985664/1347606121895956520",
+    "targetChannels": [
+      "TargetTheBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "TargetTheBar",
+        "label": "TargetTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122176304382023/4iw-flHKOBpU4F1C16DY-23X8QoeY00Clle_TNIFi5oRVPuWPMZ1pnoLtwTGoSfXu9SO"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T13:41:29.256Z",
+    "profileId": "profile_1742046089118_vo5wnj"
+  },
+  "task_1742061172892": {
+    "label": "996068628598366248",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T17:52:53.012Z",
+    "profileId": "profile_1742061172892_mfsl94"
+  },
+  "task_1742013785649": {
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "label": "test",
+    "headless": true
+  },
+  "task_1742061338049": {
+    "label": "test",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T17:55:38.171Z",
+    "profileId": "profile_1742061338050_xz9sns"
+  },
+  "task_1742061579507": {
+    "label": "Dicks",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "createdTime": "2025-03-15T17:59:39.508Z"
+  },
+  "task_1742061581795": {
+    "label": "Dicks",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T17:59:41.917Z",
+    "profileId": "profile_1742061581796_apg2ox"
+  },
+  "task_1742061597971": {
+    "label": "Dicks",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T17:59:58.076Z",
+    "profileId": "profile_1742061597971_xfap7b"
+  },
+  "task_1742061623456": {
+    "label": "test",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Sams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Sams",
+        "label": "Sams",
+        "webhook_url": "https://discord.com/api/webhooks/1343293240496885783/XNeW4KDx9KpS_n57df1JWFoT1l4aiPE7l37xuJROsuj2j-KE3xm73pO5P4wuvL-dSmJn"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T18:00:23.456Z"
+  },
+  "task_1742061634496": {
+    "label": "test",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Sams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Sams",
+        "label": "Sams",
+        "webhook_url": "https://discord.com/api/webhooks/1343293240496885783/XNeW4KDx9KpS_n57df1JWFoT1l4aiPE7l37xuJROsuj2j-KE3xm73pO5P4wuvL-dSmJn"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T18:00:34.592Z",
+    "profileId": "profile_1742061634496_hol0vu"
+  },
+  "task_1742061889860": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T18:04:49.861Z"
+  },
+  "task_1742061897770": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T18:04:57.890Z",
+    "profileId": "profile_1742061897771_xu5fso"
+  },
+  "task_1742062013151": {
+    "label": "Dicks",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T18:06:53.272Z",
+    "profileId": "profile_1742062013152_zhtz9t"
+  },
+  "task_1742062027634": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T18:07:07.635Z"
+  },
+  "task_1742062271782": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-15T18:11:11.907Z",
+    "profileId": "profile_1742062271784_6glj8b"
+  },
+  "task_1742062381700": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T18:13:01.701Z"
+  },
+  "task_1742062385039": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T18:13:05.162Z",
+    "profileId": "profile_1742062385039_i62sna"
+  },
+  "task_1742062547728": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T18:15:47.852Z",
+    "profileId": "profile_1742062547728_2dnxq4"
+  },
+  "task_1742062633236": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T18:17:13.354Z",
+    "profileId": "profile_1742062633237_as6lis"
+  },
+  "task_1742062730666": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T18:18:50.667Z"
+  },
+  "task_1742062732997": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/498214482229723137/996068628598366248",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T18:18:53.120Z",
+    "profileId": "profile_1742062732997_405goh"
+  },
+  "task_1742063078226": {
+    "label": "test",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278755157418044",
+    "targetChannels": [
+      "Costco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T18:24:38.226Z"
+  },
+  "task_1742063081319": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278755157418044",
+    "targetChannels": [
+      "Target",
+      "TargetTheBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Target",
+        "label": "Target",
+        "webhook_url": "https://discord.com/api/webhooks/1343293423733706854/9lfxwQHQxkM27Gr1b06zISd5ao4WpVGY-RURQZEzMF0yLinzufCwIjxtxeZXI_17rpoC"
+      },
+      {
+        "name": "TargetTheBar",
+        "label": "TargetTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122176304382023/4iw-flHKOBpU4F1C16DY-23X8QoeY00Clle_TNIFi5oRVPuWPMZ1pnoLtwTGoSfXu9SO"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T18:24:41.446Z",
+    "profileId": "profile_1742063081319_jvleek"
+  },
+  "task_1742063157947": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+    "targetChannels": [
+      "Costco",
+      "CostcoTheBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      },
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T18:25:57.947Z"
+  },
+  "task_1742063161322": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+    "targetChannels": [
+      "Costco",
+      "CostcoTheBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Costco",
+        "label": "Costco",
+        "webhook_url": "https://discord.com/api/webhooks/1343292924363931708/GVCziSzozPa3zh2q717xJuWpyGErg1doR0meI745ZiQBh8FDsblzygGeFBVsEiHZuS2i"
+      },
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T18:26:01.436Z",
+    "profileId": "profile_1742063161323_nsu19k"
+  },
+  "task_1742063163954": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278755157418044",
+    "targetChannels": [
+      "Target",
+      "TargetTheBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Target",
+        "label": "Target",
+        "webhook_url": "https://discord.com/api/webhooks/1343293423733706854/9lfxwQHQxkM27Gr1b06zISd5ao4WpVGY-RURQZEzMF0yLinzufCwIjxtxeZXI_17rpoC"
+      },
+      {
+        "name": "TargetTheBar",
+        "label": "TargetTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122176304382023/4iw-flHKOBpU4F1C16DY-23X8QoeY00Clle_TNIFi5oRVPuWPMZ1pnoLtwTGoSfXu9SO"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T18:26:04.023Z",
+    "profileId": "profile_1742063163954_q4waux"
+  },
+  "task_1742064663388": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278755157418044",
+    "targetChannels": [
+      "TargetTheBar",
+      "FamiliaTarget"
+    ],
+    "webhookInfo": [
+      {
+        "name": "TargetTheBar",
+        "label": "TargetTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122176304382023/4iw-flHKOBpU4F1C16DY-23X8QoeY00Clle_TNIFi5oRVPuWPMZ1pnoLtwTGoSfXu9SO"
+      },
+      {
+        "name": "FamiliaTarget",
+        "label": "FamiliaTarget",
+        "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T18:51:03.388Z"
+  },
+  "task_1742064678822": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+    "targetChannels": [
+      "CostcoTheBar",
+      "FamiliaCostco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      },
+      {
+        "name": "FamiliaCostco",
+        "label": "FamiliaCostco",
+        "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T18:51:18.823Z"
+  },
+  "task_1742064703323": {
+    "label": "Amazon",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098277409754726631",
+    "targetChannels": [
+      "FamiliaAmazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaAmazon",
+        "label": "FamiliaAmazon",
+        "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T18:51:43.325Z"
+  },
+  "task_1742064736854": {
+    "label": "Best Buy",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098277684502614126",
+    "targetChannels": [
+      "FamiliaBestBuy"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaBestBuy",
+        "label": "FamiliaBestBuy",
+        "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T18:52:16.855Z"
+  },
+  "task_1742064747565": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278755157418044",
+    "targetChannels": [
+      "TargetTheBar",
+      "FamiliaTarget"
+    ],
+    "webhookInfo": [
+      {
+        "name": "TargetTheBar",
+        "label": "TargetTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122176304382023/4iw-flHKOBpU4F1C16DY-23X8QoeY00Clle_TNIFi5oRVPuWPMZ1pnoLtwTGoSfXu9SO"
+      },
+      {
+        "name": "FamiliaTarget",
+        "label": "FamiliaTarget",
+        "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T18:52:27.681Z",
+    "profileId": "profile_1742064747566_zsmjnn"
+  },
+  "task_1742064765020": {
+    "label": "Best Buy",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098277684502614126",
+    "targetChannels": [
+      "FamiliaBestBuy"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaBestBuy",
+        "label": "FamiliaBestBuy",
+        "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T18:52:45.129Z",
+    "profileId": "profile_1742064765021_gbdjir"
+  },
+  "task_1742064787552": {
+    "label": "Amazon",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098277409754726631",
+    "targetChannels": [
+      "FamiliaAmazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaAmazon",
+        "label": "FamiliaAmazon",
+        "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T18:53:07.664Z",
+    "profileId": "profile_1742064787553_r33qsm"
+  },
+  "task_1742064802632": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+    "targetChannels": [
+      "CostcoTheBar",
+      "FamiliaCostco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      },
+      {
+        "name": "FamiliaCostco",
+        "label": "FamiliaCostco",
+        "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T18:53:22.740Z",
+    "profileId": "profile_1742064802633_eyw9w7"
+  },
+  "task_1742065331317": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278755157418044",
+    "targetChannels": [
+      "TargetTheBar",
+      "FamiliaTarget"
+    ],
+    "webhookInfo": [
+      {
+        "name": "TargetTheBar",
+        "label": "TargetTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122176304382023/4iw-flHKOBpU4F1C16DY-23X8QoeY00Clle_TNIFi5oRVPuWPMZ1pnoLtwTGoSfXu9SO"
+      },
+      {
+        "name": "FamiliaTarget",
+        "label": "FamiliaTarget",
+        "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T19:02:11.423Z",
+    "profileId": "profile_1742065331318_9k083b"
+  },
+  "task_1742065333361": {
+    "label": "Amazon",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098277409754726631",
+    "targetChannels": [
+      "FamiliaAmazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaAmazon",
+        "label": "FamiliaAmazon",
+        "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T19:02:13.416Z",
+    "profileId": "profile_1742065333361_z33fv1"
+  },
+  "task_1742065335101": {
+    "label": "Best Buy",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098277684502614126",
+    "targetChannels": [
+      "FamiliaBestBuy"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaBestBuy",
+        "label": "FamiliaBestBuy",
+        "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T19:02:15.150Z",
+    "profileId": "profile_1742065335101_r15bru"
+  },
+  "task_1742065337011": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+    "targetChannels": [
+      "CostcoTheBar",
+      "FamiliaCostco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      },
+      {
+        "name": "FamiliaCostco",
+        "label": "FamiliaCostco",
+        "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T19:02:17.056Z",
+    "profileId": "profile_1742065337011_dbx9zz"
+  },
+  "task_1742066416779": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278755157418044",
+    "targetChannels": [
+      "TargetTheBar",
+      "FamiliaTarget"
+    ],
+    "webhookInfo": [
+      {
+        "name": "TargetTheBar",
+        "label": "TargetTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122176304382023/4iw-flHKOBpU4F1C16DY-23X8QoeY00Clle_TNIFi5oRVPuWPMZ1pnoLtwTGoSfXu9SO"
+      },
+      {
+        "name": "FamiliaTarget",
+        "label": "FamiliaTarget",
+        "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T19:20:16.780Z"
+  },
+  "task_1742066430240": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+    "targetChannels": [
+      "CostcoTheBar",
+      "FamiliaCostco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      },
+      {
+        "name": "FamiliaCostco",
+        "label": "FamiliaCostco",
+        "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T19:20:30.240Z"
+  },
+  "task_1742066447660": {
+    "label": "BB",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098277684502614126",
+    "targetChannels": [
+      "FamiliaBestBuy"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaBestBuy",
+        "label": "FamiliaBestBuy",
+        "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T19:20:47.661Z"
+  },
+  "task_1742066484328": {
+    "label": "Amazon",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098277409754726631",
+    "targetChannels": [
+      "FamiliaAmazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaAmazon",
+        "label": "FamiliaAmazon",
+        "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T19:21:24.328Z"
+  },
+  "task_1742066504187": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278755157418044",
+    "targetChannels": [
+      "TargetTheBar",
+      "FamiliaTarget"
+    ],
+    "webhookInfo": [
+      {
+        "name": "TargetTheBar",
+        "label": "TargetTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122176304382023/4iw-flHKOBpU4F1C16DY-23X8QoeY00Clle_TNIFi5oRVPuWPMZ1pnoLtwTGoSfXu9SO"
+      },
+      {
+        "name": "FamiliaTarget",
+        "label": "FamiliaTarget",
+        "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T19:21:44.305Z",
+    "profileId": "profile_1742066504187_w77gix"
+  },
+  "task_1742066505915": {
+    "label": "BB",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098277684502614126",
+    "targetChannels": [
+      "FamiliaBestBuy"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaBestBuy",
+        "label": "FamiliaBestBuy",
+        "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T19:21:45.960Z",
+    "profileId": "profile_1742066505915_lxeo1v"
+  },
+  "task_1742066507545": {
+    "label": "Amazon",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098277409754726631",
+    "targetChannels": [
+      "FamiliaAmazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaAmazon",
+        "label": "FamiliaAmazon",
+        "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T19:21:47.605Z",
+    "profileId": "profile_1742066507545_g35hko"
+  },
+  "task_1742066509255": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+    "targetChannels": [
+      "CostcoTheBar",
+      "FamiliaCostco"
+    ],
+    "webhookInfo": [
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      },
+      {
+        "name": "FamiliaCostco",
+        "label": "FamiliaCostco",
+        "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T19:21:49.323Z",
+    "profileId": "profile_1742066509255_z1fb2n"
+  },
+  "task_1742077564358": {
+    "label": "Dicks",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1200248781850030170",
+    "targetChannels": [
+      "FamiliaDicks"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaDicks",
+        "label": "FamiliaDicks",
+        "webhook_url": "https://discord.com/api/webhooks/996214227045994496/FihOhFn3BSfEMpOOkyyJnEC8IKC157mtcp8Cyp8OZuPISD-33NwrQc_6YqLtUG3hXtYJ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T22:26:04.359Z"
+  },
+  "task_1742077578726": {
+    "label": "Mattel",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278264050548796",
+    "targetChannels": [
+      "FamiliaMattel"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaMattel",
+        "label": "FamiliaMattel",
+        "webhook_url": "https://discord.com/api/webhooks/1350574410737651794/ZKorOw44aqlHtTeTI7mwflOsav8f0qyn1ogpZ5l-vUsfyApKnpqC-Wfk83Kw3muKUiqK"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T22:26:18.727Z"
+  },
+  "task_1742077609172": {
+    "label": "Sams",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509895020712039",
+    "targetChannels": [
+      "FamiliaSams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaSams",
+        "label": "FamiliaSams",
+        "webhook_url": "https://discord.com/api/webhooks/1350574314407071784/XycvTqWYRvy6mh_KRL4L3dybWS-OCar2G77LZMYjTrihc-_QvWEfLjtGPZ1OV_ZF3I4X"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T22:26:49.173Z"
+  },
+  "task_1742077640781": {
+    "label": "Scheels",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1239373144666538044",
+    "targetChannels": [
+      "FamiliaScheels"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaScheels",
+        "label": "FamiliaScheels",
+        "webhook_url": "https://discord.com/api/webhooks/1204449620894425108/7oy30LH-ZTnmS2dXp_Jxnfd07fud1eK_QOQ_30I3jtMZ-Y1BE06msz4f1ckIRV82btUG"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T22:27:20.782Z"
+  },
+  "task_1742077652421": {
+    "label": "Walmart",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278930609344543",
+    "targetChannels": [
+      "FamiliaWalmart"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaWalmart",
+        "label": "FamiliaWalmart",
+        "webhook_url": "https://discord.com/api/webhooks/1350576171133435934/fATR03W1IczspfvZi0yogWo0PoZ0bSUjc2b0AeeL1tTUYIIgJUOF-Z-SJ3t4dwJdjlzJ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-15T22:27:32.421Z"
+  },
+  "task_1742077654579": {
+    "label": "Dicks",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1200248781850030170",
+    "targetChannels": [
+      "FamiliaDicks"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaDicks",
+        "label": "FamiliaDicks",
+        "webhook_url": "https://discord.com/api/webhooks/996214227045994496/FihOhFn3BSfEMpOOkyyJnEC8IKC157mtcp8Cyp8OZuPISD-33NwrQc_6YqLtUG3hXtYJ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T22:27:34.706Z",
+    "profileId": "profile_1742077654580_zkrg7x"
+  },
+  "task_1742077656635": {
+    "label": "Mattel",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278264050548796",
+    "targetChannels": [
+      "FamiliaMattel"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaMattel",
+        "label": "FamiliaMattel",
+        "webhook_url": "https://discord.com/api/webhooks/1350574410737651794/ZKorOw44aqlHtTeTI7mwflOsav8f0qyn1ogpZ5l-vUsfyApKnpqC-Wfk83Kw3muKUiqK"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T22:27:36.701Z",
+    "profileId": "profile_1742077656635_v25gsx"
+  },
+  "task_1742077657910": {
+    "label": "Sams",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509895020712039",
+    "targetChannels": [
+      "FamiliaSams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaSams",
+        "label": "FamiliaSams",
+        "webhook_url": "https://discord.com/api/webhooks/1350574314407071784/XycvTqWYRvy6mh_KRL4L3dybWS-OCar2G77LZMYjTrihc-_QvWEfLjtGPZ1OV_ZF3I4X"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T22:27:38.139Z",
+    "profileId": "profile_1742077657911_w1qrt9"
+  },
+  "task_1742077659126": {
+    "label": "Scheels",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1239373144666538044",
+    "targetChannels": [
+      "FamiliaScheels"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaScheels",
+        "label": "FamiliaScheels",
+        "webhook_url": "https://discord.com/api/webhooks/1204449620894425108/7oy30LH-ZTnmS2dXp_Jxnfd07fud1eK_QOQ_30I3jtMZ-Y1BE06msz4f1ckIRV82btUG"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T22:27:39.686Z",
+    "profileId": "profile_1742077659126_5jxuvl"
+  },
+  "task_1742077663618": {
+    "label": "Walmart",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1098278930609344543",
+    "targetChannels": [
+      "FamiliaWalmart"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaWalmart",
+        "label": "FamiliaWalmart",
+        "webhook_url": "https://discord.com/api/webhooks/1350576171133435934/fATR03W1IczspfvZi0yogWo0PoZ0bSUjc2b0AeeL1tTUYIIgJUOF-Z-SJ3t4dwJdjlzJ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-15T22:27:43.771Z",
+    "profileId": "profile_1742077663618_vtzi5f"
+  },
+  "task_1742090846130": {
+    "label": "PokeNotify",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1334138273412419645",
+    "targetChannels": [
+      "PokeNotifyBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-16T02:07:26.131Z"
+  },
+  "task_1742090850837": {
+    "label": "PokeNotify",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1334138273412419645",
+    "targetChannels": [
+      "PokeNotifyBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-16T02:07:30.938Z",
+    "profileId": "profile_1742090850837_yxmtyt"
+  },
+  "task_1742096554876": {
+    "label": "PokeNotify",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1334138273412419645",
+    "targetChannels": [
+      "PokeNotifyBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-16T03:42:35.002Z",
+    "profileId": "profile_1742096554876_n09o8y"
+  },
+  "task_1742096676372": {
+    "label": "PokeNotify",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1334138273412419645",
+    "targetChannels": [
+      "PokeNotifyBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-16T03:44:36.489Z",
+    "profileId": "profile_1742096676373_ie1fai"
+  },
+  "task_1742258622282": {
+    "label": "FamiliaShopify",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347637324355211324",
+    "targetChannels": [
+      "FamiliaShopify"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaShopify",
+        "label": "FamiliaShopify",
+        "webhook_url": "https://discord.com/api/webhooks/658749059774808104/w8FiXE5csiB6cTrNmi4hbxL3OguBsKcIh2rAcg--koMiSemL4D13C_bAPuVpG5u6PKgY"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "createdTime": "2025-03-18T00:43:42.283Z"
+  },
+  "task_1742258627856": {
+    "label": "FamiliaShopify",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347637324355211324",
+    "targetChannels": [
+      "FamiliaShopify"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaShopify",
+        "label": "FamiliaShopify",
+        "webhook_url": "https://discord.com/api/webhooks/658749059774808104/w8FiXE5csiB6cTrNmi4hbxL3OguBsKcIh2rAcg--koMiSemL4D13C_bAPuVpG5u6PKgY"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "startTime": "2025-03-18T00:43:48.026Z",
+    "profileId": "profile_1742258627857_f0xjyd"
+  },
+  "task_1743439252423": {
+    "label": "test",
+    "channelUrl": "https://discord.com/channels/498214482229723137/755152417091223592",
+    "targetChannels": [
+      "Target"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Target",
+        "label": "Target",
+        "webhook_url": "https://discord.com/api/webhooks/1343293423733706854/9lfxwQHQxkM27Gr1b06zISd5ao4WpVGY-RURQZEzMF0yLinzufCwIjxtxeZXI_17rpoC"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "createdTime": "2025-03-31T16:40:52.423Z"
+  },
+  "task_1743439254424": {
+    "label": "test",
+    "channelUrl": "https://discord.com/channels/498214482229723137/755152417091223592",
+    "targetChannels": [
+      "Target"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Target",
+        "label": "Target",
+        "webhook_url": "https://discord.com/api/webhooks/1343293423733706854/9lfxwQHQxkM27Gr1b06zISd5ao4WpVGY-RURQZEzMF0yLinzufCwIjxtxeZXI_17rpoC"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-31T16:40:54.669Z",
+    "profileId": "profile_1743439254425_9xxymg"
+  },
+  "task_1743439438207": {
+    "label": "test",
+    "channelUrl": "https://discord.com/channels/498214482229723137/755152417091223592",
+    "targetChannels": [
+      "Sams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Sams",
+        "label": "Sams",
+        "webhook_url": "https://discord.com/api/webhooks/1343293240496885783/XNeW4KDx9KpS_n57df1JWFoT1l4aiPE7l37xuJROsuj2j-KE3xm73pO5P4wuvL-dSmJn"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "createdTime": "2025-03-31T16:43:58.207Z"
+  },
+  "task_1743439439891": {
+    "label": "test",
+    "channelUrl": "https://discord.com/channels/498214482229723137/755152417091223592",
+    "targetChannels": [
+      "Sams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Sams",
+        "label": "Sams",
+        "webhook_url": "https://discord.com/api/webhooks/1343293240496885783/XNeW4KDx9KpS_n57df1JWFoT1l4aiPE7l37xuJROsuj2j-KE3xm73pO5P4wuvL-dSmJn"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-31T16:44:00.122Z",
+    "profileId": "profile_1743439439892_12hq9x"
+  },
+  "task_1743439675696": {
+    "label": "t",
+    "channelUrl": "https://discord.com/channels/498214482229723137/755152417091223592",
+    "targetChannels": [
+      "Sams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Sams",
+        "label": "Sams",
+        "webhook_url": "https://discord.com/api/webhooks/1343293240496885783/XNeW4KDx9KpS_n57df1JWFoT1l4aiPE7l37xuJROsuj2j-KE3xm73pO5P4wuvL-dSmJn"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "createdTime": "2025-03-31T16:47:55.696Z"
+  },
+  "task_1743439677240": {
+    "label": "t",
+    "channelUrl": "https://discord.com/channels/498214482229723137/755152417091223592",
+    "targetChannels": [
+      "Sams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Sams",
+        "label": "Sams",
+        "webhook_url": "https://discord.com/api/webhooks/1343293240496885783/XNeW4KDx9KpS_n57df1JWFoT1l4aiPE7l37xuJROsuj2j-KE3xm73pO5P4wuvL-dSmJn"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-31T16:47:57.475Z",
+    "profileId": "profile_1743439677241_p1ps8d"
+  },
+  "task_1743439788071": {
+    "label": "d",
+    "channelUrl": "https://discord.com/channels/498214482229723137/755152417091223592",
+    "targetChannels": [
+      "Mattel"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Mattel",
+        "label": "Mattel",
+        "webhook_url": "https://discord.com/api/webhooks/1343293145437306910/KXD2vArbS231cQEHrIXEUSKFRolxWe-m9JHyqcW8ud2K4cuvhAtk-WXRTS2BneqCPyDV"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "createdTime": "2025-03-31T16:49:48.071Z"
+  },
+  "task_1743439790149": {
+    "label": "d",
+    "channelUrl": "https://discord.com/channels/498214482229723137/755152417091223592",
+    "targetChannels": [
+      "Mattel"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Mattel",
+        "label": "Mattel",
+        "webhook_url": "https://discord.com/api/webhooks/1343293145437306910/KXD2vArbS231cQEHrIXEUSKFRolxWe-m9JHyqcW8ud2K4cuvhAtk-WXRTS2BneqCPyDV"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-31T16:49:50.373Z",
+    "profileId": "profile_1743439790150_pmttlk"
+  },
+  "task_1743448168526": {
+    "label": "terst",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "createdTime": "2025-03-31T19:09:28.526Z"
+  },
+  "task_1743448170629": {
+    "label": "terst",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-31T19:09:30.885Z",
+    "profileId": "profile_1743448170629_3p0d0g",
+    "pm2_task_id": "monitor_task_1743448170629"
+  },
+  "task_1743449391474": {
+    "label": "terst",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-31T19:29:51.725Z",
+    "profileId": "profile_1743449391476_26hj04",
+    "pm2_task_id": "monitor_task_1743449391474"
+  },
+  "task_1743449593076": {
+    "label": "te",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Sams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Sams",
+        "label": "Sams",
+        "webhook_url": "https://discord.com/api/webhooks/1343293240496885783/XNeW4KDx9KpS_n57df1JWFoT1l4aiPE7l37xuJROsuj2j-KE3xm73pO5P4wuvL-dSmJn"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "createdTime": "2025-03-31T19:33:13.076Z"
+  },
+  "task_1743449594922": {
+    "label": "te",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Sams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Sams",
+        "label": "Sams",
+        "webhook_url": "https://discord.com/api/webhooks/1343293240496885783/XNeW4KDx9KpS_n57df1JWFoT1l4aiPE7l37xuJROsuj2j-KE3xm73pO5P4wuvL-dSmJn"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-31T19:33:15.142Z",
+    "profileId": "profile_1743449594923_lubqii",
+    "pm2_task_id": "monitor_task_1743449594922"
+  },
+  "task_1743449649143": {
+    "label": "de",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "createdTime": "2025-03-31T19:34:09.143Z"
+  },
+  "task_1743449653861": {
+    "label": "de",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-31T19:34:14.129Z",
+    "profileId": "profile_1743449653862_2mcyu2",
+    "pm2_task_id": "monitor_task_1743449653861"
+  },
+  "task_1743450297635": {
+    "label": "te",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Sams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Sams",
+        "label": "Sams",
+        "webhook_url": "https://discord.com/api/webhooks/1343293240496885783/XNeW4KDx9KpS_n57df1JWFoT1l4aiPE7l37xuJROsuj2j-KE3xm73pO5P4wuvL-dSmJn"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "startTime": "2025-03-31T19:44:57.872Z",
+    "profileId": "profile_1743450297636_h82ozp",
+    "pm2_task_id": "monitor_task_1743450297635"
+  },
+  "task_1743450781842": {
+    "label": "de",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": true,
+    "startTime": "2025-03-31T19:53:02.064Z",
+    "profileId": "profile_1743450781843_5fe4ue",
+    "pm2_task_id": "monitor_task_1743450781842"
+  },
+  "task_1743450895787": {
+    "label": "de",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": true,
+    "startTime": "2025-03-31T19:54:56.025Z",
+    "profileId": "profile_1743450895788_n1p4mc",
+    "pm2_task_id": "monitor_task_1743450895787"
+  },
+  "task_1743452179391": {
+    "label": "de",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": true,
+    "startTime": "2025-03-31T20:16:19.618Z",
+    "profileId": "profile_1743452179393_gkbjjc",
+    "pm2_task_id": "monitor_task_1743452179391"
+  },
+  "task_1743453700801": {
+    "label": "de",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": true,
+    "startTime": "2025-03-31T20:41:41.024Z",
+    "profileId": "profile_1743453700803_ivkgec",
+    "pm2_task_id": "monitor_task_1743453700801"
+  },
+  "task_1743473163655": {
+    "label": "de",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": true,
+    "startTime": "2025-04-01T02:06:03.815Z",
+    "profileId": "profile_1743473163659_mqhvns",
+    "pm2_task_id": "monitor_task_1743473163655"
+  },
+  "task_1743473191434": {
+    "label": "de",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": true,
+    "startTime": "2025-04-01T02:06:31.567Z",
+    "profileId": "profile_1743473191434_1sw7bq",
+    "pm2_task_id": "monitor_task_1743473191434"
+  },
+  "task_1743473294074": {
+    "label": "de",
+    "channelUrl": "https://discord.com/channels/674455435838750776/674455435842945025",
+    "targetChannels": [
+      "Amazon"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Amazon",
+        "label": "Amazon",
+        "webhook_url": "https://discord.com/api/webhooks/1149047080787124355/_jRBWDXN3soLc48AtqKsDuaH-qV3Ejh9um3TXBUqlDfWySZ99wA7UFuzaqgOD3G7sjug"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": true,
+    "startTime": "2025-04-01T02:08:14.217Z",
+    "profileId": "profile_1743473294074_rkp400",
+    "pm2_task_id": "monitor_task_1743473294074"
   }
 }

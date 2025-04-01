@@ -8,8 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Task Management
   const startTaskBtn = document.getElementById('startTaskBtn');
   if (startTaskBtn) {
-    startTaskBtn.addEventListener('click', startTask);
-    startTaskBtn.textContent = 'Create Task';
+    startTaskBtn.addEventListener('click', handleCreateTaskSubmit);
   }
 
   // Save All Tasks button
@@ -26,6 +25,24 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.view-logs-btn').forEach(btn => {
     btn.addEventListener('click', viewTaskLogs);
   });
+
+  // Add manual health check button
+  const tasksHeader = document.querySelector('#tasksTable thead tr');
+  if (tasksHeader) {
+    const healthHeader = tasksHeader.querySelector('th#health-column-header');
+    if (healthHeader) {
+      healthHeader.innerHTML = 'Health <button id="manual-health-check" class="btn btn-sm btn-outline-secondary ms-1" title="Run health check now"><i class="bi bi-arrow-clockwise"></i></button>';
+      
+      // Add event listener for manual health check
+      const manualHealthCheckBtn = document.getElementById('manual-health-check');
+      if (manualHealthCheckBtn) {
+        manualHealthCheckBtn.addEventListener('click', function() {
+          showToast('Running health check...', 'info');
+          checkTaskHealth();
+        });
+      }
+    }
+  }
 
   // Discord Channel Management
   const saveDiscordChannelBtn = document.getElementById('saveDiscordChannelBtn');
@@ -47,45 +64,27 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDiscordChannelBtn.addEventListener('click', updateDiscordChannel);
   }
 
-  // Monitoring Channel Management
-  const saveMonitoringChannelBtn = document.getElementById('saveMonitoringChannelBtn');
-  if (saveMonitoringChannelBtn) {
-    saveMonitoringChannelBtn.addEventListener('click', saveMonitoringChannel);
-  }
-
-  document.querySelectorAll('.edit-monitoring-channel-btn').forEach(btn => {
-    btn.addEventListener('click', editMonitoringChannel);
-  });
-
-  document.querySelectorAll('.delete-monitoring-channel-btn').forEach(btn => {
-    btn.addEventListener('click', deleteMonitoringChannel);
-  });
-  
-  // Update Monitoring Channel
-  const updateMonitoringChannelBtn = document.getElementById('updateMonitoringChannelBtn');
-  if (updateMonitoringChannelBtn) {
-    updateMonitoringChannelBtn.addEventListener('click', updateMonitoringChannel);
-  }
-
-  document.querySelectorAll('.start-monitoring-btn').forEach(btn => {
-    btn.addEventListener('click', prepareStartMonitoring);
-  });
-
-  // Confirm start monitoring button
+  // Start Monitoring Modal
   const confirmStartMonitoringBtn = document.getElementById('confirmStartMonitoringBtn');
   if (confirmStartMonitoringBtn) {
     confirmStartMonitoringBtn.addEventListener('click', confirmStartMonitoring);
-    confirmStartMonitoringBtn.textContent = 'Create Task';
   }
 
-  // Refresh logs button
+  // Task Logs Modal
   const refreshLogsBtn = document.getElementById('refreshLogsBtn');
   if (refreshLogsBtn) {
     refreshLogsBtn.addEventListener('click', refreshLogs);
   }
 
-  // Set up auto-refresh for tasks table
-  setInterval(refreshTasksTable, 2000); // Refresh every 2 seconds
+  // Load tasks on page load
+  refreshTasksTable();
+  
+  // Set up interval to refresh tasks table
+  setInterval(refreshTasksTable, 10000); // Refresh every 10 seconds
+  
+  // Run health check immediately and then every 60 seconds
+  checkTaskHealth();
+  setInterval(checkTaskHealth, 60000);
 });
 
 // Current task ID for logs modal
@@ -123,12 +122,13 @@ function showToast(message, type = 'info') {
   });
 }
 
-// Function to start a new task
-async function startTask() {
+// Function to create a task (called by the modal)
+async function handleCreateTaskSubmit() {
   const channelUrl = document.getElementById('channelUrl').value;
   const targetChannels = Array.from(document.querySelectorAll('.target-channel-checkbox:checked')).map(cb => cb.value);
   const headless = document.getElementById('enableHeadless').checked;
   const label = document.getElementById('taskLabel').value;
+  const enableRegularMessages = document.getElementById('enableRegularMessages').checked;
 
   if (!channelUrl || targetChannels.length === 0) {
     showToast('Please select a channel URL and at least one target channel', 'danger');
@@ -136,6 +136,7 @@ async function startTask() {
   }
 
   try {
+    // Use the /api/tasks/create endpoint
     const response = await fetch('/api/tasks/create', {
       method: 'POST',
       headers: {
@@ -145,7 +146,8 @@ async function startTask() {
         channelUrl, 
         targetChannels,
         headless,
-        label
+        label,
+        enableRegularMessages
       })
     });
 
@@ -161,9 +163,13 @@ async function startTask() {
       document.getElementById('taskLabel').value = '';
       document.querySelectorAll('.target-channel-checkbox').forEach(cb => cb.checked = false);
       document.getElementById('enableHeadless').checked = false;
+      document.getElementById('enableRegularMessages').checked = false;
       
       // Refresh the tasks table
       refreshTasksTable();
+      
+      // Run health check immediately for the new task
+      setTimeout(checkTaskHealth, 1000);
       
       showToast('Task created successfully', 'success');
     } else {
@@ -175,15 +181,44 @@ async function startTask() {
   }
 }
 
+// Update event listener for the form submission
+const newTaskForm = document.getElementById('newTaskForm');
+if (newTaskForm) {
+    // Prevent default form submission
+    newTaskForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        handleCreateTaskSubmit(); // Call our combined create function
+    });
+}
+
 // Function to start a saved task
 async function startSavedTask(taskId) {
   if (!confirm('Are you sure you want to start this task?')) {
     return;
   }
   
+  // Get the task data to retrieve the headless setting
+  const tasksResponse = await fetch('/api/tasks');
+  const tasksData = await tasksResponse.json();
+  const task = tasksData.tasks.find(t => t.taskId === taskId);
+  
+  if (!task) {
+    showToast('Task not found', 'danger');
+    return;
+  }
+  
+  // Get the headless and regular message settings from the task
+  const headless = task.settings?.headless === true;
+  const enableRegularMessages = task.settings?.enableRegularMessages === true;
+  console.log(`Starting saved task ${taskId} with headless: ${headless}, regularMessages: ${enableRegularMessages}`);
+  
   try {
     const response = await fetch(`/api/tasks/${taskId}/start`, {
-      method: 'POST'
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ headless, enableRegularMessages })
     });
 
     const result = await response.json();
@@ -191,6 +226,10 @@ async function startSavedTask(taskId) {
     if (result.success) {
       // Refresh the tasks table
       refreshTasksTable();
+      
+      // Run health check immediately for the started task
+      setTimeout(checkTaskHealth, 1000);
+      
       showToast('Task started successfully', 'success');
     } else {
       showToast(`Failed to start task: ${result.message}`, 'danger');
@@ -227,7 +266,7 @@ async function deleteSavedTask(taskId) {
   }
 }
 
-// Function to prepare start monitoring
+// Function to prepare the start monitoring modal
 function prepareStartMonitoring(event) {
   const channelUrl = event.currentTarget.dataset.channelUrl;
   const targetChannels = event.currentTarget.dataset.targetChannels;
@@ -240,7 +279,7 @@ function prepareStartMonitoring(event) {
   document.getElementById('startMonitoringLabel').value = channelUrl.split('/').pop();
 }
 
-// Function to confirm start monitoring
+// Function to confirm starting a monitoring task
 async function confirmStartMonitoring() {
   const channelUrl = document.getElementById('startMonitoringChannelUrl').value;
   const targetChannels = document.getElementById('startMonitoringTargetChannels').value.split(',');
@@ -283,6 +322,10 @@ async function confirmStartMonitoring() {
 
 // Function to stop a task
 async function stopTask(event) {
+  // Prevent event from bubbling up
+  event.preventDefault();
+  event.stopPropagation();
+  
   const taskId = event.currentTarget.dataset.taskId;
   
   try {
@@ -294,12 +337,12 @@ async function stopTask(event) {
     
     // Find the row silently without showing errors
     const row = document.querySelector(`tr[data-task-id="${taskId}"]`);
-    const statusCell = row ? row.querySelector('.status-badge') : null;
-    
-    // Update status if we found the elements
-    if (statusCell) {
-      statusCell.textContent = 'Stopping';
-      statusCell.className = 'status-badge badge bg-warning';
+    if (row) {
+      const statusCell = row.querySelector('.status-badge');
+      if (statusCell) {
+        statusCell.textContent = 'Stopping';
+        statusCell.className = 'status-badge badge bg-warning';
+      }
     }
     
     // Make the API call to stop the task
@@ -568,130 +611,6 @@ async function deleteDiscordChannel(event) {
   }
 }
 
-// Function to save a new monitoring channel
-async function saveMonitoringChannel() {
-  const url = document.getElementById('monitoringChannelUrl').value;
-  const targetChannels = Array.from(document.querySelectorAll('.target-channel-checkbox:checked')).map(cb => cb.value);
-  
-  if (!url || targetChannels.length === 0) {
-    alert('Please fill in all required fields');
-    return;
-  }
-  
-  try {
-    const response = await fetch('/api/config/monitoring/channels', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ url, targetChannels })
-    });
-
-    const result = await response.json();
-
-    if (result.success) {
-      // Close the modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById('newMonitoringChannelModal'));
-      modal.hide();
-      
-      // Refresh the page to show the new channel
-      window.location.reload();
-    } else {
-      alert(`Failed to save monitoring channel: ${result.message}`);
-    }
-  } catch (error) {
-    console.error('Error saving monitoring channel:', error);
-    alert('An error occurred while saving the monitoring channel');
-  }
-}
-
-// Function to edit a monitoring channel
-function editMonitoringChannel(event) {
-  const url = event.currentTarget.dataset.channelUrl;
-  const targetChannels = event.currentTarget.dataset.targetChannels.split(',');
-  
-  // Set values in the edit modal
-  document.getElementById('editMonitoringChannelOriginalUrl').value = url;
-  document.getElementById('editMonitoringChannelUrl').value = url;
-  
-  // Set selected options in the target channels select
-  document.querySelectorAll('.edit-target-channel-checkbox').forEach(cb => {
-    cb.checked = targetChannels.includes(cb.value);
-  });
-  
-  // Show the edit modal
-  const editModal = new bootstrap.Modal(document.getElementById('editMonitoringChannelModal'));
-  editModal.show();
-}
-
-// Function to update a monitoring channel
-async function updateMonitoringChannel() {
-  const originalUrl = document.getElementById('editMonitoringChannelOriginalUrl').value;
-  const newUrl = document.getElementById('editMonitoringChannelUrl').value;
-  const targetChannels = Array.from(document.querySelectorAll('.edit-target-channel-checkbox:checked')).map(cb => cb.value);
-  
-  if (!newUrl || targetChannels.length === 0) {
-    alert('Please fill in all required fields');
-    return;
-  }
-  
-  try {
-    const response = await fetch(`/api/config/monitoring/channels/${encodeURIComponent(originalUrl)}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ 
-        url: newUrl !== originalUrl ? newUrl : undefined,
-        targetChannels
-      })
-    });
-
-    const result = await response.json();
-
-    if (result.success) {
-      // Close the modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById('editMonitoringChannelModal'));
-      modal.hide();
-      
-      // Refresh the page to show the updated channel
-      window.location.reload();
-    } else {
-      alert(`Failed to update monitoring channel: ${result.message}`);
-    }
-  } catch (error) {
-    console.error('Error updating monitoring channel:', error);
-    alert('An error occurred while updating the monitoring channel');
-  }
-}
-
-// Function to delete a monitoring channel
-async function deleteMonitoringChannel(event) {
-  const url = event.currentTarget.dataset.channelUrl;
-  
-  if (!confirm(`Are you sure you want to delete the monitoring channel "${url}"?`)) {
-    return;
-  }
-  
-  try {
-    const response = await fetch(`/api/config/monitoring/channels/${encodeURIComponent(url)}`, {
-      method: 'DELETE'
-    });
-
-    const result = await response.json();
-
-    if (result.success) {
-      // Refresh the page to show the updated list
-      window.location.reload();
-    } else {
-      alert(`Failed to delete monitoring channel: ${result.message}`);
-    }
-  } catch (error) {
-    console.error('Error deleting monitoring channel:', error);
-    alert('An error occurred while deleting the monitoring channel');
-  }
-}
-
 // Function to refresh the tasks table
 async function refreshTasksTable() {
   try {
@@ -767,6 +686,18 @@ function getChannelName(url) {
 
 // Function to update a task row
 function updateTaskRow(row, task) {
+  // Get the last check time if it exists
+  const healthCell = row.querySelector('.health-check-cell');
+  const lastCheckTime = healthCell ? healthCell.dataset.lastCheck : '';
+  
+  // Get the current health status if it exists
+  const healthIndicator = healthCell ? healthCell.querySelector('.health-indicator') : null;
+  const isHealthy = healthIndicator ? healthIndicator.classList.contains('healthy') : false;
+  
+  // For new rows, always start with unhealthy status
+  const healthClass = row.innerHTML === '' ? 'health-indicator unhealthy' : 
+                     (isHealthy ? 'health-indicator healthy' : 'health-indicator unhealthy');
+  
   // Create row content
   const rowHtml = `
     <td><strong>${task.label || getChannelName(task.channelUrl)}</strong></td>
@@ -786,36 +717,43 @@ function updateTaskRow(row, task) {
         : task.targetChannels.join(', ')
     }</td>
     <td>${
-      task.settings?.headless
+      (task.settings?.headless
         ? '<span class="badge bg-info me-1">Headless</span>'
-        : '<span class="badge bg-secondary">GUI</span>'
+        : '<span class="badge bg-secondary">GUI</span>') +
+      (task.settings?.enableRegularMessages
+        ? '<span class="badge bg-primary ms-1">RegMsg</span>' 
+        : '') 
     }</td>
-    <td>${
-      task.isSaved 
-        ? `Created: ${new Date(task.createdTime).toLocaleString()}`
-        : `Started: ${new Date(task.startTime).toLocaleString()}`
-    }</td>
+    <td class="health-check-cell" data-task-id="${task.taskId}" data-last-check="${lastCheckTime}">
+      <div class="${healthClass}" title="${lastCheckTime || 'Not checked yet'}"></div>
+    </td>
     <td>
       <div class="btn-group">
-        ${task.isSaved 
-          ? `<button class="btn btn-sm btn-success" onclick="startSavedTask('${task.taskId}')" title="Start this task">
-               <i class="bi bi-play"></i> Start
-             </button>
-             <button class="btn btn-sm btn-primary edit-task-btn" onclick="editTask('${task.taskId}')" title="Edit this task">
-               <i class="bi bi-pencil"></i> Edit
-             </button>
-             <button class="btn btn-sm btn-danger" onclick="deleteSavedTask('${task.taskId}')" title="Delete this task">
-               <i class="bi bi-trash"></i> Delete
-             </button>`
-          : `<button class="btn btn-sm btn-info view-logs-btn" data-task-id="${task.taskId}" title="View task logs">
-               <i class="bi bi-journal-text"></i> Logs
-             </button>
-             ${task.status === 'running' 
-               ? `<button class="btn btn-sm btn-warning stop-task-btn" onclick="stopTask(event)" data-task-id="${task.taskId}" title="Stop this task">
-                    <i class="bi bi-stop-circle"></i> Stop
-                  </button>`
-               : ''
-             }`
+        ${ task.status === 'running' /* Prioritize running status */
+           ? `<button class="btn btn-sm btn-info view-logs-btn" data-task-id="${task.taskId}" title="View task logs">
+                <i class="bi bi-journal-text"></i> Logs
+              </button>
+              <button class="btn btn-sm btn-warning stop-task-btn" onclick="stopTask(event)" data-task-id="${task.taskId}" title="Stop this task">
+                 <i class="bi bi-stop-circle"></i> Stop
+              </button>`
+         : task.status === 'stopping' /* Handle stopping status */
+           ? `<button class="btn btn-sm btn-info view-logs-btn" data-task-id="${task.taskId}" title="View task logs">
+                <i class="bi bi-journal-text"></i> Logs
+              </button>
+              <button class="btn btn-sm btn-secondary" disabled>
+                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Stopping...
+              </button>`
+         : task.status === 'saved' /* Only show Start/Edit/Delete if purely saved */
+           ? `<button class="btn btn-sm btn-success" onclick="startSavedTask('${task.taskId}')" title="Start this task">
+                <i class="bi bi-play"></i> Start
+              </button>
+              <button class="btn btn-sm btn-primary edit-task-btn" onclick="editTask('${task.taskId}')" title="Edit this task">
+                <i class="bi bi-pencil"></i> Edit
+              </button>
+              <button class="btn btn-sm btn-danger" onclick="deleteSavedTask('${task.taskId}')" title="Delete this task">
+                <i class="bi bi-trash"></i> Delete
+              </button>`
+         : '' // Default case for other statuses (e.g., error, stopped) - add buttons as needed
         }
       </div>
     </td>
@@ -828,6 +766,12 @@ function updateTaskRow(row, task) {
   const viewLogsBtn = row.querySelector('.view-logs-btn');
   if (viewLogsBtn) {
     viewLogsBtn.addEventListener('click', viewTaskLogs);
+  }
+  
+  // For stop buttons that use onclick attribute
+  const stopTaskBtn = row.querySelector('.stop-task-btn');
+  if (stopTaskBtn) {
+    stopTaskBtn.addEventListener('click', stopTask);
   }
 }
 
@@ -849,6 +793,7 @@ async function editTask(taskId) {
     document.getElementById('editChannelUrl').value = task.channelUrl;
     document.getElementById('editTaskLabel').value = task.label || '';
     document.getElementById('editEnableHeadless').checked = task.settings?.headless || false;
+    document.getElementById('editEnableRegularMessages').checked = task.settings?.enableRegularMessages || false;
     
     // Set selected target channels
     document.querySelectorAll('.edit-target-channel-checkbox').forEach(cb => {
@@ -871,6 +816,7 @@ async function saveEditedTask() {
   const targetChannels = Array.from(document.querySelectorAll('.edit-target-channel-checkbox:checked')).map(cb => cb.value);
   const headless = document.getElementById('editEnableHeadless').checked;
   const label = document.getElementById('editTaskLabel').value;
+  const enableRegularMessages = document.getElementById('editEnableRegularMessages').checked;
 
   if (!channelUrl || targetChannels.length === 0) {
     showToast('Please select a channel URL and at least one target channel', 'danger');
@@ -888,7 +834,8 @@ async function saveEditedTask() {
         channelUrl,
         targetChannels,
         headless,
-        label
+        label,
+        enableRegularMessages
       })
     });
 
@@ -911,37 +858,6 @@ async function saveEditedTask() {
     showToast('An error occurred while updating the task', 'danger');
   }
 }
-
-// Handle stop task button clicks
-document.addEventListener('click', async (e) => {
-  if (e.target.closest('.stop-task-btn')) {
-    const btn = e.target.closest('.stop-task-btn');
-    const taskId = btn.dataset.taskId;
-    
-    try {
-      btn.disabled = true;
-      const response = await fetch(`/api/tasks/${taskId}/stop`, {
-        method: 'POST'
-      });
-      const result = await response.json();
-      
-      if (result.success) {
-        // Update task status in UI
-        const row = btn.closest('tr');
-        const statusCell = row.querySelector('td:nth-child(2)');
-        statusCell.innerHTML = '<span class="badge bg-warning">stopping</span>';
-        btn.remove();
-      } else {
-        alert('Failed to stop task: ' + result.message);
-      }
-    } catch (error) {
-      console.error('Error stopping task:', error);
-      alert('Error stopping task: ' + error.message);
-    } finally {
-      btn.disabled = false;
-    }
-  }
-});
 
 // Function to save all active tasks
 async function saveAllTasks() {
@@ -966,4 +882,76 @@ async function saveAllTasks() {
     console.error('Error saving tasks:', error);
     showToast('An error occurred while saving tasks', 'danger');
   }
+}
+
+// Function to directly update a health indicator
+function updateHealthIndicator(taskId, isHealthy) {
+  const cell = document.querySelector(`.health-check-cell[data-task-id="${taskId}"]`);
+  if (!cell) {
+    console.log(`No health cell found for task ${taskId}`);
+    return;
+  }
+  
+  const indicator = cell.querySelector('.health-indicator');
+  if (!indicator) {
+    console.log(`No health indicator found for task ${taskId}`);
+    return;
+  }
+  
+  // Get current time in HH:MM:SS format
+  const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+  
+  // Create a new indicator element
+  const newIndicator = document.createElement('div');
+  newIndicator.className = isHealthy ? 'health-indicator healthy' : 'health-indicator unhealthy';
+  newIndicator.title = `Last checked: ${currentTime}`;
+  
+  // Replace the old indicator with the new one
+  indicator.parentNode.replaceChild(newIndicator, indicator);
+  
+  // Store the last check time in the cell's data attribute
+  cell.dataset.lastCheck = `Last checked: ${currentTime}`;
+  
+  console.log(`Directly updated task ${taskId} to ${isHealthy ? 'healthy' : 'unhealthy'}`);
+}
+
+// Health check function
+function checkTaskHealth() {
+  console.log('Running health check at:', new Date().toLocaleTimeString());
+  const healthCells = document.querySelectorAll('.health-check-cell');
+  console.log(`Found ${healthCells.length} health cells to check`);
+  
+  healthCells.forEach(async (cell, index) => {
+    const taskId = cell.dataset.taskId;
+    if (!taskId) {
+      console.log(`Cell ${index} has no taskId, skipping`);
+      return;
+    }
+    
+    console.log(`Checking health for task ${taskId}`);
+    
+    try {
+      // Fetch task logs
+      const response = await fetch(`/api/tasks/${taskId}/logs`);
+      const data = await response.json();
+      
+      // Get the last 25 log entries or all if less than 25
+      const logs = data.logs || [];
+      const recentLogs = logs.slice(-25);
+      console.log(`Task ${taskId}: Found ${recentLogs.length} recent logs`);
+      
+      // Check if any recent log contains "Message already processed"
+      const isHealthy = recentLogs.some(log => 
+        log.message && log.message.includes('Message already processed')
+      );
+      console.log(`Task ${taskId}: Health status is ${isHealthy ? 'healthy' : 'unhealthy'}`);
+      
+      // Use the direct update function
+      updateHealthIndicator(taskId, isHealthy);
+    } catch (error) {
+      console.error(`Error checking health for task ${taskId}:`, error);
+      // Mark as unhealthy on error
+      updateHealthIndicator(taskId, false);
+    }
+  });
 } 
