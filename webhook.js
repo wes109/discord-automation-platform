@@ -1,7 +1,13 @@
 const { Webhook, MessageBuilder } = require('discord-webhook-node');
 const fetch = require('node-fetch');
 
-exports.sendRegularMessage = async (message, webhookUrl) => {
+exports.sendRegularMessage = async (message, webhookUrl, isTestingModule = false) => {
+    // Skip sending if in testing mode
+    if (isTestingModule) {
+        console.log('[TESTING MODE] Skipping regular message send.');
+        return;
+    }
+    
     console.log('[1/4] Init regular message send');
     
     if (!message?.content) {
@@ -37,7 +43,13 @@ exports.sendRegularMessage = async (message, webhookUrl) => {
     }
 };
 
-exports.buildWebhook = async (embedArray, webhookUrl) => {
+exports.buildWebhook = async (embedArray, webhookUrl, isTestingModule = false) => {
+    // Skip sending if in testing mode
+    if (isTestingModule) {
+        console.log('[TESTING MODE] Skipping embed webhook send.');
+        return;
+    }
+
     try {
         if (!embedArray || embedArray.length === 0) return;
 
@@ -58,42 +70,44 @@ exports.buildWebhook = async (embedArray, webhookUrl) => {
             return await hook.send(regularMessage.content);
         }
 
-
         let skipNext = false;
 
         embedArray.forEach((embed, index) => {
             try {
-                if (!embed || !embed.title || !embed.value) return;
+                if (!embed || !embed.title || !embed.value) {
+                    console.warn('Skipping embed item due to missing title or value:', embed);
+                    return;
+                }
                 var { title, value, url } = embed;
 
                 switch (title.toLowerCase()) {
                     case 'author':
-                        embedMessage.setAuthor(value, 'https://pbs.twimg.com/profile_images/1563967215438790656/y8DLGAKv_400x400.jpg')
+                        embedMessage.setAuthor(value, 'https://pbs.twimg.com/profile_images/1563967215438790656/y8DLGAKv_400x400.jpg');
                         break;
                     case 'description':
                         embedMessage.setDescription(value);
                         break;
                     case 'footer':
-                        embedMessage.setFooter(value, 'https://pbs.twimg.com/profile_images/1563967215438790656/y8DLGAKv_400x400.jpg');
+                        // Always use "Dollar Shoe Club Monitoring" as the footer
+                        embedMessage.setFooter('Dollar Shoe Club Monitoring', 'https://pbs.twimg.com/profile_images/1563967215438790656/y8DLGAKv_400x400.jpg');
                         break;
                     case 'title':
                         try {
-                            const { title, value, url } = embed;
-                            console.log('\nTitle embedArray:', embedArray);
-                            
+                            console.log('\nProcessing Title:', { title, value, url });
                             embedMessage.setTitle(value);
                             if (url) {
                                 embedMessage.setURL(url);
                             }
                         } catch (err) {
-                            console.error('Error processing title:', err);
+                            console.error('Error processing title:', err, 'Embed data:', embed);
+                            throw err;
                         }
                         break;
                     case 'thumbnail':
-                        embedMessage.setThumbnail(value)
+                        embedMessage.setThumbnail(value);
                         break;
                     case 'image':
-                        embedMessage.setImage(value)
+                        embedMessage.setImage(value);
                         break;
                     default:
                         try {
@@ -102,24 +116,46 @@ exports.buildWebhook = async (embedArray, webhookUrl) => {
                                 break;
                             }
                             
-                            if (index + 1 < embedArray.length && embedArray[index + 1].title && embedArray[index + 1].title.length < 2) {
-                                embedMessage.addField(title, value, true);
-                            } else {
-                                if(value.length > 2) {
-                                    embedMessage.addField(title, value);
+                            let addInline = false;
+                            if (index + 1 < embedArray.length && embedArray[index + 1].title) {
+                                if (embedArray[index + 1].title.length < 2) {
+                                    addInline = true;
                                 }
                             }
+
+                            if(value && value.trim().length > 0) {
+                                embedMessage.addField(title, value, addInline);
+                                if (addInline) {
+                                    skipNext = embedArray[index + 1].title.length < 2;
+                                }
+                            } else {
+                                console.warn('Skipping empty field:', { title });
+                            }
                         } catch (err) {
-                            console.error('Error processing field:', err);
+                            console.error('Error processing default field:', err, 'Embed data:', embed, 'Next embed:', embedArray[index + 1]);
+                            throw err;
                         }
+                        break;
                 }
             } catch (err) {
-                console.error('Error processing embed:', err);
+                console.error('Error processing embed item in forEach:', err, 'Embed data:', embed);
+                throw err;
             }
         });
 
+        // Always set the footer at the end to ensure it's not overwritten
+        embedMessage.setFooter('Dollar Shoe Club Monitoring', 'https://pbs.twimg.com/profile_images/1563967215438790656/y8DLGAKv_400x400.jpg');
+        
+        // Add a timestamp
+        embedMessage.setTimestamp();
+
+        const logFnDebug = typeof logTask === 'function' ? logTask : (id, lvl, ...args) => console.log(`[${id}] [${lvl}]`, ...args);
+        logFnDebug('WEBHOOK', 'DEBUG', 'Attempting final hook.send');
+        
         return await hook.send(embedMessage);
     } catch (error) {
-        console.error('Error sending webhook:', error);
+        const logFnError = typeof logTask === 'function' ? logTask : (id, lvl, ...args) => console.error(`[${id}] [${lvl}]`, ...args);
+        logFnError('WEBHOOK', 'ERROR', `Error in buildWebhook outer catch: ${error?.message}`, error);
+        throw error;
     }
 };

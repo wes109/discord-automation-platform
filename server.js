@@ -8,7 +8,7 @@ const cors = require('cors');
 const config = require('./config.json');
 
 // Cron job configuration
-const CRON_SCHEDULE = "*/1 * * * *"; // Default: every 5 minutes
+// REMOVE const CRON_SCHEDULE = "*/1 * * * *"; // Default: every 5 minutes
 // Other common options:
 // "0 */12 * * *" - every 12 hours
 // "0 */1 * * *" - every hour
@@ -169,11 +169,32 @@ function deleteTaskSettings(taskId) {
 
 // Function to read config
 function readConfig() {
+  const defaultConfig = {
+    discord: { channels: [] },
+    monitoring: {
+      channels: [],
+      cronSchedule: "*/60 * * * *" // Default PM2 cron schedule (every 5 mins)
+    }
+  };
   try {
-    return fs.readJsonSync(path.join(__dirname, 'config.json'));
+    const configPath = path.join(__dirname, 'config.json');
+    if (!fs.existsSync(configPath)) {
+       console.warn('config.json not found, creating with defaults.');
+       fs.writeJsonSync(configPath, defaultConfig, { spaces: 2 });
+       return defaultConfig;
+    }
+    let config = fs.readJsonSync(configPath);
+    // Ensure monitoring object and cron schedule exist
+    config.monitoring = config.monitoring || { channels: [], cronSchedule: defaultConfig.monitoring.cronSchedule };
+    config.monitoring.cronSchedule = config.monitoring.cronSchedule || defaultConfig.monitoring.cronSchedule;
+    config.monitoring.channels = config.monitoring.channels || []; // Ensure channels array exists
+    config.discord = config.discord || { channels: [] }; // Ensure discord object exists
+    config.discord.channels = config.discord.channels || []; // Ensure channels array exists
+
+    return config;
   } catch (error) {
-    console.error('Error reading config:', error);
-    return { discord: { channels: [] }, monitoring: { channels: [] } };
+    console.error('Error reading config, returning defaults:', error);
+    return defaultConfig;
   }
 }
 
@@ -247,7 +268,8 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     enableUrlUnshortening: taskSettings.enableUrlUnshortening || false,
     headless: isHeadless,
     enableRegularMessages: taskSettings.enableRegularMessages === true,
-    createdTime: new Date().toISOString()
+    createdTime: new Date().toISOString(),
+    isTestingModule: taskSettings.isTestingModule === true
   };
   
   // Create the task object with headless state at all levels
@@ -260,7 +282,8 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     settings: {
       ...settings,
       headless: isHeadless, // Ensure it's in settings
-      enableRegularMessages: settings.enableRegularMessages // And here
+      enableRegularMessages: settings.enableRegularMessages, // And here
+      isTestingModule: settings.isTestingModule
     }
   };
   
@@ -359,6 +382,7 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
   
   const isHeadless = taskSettings.headless === true;
   const label = taskSettings.label || channelUrl.split('/').pop();
+  const isTestingModule = taskSettings.isTestingModule === true; // Read testing mode
   
   // Save initial task settings (keep this)
   const settings = {
@@ -371,6 +395,7 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
     enableRegularMessages: taskSettings.enableRegularMessages === true,
     startTime: new Date().toISOString(),
     profileId,
+    isTestingModule, // Save testing mode to settings
     // Store the pm2 id in settings as well for persistence
     pm2_task_id
   };
@@ -396,13 +421,18 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
   if (settings.enableRegularMessages === true) {
     scriptArgs.push('--enable-regular-messages');
   }
+  if (isTestingModule === true) { // Pass flag to main.js
+    scriptArgs.push('--testing-mode');
+  }
 
-  // Define the cron restart schedule
-  const cron_schedule = CRON_SCHEDULE;
+  // --- Set Cron Schedule to Every 3 Days --- 
+  const cron_schedule = '0 0 */3 * *'; // Set to run at 00:00 every 3 days
+  console.log(`[Task Manager] Using fixed cron schedule for ${pm2_task_id}: "${cron_schedule}"`);
+  // --- End Cron Schedule ---
 
   // Construct the full PM2 command
-  // --no-autorestart prevents immediate restart on crash/exit, relies only on cron
-  const pm2Command = `pm2 start ${mainScriptPath} --name "${pm2_task_id}" --cron "${cron_schedule}" --no-autorestart -- ${scriptArgs.join(' ')}`;
+  // Remove --no-autorestart to allow PM2 to restart on crash/exit
+  const pm2Command = `pm2 start ${mainScriptPath} --name "${pm2_task_id}" --cron "${cron_schedule}" -- ${scriptArgs.join(' ')}`;
 
   console.log(`[Task Manager] Executing PM2 command: ${pm2Command}`);
 
@@ -697,10 +727,10 @@ app.get('/api/tasks/:taskId/logs', (req, res) => {
 
 // API endpoint to create a task without starting it
 app.post('/api/tasks/create', (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages } = req.body;
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule } = req.body;
   
   console.log('[DEBUG] Creating task with settings:', {
-    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages
+    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -712,6 +742,7 @@ app.post('/api/tasks/create', (req, res) => {
     label: label || '',
     headless: headless === true, // Ensure boolean conversion
     enableRegularMessages: enableRegularMessages === true, // <-- Ensure boolean conversion
+    isTestingModule: isTestingModule === true // Ensure boolean conversion
   };
   
   const result = createTask(channelUrl, targetChannels, taskSettings);
@@ -783,7 +814,8 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
       enableUrlUnshortening: taskToStart.settings?.enableUrlUnshortening, // Example
       label: taskToStart.label,
       headless: useHeadless, 
-      enableRegularMessages: useEnableRegularMessages // <-- Use determined value
+      enableRegularMessages: useEnableRegularMessages, // <-- Use determined value
+      isTestingModule: taskToStart.settings?.isTestingModule === true // <-- Add this line
     }
   );
 
@@ -816,7 +848,7 @@ app.delete('/api/tasks/:taskId', (req, res) => {
 // API endpoint to update task settings
 app.put('/api/tasks/:taskId/settings', (req, res) => {
   const { taskId } = req.params;
-  const { channelUrl, targetChannels, headless, label, enableRegularMessages } = req.body;
+  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule } = req.body;
   
   console.log('[API] Updating task settings:', {
     taskId,
@@ -824,7 +856,8 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     targetChannels,
     headless,
     label,
-    enableRegularMessages
+    enableRegularMessages,
+    isTestingModule
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -863,6 +896,7 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     label,
     headless: headless === true, // Ensure boolean conversion
     enableRegularMessages: enableRegularMessages === true, // <-- Store setting
+    isTestingModule: isTestingModule === true // <-- Store testing mode setting
   };
   
   // Update task settings
@@ -874,7 +908,8 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     label,
     settings: updatedSettings,
     enableRegularMessages: updatedSettings.enableRegularMessages, // <-- Add top-level flag
-    isHeadless: headless === true // Add top-level flag for consistency
+    isHeadless: headless === true, // Add top-level flag for consistency
+    isTestingModule: updatedSettings.isTestingModule
   };
   
   console.log('[API] Updated task:', savedTasks[taskIndex]);
@@ -896,7 +931,41 @@ app.get('/api/config', (req, res) => {
   res.json(config);
 });
 
-// API endpoint to update config
+// API endpoint to update the cron schedule
+app.put('/api/config/cron', (req, res) => {
+  const { cronSchedule } = req.body;
+
+  if (!cronSchedule || typeof cronSchedule !== 'string' || cronSchedule.trim() === '') {
+    return res.status(400).json({ success: false, message: 'Invalid cron schedule provided.' });
+  }
+
+  // Basic validation (5 or 6 parts separated by space)
+  const parts = cronSchedule.trim().split(/\s+/);
+  if (parts.length < 5 || parts.length > 6) {
+      return res.status(400).json({ success: false, message: 'Invalid cron format (must have 5 or 6 space-separated parts).' });
+  }
+
+  try {
+    const currentConfig = readConfig();
+    // Ensure monitoring object exists
+    currentConfig.monitoring = currentConfig.monitoring || { channels: [], cronSchedule: '' }; 
+    currentConfig.monitoring.cronSchedule = cronSchedule.trim(); // Update the schedule
+
+    const success = writeConfig(currentConfig);
+    if (success) {
+      console.log(`[Config] Updated PM2 Cron Schedule to: "${cronSchedule.trim()}"`);
+      res.json({ success: true });
+    } else {
+      res.status(500).json({ success: false, message: 'Failed to write updated config file.' });
+    }
+  } catch (error) {
+    console.error('Error updating cron schedule:', error);
+    res.status(500).json({ success: false, message: 'Internal server error while updating schedule.' });
+  }
+});
+
+// API endpoint to update config (Keep existing one for other potential bulk updates? Or remove?)
+// For now, let's keep it but note that cron schedule should be updated via the dedicated endpoint.
 app.post('/api/config', (req, res) => {
   const newConfig = req.body;
   

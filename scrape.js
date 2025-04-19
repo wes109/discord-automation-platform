@@ -1,11 +1,9 @@
-async function ScrapeData(page) {
-    const embedArray = [];
+async function ScrapeData(page, enableRegularMessages) {
     const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
     const maxRetries = 3;
     let retries = 0;
     let channelTitle = '';
-    let lastProcessedId = null;
-    let processedMessageCount = 0;
+    const MESSAGE_BUFFER_SIZE = 10; // Define buffer size
 
     // Helper function to process text with links
     async function processTextWithLinks(element) {
@@ -255,56 +253,148 @@ async function ScrapeData(page) {
         }
     }
 
-    async function scrapeEmbed(element) {
-        const classAttribute = await element.evaluate(node => node.getAttribute('class'));
+    // REFACTOR scrapeEmbed to work on a single message handle
+    async function scrapeEmbed(messageHandle) {
+        const localEmbedArray = [];
 
-        if (classAttribute.includes('Author')) {
-            const authorText = await element.evaluate(node => node.textContent);
-            embedArray.push({ title: 'Author', value: authorText });
-        } else if (classAttribute.includes('Description')) {
-            const processedText = await processTextWithLinks(element);
-            embedArray.push({ title: 'Description', value: processedText });
-        } else if (classAttribute.includes('embedThumbnail')) {
-            const thumbnailImageElement = await element.$('img');
-            const thumbnailLinkElement = await element.$('a');
-            if (thumbnailImageElement) {
-                let thumbnailLink = await thumbnailImageElement.evaluate(node => node.getAttribute('src'));
-                thumbnailLink = await unshorten(thumbnailLink);
-                embedArray.push({ title: 'Thumbnail', value: thumbnailLink });
-            } else if (thumbnailLinkElement) {
-                let thumbnailLink = await thumbnailLinkElement.evaluate(node => node.getAttribute('href'));
-                thumbnailLink = await unshorten(thumbnailLink);
-                embedArray.push({ title: 'Thumbnail', value: thumbnailLink });
-            }
-        } else if (classAttribute.includes('Image')) {
-            const imageElement = await element.$('img');
-            if (imageElement) {
-                let imageLink = await imageElement.evaluate(node => node.getAttribute('src'));
-                imageLink = await unshorten(imageLink);
-                embedArray.push({ title: 'Image', value: imageLink });
-            }
-        } else if (classAttribute.includes('Title')) {
-            const rawText = await element.evaluate(node => node.textContent.trim());
-            const cleanText = rawText.replace(/[\[\]\(\)]/g, '');
-            
-            const titleLink = await element.$('a');
-            if (titleLink) {
-                let titleLinkHref = await titleLink.evaluate(node => node.href);
-                titleLinkHref = await unshorten(titleLinkHref);
-                embedArray.push({ title: 'Title', value: cleanText, url: titleLinkHref });
-            } else {
-                embedArray.push({ title: 'Title', value: cleanText });
-            }
-        } else if (classAttribute.includes('Fields')) {
-            const embedFields = await element.$$('div[class*="embedField_"]');
-            for (const fieldElement of embedFields) {
-                const embedName = await fieldElement.$('div[class*="embedFieldName"]');
-                const embedValue = await fieldElement.$('div[class*="embedFieldValue"]');
-                const embedNameText = await embedName.evaluate(node => node.textContent);
-                const processedValue = await processTextWithLinks(embedValue);
-                embedArray.push({ title: embedNameText.trim(), value: processedValue });
+        // Find the main embed container(s) within the message first
+        // Try common patterns: article with embed class, or div with embedWrapper class
+        const embedContainers = await messageHandle.$$('article[class*="embed"], div[class*="embedWrapper"]');
+
+        if (embedContainers.length === 0) {
+            // console.log('DEBUG: No article[class*=embed] or div[class*=embedWrapper] found.');
+            return null; // No embed container found in this message
+        }
+
+        // Helper for processing fields remains the same
+        async function processField(fieldElement) {
+            const nameEl = await fieldElement.$('div[class*="embedFieldName"]');
+            const valueEl = await fieldElement.$('div[class*="embedFieldValue"]');
+            if (nameEl && valueEl) {
+                const name = await nameEl.evaluate(node => node.textContent.trim());
+                const value = await processTextWithLinks(valueEl);
+                if (name && value) localEmbedArray.push({ title: name, value: value });
             }
         }
+
+        // Iterate through each found embed container (usually just one per message, but handles multiple)
+        for (const container of embedContainers) {
+            // --- Find and process parts within THIS container ---
+            // Author
+            const author = await container.$('div[class*="embedAuthor"]');
+            if (author) {
+                try {
+                    const authorNameEl = await author.$('span[class*="embedAuthorName"]');
+                    const authorLinkEl = await author.$('a[class*="embedAuthorNameLink"]');
+                    let value = '', url = null;
+                    if (authorLinkEl) {
+                        value = await authorLinkEl.evaluate(node => node.textContent.trim());
+                        url = await authorLinkEl.evaluate(node => node.href);
+                        url = await unshorten(url);
+                    } else if (authorNameEl) {
+                        value = await authorNameEl.evaluate(node => node.textContent.trim());
+                    }
+                    if (value) localEmbedArray.push({ title: 'Author', value: value, url: url });
+                } catch (e) { console.error("Error processing author:", e); }
+            }
+
+            // Title
+            const title = await container.$('div[class*="embedTitle"]');
+            if (title) {
+                 try {
+                     let value = '', url = null;
+                     const titleLink = await title.$('a');
+                     if (titleLink) {
+                         value = await titleLink.evaluate(node => node.textContent.trim());
+                         url = await titleLink.evaluate(node => node.href);
+                         url = await unshorten(url);
+                     } else {
+                         value = await title.evaluate(node => node.textContent.trim());
+                     }
+                     if (value) localEmbedArray.push({ title: 'Title', value: value, url: url });
+                 } catch (e) { console.error("Error processing title:", e); }
+            }
+
+            // Description
+            const description = await container.$('div[class*="embedDescription"]');
+            if (description) {
+                try {
+                    const value = await processTextWithLinks(description);
+                    if (value) localEmbedArray.push({ title: 'Description', value: value });
+                } catch (e) { console.error("Error processing description:", e); }
+            }
+
+            // Fields (Find the container for fields within the main container)
+            const fieldsContainer = await container.$('div[class*="embedFields"]');
+            if (fieldsContainer) {
+                const fields = await fieldsContainer.$$('div[class*="embedField_"]');
+                for (const field of fields) {
+                    try {
+                        await processField(field);
+                    } catch (e) { console.error("Error processing field:", e); }
+                }
+            }
+
+
+            // Thumbnail (Look for img inside thumbnail div)
+            const thumbnailDiv = await container.$('div[class*="embedThumbnail"]');
+            if (thumbnailDiv) {
+                const thumb = await thumbnailDiv.$('img');
+                 if (thumb) {
+                     try {
+                         let value = await thumb.evaluate(node => node.src);
+                         value = await unshorten(value);
+                         if (value) localEmbedArray.push({ title: 'Thumbnail', value: value });
+                     } catch (e) { console.error("Error processing thumbnail:", e); }
+                 }
+            }
+
+
+            // Image - Look for linked image first within the container
+            const imageLink = await container.$('a[class*="embedMedia"][href]'); // Link specifically containing media class
+            if (imageLink) {
+                try {
+                    let url = await imageLink.evaluate(node => node.href);
+                    url = await unshorten(url);
+                     if (url) {
+                          const imgInside = await imageLink.$('img'); // Confirm it's linking an image
+                          if (imgInside) {
+                              localEmbedArray.push({ title: 'Image', value: url });
+                          }
+                     }
+                } catch (e) { console.error("Error processing linked image:", e); }
+            } else {
+                 // Fallback to image tags within an image container if no link found
+                const imageDiv = await container.$('div[class*="embedImage"], div[class*="embedMedia"]');
+                if (imageDiv) {
+                     const imgTag = await imageDiv.$('img');
+                     if (imgTag) {
+                          try {
+                               let value = await imgTag.evaluate(node => node.src);
+                               value = await unshorten(value);
+                               if (value) localEmbedArray.push({ title: 'Image', value: value });
+                          } catch (e) { console.error("Error processing image tag:", e); }
+                     }
+                }
+            }
+
+
+             // Footer
+             const footer = await container.$('div[class*="embedFooter"]');
+             if (footer) {
+                 try {
+                     const footerTextEl = await footer.$('span[class*="embedFooterText"]');
+                     if (footerTextEl) {
+                         const value = await footerTextEl.evaluate(node => node.textContent.trim());
+                         if (value) localEmbedArray.push({ title: 'Footer', value: value });
+                     }
+                 } catch (e) { console.error("Error processing footer:", e); }
+             }
+        } // End loop through containers
+
+        // Return the combined array
+        console.log(`DEBUG: scrapeEmbed finished for message. Found ${localEmbedArray.length} embed parts.`);
+        return localEmbedArray.length > 0 ? localEmbedArray : null;
     }
 
     async function logPageState() {
@@ -327,6 +417,7 @@ async function ScrapeData(page) {
     }
 
     while (retries < maxRetries) {
+        retries++; // Increment retry counter at the start of the loop
         console.log('\nDEBUG: Starting new scrape cycle');
         await logPageState();
         
@@ -338,18 +429,20 @@ async function ScrapeData(page) {
             continue;
         }
 
-        const newestMessageHandle = await page.evaluateHandle(() => {
-            return document.evaluate(
-                "//li[contains(@id,'chat-messages')][last()]",
-                document,
-                null,
-                XPathResult.ANY_TYPE,
-                null
-            ).iterateNext();
-        });
+        // --- Fetch last N message handles ---
+        const messageHandlesData = await page.$$eval(`li[id*="chat-messages-"]:not([class*="systemMessage-"])`, (messages, bufferSize) => {
+             // Get the last 'bufferSize' messages, convert node list to array
+             return Array.from(messages)
+                 .slice(-bufferSize) // Take the last N
+                 .map(msg => ({ // Extract ID immediately in browser context
+                      id: msg.id,
+                      // We can't pass the element itself back, so we just use the ID
+                 }));
+         }, MESSAGE_BUFFER_SIZE);
 
-        if (!(await newestMessageHandle.evaluate(node => node !== null))) {
-            console.log('DEBUG: No message element found');
+
+        if (!messageHandlesData || messageHandlesData.length === 0) {
+            console.log('DEBUG: No message elements found');
             console.log('DEBUG: Current DOM state:', await page.evaluate(() => ({
                 hasMessages: !!document.querySelector('li[id*="chat-messages"]'),
                 totalMessages: document.querySelectorAll('li[id*="chat-messages"]').length,
@@ -361,75 +454,93 @@ async function ScrapeData(page) {
             continue;
         }
 
-        try {
-            const newestMessageID = await newestMessageHandle.evaluate(node => node.getAttribute('id'));
-            console.log('DEBUG: Found message with ID:', newestMessageID);
+        const scrapedMessages = [];
+        let retrievedHandles = []; // Store handles we successfully get
 
+        try { // <<< Add try block here
+            // Get the channel title once
             const tabTitle = await page.title();
             channelTitle = (tabTitle.match(/#([^|]+)/g) || [])[0]?.slice(1).trim();
 
-            // Check for login screen
+            // Check for login screen once
             const mainLoginContainer = await page.$('div[class*="mainLoginContainer"]');
             if (mainLoginContainer) {
                 console.log('DEBUG: Login screen detected');
                 throw new Error('Login required');
             }
 
-            // Check if message is visible
-            const isMessageVisible = await newestMessageHandle.evaluate(node => {
-                const rect = node.getBoundingClientRect();
-                return rect.top >= 0 && rect.bottom <= window.innerHeight;
-            });
+            // --- Process each message handle ---
+            for (const msgData of messageHandlesData) {
+                 const messageId = msgData.id;
+                 console.log(`DEBUG: Processing message handle for ID: ${messageId}`);
+                 // Get the actual element handle using the ID
+                 const handle = await page.$(`#${messageId}`);
 
-            if (!isMessageVisible) {
-                console.log('DEBUG: Message not in viewport, scrolling...');
-                await newestMessageHandle.evaluate(node => node.scrollIntoView());
-                await delay(500); // Wait for scroll to complete
-            }
+                 if (!handle) {
+                      console.warn(`DEBUG: Could not retrieve handle for message ${messageId}`);
+                      continue; // Skip if handle is somehow lost
+                 }
+                 retrievedHandles.push(handle); // Keep track for disposal
 
-            // First check for embeds
-            const embedElements = await newestMessageHandle.$$('div[class*="embed"]');
-            console.log('DEBUG: Embed elements found:', embedElements.length);
-            
-            if (embedElements.length > 0) {
-                // Process embeds if they exist
-                console.log('DEBUG: Processing embeds');
-                for (const element of embedElements) {
-                    await scrapeEmbed(element);
+                // 1. Try scraping embeds first
+                const embedArrayResult = await scrapeEmbed(handle);
+
+                if (embedArrayResult && embedArrayResult.length > 0) {
+                    console.log(`DEBUG: Found ${embedArrayResult.length} embeds in message ${messageId}`);
+                    scrapedMessages.push({
+                        messageId,
+                        embedArray: embedArrayResult,
+                        regularMessage: null // Ensure only one type is present
+                    });
+                    continue; // Skip regular message check if embed found
                 }
-                return { embedArray, newestMessageID, channelTitle };
-            } else {
-                // If no embeds, process as regular message
-                console.log('DEBUG: Processing as regular message');
-                const regularMessage = await scrapeRegularMessage(newestMessageHandle);
-                if (regularMessage) {
-                    console.log('DEBUG: Regular message processed successfully');
-                    return { regularMessage, newestMessageID, channelTitle };
+
+                // 2. If no embeds AND regular messages enabled, try scraping regular message
+                let regularMessageResult = null; // Initialize to null
+                if (enableRegularMessages) {
+                    console.log(`DEBUG: Attempting scrapeRegularMessage for ${messageId} (enabled: true)`);
+                    regularMessageResult = await scrapeRegularMessage(handle); // Only call if enabled
                 } else {
-                    console.log('DEBUG: Failed to process regular message');
+                    console.log(`DEBUG: Skipping scrapeRegularMessage for ${messageId} (enabled: false)`);
                 }
-            }
-            
-            console.log('DEBUG: No content found in message');
-        } catch (error) {
-            console.log('DEBUG: Error in scrape cycle:', error);
-            console.log('DEBUG: Page URL at error:', page.url());
-            console.log('DEBUG: Page title at error:', await page.title());
-            
-            retries++;
-            if (retries < maxRetries) {
-                await delay(1000);
-            } else {
-                throw error;
-            }
-        } finally {
-            if (newestMessageHandle) {
-                await newestMessageHandle.dispose();
-            }
+
+                if (regularMessageResult) {
+                     console.log(`DEBUG: Found regular message ${messageId}`);
+                     scrapedMessages.push({
+                         messageId,
+                         embedArray: null,
+                         regularMessage: regularMessageResult
+                     });
+                     continue;
+                }
+                
+                // 3. If neither found (and regular scraping wasn't attempted or failed)
+                console.log(`DEBUG: Message ${messageId} had neither embed nor recognized/enabled regular content.`);
+
+            } // --- End loop through message handles ---
+
+            // Dispose of handles after processing
+            await Promise.all(retrievedHandles.map(h => h.dispose()));
+            console.log(`DEBUG: Disposed ${retrievedHandles.length} message handles.`);
+
+            console.log(`DEBUG: Scrape cycle finished, returning ${scrapedMessages.length} processed messages.`);
+            return scrapedMessages; // Return successfully scraped messages
+
+        } catch (error) { // <<< Add catch block here
+            console.error('ERROR caught within ScrapeData message processing loop:', error);
+            // Dispose of any handles we managed to retrieve before the error
+             if (retrievedHandles.length > 0) {
+                console.log(`DEBUG: Disposing ${retrievedHandles.length} handles after error.`);
+                await Promise.all(retrievedHandles.map(h => h.dispose().catch(e => console.error('Error disposing handle after error:', e))));
+             }
+            return []; // Return empty array on error
         }
-    }
-    
-    return null;
+
+    } // End while retries loop
+
+    // If loop finishes due to max retries
+    console.error('ERROR: ScrapeData failed after max retries');
+    return []; // Return empty array if max retries are reached
 }
 
 module.exports = { ScrapeData };

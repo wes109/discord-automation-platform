@@ -5,6 +5,15 @@ document.addEventListener('DOMContentLoaded', function() {
     return new bootstrap.Tooltip(tooltipTriggerEl);
   });
 
+  // Initialize Modals
+  initializeModal('newTaskModal');
+  initializeModal('editTaskModal');
+  initializeModal('newDiscordChannelModal');
+  initializeModal('editDiscordChannelModal');
+  initializeModal('taskLogsModal');
+  initializeModal('generateProfilesModal');
+  initializeModal('statusModal');
+
   // Task Management
   const startTaskBtn = document.getElementById('startTaskBtn');
   if (startTaskBtn) {
@@ -64,6 +73,12 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDiscordChannelBtn.addEventListener('click', updateDiscordChannel);
   }
 
+  // Save Edited Task button
+  const saveEditedTaskBtn = document.getElementById('saveEditedTaskBtn');
+  if (saveEditedTaskBtn) {
+      saveEditedTaskBtn.addEventListener('click', saveEditedTask);
+  }
+
   // Start Monitoring Modal
   const confirmStartMonitoringBtn = document.getElementById('confirmStartMonitoringBtn');
   if (confirmStartMonitoringBtn) {
@@ -90,6 +105,16 @@ document.addEventListener('DOMContentLoaded', function() {
 // Current task ID for logs modal
 let currentTaskId = null;
 
+// Object to store the last known health state for each task
+let taskHealthStates = {}; // Structure: { taskId: { isHealthy: boolean, lastCheck: string, unhealthySince: Date | null, restartAttempts: number, lastRestartAttempt: Date | null } }
+
+// --- Constants for Auto Restart ---
+const UNHEALTHY_RESTART_THRESHOLD_MS = 3 * 60 * 1000; // 3 minutes
+const MAX_RESTART_ATTEMPTS = 3;
+const RESTART_ATTEMPT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+const RESTART_COOLDOWN_MS = 5 * 1000; // 5 seconds between stop and start
+// --------------------------------
+
 // Add toast container to the DOM
 const toastContainer = document.createElement('div');
 toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
@@ -98,28 +123,54 @@ document.body.appendChild(toastContainer);
 
 // Function to show a toast notification
 function showToast(message, type = 'info') {
+  const toastContainer = document.getElementById('toast-container');
+  if (!toastContainer) {
+    console.error('Toast container not found!');
+    return;
+  }
+
   const toastId = `toast-${Date.now()}`;
+  let bgColor = 'bg-primary-DEFAULT'; // Default blue/primary
+  let icon = 'bi-info-circle';
+
+  switch (type) {
+    case 'success':
+      bgColor = 'bg-success-DEFAULT'; // Green
+      icon = 'bi-check-circle';
+      break;
+    case 'warning':
+      bgColor = 'bg-warning-DEFAULT'; // Amber
+      icon = 'bi-exclamation-triangle';
+      break;
+    case 'danger':
+    case 'error': // Treat error as danger
+      bgColor = 'bg-danger-DEFAULT'; // Red
+      icon = 'bi-x-octagon';
+      break;
+    // Keep default for 'info'
+  }
+
+  // Removed the close button from the template literal
   const toastHtml = `
-    <div id="${toastId}" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-header bg-${type} text-white">
-        <strong class="me-auto">Notification</strong>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body">
-        ${message}
-      </div>
+    <div id="${toastId}" class="max-w-xs ${bgColor} text-sm text-white rounded-lg shadow-lg p-4 mb-2 flex items-center transition-opacity duration-300 ease-out opacity-100" role="alert">
+      <i class="bi ${icon} mr-3 text-lg"></i>
+      <div class="flex-1">${message}</div>
     </div>
   `;
-  
+
   toastContainer.insertAdjacentHTML('beforeend', toastHtml);
   const toastElement = document.getElementById(toastId);
-  const toast = new bootstrap.Toast(toastElement, { delay: 5000 });
-  toast.show();
-  
-  // Remove toast element after it's hidden
-  toastElement.addEventListener('hidden.bs.toast', () => {
-    toastElement.remove();
-  });
+
+  // Auto-dismiss after 10 seconds (increased from 5)
+  const timeoutId = setTimeout(() => {
+    if (toastElement) {
+        toastElement.classList.replace('opacity-100', 'opacity-0');
+        // Remove after fade out transition completes
+        setTimeout(() => toastElement.remove(), 400); 
+    }
+  }, 10000); // Changed from 5000 to 10000
+
+  // Removed the event listener logic for the close button
 }
 
 // Function to create a task (called by the modal)
@@ -129,6 +180,7 @@ async function handleCreateTaskSubmit() {
   const headless = document.getElementById('enableHeadless').checked;
   const label = document.getElementById('taskLabel').value;
   const enableRegularMessages = document.getElementById('enableRegularMessages').checked;
+  const isTestingModule = document.getElementById('enableTestingModule').checked;
 
   if (!channelUrl || targetChannels.length === 0) {
     showToast('Please select a channel URL and at least one target channel', 'danger');
@@ -147,16 +199,16 @@ async function handleCreateTaskSubmit() {
         targetChannels,
         headless,
         label,
-        enableRegularMessages
+        enableRegularMessages,
+        isTestingModule
       })
     });
 
     const result = await response.json();
 
     if (result.success) {
-      // Close the modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById('newTaskModal'));
-      modal.hide();
+      // Close the modal using vanilla JS
+      closeModal('newTaskModal');
       
       // Clear form fields
       document.getElementById('channelUrl').value = '';
@@ -164,6 +216,7 @@ async function handleCreateTaskSubmit() {
       document.querySelectorAll('.target-channel-checkbox').forEach(cb => cb.checked = false);
       document.getElementById('enableHeadless').checked = false;
       document.getElementById('enableRegularMessages').checked = false;
+      document.getElementById('enableTestingModule').checked = false;
       
       // Refresh the tasks table
       refreshTasksTable();
@@ -192,8 +245,8 @@ if (newTaskForm) {
 }
 
 // Function to start a saved task
-async function startSavedTask(taskId) {
-  if (!confirm('Are you sure you want to start this task?')) {
+async function startSavedTask(taskId, skipConfirm = false) {
+  if (!skipConfirm && !confirm('Are you sure you want to start this task?')) {
     return;
   }
   
@@ -224,6 +277,13 @@ async function startSavedTask(taskId) {
     const result = await response.json();
 
     if (result.success) {
+      // Clear any unhealthy state on successful manual/auto start
+      if (taskHealthStates[taskId]) {
+        taskHealthStates[taskId].unhealthySince = null;
+        taskHealthStates[taskId].restartAttempts = 0;
+        taskHealthStates[taskId].lastRestartAttempt = null;
+      }
+      
       // Refresh the tasks table
       refreshTasksTable();
       
@@ -241,8 +301,8 @@ async function startSavedTask(taskId) {
 }
 
 // Function to delete a saved task
-async function deleteSavedTask(taskId) {
-  if (!confirm('Are you sure you want to delete this task?')) {
+async function deleteSavedTask(taskId, skipConfirm = false) {
+  if (!skipConfirm && !confirm('Are you sure you want to delete this task?')) {
     return;
   }
   
@@ -254,6 +314,9 @@ async function deleteSavedTask(taskId) {
     const result = await response.json();
 
     if (result.success) {
+      // Remove from health state tracking
+      delete taskHealthStates[taskId];
+      
       // Refresh the tasks table
       refreshTasksTable();
       showToast('Task deleted successfully', 'success');
@@ -303,9 +366,8 @@ async function confirmStartMonitoring() {
     const result = await response.json();
 
     if (result.success) {
-      // Close the modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById('startMonitoringModal'));
-      modal.hide();
+      // Close the modal using vanilla JS
+      closeModal('startMonitoringModal');
       
       // Refresh the tasks table
       refreshTasksTable();
@@ -321,16 +383,26 @@ async function confirmStartMonitoring() {
 }
 
 // Function to stop a task
-async function stopTask(event) {
-  // Prevent event from bubbling up
-  event.preventDefault();
-  event.stopPropagation();
+async function stopTask(event, taskIdOverride = null, skipConfirm = false) {
+  // Prevent event from bubbling up if called from button click
+  if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+  }
   
-  const taskId = event.currentTarget.dataset.taskId;
+  const taskId = taskIdOverride || event?.currentTarget?.dataset?.taskId;
+  if (!taskId) {
+      console.error('stopTask called without taskId.');
+      return; // Need a task ID
+  }
   
+  if (!skipConfirm && !confirm(`Are you sure you want to stop task ${taskId}?`)) {
+     return;
+  }
+
   try {
-    // Disable the stop button immediately
-    const stopButton = event.currentTarget;
+    // Disable the stop button immediately if called via event
+    const stopButton = event ? event.currentTarget : document.querySelector(`.stop-task-btn[data-task-id="${taskId}"]`);
     if (stopButton) {
       stopButton.disabled = true;
     }
@@ -359,6 +431,13 @@ async function stopTask(event) {
     const result = await response.json();
     
     if (result.success) {
+      // Clear any unhealthy state on successful manual/auto stop
+      if (taskHealthStates[taskId]) {
+        taskHealthStates[taskId].unhealthySince = null;
+        taskHealthStates[taskId].restartAttempts = 0;
+        taskHealthStates[taskId].lastRestartAttempt = null;
+      }
+      
       // Update UI elements if they exist
       if (statusCell) {
         statusCell.textContent = 'Saved';
@@ -383,6 +462,7 @@ async function stopTask(event) {
       // Refresh the tasks table to ensure everything is in sync
       setTimeout(refreshTasksTable, 1000);
     } else {
+      showToast(`Failed to stop task ${taskId}: ${result.message}`, 'danger'); // Show error on failure
       // Silently revert the button state if it exists
       if (stopButton) {
         stopButton.disabled = false;
@@ -406,7 +486,7 @@ async function stopTask(event) {
       }
     }
     // Re-enable the stop button if it exists
-    if (event.currentTarget) {
+    if (event?.currentTarget) {
       event.currentTarget.disabled = false;
     }
   }
@@ -445,9 +525,8 @@ async function viewTaskLogs(event) {
   const taskId = event.currentTarget.dataset.taskId;
   currentTaskId = taskId;
   
-  // Show the logs modal
-  const logsModal = new bootstrap.Modal(document.getElementById('taskLogsModal'));
-  logsModal.show();
+  // Show the logs modal using vanilla JS
+  openModal('taskLogsModal');
   
   // Load the logs
   await loadTaskLogs(taskId);
@@ -457,13 +536,20 @@ async function viewTaskLogs(event) {
 async function loadTaskLogs(taskId) {
   try {
     const response = await fetch(`/api/tasks/${taskId}/logs`);
-    const result = await response.json();
+    const data = await response.json();
+    
+    // --- BEGIN TEMPORARY DEBUG LOGGING ---
+    // console.log(`[Health Check Debug] Logs received for task ${taskId}:`, data.logs);
+    // if (data.logs && data.logs.length > 0) {
+    //  console.log(`[Health Check Debug] Sample log entry for task ${taskId}:`, data.logs[data.logs.length - 1]); 
+    // }
+    // --- END TEMPORARY DEBUG LOGGING ---
     
     const logsContent = document.getElementById('taskLogsContent');
     
-    if (result.logs && result.logs.length > 0) {
+    if (data.logs && data.logs.length > 0) {
       // Format logs
-      const formattedLogs = result.logs.map(log => {
+      const formattedLogs = data.logs.map(log => {
         const timestamp = new Date(log.timestamp).toLocaleString();
         const type = log.type.toUpperCase();
         return `[${timestamp}] [${type}] ${log.message}`;
@@ -509,9 +595,8 @@ async function saveDiscordChannel() {
     const result = await response.json();
 
     if (result.success) {
-      // Close the modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById('newDiscordChannelModal'));
-      modal.hide();
+      // Close the modal using vanilla JS
+      closeModal('newDiscordChannelModal');
       
       // Refresh the page to show the new channel
       window.location.reload();
@@ -536,9 +621,8 @@ function editDiscordChannel(event) {
   document.getElementById('editDiscordWebhookUrl').value = webhook_url;
   document.getElementById('editDiscordChannelLabel').value = label;
   
-  // Show the edit modal
-  const editModal = new bootstrap.Modal(document.getElementById('editDiscordChannelModal'));
-  editModal.show();
+  // Show the edit modal using vanilla JS
+  openModal('editDiscordChannelModal');
 }
 
 // Function to update a Discord channel
@@ -569,9 +653,8 @@ async function updateDiscordChannel() {
     const result = await response.json();
 
     if (result.success) {
-      // Close the modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById('editDiscordChannelModal'));
-      modal.hide();
+      // Close the modal using vanilla JS
+      closeModal('editDiscordChannelModal');
       
       // Refresh the page to show the updated channel
       window.location.reload();
@@ -616,61 +699,58 @@ async function refreshTasksTable() {
   try {
     const response = await fetch('/api/tasks');
     const result = await response.json();
-    
-    const tasksTableBody = document.querySelector('#tasksTable tbody');
-    const noTasksRow = document.querySelector('#noTasksRow');
-    
-    if (result.tasks && result.tasks.length > 0) {
-      // Hide no tasks message if it exists
-      if (noTasksRow) {
-        noTasksRow.style.display = 'none';
-      }
-      
-      // Update existing rows or add new ones
-      result.tasks.forEach(task => {
-        let row = document.querySelector(`tr[data-task-id="${task.taskId}"]`) || 
-                 document.querySelector(`tr[data-task-key="${task.key}"]`);
-        
-        if (!row) {
-          // Create new row if it doesn't exist
-          row = document.createElement('tr');
-          if (task.isSaved) {
-            row.dataset.taskId = task.taskId;
-          } else {
-            row.dataset.taskKey = task.key;
-          }
-          tasksTableBody.appendChild(row);
+    const tasks = result.tasks;
+
+    // Sort tasks: running first, then by label
+    tasks.sort((a, b) => {
+        const statusOrder = {
+            'running': 1,
+            'stopping': 2,
+            'saved': 3,
+            'error': 4, 
+            'stopped': 5
+        };
+        const orderA = statusOrder[a.status] || 99;
+        const orderB = statusOrder[b.status] || 99;
+
+        if (orderA !== orderB) {
+            return orderA - orderB; // Sort by status first
         }
-        
-        // Update row content
-        updateTaskRow(row, task);
-      });
-      
-      // Remove rows for tasks that no longer exist
-      const existingRows = tasksTableBody.querySelectorAll('tr[data-task-id], tr[data-task-key]');
-      existingRows.forEach(row => {
-        const taskId = row.dataset.taskId;
-        const taskKey = row.dataset.taskKey;
-        
-        const taskExists = result.tasks.some(task => 
-          (taskId && task.taskId === taskId) || (taskKey && task.key === taskKey)
-        );
-        
-        if (!taskExists) {
-          row.remove();
-        }
-      });
+
+        // Secondary sort: Alphabetical by label (case-insensitive)
+        const labelA = (a.label || getChannelName(a.channelUrl) || '').toLowerCase();
+        const labelB = (b.label || getChannelName(b.channelUrl) || '').toLowerCase();
+        if (labelA < labelB) return -1;
+        if (labelA > labelB) return 1;
+
+        return 0; // Keep original relative order if status and label are same
+    });
+
+    const tasksTableBody = document.getElementById('tasksTable').querySelector('tbody');
+    
+    // Clear existing table rows before adding sorted ones
+    tasksTableBody.innerHTML = ''; 
+
+    if (tasks.length > 0) {
+        tasks.forEach(task => {
+            // Create a new row for each task in the sorted order
+            const newRow = tasksTableBody.insertRow();
+            newRow.dataset.taskId = task.taskId;
+            newRow.classList.add('bg-gray-800', 'hover:bg-gray-700/50'); // Add base styling
+            updateTaskRow(newRow, task); // Populate the row content
+        });
     } else {
-      // Show no tasks message
-      tasksTableBody.innerHTML = `
-        <tr id="noTasksRow">
-          <td colspan="7" class="text-center">No active tasks</td>
-        </tr>
-      `;
+      // Display empty state if no tasks exist
+      tasksTableBody.innerHTML = '<tr class="bg-gray-800"><td colspan="7" class="px-6 py-4 text-center text-gray-500">No tasks found</td></tr>';
     }
+    
+    // Re-initialize any dynamic elements if necessary (e.g., tooltips, although they are removed)
+
   } catch (error) {
     console.error('Error refreshing tasks table:', error);
-    showToast('Error refreshing tasks table', 'danger');
+    // Optionally display an error message in the table
+    const tasksTableBody = document.getElementById('tasksTable').querySelector('tbody');
+    tasksTableBody.innerHTML = '<tr class="bg-gray-800"><td colspan="7" class="px-6 py-4 text-center text-red-500">Error loading tasks</td></tr>';
   }
 }
 
@@ -686,92 +766,130 @@ function getChannelName(url) {
 
 // Function to update a task row
 function updateTaskRow(row, task) {
-  // Get the last check time if it exists
-  const healthCell = row.querySelector('.health-check-cell');
-  const lastCheckTime = healthCell ? healthCell.dataset.lastCheck : '';
-  
-  // Get the current health status if it exists
-  const healthIndicator = healthCell ? healthCell.querySelector('.health-indicator') : null;
-  const isHealthy = healthIndicator ? healthIndicator.classList.contains('healthy') : false;
-  
-  // For new rows, always start with unhealthy status
-  const healthClass = row.innerHTML === '' ? 'health-indicator unhealthy' : 
-                     (isHealthy ? 'health-indicator healthy' : 'health-indicator unhealthy');
-  
-  // Create row content
+  // Read the last known health state from our stored object
+  const currentHealth = taskHealthStates[task.taskId] || { isHealthy: false, lastCheck: 'Not checked yet' };
+  const healthClass = currentHealth.isHealthy ? 'health-indicator healthy' : 'health-indicator unhealthy';
+  const healthTitle = currentHealth.lastCheck || 'Not checked yet';
+
+  // Determine status badge classes
+  let statusBadgeClass = 'bg-gray-600 text-gray-100'; // Default/Unknown
+  switch (task.status) {
+      case 'running': statusBadgeClass = 'bg-green-600 text-green-100'; break;
+      case 'stopping': statusBadgeClass = 'bg-yellow-500 text-yellow-900'; break;
+      case 'saved': statusBadgeClass = 'bg-gray-500 text-gray-100'; break;
+      case 'stopped': statusBadgeClass = 'bg-red-600 text-red-100'; break;
+      case 'error': statusBadgeClass = 'bg-red-800 text-red-100'; break;
+  }
+
+  // Determine settings badges (using slightly different colors for contrast)
+  let settingsBadges = '';
+  if (task.settings?.headless) {
+      settingsBadges += '<span class="inline-block bg-indigo-600 text-indigo-100 text-xs font-medium me-2 px-2.5 py-0.5 rounded">Headless</span>';
+  } else {
+       settingsBadges += '<span class="inline-block bg-slate-500 text-slate-100 text-xs font-medium me-2 px-2.5 py-0.5 rounded">GUI</span>';
+  }
+   if (task.settings?.enableRegularMessages) {
+      settingsBadges += '<span class="inline-block bg-purple-600 text-purple-100 text-xs font-medium px-2.5 py-0.5 rounded">RegMsg</span>';
+  }
+
+  // Target Channels Display
+  let targetChannelsDisplay = '';
+  if (task.webhookInfo && task.webhookInfo.length > 0) {
+      targetChannelsDisplay = task.webhookInfo.map(webhook => 
+          `<span class="inline-block bg-gray-600 text-gray-200 text-xs font-medium me-1 mb-1 px-2 py-0.5 rounded">${webhook.name}</span>`
+      ).join('');
+  } else if (task.targetChannels && task.targetChannels.length > 0) {
+       targetChannelsDisplay = task.targetChannels.map(name => 
+          `<span class="inline-block bg-gray-600 text-gray-200 text-xs font-medium me-1 mb-1 px-2 py-0.5 rounded">${name}</span>`
+       ).join('');
+  } else {
+       targetChannelsDisplay = '<span class="text-gray-500">None</span>';
+  }
+
+  // Create row content using the stored health state
   const rowHtml = `
-    <td><strong>${task.label || getChannelName(task.channelUrl)}</strong></td>
-    <td><span class="status-badge badge ${
-      task.status === 'running' ? 'bg-success' : 
-      (task.status === 'stopping' ? 'bg-warning' : 
-      (task.status === 'saved' ? 'bg-secondary' : 'bg-danger'))
-    }">${task.status}</span></td>
-    <td title="${task.channelUrl}">${getChannelName(task.channelUrl)}</td>
-    <td>${
-      task.webhookInfo && task.webhookInfo.length > 0 
-        ? `<ul class="list-unstyled mb-0">${
-            task.webhookInfo.map(webhook => 
-              `<li><span class="badge bg-secondary">${webhook.name}</span></li>`
-            ).join('')
-          }</ul>`
-        : task.targetChannels.join(', ')
-    }</td>
-    <td>${
-      (task.settings?.headless
-        ? '<span class="badge bg-info me-1">Headless</span>'
-        : '<span class="badge bg-secondary">GUI</span>') +
-      (task.settings?.enableRegularMessages
-        ? '<span class="badge bg-primary ms-1">RegMsg</span>' 
-        : '') 
-    }</td>
-    <td class="health-check-cell" data-task-id="${task.taskId}" data-last-check="${lastCheckTime}">
-      <div class="${healthClass}" title="${lastCheckTime || 'Not checked yet'}"></div>
+    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white"><strong>${task.label || getChannelName(task.channelUrl)}</strong></td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm">
+        <span class="inline-block text-xs font-semibold px-2.5 py-1 rounded-md ${statusBadgeClass}">
+            ${task.status}
+        </span>
     </td>
-    <td>
-      <div class="btn-group">
-        ${ task.status === 'running' /* Prioritize running status */
-           ? `<button class="btn btn-sm btn-info view-logs-btn" data-task-id="${task.taskId}" title="View task logs">
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400 truncate" title="${task.channelUrl}">${getChannelName(task.channelUrl)}</td>
+    <td class="px-6 py-4 text-sm text-gray-400">${targetChannelsDisplay}</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm">${settingsBadges}</td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm text-center health-check-cell" data-task-id="${task.taskId}" data-last-check="${healthTitle}">
+      <div class="${healthClass}" title="${healthTitle}"></div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-sm">
+      <div class="flex space-x-3 items-center">
+        ${ task.status === 'running'
+           ? `<button class="text-blue-400 hover:text-blue-300 view-logs-btn" data-task-id="${task.taskId}" title="View task logs">
                 <i class="bi bi-journal-text"></i> Logs
               </button>
-              <button class="btn btn-sm btn-warning stop-task-btn" onclick="stopTask(event)" data-task-id="${task.taskId}" title="Stop this task">
+              <button class="text-yellow-400 hover:text-yellow-300 stop-task-btn" data-task-id="${task.taskId}" title="Stop this task">
                  <i class="bi bi-stop-circle"></i> Stop
               </button>`
-         : task.status === 'stopping' /* Handle stopping status */
-           ? `<button class="btn btn-sm btn-info view-logs-btn" data-task-id="${task.taskId}" title="View task logs">
+         : task.status === 'stopping'
+           ? `<button class="text-blue-400 hover:text-blue-300 view-logs-btn" data-task-id="${task.taskId}" title="View task logs">
                 <i class="bi bi-journal-text"></i> Logs
               </button>
-              <button class="btn btn-sm btn-secondary" disabled>
-                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Stopping...
+              <button class="text-gray-500 cursor-not-allowed flex items-center" disabled>
+                 <svg class="animate-spin -ml-1 mr-1 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                 </svg> Stopping...
               </button>`
-         : task.status === 'saved' /* Only show Start/Edit/Delete if purely saved */
-           ? `<button class="btn btn-sm btn-success" onclick="startSavedTask('${task.taskId}')" title="Start this task">
+         : task.status === 'saved'
+           ? `<button class="text-green-400 hover:text-green-300 start-saved-task-btn" data-task-id="${task.taskId}" title="Start this task">
                 <i class="bi bi-play"></i> Start
               </button>
-              <button class="btn btn-sm btn-primary edit-task-btn" onclick="editTask('${task.taskId}')" title="Edit this task">
+              <button class="text-blue-400 hover:text-blue-300 edit-task-btn" data-task-id="${task.taskId}" title="Edit this task">
                 <i class="bi bi-pencil"></i> Edit
               </button>
-              <button class="btn btn-sm btn-danger" onclick="deleteSavedTask('${task.taskId}')" title="Delete this task">
+              <button class="text-red-500 hover:text-red-400 delete-saved-task-btn" data-task-id="${task.taskId}" title="Delete this task">
                 <i class="bi bi-trash"></i> Delete
               </button>`
-         : '' // Default case for other statuses (e.g., error, stopped) - add buttons as needed
+         : task.status === 'stopped' || task.status === 'error'
+            ? `<button class="text-blue-400 hover:text-blue-300 view-logs-btn" data-task-id="${task.taskId}" title="View task logs">
+                 <i class="bi bi-journal-text"></i> Logs
+               </button>
+               <button class="text-red-500 hover:text-red-400 delete-saved-task-btn" data-task-id="${task.taskId}" title="Delete this task">
+                 <i class="bi bi-trash"></i> Delete
+               </button>`
+         : ''
         }
       </div>
     </td>
   `;
-  
+
   // Update row content
   row.innerHTML = rowHtml;
-  
-  // Reattach event listeners
+
+  // --- Reattach event listeners for dynamically created buttons --- 
+  // (Important because row.innerHTML = ... removes old listeners)
   const viewLogsBtn = row.querySelector('.view-logs-btn');
   if (viewLogsBtn) {
     viewLogsBtn.addEventListener('click', viewTaskLogs);
   }
   
-  // For stop buttons that use onclick attribute
   const stopTaskBtn = row.querySelector('.stop-task-btn');
   if (stopTaskBtn) {
     stopTaskBtn.addEventListener('click', stopTask);
+  }
+
+  const startSavedTaskBtn = row.querySelector('.start-saved-task-btn');
+  if (startSavedTaskBtn) {
+    startSavedTaskBtn.addEventListener('click', (e) => startSavedTask(e.currentTarget.dataset.taskId));
+  }
+
+  const editTaskBtn = row.querySelector('.edit-task-btn');
+  if (editTaskBtn) {
+    editTaskBtn.addEventListener('click', (e) => editTask(e.currentTarget.dataset.taskId));
+  }
+
+  const deleteSavedTaskBtn = row.querySelector('.delete-saved-task-btn');
+  if (deleteSavedTaskBtn) {
+    deleteSavedTaskBtn.addEventListener('click', (e) => deleteSavedTask(e.currentTarget.dataset.taskId));
   }
 }
 
@@ -794,15 +912,15 @@ async function editTask(taskId) {
     document.getElementById('editTaskLabel').value = task.label || '';
     document.getElementById('editEnableHeadless').checked = task.settings?.headless || false;
     document.getElementById('editEnableRegularMessages').checked = task.settings?.enableRegularMessages || false;
+    document.getElementById('editEnableTestingModule').checked = task.settings?.isTestingModule || false;
     
     // Set selected target channels
     document.querySelectorAll('.edit-target-channel-checkbox').forEach(cb => {
       cb.checked = task.targetChannels.includes(cb.value);
     });
     
-    // Show the edit modal
-    const editModal = new bootstrap.Modal(document.getElementById('editTaskModal'));
-    editModal.show();
+    // Show the edit task modal using vanilla JS
+    openModal('editTaskModal');
   } catch (error) {
     console.error('Error loading task for editing:', error);
     showToast('Error loading task for editing', 'danger');
@@ -817,6 +935,7 @@ async function saveEditedTask() {
   const headless = document.getElementById('editEnableHeadless').checked;
   const label = document.getElementById('editTaskLabel').value;
   const enableRegularMessages = document.getElementById('editEnableRegularMessages').checked;
+  const isTestingModule = document.getElementById('editEnableTestingModule').checked;
 
   if (!channelUrl || targetChannels.length === 0) {
     showToast('Please select a channel URL and at least one target channel', 'danger');
@@ -835,16 +954,16 @@ async function saveEditedTask() {
         targetChannels,
         headless,
         label,
-        enableRegularMessages
+        enableRegularMessages,
+        isTestingModule
       })
     });
 
     const result = await response.json();
 
     if (result.success) {
-      // Close the modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById('editTaskModal'));
-      modal.hide();
+      // Close the modal using vanilla JS
+      closeModal('editTaskModal');
       
       // Refresh the tasks table
       refreshTasksTable();
@@ -884,35 +1003,66 @@ async function saveAllTasks() {
   }
 }
 
-// Function to directly update a health indicator
+// Function to directly update a health indicator AND store the state
 function updateHealthIndicator(taskId, isHealthy) {
   const cell = document.querySelector(`.health-check-cell[data-task-id="${taskId}"]`);
-  if (!cell) {
-    console.log(`No health cell found for task ${taskId}`);
-    return;
-  }
-  
+  if (!cell) return; 
+
   const indicator = cell.querySelector('.health-indicator');
-  if (!indicator) {
-    console.log(`No health indicator found for task ${taskId}`);
-    return;
+  if (!indicator) return;
+
+  const now = new Date();
+  const currentTimeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+  const currentTitle = `Last checked: ${currentTimeString}`;
+
+  // Update DOM
+  indicator.className = isHealthy ? 'health-indicator healthy' : 'health-indicator unhealthy';
+  indicator.title = currentTitle;
+  cell.dataset.lastCheck = currentTitle; // Update cell's data attribute too
+
+  // Ensure state object exists for the task
+  if (!taskHealthStates[taskId]) {
+    taskHealthStates[taskId] = { 
+      isHealthy: isHealthy, 
+      lastCheck: currentTitle, 
+      unhealthySince: isHealthy ? null : now, // Start timer if initially unhealthy
+      restartAttempts: 0,
+      lastRestartAttempt: null
+    };
+  } else {
+    // Update existing state
+    const currentState = taskHealthStates[taskId];
+    currentState.lastCheck = currentTitle;
+
+    if (isHealthy) {
+      if (!currentState.isHealthy) {
+        // Transitioned to healthy: reset unhealthy timer and attempts
+        console.log(`Task ${taskId} recovered. Resetting unhealthy timer.`);
+        currentState.unhealthySince = null;
+        currentState.restartAttempts = 0; // Reset attempts on recovery
+        currentState.lastRestartAttempt = null;
+      }
+      currentState.isHealthy = true;
+    } else {
+      // Is unhealthy
+      if (currentState.isHealthy) {
+        // Transitioned to unhealthy: start timer
+        console.log(`Task ${taskId} became unhealthy. Starting timer.`);
+        currentState.unhealthySince = now;
+      } else if (currentState.unhealthySince) {
+        // Already unhealthy, check if restart threshold is met
+        const unhealthyDuration = now.getTime() - currentState.unhealthySince.getTime();
+        console.log(`Task ${taskId} still unhealthy for ${Math.round(unhealthyDuration / 1000)}s`);
+
+        if (unhealthyDuration > UNHEALTHY_RESTART_THRESHOLD_MS) {
+          console.log(`Task ${taskId} exceeded unhealthy threshold (${UNHEALTHY_RESTART_THRESHOLD_MS / 1000}s). Checking restart conditions.`);
+          attemptRestartTask(taskId); // Attempt restart if conditions met
+        }
+      }
+      currentState.isHealthy = false;
+    }
   }
-  
-  // Get current time in HH:MM:SS format
-  const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
-  
-  // Create a new indicator element
-  const newIndicator = document.createElement('div');
-  newIndicator.className = isHealthy ? 'health-indicator healthy' : 'health-indicator unhealthy';
-  newIndicator.title = `Last checked: ${currentTime}`;
-  
-  // Replace the old indicator with the new one
-  indicator.parentNode.replaceChild(newIndicator, indicator);
-  
-  // Store the last check time in the cell's data attribute
-  cell.dataset.lastCheck = `Last checked: ${currentTime}`;
-  
-  console.log(`Directly updated task ${taskId} to ${isHealthy ? 'healthy' : 'unhealthy'}`);
+  // console.log(`Updated health state for ${taskId}:`, taskHealthStates[taskId]);
 }
 
 // Health check function
@@ -935,23 +1085,162 @@ function checkTaskHealth() {
       const response = await fetch(`/api/tasks/${taskId}/logs`);
       const data = await response.json();
       
-      // Get the last 25 log entries or all if less than 25
+      // --- BEGIN TEMPORARY DEBUG LOGGING ---
+      // console.log(`[Health Check Debug] Logs received for task ${taskId}:`, data.logs);
+      // if (data.logs && data.logs.length > 0) {
+      //  console.log(`[Health Check Debug] Sample log entry for task ${taskId}:`, data.logs[data.logs.length - 1]); 
+      // }
+      // --- END TEMPORARY DEBUG LOGGING ---
+      
+      // Get the last 100 log entries or all if less than 100
       const logs = data.logs || [];
-      const recentLogs = logs.slice(-25);
+      const recentLogs = logs.slice(-100);
       console.log(`Task ${taskId}: Found ${recentLogs.length} recent logs`);
       
-      // Check if any recent log contains "Message already processed"
-      const isHealthy = recentLogs.some(log => 
-        log.message && log.message.includes('Message already processed')
+      // Check for "already processed. Skipping." message (case-insensitive) in the last 100 lines
+      const searchString = 'already processed. Skipping.'.toLowerCase();
+      const hasProcessedMessage = recentLogs.some(log => 
+        log.type.toUpperCase() === 'DEBUG' && 
+        log.message.toLowerCase().includes(searchString)
       );
-      console.log(`Task ${taskId}: Health status is ${isHealthy ? 'healthy' : 'unhealthy'}`);
       
-      // Use the direct update function
-      updateHealthIndicator(taskId, isHealthy);
+      // Update health indicator based on finding the message
+      updateHealthIndicator(taskId, hasProcessedMessage);
+      
+      console.log(`Task ${taskId}: Health check result - ${hasProcessedMessage ? 'healthy' : 'unhealthy'}`);
     } catch (error) {
       console.error(`Error checking health for task ${taskId}:`, error);
       // Mark as unhealthy on error
       updateHealthIndicator(taskId, false);
     }
   });
-} 
+}
+
+// --- Vanilla JS Modal Handling ---
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex'); // Use flex for centering
+        modal.setAttribute('aria-hidden', 'false'); // Make accessible
+        
+        // Optional: Set focus to the first focusable element in the modal
+        // Find the first focusable element (button, input, etc.)
+        const focusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusable) {
+            focusable.focus();
+        }
+    }
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        modal.setAttribute('aria-hidden', 'true'); // Hide from accessibility
+    }
+}
+
+function initializeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    const triggerButtons = document.querySelectorAll(`[data-bs-toggle="modal"][data-bs-target="#${modalId}"]`);
+    const overlay = modal.querySelector('.modal-overlay');
+    const closeButtons = modal.querySelectorAll('[data-bs-dismiss="modal"]');
+
+    triggerButtons.forEach(button => {
+        button.addEventListener('click', () => openModal(modalId));
+    });
+
+    if (overlay) {
+        overlay.addEventListener('click', () => closeModal(modalId));
+    }
+
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => closeModal(modalId));
+    });
+}
+// --- End Vanilla JS Modal Handling --- 
+
+// --- Auto Restart Logic ---
+async function attemptRestartTask(taskId) {
+  console.log(`Attempting auto-restart evaluation for unhealthy task: ${taskId}`);
+  
+  // 1. Check if task still exists and is 'running'
+  let task;
+  try {
+    const response = await fetch('/api/tasks');
+    const result = await response.json();
+    task = result.tasks.find(t => t.taskId === taskId);
+  } catch (fetchError) {
+    console.error(`Error fetching task list during restart attempt for ${taskId}:`, fetchError);
+    return; // Cannot proceed without task info
+  }
+
+  if (!task) {
+    console.log(`Auto-restart for ${taskId} cancelled: Task no longer exists.`);
+    delete taskHealthStates[taskId]; // Clean up state
+    return;
+  }
+
+  if (task.status !== 'running') {
+    console.log(`Auto-restart for ${taskId} cancelled: Task status is '${task.status}', not 'running'.`);
+    // If it's saved/stopped, reset the unhealthy timer just in case
+    if (taskHealthStates[taskId]) {
+        taskHealthStates[taskId].unhealthySince = null;
+    }
+    return;
+  }
+
+  // 2. Check restart attempt limits
+  const state = taskHealthStates[taskId];
+  if (!state) {
+    console.warn(`Auto-restart for ${taskId} cancelled: Health state missing.`);
+    return; // Should not happen if updateHealthIndicator called this
+  }
+
+  const now = new Date();
+  // Reset attempts if the last attempt was outside the window
+  if (state.lastRestartAttempt && (now.getTime() - state.lastRestartAttempt.getTime() > RESTART_ATTEMPT_WINDOW_MS)) {
+    console.log(`Resetting restart attempts for ${taskId} as the last attempt was outside the window.`);
+    state.restartAttempts = 0;
+    state.lastRestartAttempt = null;
+  }
+
+  if (state.restartAttempts >= MAX_RESTART_ATTEMPTS) {
+    console.warn(`Auto-restart for ${taskId} skipped: Maximum restart attempts (${MAX_RESTART_ATTEMPTS}) reached within the last ${RESTART_ATTEMPT_WINDOW_MS / 1000 / 60} minutes.`);
+    showToast(`Task ${task.label || taskId} auto-restart limit reached. Please check manually.`, 'warning');
+    // Do NOT reset unhealthySince here, let it stay unhealthy
+    return;
+  }
+
+  // 3. Proceed with restart
+  state.restartAttempts++;
+  state.lastRestartAttempt = now;
+  // Immediately reset the unhealthy timer so it doesn't re-trigger instantly
+  state.unhealthySince = null; 
+  
+  showToast(`Task ${task.label || taskId} is unhealthy. Attempting automatic restart (${state.restartAttempts}/${MAX_RESTART_ATTEMPTS}).`, 'warning');
+  console.log(`Initiating auto-restart for ${taskId} (Attempt ${state.restartAttempts}/${MAX_RESTART_ATTEMPTS})`);
+
+  try {
+    // Stop the task (skip confirmation)
+    await stopTask(null, taskId, true); // Pass null for event, taskId, and skipConfirm=true
+
+    // Wait for cooldown
+    console.log(`Waiting ${RESTART_COOLDOWN_MS / 1000}s before restarting ${taskId}...`);
+    await new Promise(resolve => setTimeout(resolve, RESTART_COOLDOWN_MS));
+
+    // Start the task again (skip confirmation)
+    await startSavedTask(taskId, true);
+    console.log(`Auto-restart sequence completed for ${taskId}.`);
+    
+  } catch (error) {
+    console.error(`Error during auto-restart sequence for task ${taskId}:`, error);
+    showToast(`Error during auto-restart for ${task.label || taskId}.`, 'danger');
+    // State remains as is, might retry on next health check if still unhealthy
+  }
+}
+// --- End Auto Restart Logic --- 

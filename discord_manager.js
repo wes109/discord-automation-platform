@@ -57,7 +57,7 @@ class DiscordManager {
             });
 
             this.client.on('debug', (info) => {
-                logTask('DISCORD', 'DEBUG', `Discord debug: ${info}`);
+                // logTask('DISCORD', 'DEBUG', `Discord debug: ${info}`);
             });
 
             // Handle rate limits
