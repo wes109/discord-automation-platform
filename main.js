@@ -307,6 +307,7 @@ async function launchBrowser(profileId, headless = false) {
 // Monitor a Discord channel
 async function monitorChannel(browser, channelUrl, targetChannels, taskId, enableRegularMessages, isTestingModule) {
     let page;
+    let scrollIntervalId = null; // Variable to hold the interval ID
     try {
         logTask(taskId, 'INFO', `Starting monitoring for ${channelUrl}`);
         logTask(taskId, 'INFO', `Regular message processing: ${enableRegularMessages ? 'ENABLED' : 'DISABLED'}`);
@@ -328,8 +329,37 @@ async function monitorChannel(browser, channelUrl, targetChannels, taskId, enabl
         await page.goto(channelUrl, { waitUntil: ['load', 'domcontentloaded', 'networkidle0'], timeout: 60000 });
         logTask(taskId, 'SUCCESS', `Navigation complete for ${channelUrl}`);
 
-        // Initial wait/scroll logic (keep as is)
-        // ... existing code ...
+        // --- Focus on message list before scrolling ---
+        try {
+            const messageListSelector = 'ol[aria-label*="Messages in"]';
+            logTask(taskId, 'INFO', `Waiting for message list element: ${messageListSelector}`);
+            await page.waitForSelector(messageListSelector, { timeout: 15000 }); // Wait up to 15s
+            logTask(taskId, 'INFO', `Found message list element, attempting to focus.`);
+            await page.focus(messageListSelector);
+            logTask(taskId, 'SUCCESS', 'Successfully focused on the message list.');
+        } catch (error) {
+            logTask(taskId, 'WARNING', `Could not find or focus message list element: ${error.message}. Scrolling might not work as expected.`);
+            // Continue even if focus fails, scrolling might still work
+        }
+        // --- End focus logic ---
+
+        // --- Start periodic scrolling ---
+        scrollIntervalId = setInterval(async () => {
+            if (page && !page.isClosed()) {
+                try {
+                    logTask(taskId, 'DEBUG', 'Pressing "End" key to scroll down.');
+                    await page.keyboard.press('End');
+                } catch (error) {
+                    logTask(taskId, 'WARNING', `Error pressing "End" key: ${error.message}`);
+                    // Optional: Clear interval if key press consistently fails?
+                    // if (scrollIntervalId) clearInterval(scrollIntervalId);
+                }
+            } else {
+                logTask(taskId, 'DEBUG', 'Page closed or not available, stopping scroll interval.');
+                if (scrollIntervalId) clearInterval(scrollIntervalId); // Stop if page is gone
+            }
+        }, 60000); // Press End every 1 minute
+        // --- End periodic scrolling ---
 
         const MAX_PROCESSED_IDS = 50; // Keep track of the last 50 processed messages
         let cycleCount = 0;
@@ -502,6 +532,13 @@ async function monitorChannel(browser, channelUrl, targetChannels, taskId, enabl
         }
         throw error; // Re-throw to allow PM2 to handle restart if configured
     } finally {
+         // --- Clear scroll interval ---
+         if (scrollIntervalId) {
+             clearInterval(scrollIntervalId);
+             logTask(taskId, 'INFO', 'Cleared scroll interval.');
+         }
+         // --- End clear scroll interval ---
+
          // Ensure page is closed if it exists and isn't already closed
          if (page && !page.isClosed()) {
              try { await page.close(); } catch(e) { logTask(taskId, 'WARNING', 'Error closing page in finally block.', e); }
