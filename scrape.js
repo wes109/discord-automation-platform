@@ -7,104 +7,84 @@ async function ScrapeData(page, enableRegularMessages) {
 
     // Helper function to process text with links
     async function processTextWithLinks(element) {
-        const text = await element.evaluate(node => node.textContent);
-        const links = await element.$$('a');
-        let processedText = text;
-        let currentIndex = 0;
+        // Ensure the element itself is valid before proceeding
+        if (!element) return '';
 
-        if (links.length > 0) {
-            for (const link of links) {
-                const href = await link.evaluate(node => node.getAttribute('href'));
-                let linkText = await link.evaluate(node => node.textContent.trim());
-                linkText = linkText.replace(/[\[\]]/g, '');
-                
-                const originalText = await link.evaluate(node => node.textContent.trim());
-                const linkIndex = processedText.indexOf(originalText, currentIndex);
-                
-                if (linkIndex !== -1) {
-                    const markdownLink = `[${linkText}](${href})`;
-                    const beforeText = processedText.substring(0, linkIndex);
-                    const afterText = processedText.substring(linkIndex + originalText.length);
-                    processedText = beforeText + markdownLink + afterText;
-                    currentIndex = linkIndex + markdownLink.length;
+        let processedText = '';
+        let links = []; // Store handles to dispose
+        let elementHandle = element; // Use a new variable to avoid modifying the input param if it's needed later
+
+        try {
+            processedText = await elementHandle.evaluate(node => node.textContent);
+            links = await elementHandle.$$('a');
+            let currentIndex = 0;
+
+            if (links.length > 0) {
+                for (const link of links) { // link is an ElementHandle
+                    let linkText = '';
+                    let href = '';
+                    let originalText = '';
+                    try {
+                        href = await link.evaluate(node => node.getAttribute('href'));
+                        linkText = (await link.evaluate(node => node.textContent.trim())).replace(/[\[\]]/g, '');
+                        originalText = await link.evaluate(node => node.textContent.trim());
+
+                        const linkIndex = processedText.indexOf(originalText, currentIndex);
+
+                        if (linkIndex !== -1 && href) { // Ensure href is valid
+                            const markdownLink = `[${linkText || href}](${href})`; // Use href if linkText is empty
+                            const beforeText = processedText.substring(0, linkIndex);
+                            const afterText = processedText.substring(linkIndex + originalText.length);
+                            processedText = beforeText + markdownLink + afterText;
+                            currentIndex = linkIndex + markdownLink.length;
+                        }
+                    } catch (linkError) {
+                         console.error("Error processing a specific link:", linkError);
+                         // Continue with the next link
+                    } finally {
+                         // Dispose the individual link handle regardless of success/failure within the loop
+                         // No need to await dispose here if we do it later in the outer finally block
+                    }
                 }
             }
+        } catch (error) {
+            console.error("Error processing text or finding links:", error);
+            // Return potentially partial text or empty string on error
+            processedText = processedText || await elementHandle.evaluate(node => node.textContent) || ''; // Fallback
+        } finally {
+            // Dispose all link handles obtained with $$
+            if (links && links.length > 0) {
+                await Promise.all(links.map(l => l.dispose().catch(e => console.error("Error disposing link handle:", e))));
+            }
+            // Do NOT dispose the 'element' handle here, as it was passed in and might be needed by the caller.
+            // The caller (scrapeEmbed, scrapeRegularMessage) is responsible for disposing the handle it passed.
         }
-        
+
         return processedText;
     }
 
-    async function unshorten(url) {
-        // Extract the base URL and query parameters
-        const urlObj = new URL(url);
-        const baseUrl = urlObj.origin + urlObj.pathname;
-        const queryParams = urlObj.search;
-
-        // Check both base URL and query parameters for 'affiliate' or 'eldenmonitors'
-        if (baseUrl.toLowerCase().includes('affiliate') || 
-            baseUrl.toLowerCase().includes('eldenmonitors') ||
-            queryParams.toLowerCase().includes('affiliate') ||
-            url.toLowerCase().includes('eldenmonitors.com/api/affiliate')) {
-            try {
-                const response = await fetch(url, {
-                    method: 'HEAD',
-                    redirect: 'follow'
-                });
-                return response.url;
-            } catch (error) {
-                return url;
-            }
-        }
-
-        // List of known URL shorteners
-        const shorteners = [
-            'bit.ly',
-            'mavely.app',
-            'tinyurl.com',
-            'goo.gl',
-            't.co',
-            'ow.ly',
-            'is.gd',
-            'buff.ly',
-            'adf.ly',
-            'bit.do',
-            'mcaf.ee',
-            'shorturl.at'
-        ];
-
-        // Check if URL contains any known shortener
-        const isShortened = shorteners.some(shortener => url.includes(shortener));
-
-        if (!isShortened) {
-            return url;
-        }
-
-        try {
-            const response = await fetch(url, {
-                method: 'HEAD',
-                redirect: 'follow'
-            });
-            return response.url;
-        } catch (error) {
-            return url;
-        }
-    }
-
     async function scrapeRegularMessage(messageHandle) {
+        let messageContent = null;
+        let usernameElement = null;
+        let avatarElement = null;
+        let imageContainers = [];
+        let regularMessageData = null;
+
         try {
             // First try to get the message content div
-            const messageContent = await messageHandle.$('div[class*="messageContent"]');
+            messageContent = await messageHandle.$('div[class*="messageContent"]');
             if (!messageContent) {
-                return null;
+                return null; // Early exit if no content div
             }
 
-            // Get username
-            const usernameElement = await messageHandle.$('span[class*="username"]');
+            // Get username element
+            usernameElement = await messageHandle.$('span[class*="username"]');
             if (!usernameElement) {
-                return null;
+                 return null; // Early exit if no username
             }
 
-            // Process message content with all possible elements
+            // Process message content
+            // evaluate runs in browser, no Node-side handles created by processNode logic itself
             const content = await messageContent.evaluate(node => {
                 function processNode(element) {
                     let result = '';
@@ -221,176 +201,260 @@ async function ScrapeData(page, enableRegularMessages) {
                 return rawContent.trim();
             });
 
-            // Get username
+
+            // Get username text
             const username = await usernameElement.evaluate(node => node.textContent.trim());
 
-            // Get avatar URL
-            const avatarElement = await messageHandle.$('img[class*="avatar"]');
-            const avatar_url = avatarElement ? 
-                await avatarElement.evaluate(node => node.src) : 
-                null;
+            // Get avatar URL (handle might be null)
+            let avatar_url = null;
+            avatarElement = await messageHandle.$('img[class*="avatar"]');
+            if (avatarElement) {
+                avatar_url = await avatarElement.evaluate(node => node.src);
+            }
 
             // Get message attachments (images)
             const attachments = [];
-            const imageContainers = await messageHandle.$$('div[class*="imageContent__0f481"]');
-            for (const container of imageContainers) {
-                const img = await container.$('img');
-                if (img) {
-                    const src = await img.evaluate(node => node.src);
-                    attachments.push({ type: 'image', url: src });
+            imageContainers = await messageHandle.$$('div[class*="imageContent__0f481"]');
+            if (imageContainers.length > 0) {
+                for (const container of imageContainers) { // container is a handle
+                    let img = null;
+                    try {
+                        img = await container.$('img');
+                        if (img) {
+                            const src = await img.evaluate(node => node.src);
+                            attachments.push({ type: 'image', url: src });
+                        }
+                    } catch (imgError) {
+                         console.error("Error processing attachment image:", imgError);
+                    } finally {
+                        if (img) await img.dispose().catch(e => console.error("Error disposing attachment img handle:", e));
+                        // container handle disposed below in Promise.all
+                    }
                 }
             }
 
-            return { 
-                content: content.trim(), 
-                username, 
+            // Construct the result object
+             regularMessageData = {
+                content: content, // Use the processed content
+                username,
                 avatar_url,
                 attachments: attachments.length > 0 ? attachments : undefined
             };
+
         } catch (error) {
             console.log('Error in scrapeRegularMessage:', error);
-            return null;
+            regularMessageData = null; // Ensure null is returned on error
+        } finally {
+            // Dispose all handles obtained in this function
+            const handlesToDispose = [messageContent, usernameElement, avatarElement].filter(Boolean);
+            await Promise.all(handlesToDispose.map(h => h.dispose().catch(e => console.error("Error disposing regular message handle:", e))));
+             if (imageContainers && imageContainers.length > 0) {
+                await Promise.all(imageContainers.map(h => h.dispose().catch(e => console.error("Error disposing image container handle:", e))));
+            }
         }
+        return regularMessageData;
     }
 
     // REFACTOR scrapeEmbed to work on a single message handle
     async function scrapeEmbed(messageHandle) {
         const localEmbedArray = [];
+        let embedContainers = []; // Array to hold container handles
 
-        // Find the main embed container(s) within the message first
-        // Try common patterns: article with embed class, or div with embedWrapper class
-        const embedContainers = await messageHandle.$$('article[class*="embed"], div[class*="embedWrapper"]');
+        try {
+            embedContainers = await messageHandle.$$('article[class*="embed"], div[class*="embedWrapper"]');
 
-        if (embedContainers.length === 0) {
-            // console.log('DEBUG: No article[class*=embed] or div[class*=embedWrapper] found.');
-            return null; // No embed container found in this message
-        }
-
-        // Helper for processing fields remains the same
-        async function processField(fieldElement) {
-            const nameEl = await fieldElement.$('div[class*="embedFieldName"]');
-            const valueEl = await fieldElement.$('div[class*="embedFieldValue"]');
-            if (nameEl && valueEl) {
-                const name = await nameEl.evaluate(node => node.textContent.trim());
-                const value = await processTextWithLinks(valueEl);
-                if (name && value) localEmbedArray.push({ title: name, value: value });
+            if (embedContainers.length === 0) {
+                return null; // No embed container found in this message
             }
-        }
 
-        // Iterate through each found embed container (usually just one per message, but handles multiple)
-        for (const container of embedContainers) {
-            // --- Find and process parts within THIS container ---
-            // Author
-            const author = await container.$('div[class*="embedAuthor"]');
-            if (author) {
+            // Helper for processing fields - modified for disposal
+            async function processField(fieldElement) { // fieldElement is a handle
+                let nameEl = null;
+                let valueEl = null;
                 try {
-                    const authorNameEl = await author.$('span[class*="embedAuthorName"]');
-                    const authorLinkEl = await author.$('a[class*="embedAuthorNameLink"]');
-                    let value = '', url = null;
-                    if (authorLinkEl) {
-                        value = await authorLinkEl.evaluate(node => node.textContent.trim());
-                        url = await authorLinkEl.evaluate(node => node.href);
-                        url = await unshorten(url);
-                    } else if (authorNameEl) {
-                        value = await authorNameEl.evaluate(node => node.textContent.trim());
+                    nameEl = await fieldElement.$('div[class*="embedFieldName"]');
+                    valueEl = await fieldElement.$('div[class*="embedFieldValue"]');
+                    if (nameEl && valueEl) {
+                        const name = await nameEl.evaluate(node => node.textContent.trim());
+                        // Call processTextWithLinks, passing the handle. It won't dispose valueEl itself.
+                        const value = await processTextWithLinks(valueEl);
+                        if (name && value) localEmbedArray.push({ title: name, value: value });
                     }
-                    if (value) localEmbedArray.push({ title: 'Author', value: value, url: url });
-                } catch (e) { console.error("Error processing author:", e); }
-            }
-
-            // Title
-            const title = await container.$('div[class*="embedTitle"]');
-            if (title) {
-                 try {
-                     let value = '', url = null;
-                     const titleLink = await title.$('a');
-                     if (titleLink) {
-                         value = await titleLink.evaluate(node => node.textContent.trim());
-                         url = await titleLink.evaluate(node => node.href);
-                         url = await unshorten(url);
-                     } else {
-                         value = await title.evaluate(node => node.textContent.trim());
-                     }
-                     if (value) localEmbedArray.push({ title: 'Title', value: value, url: url });
-                 } catch (e) { console.error("Error processing title:", e); }
-            }
-
-            // Description
-            const description = await container.$('div[class*="embedDescription"]');
-            if (description) {
-                try {
-                    const value = await processTextWithLinks(description);
-                    if (value) localEmbedArray.push({ title: 'Description', value: value });
-                } catch (e) { console.error("Error processing description:", e); }
-            }
-
-            // Fields (Find the container for fields within the main container)
-            const fieldsContainer = await container.$('div[class*="embedFields"]');
-            if (fieldsContainer) {
-                const fields = await fieldsContainer.$$('div[class*="embedField_"]');
-                for (const field of fields) {
-                    try {
-                        await processField(field);
-                    } catch (e) { console.error("Error processing field:", e); }
+                } catch(fieldProcError) {
+                     console.error("Error processing field content:", fieldProcError);
+                } finally {
+                    // Dispose handles obtained within this helper
+                    if (nameEl) await nameEl.dispose().catch(e => console.error("Error disposing field nameEl:", e));
+                    if (valueEl) await valueEl.dispose().catch(e => console.error("Error disposing field valueEl:", e));
+                     // fieldElement itself is disposed by the caller loop
                 }
             }
 
-
-            // Thumbnail (Look for img inside thumbnail div)
-            const thumbnailDiv = await container.$('div[class*="embedThumbnail"]');
-            if (thumbnailDiv) {
-                const thumb = await thumbnailDiv.$('img');
-                 if (thumb) {
-                     try {
-                         let value = await thumb.evaluate(node => node.src);
-                         value = await unshorten(value);
-                         if (value) localEmbedArray.push({ title: 'Thumbnail', value: value });
-                     } catch (e) { console.error("Error processing thumbnail:", e); }
-                 }
-            }
-
-
-            // Image - Look for linked image first within the container
-            const imageLink = await container.$('a[class*="embedMedia"][href]'); // Link specifically containing media class
-            if (imageLink) {
+            // Iterate through each found embed container
+            for (const container of embedContainers) { // container is a handle
+                // --- Author ---
+                let author = null;
+                let authorNameEl = null;
+                let authorLinkEl = null;
                 try {
-                    let url = await imageLink.evaluate(node => node.href);
-                    url = await unshorten(url);
-                     if (url) {
-                          const imgInside = await imageLink.$('img'); // Confirm it's linking an image
-                          if (imgInside) {
-                              localEmbedArray.push({ title: 'Image', value: url });
+                    author = await container.$('div[class*="embedAuthor"]');
+                    if (author) {
+                        authorNameEl = await author.$('span[class*="embedAuthorName"]');
+                        authorLinkEl = await author.$('a[class*="embedAuthorNameLink"]');
+                        let value = '', url = null;
+                        if (authorLinkEl) {
+                            value = await authorLinkEl.evaluate(node => node.textContent.trim());
+                            url = await authorLinkEl.evaluate(node => node.href);
+                        } else if (authorNameEl) {
+                            value = await authorNameEl.evaluate(node => node.textContent.trim());
+                        }
+                        if (value) localEmbedArray.push({ title: 'Author', value: value, url: url });
+                    }
+                } catch (e) { console.error("Error processing author:", e); }
+                 finally {
+                    if (authorLinkEl) await authorLinkEl.dispose().catch(err => console.error("Dispose authorLinkEl err:", err));
+                    if (authorNameEl) await authorNameEl.dispose().catch(err => console.error("Dispose authorNameEl err:", err));
+                    if (author) await author.dispose().catch(err => console.error("Dispose author err:", err));
+                 }
+
+                // --- Title ---
+                 let title = null;
+                 let titleLink = null;
+                 try {
+                     title = await container.$('div[class*="embedTitle"]');
+                     if (title) {
+                         let value = '', url = null;
+                         titleLink = await title.$('a');
+                         if (titleLink) {
+                             value = await titleLink.evaluate(node => node.textContent.trim());
+                             url = await titleLink.evaluate(node => node.href);
+                         } else {
+                             value = await title.evaluate(node => node.textContent.trim());
+                         }
+                         if (value) localEmbedArray.push({ title: 'Title', value: value, url: url });
+                     }
+                 } catch (e) { console.error("Error processing title:", e); }
+                 finally {
+                     if (titleLink) await titleLink.dispose().catch(err => console.error("Dispose titleLink err:", err));
+                     if (title) await title.dispose().catch(err => console.error("Dispose title err:", err));
+                 }
+
+                // --- Description ---
+                 let description = null;
+                 try {
+                     description = await container.$('div[class*="embedDescription"]');
+                     if (description) {
+                         // Pass handle, processTextWithLinks won't dispose it
+                         const value = await processTextWithLinks(description);
+                         if (value) localEmbedArray.push({ title: 'Description', value: value });
+                     }
+                 } catch (e) { console.error("Error processing description:", e); }
+                 finally {
+                     if (description) await description.dispose().catch(err => console.error("Dispose description err:", err));
+                 }
+
+                // --- Fields ---
+                 let fieldsContainer = null;
+                 let fields = [];
+                 try {
+                     fieldsContainer = await container.$('div[class*="embedFields"]');
+                     if (fieldsContainer) {
+                         fields = await fieldsContainer.$$('div[class*="embedField_"]');
+                         for (const field of fields) { // field is a handle
+                              // processField is responsible for disposing its internal handles (nameEl, valueEl)
+                             await processField(field);
+                              // The 'field' handle itself will be disposed in the fields Promise.all below
+                         }
+                     }
+                 } catch (e) { console.error("Error processing fields:", e); }
+                 finally {
+                      if (fields && fields.length > 0) {
+                         await Promise.all(fields.map(f => f.dispose().catch(err => console.error("Dispose field err:", err))));
+                      }
+                     if (fieldsContainer) await fieldsContainer.dispose().catch(err => console.error("Dispose fieldsContainer err:", err));
+                 }
+
+                // --- Thumbnail ---
+                 let thumbnailDiv = null;
+                 let thumb = null;
+                 try {
+                     thumbnailDiv = await container.$('div[class*="embedThumbnail"]');
+                     if (thumbnailDiv) {
+                         thumb = await thumbnailDiv.$('img');
+                          if (thumb) {
+                              let value = await thumb.evaluate(node => node.src);
+                              if (value) localEmbedArray.push({ title: 'Thumbnail', value: value });
                           }
                      }
-                } catch (e) { console.error("Error processing linked image:", e); }
-            } else {
-                 // Fallback to image tags within an image container if no link found
-                const imageDiv = await container.$('div[class*="embedImage"], div[class*="embedMedia"]');
-                if (imageDiv) {
-                     const imgTag = await imageDiv.$('img');
-                     if (imgTag) {
-                          try {
-                               let value = await imgTag.evaluate(node => node.src);
-                               value = await unshorten(value);
-                               if (value) localEmbedArray.push({ title: 'Image', value: value });
-                          } catch (e) { console.error("Error processing image tag:", e); }
-                     }
-                }
-            }
+                 } catch (e) { console.error("Error processing thumbnail:", e); }
+                 finally {
+                     if (thumb) await thumb.dispose().catch(err => console.error("Dispose thumb err:", err));
+                     if (thumbnailDiv) await thumbnailDiv.dispose().catch(err => console.error("Dispose thumbnailDiv err:", err));
+                 }
 
-
-             // Footer
-             const footer = await container.$('div[class*="embedFooter"]');
-             if (footer) {
+                // --- Image ---
+                 let imageLink = null;
+                 let imgInside = null;
+                 let imageDiv = null;
+                 let imgTag = null;
                  try {
-                     const footerTextEl = await footer.$('span[class*="embedFooterText"]');
-                     if (footerTextEl) {
-                         const value = await footerTextEl.evaluate(node => node.textContent.trim());
-                         if (value) localEmbedArray.push({ title: 'Footer', value: value });
+                     imageLink = await container.$('a[class*="embedMedia"][href]');
+                     if (imageLink) {
+                          let url = await imageLink.evaluate(node => node.href);
+                           if (url) {
+                                imgInside = await imageLink.$('img'); // Confirm it's linking an image
+                                if (imgInside) {
+                                    localEmbedArray.push({ title: 'Image', value: url });
+                                }
+                           }
+                     } else {
+                         imageDiv = await container.$('div[class*="embedImage"], div[class*="embedMedia"]');
+                         if (imageDiv) {
+                              imgTag = await imageDiv.$('img');
+                              if (imgTag) {
+                                   let value = await imgTag.evaluate(node => node.src);
+                                   if (value) localEmbedArray.push({ title: 'Image', value: value });
+                              }
+                         }
                      }
-                 } catch (e) { console.error("Error processing footer:", e); }
-             }
-        } // End loop through containers
+                 } catch (e) { console.error("Error processing image section:", e); }
+                 finally {
+                     // Dispose all potential handles from this block
+                     if (imgInside) await imgInside.dispose().catch(err => console.error("Dispose imgInside err:", err));
+                     if (imageLink) await imageLink.dispose().catch(err => console.error("Dispose imageLink err:", err));
+                     if (imgTag) await imgTag.dispose().catch(err => console.error("Dispose imgTag err:", err));
+                     if (imageDiv) await imageDiv.dispose().catch(err => console.error("Dispose imageDiv err:", err));
+                 }
+
+                 // --- Footer ---
+                  let footer = null;
+                  let footerTextEl = null;
+                  try {
+                      footer = await container.$('div[class*="embedFooter"]');
+                      if (footer) {
+                          footerTextEl = await footer.$('span[class*="embedFooterText"]');
+                          if (footerTextEl) {
+                              const value = await footerTextEl.evaluate(node => node.textContent.trim());
+                              if (value) localEmbedArray.push({ title: 'Footer', value: value });
+                          }
+                      }
+                  } catch (e) { console.error("Error processing footer:", e); }
+                  finally {
+                      if (footerTextEl) await footerTextEl.dispose().catch(err => console.error("Dispose footerTextEl err:", err));
+                      if (footer) await footer.dispose().catch(err => console.error("Dispose footer err:", err));
+                  }
+                 // The 'container' handle itself is disposed in the main finally block below
+            } // End loop through containers
+
+        } catch (mainEmbedError) {
+             console.error("Major error during embed scraping:", mainEmbedError);
+             return null; // Return null on significant error
+        } finally {
+            // Dispose all container handles obtained with $$ at the beginning
+            if (embedContainers && embedContainers.length > 0) {
+                await Promise.all(embedContainers.map(c => c.dispose().catch(e => console.error("Error disposing embed container handle:", e))));
+            }
+        }
 
         // Return the combined array
         console.log(`DEBUG: scrapeEmbed finished for message. Found ${localEmbedArray.length} embed parts.`);
@@ -456,6 +520,7 @@ async function ScrapeData(page, enableRegularMessages) {
 
         const scrapedMessages = [];
         let retrievedHandles = []; // Store handles we successfully get
+        let mainLoginContainer = null; // Declare handle outside try
 
         try { // <<< Add try block here
             // Get the channel title once
@@ -463,7 +528,7 @@ async function ScrapeData(page, enableRegularMessages) {
             channelTitle = (tabTitle.match(/#([^|]+)/g) || [])[0]?.slice(1).trim();
 
             // Check for login screen once
-            const mainLoginContainer = await page.$('div[class*="mainLoginContainer"]');
+            mainLoginContainer = await page.$('div[class*="mainLoginContainer"]');
             if (mainLoginContainer) {
                 console.log('DEBUG: Login screen detected');
                 throw new Error('Login required');
@@ -534,6 +599,19 @@ async function ScrapeData(page, enableRegularMessages) {
                 await Promise.all(retrievedHandles.map(h => h.dispose().catch(e => console.error('Error disposing handle after error:', e))));
              }
             return []; // Return empty array on error
+        } finally { // <<< Add finally block here
+             // Dispose of mainLoginContainer handle if it was fetched
+             if (mainLoginContainer) {
+                await mainLoginContainer.dispose().catch(e => console.error('Error disposing mainLoginContainer handle:', e));
+             }
+             // Dispose of any message handles we managed to retrieve before the error or at the end
+             if (retrievedHandles.length > 0) {
+                console.log(`DEBUG: Disposing ${retrievedHandles.length} main message handles...`);
+                await Promise.all(retrievedHandles.map(h => h.dispose().catch(e => console.error('Error disposing retrieved message handle:', e))));
+                console.log(`DEBUG: Finished disposing main message handles.`);
+             }
+             // NOTE: We return [] in the catch block, not here.
+             // The successful return happens after the try block if no error occurred.
         }
 
     } // End while retries loop
