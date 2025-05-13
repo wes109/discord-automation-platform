@@ -6,6 +6,7 @@ const { exec, execSync } = require('child_process');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const config = require('./config.json');
+const MavelyManager = require('./mavely_manager');
 
 // Cron job configuration
 // REMOVE const CRON_SCHEDULE = "*/1 * * * *"; // Default: every 5 minutes
@@ -39,6 +40,11 @@ const SAVED_TASKS_FILE = path.join(__dirname, 'saved_tasks.json');
 
 // Track tasks that are in the process of being stopped
 const stoppingTasks = new Set();
+
+// Mavely Manager Instance and Status
+let mavelyManagerInstance = null;
+let mavelyManagerStatus = 'stopped'; // 'stopped', 'initializing', 'running', 'stopping', 'error'
+let mavelyLastError = null;
 
 // Load saved tasks on server start
 function loadSavedTasks() {
@@ -1173,6 +1179,116 @@ app.post('/api/tasks/save-all', (req, res) => {
       success: false, 
       message: `Error saving tasks: ${error.message}` 
     });
+  }
+});
+
+// Initialize Mavely Manager
+app.post('/api/mavely/initialize', async (req, res) => {
+  if (mavelyManagerStatus === 'running' || mavelyManagerStatus === 'initializing') {
+    return res.status(400).json({ message: `Mavely Manager is already ${mavelyManagerStatus}.` });
+  }
+  mavelyManagerStatus = 'initializing';
+  mavelyLastError = null;
+  console.log('[Mavely API] Initializing Mavely Manager...');
+  try {
+    // Ensure previous instance is fully closed if it exists and errored out
+    if (mavelyManagerInstance) {
+        try {
+            await mavelyManagerInstance.close();
+        } catch (closeErr) {
+            console.warn('[Mavely API] Error closing previous instance before re-init:', closeErr.message);
+        }
+    }
+    mavelyManagerInstance = new MavelyManager();
+    const success = await mavelyManagerInstance.initialize('SERVER_MAVELY');
+    if (success) {
+      mavelyManagerStatus = 'running';
+      console.log('[Mavely API] Mavely Manager initialized successfully.');
+      res.status(200).json({ message: 'Mavely Manager initialized successfully.' });
+    } else {
+      mavelyManagerStatus = 'error';
+      mavelyLastError = mavelyManagerInstance.lastError || 'Unknown initialization error';
+      console.error(`[Mavely API] Failed to initialize Mavely Manager: ${mavelyLastError}`);
+      res.status(500).json({ message: 'Failed to initialize Mavely Manager.', error: mavelyLastError });
+    }
+  } catch (error) {
+    mavelyManagerStatus = 'error';
+    mavelyLastError = error.message;
+    console.error('[Mavely API] Critical error during Mavely Manager initialization:', error);
+    res.status(500).json({ message: 'Critical error during Mavely Manager initialization.', error: error.message });
+  }
+});
+
+// Close Mavely Manager
+app.post('/api/mavely/close', async (req, res) => {
+  if (!mavelyManagerInstance || mavelyManagerStatus === 'stopped' || mavelyManagerStatus === 'stopping') {
+    return res.status(400).json({ message: 'Mavely Manager is not running or already stopping.' });
+  }
+  mavelyManagerStatus = 'stopping';
+  mavelyLastError = null;
+  console.log('[Mavely API] Closing Mavely Manager...');
+  try {
+    const success = await mavelyManagerInstance.close();
+    if (success) {
+      mavelyManagerStatus = 'stopped';
+      mavelyManagerInstance = null; // Release instance
+      console.log('[Mavely API] Mavely Manager closed successfully.');
+      res.status(200).json({ message: 'Mavely Manager closed successfully.' });
+    } else {
+      // Even if close fails, we consider it stopped but potentially uncleanly
+      mavelyManagerStatus = 'error'; // Indicate an issue occurred during close
+      mavelyLastError = 'Failed to close Mavely Manager cleanly.';
+      mavelyManagerInstance = null; // Release instance anyway
+      console.error('[Mavely API] Failed to close Mavely Manager cleanly.');
+      res.status(500).json({ message: 'Failed to close Mavely Manager cleanly.' });
+    }
+  } catch (error) {
+    mavelyManagerStatus = 'error'; // Error during close attempt
+    mavelyLastError = error.message;
+    mavelyManagerInstance = null; // Release instance
+    console.error('[Mavely API] Critical error during Mavely Manager closing:', error);
+    res.status(500).json({ message: 'Critical error during Mavely Manager closing.', error: error.message });
+  }
+});
+
+// Get Mavely Manager Status
+app.get('/api/mavely/status', (req, res) => {
+  res.status(200).json({
+    status: mavelyManagerStatus,
+    lastError: mavelyLastError
+  });
+});
+
+// Generate Mavely Link
+app.post('/api/mavely/generate-link', async (req, res) => {
+  const { url } = req.body;
+  if (!url) {
+    return res.status(400).json({ message: 'URL is required.' });
+  }
+  if (!mavelyManagerInstance || mavelyManagerStatus !== 'running') {
+    return res.status(409).json({ message: 'Mavely Manager is not running.' });
+  }
+
+  try {
+    const mavelyLink = await mavelyManagerInstance.generateMavelyLink(url, 'SERVER_API');
+    // Check if the returned link is the same as the original (indicating failure or invalid URL)
+    if (mavelyLink === url) {
+         // It might be an invalid URL or a generation failure that didn't throw an error
+         // Check if the URL was considered valid by the manager
+         if (!mavelyManagerInstance.validateUrl(url)) {
+             console.log(`[Mavely API] URL rejected by validation: ${url}`);
+             return res.status(400).json({ message: 'URL is not valid for Mavely affiliation.', originalUrl: url, generatedLink: null });
+         } else {
+             console.warn(`[Mavely API] Link generation returned original URL for valid domain: ${url}. Treating as failure.`);
+             return res.status(500).json({ message: 'Failed to generate Mavely link (returned original URL).', originalUrl: url, generatedLink: null });
+         }
+    } else {
+         console.log(`[Mavely API] Generated link for ${url}: ${mavelyLink}`);
+         res.status(200).json({ message: 'Link generated successfully.', originalUrl: url, generatedLink: mavelyLink });
+    }
+  } catch (error) {
+    console.error(`[Mavely API] Error generating Mavely link for ${url}:`, error);
+    res.status(500).json({ message: 'Error generating Mavely link.', error: error.message });
   }
 });
 

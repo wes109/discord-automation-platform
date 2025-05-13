@@ -53,6 +53,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  // Mavely Manager Control Button
+  const mavelyBtn = document.getElementById('mavelyManagerControlBtn');
+  if (mavelyBtn) {
+    mavelyBtn.addEventListener('click', handleMavelyControlClick);
+  }
+  // Initial check for Mavely status on page load
+  updateMavelyButtonState();
+  // Periodically check Mavely status
+  setInterval(updateMavelyButtonState, 15000); // Check every 15 seconds
+
   // Discord Channel Management
   const saveDiscordChannelBtn = document.getElementById('saveDiscordChannelBtn');
   if (saveDiscordChannelBtn) {
@@ -120,6 +130,118 @@ const toastContainer = document.createElement('div');
 toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
 toastContainer.style.zIndex = '11';
 document.body.appendChild(toastContainer);
+
+// --- Mavely Manager Control Functions ---
+
+let isMavelyActionInProgress = false; // Prevent double clicks
+
+async function updateMavelyButtonState() {
+  const mavelyBtn = document.getElementById('mavelyManagerControlBtn');
+  if (!mavelyBtn || isMavelyActionInProgress) return;
+
+  try {
+    const response = await fetch('/api/mavely/status');
+    const data = await response.json();
+
+    // Clear existing classes
+    mavelyBtn.classList.remove('bg-info-DEFAULT', 'hover:bg-info-hover', 'bg-success-DEFAULT', 'hover:bg-success-hover', 'bg-danger-DEFAULT', 'hover:bg-danger-hover', 'bg-warning-DEFAULT', 'hover:bg-warning-hover', 'bg-secondary-DEFAULT', 'hover:bg-secondary-hover', 'opacity-50', 'cursor-not-allowed');
+    mavelyBtn.disabled = false;
+    const icon = mavelyBtn.querySelector('i');
+    icon.className = 'bi bi-gear mr-2'; // Reset icon
+
+    switch (data.status) {
+      case 'running':
+        mavelyBtn.classList.add('bg-success-DEFAULT', 'hover:bg-success-hover');
+        mavelyBtn.innerHTML = '<i class="bi bi-stop-circle mr-2"></i> Stop Mavely Manager';
+        mavelyBtn.setAttribute('data-action', 'stop');
+        break;
+      case 'stopped':
+        mavelyBtn.classList.add('bg-info-DEFAULT', 'hover:bg-info-hover');
+        mavelyBtn.innerHTML = '<i class="bi bi-play-circle mr-2"></i> Initialize Mavely Manager';
+        mavelyBtn.setAttribute('data-action', 'start');
+        break;
+      case 'initializing':
+        mavelyBtn.classList.add('bg-warning-DEFAULT', 'opacity-50', 'cursor-not-allowed');
+        mavelyBtn.innerHTML = '<i class="bi bi-hourglass-split mr-2"></i> Mavely Initializing...';
+        mavelyBtn.disabled = true;
+        mavelyBtn.removeAttribute('data-action');
+        break;
+      case 'stopping':
+        mavelyBtn.classList.add('bg-warning-DEFAULT', 'opacity-50', 'cursor-not-allowed');
+        mavelyBtn.innerHTML = '<i class="bi bi-hourglass-split mr-2"></i> Mavely Stopping...';
+        mavelyBtn.disabled = true;
+        mavelyBtn.removeAttribute('data-action');
+        break;
+      case 'error':
+        mavelyBtn.classList.add('bg-danger-DEFAULT', 'hover:bg-danger-hover');
+        mavelyBtn.innerHTML = '<i class="bi bi-exclamation-triangle mr-2"></i> Mavely Error (Re-Initialize)';
+        mavelyBtn.setAttribute('data-action', 'start'); // Allow re-initialization attempt
+        if (data.lastError) {
+            mavelyBtn.title = `Last Error: ${data.lastError}`;
+        } else {
+             mavelyBtn.title = 'An error occurred with the Mavely Manager.';
+        }
+        break;
+      default:
+        mavelyBtn.classList.add('bg-secondary-DEFAULT', 'hover:bg-secondary-hover');
+        mavelyBtn.innerHTML = '<i class="bi bi-question-circle mr-2"></i> Mavely Status Unknown';
+        mavelyBtn.setAttribute('data-action', 'start'); // Default to allowing start
+    }
+  } catch (error) {
+    console.error('Error fetching Mavely status:', error);
+    mavelyBtn.classList.add('bg-secondary-DEFAULT', 'hover:bg-secondary-hover');
+    mavelyBtn.innerHTML = '<i class="bi bi-question-circle mr-2"></i> Mavely Status Error';
+    mavelyBtn.disabled = false; // Allow attempting action even if status fails
+    mavelyBtn.setAttribute('data-action', 'start');
+     mavelyBtn.title = 'Could not fetch Mavely Manager status.';
+  }
+}
+
+async function handleMavelyControlClick() {
+  if (isMavelyActionInProgress) return;
+
+  const mavelyBtn = document.getElementById('mavelyManagerControlBtn');
+  const action = mavelyBtn.getAttribute('data-action');
+
+  if (!action) return; // Should not happen if button is not disabled
+
+  isMavelyActionInProgress = true;
+  mavelyBtn.disabled = true;
+  const originalHtml = mavelyBtn.innerHTML;
+  mavelyBtn.innerHTML = '<i class="bi bi-hourglass-split mr-2"></i> Processing...';
+  mavelyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+  try {
+    let endpoint = '';
+    if (action === 'start') {
+      endpoint = '/api/mavely/initialize';
+    } else if (action === 'stop') {
+      endpoint = '/api/mavely/close';
+    }
+
+    const response = await fetch(endpoint, { method: 'POST' });
+    const result = await response.json();
+
+    if (response.ok) {
+      showToast(result.message || (action === 'start' ? 'Mavely initialization started.' : 'Mavely stopping process started.'), 'success');
+    } else {
+      showToast(`Error: ${result.message || 'Failed to perform Mavely action.'}`, 'danger');
+    }
+  } catch (error) {
+    console.error(`Error during Mavely ${action} action:`, error);
+    showToast(`Network or server error during Mavely ${action}.`, 'danger');
+  } finally {
+    isMavelyActionInProgress = false;
+    // Re-enable button interaction will be handled by the next status update
+    // but we can restore the text quicker if needed, though status update handles it
+    // mavelyBtn.innerHTML = originalHtml; 
+    // mavelyBtn.disabled = false;
+    // mavelyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+    updateMavelyButtonState(); // Immediately update state after action attempt
+  }
+}
+
+// --- End Mavely Manager Control Functions ---
 
 // Function to show a toast notification
 function showToast(message, type = 'info') {
