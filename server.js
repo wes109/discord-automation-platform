@@ -275,7 +275,8 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     headless: isHeadless,
     enableRegularMessages: taskSettings.enableRegularMessages === true,
     createdTime: new Date().toISOString(),
-    isTestingModule: taskSettings.isTestingModule === true
+    isTestingModule: taskSettings.isTestingModule === true,
+    enableAffiliateLinks: taskSettings.enableAffiliateLinks === true
   };
   
   // Create the task object with headless state at all levels
@@ -285,11 +286,13 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     headless: isHeadless, // Add at top level
     enableRegularMessages: settings.enableRegularMessages,
     isHeadless, // Add isHeadless flag
+    enableAffiliateLinks: settings.enableAffiliateLinks,
     settings: {
       ...settings,
       headless: isHeadless, // Ensure it's in settings
       enableRegularMessages: settings.enableRegularMessages, // And here
-      isTestingModule: settings.isTestingModule
+      isTestingModule: settings.isTestingModule,
+      enableAffiliateLinks: settings.enableAffiliateLinks
     }
   };
   
@@ -403,7 +406,8 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
     profileId,
     isTestingModule, // Save testing mode to settings
     // Store the pm2 id in settings as well for persistence
-    pm2_task_id
+    pm2_task_id,
+    enableAffiliateLinks: taskSettings.enableAffiliateLinks === true
   };
   writeTaskSettings(taskId, settings);
   
@@ -429,6 +433,9 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
   }
   if (isTestingModule === true) { // Pass flag to main.js
     scriptArgs.push('--testing-mode');
+  }
+  if (settings.enableAffiliateLinks === true) {
+    scriptArgs.push('--enable-affiliate-links');
   }
 
   // --- Set Cron Schedule to Every 3 Days --- 
@@ -733,10 +740,10 @@ app.get('/api/tasks/:taskId/logs', (req, res) => {
 
 // API endpoint to create a task without starting it
 app.post('/api/tasks/create', (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule } = req.body;
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks } = req.body;
   
   console.log('[DEBUG] Creating task with settings:', {
-    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule
+    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -748,7 +755,8 @@ app.post('/api/tasks/create', (req, res) => {
     label: label || '',
     headless: headless === true, // Ensure boolean conversion
     enableRegularMessages: enableRegularMessages === true, // <-- Ensure boolean conversion
-    isTestingModule: isTestingModule === true // Ensure boolean conversion
+    isTestingModule: isTestingModule === true,
+    enableAffiliateLinks: enableAffiliateLinks === true
   };
   
   const result = createTask(channelUrl, targetChannels, taskSettings);
@@ -786,10 +794,10 @@ app.post('/api/tasks/start', async (req, res) => {
 // API endpoint to start a saved task
 app.post('/api/tasks/:taskId/start', async (req, res) => {
   const { taskId } = req.params;
-  // Get both headless and enableRegularMessages from request body if provided
-  const { headless, enableRegularMessages } = req.body || {}; 
+  // Get all settings from request body if provided
+  const { headless, enableRegularMessages, enableAffiliateLinks } = req.body || {}; 
   
-  console.log('[DEBUG] Starting saved task with parameters:', { headless, enableRegularMessages });
+  console.log('[DEBUG] Starting saved task with parameters:', { headless, enableRegularMessages, enableAffiliateLinks });
   
   // Find the saved task
   const savedTasks = readSavedTasks();
@@ -808,8 +816,11 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
   const useEnableRegularMessages = enableRegularMessages !== undefined 
                                    ? enableRegularMessages === true 
                                    : taskToStart.settings?.enableRegularMessages === true;
+  const useEnableAffiliateLinks = enableAffiliateLinks !== undefined
+                                   ? enableAffiliateLinks === true
+                                   : taskToStart.settings?.enableAffiliateLinks === true;
   
-  console.log('[DEBUG] Using settings for task:', { useHeadless, useEnableRegularMessages });
+  console.log('[DEBUG] Using settings for task:', { useHeadless, useEnableRegularMessages, useEnableAffiliateLinks });
   
   // Start the task with preserved settings and determined overrides
   const result = await startMonitoringTask(
@@ -821,7 +832,8 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
       label: taskToStart.label,
       headless: useHeadless, 
       enableRegularMessages: useEnableRegularMessages, // <-- Use determined value
-      isTestingModule: taskToStart.settings?.isTestingModule === true // <-- Add this line
+      isTestingModule: taskToStart.settings?.isTestingModule === true,
+      enableAffiliateLinks: useEnableAffiliateLinks
     }
   );
 
@@ -854,7 +866,7 @@ app.delete('/api/tasks/:taskId', (req, res) => {
 // API endpoint to update task settings
 app.put('/api/tasks/:taskId/settings', (req, res) => {
   const { taskId } = req.params;
-  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule } = req.body;
+  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule, enableAffiliateLinks } = req.body;
   
   console.log('[API] Updating task settings:', {
     taskId,
@@ -863,7 +875,8 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     headless,
     label,
     enableRegularMessages,
-    isTestingModule
+    isTestingModule,
+    enableAffiliateLinks
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -902,7 +915,8 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     label,
     headless: headless === true, // Ensure boolean conversion
     enableRegularMessages: enableRegularMessages === true, // <-- Store setting
-    isTestingModule: isTestingModule === true // <-- Store testing mode setting
+    isTestingModule: isTestingModule === true, // <-- Store testing mode setting
+    enableAffiliateLinks: enableAffiliateLinks === true
   };
   
   // Update task settings
@@ -915,7 +929,8 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     settings: updatedSettings,
     enableRegularMessages: updatedSettings.enableRegularMessages, // <-- Add top-level flag
     isHeadless: headless === true, // Add top-level flag for consistency
-    isTestingModule: updatedSettings.isTestingModule
+    isTestingModule: updatedSettings.isTestingModule,
+    enableAffiliateLinks: updatedSettings.enableAffiliateLinks
   };
   
   console.log('[API] Updated task:', savedTasks[taskIndex]);

@@ -303,6 +303,7 @@ async function handleCreateTaskSubmit() {
   const label = document.getElementById('taskLabel').value;
   const enableRegularMessages = document.getElementById('enableRegularMessages').checked;
   const isTestingModule = document.getElementById('enableTestingModule').checked;
+  const enableAffiliateLinks = document.getElementById('enableAffiliateLinks').checked;
 
   if (!channelUrl || targetChannels.length === 0) {
     showToast('Please select a channel URL and at least one target channel', 'danger');
@@ -322,7 +323,8 @@ async function handleCreateTaskSubmit() {
         headless,
         label,
         enableRegularMessages,
-        isTestingModule
+        isTestingModule,
+        enableAffiliateLinks
       })
     });
 
@@ -339,6 +341,7 @@ async function handleCreateTaskSubmit() {
       document.getElementById('enableHeadless').checked = false;
       document.getElementById('enableRegularMessages').checked = false;
       document.getElementById('enableTestingModule').checked = false;
+      document.getElementById('enableAffiliateLinks').checked = false;
       
       // Refresh the tasks table
       refreshTasksTable();
@@ -385,7 +388,8 @@ async function startSavedTask(taskId, skipConfirm = false) {
   // Get the headless and regular message settings from the task
   const headless = task.settings?.headless === true;
   const enableRegularMessages = task.settings?.enableRegularMessages === true;
-  console.log(`Starting saved task ${taskId} with headless: ${headless}, regularMessages: ${enableRegularMessages}`);
+  const enableAffiliateLinks = task.settings?.enableAffiliateLinks === true;
+  console.log(`Starting saved task ${taskId} with headless: ${headless}, regularMessages: ${enableRegularMessages}, affiliateLinks: ${enableAffiliateLinks}`);
   
   try {
     const response = await fetch(`/api/tasks/${taskId}/start`, {
@@ -393,7 +397,11 @@ async function startSavedTask(taskId, skipConfirm = false) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ headless, enableRegularMessages })
+      body: JSON.stringify({ 
+        headless, 
+        enableRegularMessages, 
+        enableAffiliateLinks
+      })
     });
 
     const result = await response.json();
@@ -913,6 +921,9 @@ function updateTaskRow(row, task) {
    if (task.settings?.enableRegularMessages) {
       settingsBadges += '<span class="inline-block bg-purple-600 text-purple-100 text-xs font-medium px-2.5 py-0.5 rounded">RegMsg</span>';
   }
+  if (task.settings?.enableAffiliateLinks) {
+      settingsBadges += '<span class="inline-block bg-cyan-600 text-cyan-100 text-xs font-medium px-2.5 py-0.5 rounded">Affiliate</span>';
+  }
 
   // Target Channels Display
   let targetChannelsDisplay = '';
@@ -1035,6 +1046,7 @@ async function editTask(taskId) {
     document.getElementById('editEnableHeadless').checked = task.settings?.headless || false;
     document.getElementById('editEnableRegularMessages').checked = task.settings?.enableRegularMessages || false;
     document.getElementById('editEnableTestingModule').checked = task.settings?.isTestingModule || false;
+    document.getElementById('editEnableAffiliateLinks').checked = task.settings?.enableAffiliateLinks || false;
     
     // Set selected target channels
     document.querySelectorAll('.edit-target-channel-checkbox').forEach(cb => {
@@ -1058,6 +1070,7 @@ async function saveEditedTask() {
   const label = document.getElementById('editTaskLabel').value;
   const enableRegularMessages = document.getElementById('editEnableRegularMessages').checked;
   const isTestingModule = document.getElementById('editEnableTestingModule').checked;
+  const enableAffiliateLinks = document.getElementById('editEnableAffiliateLinks').checked;
 
   if (!channelUrl || targetChannels.length === 0) {
     showToast('Please select a channel URL and at least one target channel', 'danger');
@@ -1077,7 +1090,8 @@ async function saveEditedTask() {
         headless,
         label,
         enableRegularMessages,
-        isTestingModule
+        isTestingModule,
+        enableAffiliateLinks
       })
     });
 
