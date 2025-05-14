@@ -59,5 +59,110 @@
     "original": "http://walmart.com/test",
     "mavely": "https://mavely.app.link/e/4mpCZllDdTb",
     "timestamp": "2025-05-09T03:17:21.015Z"
+  },
+  "walmart.com/": {
+    "original": "https://walmart.com",
+    "mavely": "https://mavely.app.link/e/7fEOVpJGSRb",
+    "timestamp": "2025-05-13T03:15:45.549Z"
+  },
+  "affil.walmart.com/cart/addToCart": {
+    "original": "https://affil.walmart.com/cart/addToCart?items=16099109018&sourceid=imp_1nDSfTwPfxyIWiK0H43uORPWUkG2yDyaQUqr1M0&wmlspartner=imp_0",
+    "mavely": "https://mavely.app.link/e/1PN7B5QgkTb",
+    "timestamp": "2025-05-13T03:15:53.940Z"
+  },
+  "www.walmart.com/cart": {
+    "original": "https://www.walmart.com/cart",
+    "mavely": "https://mavely.app.link/e/yh3j8XtHSRb",
+    "timestamp": "2025-05-13T03:15:54.629Z"
+  },
+  "www.walmart.com/checkout": {
+    "original": "https://www.walmart.com/checkout",
+    "mavely": "https://mavely.app.link/e/bhLvBauHSRb",
+    "timestamp": "2025-05-13T03:15:55.323Z"
+  },
+  "www.walmart.com/account/login": {
+    "original": "https://www.walmart.com/account/login",
+    "mavely": "https://mavely.app.link/e/VrDdIiuHSRb",
+    "timestamp": "2025-05-13T03:15:55.997Z"
+  },
+  "nike.com/": {
+    "original": "https://nike.com",
+    "mavely": "https://mavely.app.link/e/p9vS4e9pVSb",
+    "timestamp": "2025-05-14T02:14:13.909Z"
+  },
+  "target.com/": {
+    "original": "https://target.com",
+    "mavely": "https://mavely.app.link/e/tqktEwKGSRb",
+    "timestamp": "2025-05-14T02:17:33.991Z"
+  },
+  "www.target.com/co-cart": {
+    "original": "https://www.target.com/co-cart",
+    "mavely": "https://mavely.app.link/e/bQ0ctF9GSRb",
+    "timestamp": "2025-05-14T02:17:34.681Z"
+  },
+  "www.target.com/co-login": {
+    "original": "https://www.target.com/co-login",
+    "mavely": "https://mavely.app.link/e/8coV5J9GSRb",
+    "timestamp": "2025-05-14T02:17:35.335Z"
+  },
+  "target.com-/A-94300073": {
+    "original": "https://www.target.com/p/blaze/-/A-94300073",
+    "mavely": "https://mavely.app.link/e/g3TLnTATlTb",
+    "timestamp": "2025-05-14T02:45:36.066Z"
+  },
+  "target.com-/A-94411686": {
+    "original": "https://www.target.com/p/blaze/-/A-94411686",
+    "mavely": "https://mavely.app.link/e/aubTa1ATlTb",
+    "timestamp": "2025-05-14T02:45:37.765Z"
+  },
+  "target.com-/A-94300069": {
+    "original": "https://www.target.com/p/blaze/-/A-94300069",
+    "mavely": "https://mavely.app.link/e/YP0Ws9ATlTb",
+    "timestamp": "2025-05-14T02:45:39.565Z"
+  },
+  "target.com-/A-94300067": {
+    "original": "https://www.target.com/p/blaze/-/A-94300067",
+    "mavely": "https://mavely.app.link/e/Rk1NkkBTlTb",
+    "timestamp": "2025-05-14T02:45:41.980Z"
+  },
+  "target.com-/A-94300082": {
+    "original": "https://www.target.com/p/blaze/-/A-94300082",
+    "mavely": "https://mavely.app.link/e/Ss7LOsBTlTb",
+    "timestamp": "2025-05-14T02:45:43.812Z"
+  },
+  "walmart.com/ip/16494914729": {
+    "original": "https://www.walmart.com/ip/blaze/16494914729",
+    "mavely": "https://mavely.app.link/e/tZUR3D2TlTb",
+    "timestamp": "2025-05-14T02:51:51.874Z"
+  },
+  "walmart.com/ip/16446401400": {
+    "original": "https://www.walmart.com/ip/blaze/16446401400",
+    "mavely": "https://mavely.app.link/e/ayirtZ2TlTb",
+    "timestamp": "2025-05-14T02:51:56.531Z"
+  },
+  "walmart.com/ip/16474767142": {
+    "original": "https://www.walmart.com/ip/blaze/16474767142",
+    "mavely": "https://mavely.app.link/e/czNOcc3TlTb",
+    "timestamp": "2025-05-14T02:51:59.317Z"
+  },
+  "walmart.com/ip/16474817096": {
+    "original": "https://www.walmart.com/ip/blaze/16474817096",
+    "mavely": "https://mavely.app.link/e/iFZNFq3TlTb",
+    "timestamp": "2025-05-14T02:52:02.472Z"
+  },
+  "walmart.com/ip/16439924969": {
+    "original": "https://www.walmart.com/ip/blaze/16439924969",
+    "mavely": "https://mavely.app.link/e/6iMRQC3TlTb",
+    "timestamp": "2025-05-14T02:52:05.136Z"
+  },
+  "walmart.com/ip/16446451123": {
+    "original": "https://www.walmart.com/ip/blaze/16446451123",
+    "mavely": "https://mavely.app.link/e/v4VFHR3TlTb",
+    "timestamp": "2025-05-14T02:52:08.377Z"
+  },
+  "walmart.com/ip/13580664574": {
+    "original": "https://www.walmart.com/ip/blaze/13580664574",
+    "mavely": "https://mavely.app.link/e/kKlkKbBg0Sb",
+    "timestamp": "2025-05-14T02:52:09.215Z"
   }
 }
