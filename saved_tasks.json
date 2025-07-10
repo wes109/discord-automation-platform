@@ -144,10 +144,19 @@
       "startTime": "2025-04-18T02:13:42.434Z",
       "profileId": "profile_1744942422359_7gn16h",
       "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1744942422359"
+      "pm2_task_id": "monitor_task_1744942422359",
+      "enableAffiliateLinks": false,
+      "enableTweeting": true,
+      "tweetKeywords": []
     },
     "profileId": "profile_1744942422359_7gn16h",
-    "createdTime": "2025-04-18T02:13:42.556Z"
+    "createdTime": "2025-04-18T02:13:42.556Z",
+    "enableRegularMessages": false,
+    "isHeadless": false,
+    "isTestingModule": false,
+    "enableAffiliateLinks": false,
+    "enableTweeting": true,
+    "tweetKeywords": []
   },
   {
     "taskId": "task_1746214178023",
@@ -376,9 +385,21 @@
       "profileId": "profile_1747191044386_tsthp6",
       "isTestingModule": false,
       "pm2_task_id": "monitor_task_1747191044385",
-      "enableAffiliateLinks": true
+      "enableAffiliateLinks": true,
+      "enableTweeting": true,
+      "tweetKeywords": [
+        "+etb,-pokemon"
+      ]
     },
     "profileId": "profile_1747191044386_tsthp6",
-    "createdTime": "2025-05-14T02:50:44.757Z"
+    "createdTime": "2025-05-14T02:50:44.757Z",
+    "enableRegularMessages": false,
+    "isHeadless": false,
+    "isTestingModule": false,
+    "enableAffiliateLinks": true,
+    "enableTweeting": true,
+    "tweetKeywords": [
+      "+etb,-pokemon"
+    ]
   }
 ]

@@ -82,6 +82,16 @@ const argv = require('yargs')(args)
         type: 'boolean',
         default: false 
     })
+    .option('enable-tweeting', {
+        describe: 'Enable tweet integration',
+        type: 'boolean',
+        default: false
+    })
+    .option('tweet-keywords', {
+        describe: 'Tweet keywords for filtering',
+        type: 'string',
+        default: ''
+    })
     .help()
     .argv;
 
@@ -95,12 +105,16 @@ enableRegularMessages = argv.enableRegularMessages;
 enableUrlUnshorteningGlobal = argv['enable-url-unshortening'];
 enableAffiliateLinksGlobal = argv.enableAffiliateLinks;
 const isTestingModuleGlobal = argv.testingMode;
+const enableTweetingGlobal = argv.enableTweeting;
+const tweetKeywordsGlobal = argv.tweetKeywords;
 
 console.log('Parsed isHeadless value:', isHeadless);
 console.log('Parsed enableRegularMessages value:', enableRegularMessages);
 console.log('Parsed enableUrlUnshorteningGlobal value:', enableUrlUnshorteningGlobal);
 console.log('Parsed enableAffiliateLinksGlobal value:', enableAffiliateLinksGlobal);
 console.log('Parsed isTestingModuleGlobal value:', isTestingModuleGlobal);
+console.log('Parsed enableTweetingGlobal value:', enableTweetingGlobal);
+console.log('Parsed tweetKeywordsGlobal value:', tweetKeywordsGlobal);
 
 // Helper function to generate task ID
 function generateTaskId() {
@@ -351,7 +365,7 @@ async function launchBrowser(profileId, headless = false) {
 }
 
 // Monitor a Discord channel
-async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId, currentEnableRegularMessages, currentIsTestingModule, currentEnableAffiliateLinks) {
+async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId, currentEnableRegularMessages, currentIsTestingModule, currentEnableAffiliateLinks, currentEnableTweeting, currentTweetKeywords) {
     let page;
     let scrollIntervalId = null; // Variable to hold the interval ID
     try {
@@ -360,6 +374,10 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
         logTask(currentTaskId, 'INFO', `Affiliate link processing: ${currentEnableAffiliateLinks ? 'ENABLED' : 'DISABLED'}`);
         logTask(currentTaskId, 'INFO', `URL unshortening (standard): ${enableUrlUnshorteningGlobal ? 'ENABLED' : 'DISABLED'}`);
         logTask(currentTaskId, 'INFO', `Testing mode (no webhooks): ${currentIsTestingModule ? 'ENABLED' : 'DISABLED'}`);
+        logTask(currentTaskId, 'INFO', `Tweet processing: ${currentEnableTweeting ? 'ENABLED' : 'DISABLED'}`);
+        if (currentEnableTweeting && currentTweetKeywords) {
+            logTask(currentTaskId, 'INFO', `Tweet keywords: ${currentTweetKeywords}`);
+        }
 
         // Get existing pages (usually just the initial blank tab)
         const pages = await browser.pages();
@@ -544,6 +562,37 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                         logTask(currentTaskId, 'WARNING', `Message ${messageId} has neither regular content nor embeds.`);
                     }
 
+                    // Process tweet if enabled
+                    if (currentEnableTweeting && (regularMessage || (embedArray && embedArray.length > 0))) {
+                        try {
+                            logTask(currentTaskId, 'INFO', `Processing tweet for message ${messageId}`);
+                            
+                            // Import tweet processor dynamically to avoid circular dependencies
+                            const { processMessageForTweet } = require('./utils/tweet_processor');
+                            
+                            const taskSettings = {
+                                enableTweeting: currentEnableTweeting,
+                                tweetKeywords: currentTweetKeywords
+                            };
+                            
+                            if (regularMessage) {
+                                await processMessageForTweet(regularMessage, taskSettings, currentTaskId);
+                            } else if (embedArray && embedArray.length > 0) {
+                                // For embeds, we need to extract the content
+                                const embedContent = embedArray.map(embed => ({
+                                    title: embed.title || '',
+                                    description: embed.description || '',
+                                    fields: embed.fields || []
+                                }));
+                                await processMessageForTweet({ content: embedContent }, taskSettings, currentTaskId);
+                            }
+                            
+                            logTask(currentTaskId, 'SUCCESS', `Tweet processing completed for message ${messageId}`);
+                        } catch (error) {
+                            logTask(currentTaskId, 'ERROR', `Error processing tweet for message ${messageId}: ${error.message}`, error);
+                        }
+                    }
+
                     // Add to processed set
                     processedMessageIds.add(messageId);
                     // Maintain the size of the processed set
@@ -622,7 +671,9 @@ async function main() {
          enableUrlUnshortening: enableUrlUnshorteningGlobal,
          enableRegularMessages: enableRegularMessages,
          isTestingModule: isTestingModuleGlobal,
-         enableAffiliateLinks: enableAffiliateLinksGlobal
+         enableAffiliateLinks: enableAffiliateLinksGlobal,
+         enableTweeting: enableTweetingGlobal,
+         tweetKeywords: tweetKeywordsGlobal
      });
 
     let browser;
@@ -635,7 +686,7 @@ async function main() {
 
         // Start monitoring
         logTask(taskId, 'INFO', `Starting monitoring for ${channelUrlArg}`);
-        await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId, enableRegularMessages, isTestingModuleGlobal, enableAffiliateLinksGlobal);
+        await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId, enableRegularMessages, isTestingModuleGlobal, enableAffiliateLinksGlobal, enableTweetingGlobal, tweetKeywordsGlobal);
 
     } catch (error) {
         logTask(taskId || 'MAIN_ERROR', 'ERROR', 'Critical error during browser launch or monitor initiation.', error);

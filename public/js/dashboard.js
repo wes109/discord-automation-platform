@@ -1,3 +1,49 @@
+// --- Keyword Tag Management ---
+
+function createKeywordTag(keyword, container, input) {
+  const tag = document.createElement('span');
+  tag.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800';
+  tag.innerHTML = `
+    ${keyword}
+    <button type="button" class="ml-1 inline-flex items-center p-0.5 hover:bg-blue-200 rounded-full">
+      <i class="bi bi-x"></i>
+    </button>
+  `;
+  
+  tag.querySelector('button').addEventListener('click', () => {
+    tag.remove();
+    updateKeywordsList(container, input);
+  });
+  
+  container.appendChild(tag);
+  updateKeywordsList(container, input);
+}
+
+function updateKeywordsList(container, input) {
+  const tags = Array.from(container.children).map(tag => tag.textContent.trim());
+  input.value = '';
+  return tags;
+}
+
+function setupKeywordInput(inputId, containerId) {
+  const input = document.getElementById(inputId);
+  const container = document.getElementById(containerId);
+  
+  if (!input || !container) return;
+  
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && input.value.trim()) {
+      e.preventDefault();
+      const keyword = input.value.trim();
+      if (keyword.startsWith('+') || keyword.startsWith('-')) {
+        createKeywordTag(keyword, container, input);
+      } else {
+        showToast('Keywords must start with + or -', 'warning');
+      }
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   // Initialize Bootstrap tooltips
   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -208,60 +254,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // --- Keyword Tag Management ---
 
-  function createKeywordTag(keyword, container, input) {
-    const tag = document.createElement('span');
-    tag.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800';
-    tag.innerHTML = `
-      ${keyword}
-      <button type="button" class="ml-1 inline-flex items-center p-0.5 hover:bg-blue-200 rounded-full">
-        <i class="bi bi-x"></i>
-      </button>
-    `;
-    
-    tag.querySelector('button').addEventListener('click', () => {
-      tag.remove();
-      updateKeywordsList(container, input);
-    });
-    
-    container.appendChild(tag);
-    updateKeywordsList(container, input);
-  }
-
-  function updateKeywordsList(container, input) {
-    const tags = Array.from(container.children).map(tag => tag.textContent.trim());
-    input.value = '';
-    return tags;
-  }
-
-  function setupKeywordInput(inputId, containerId) {
-    const input = document.getElementById(inputId);
-    const container = document.getElementById(containerId);
-    
-    if (!input || !container) return;
-    
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && input.value.trim()) {
-        e.preventDefault();
-        const keyword = input.value.trim();
-        if (keyword.startsWith('+') || keyword.startsWith('-')) {
-          createKeywordTag(keyword, container, input);
-        } else {
-          showToast('Keywords must start with + or -', 'warning');
-        }
-      }
-    });
-  }
-
-  // --- Event Listeners ---
-
-  // Tweet Processor Control
-  const tweetBtn = document.getElementById('tweetProcessorControlBtn');
-  if (tweetBtn) {
-    tweetBtn.addEventListener('click', handleTweetProcessorClick);
-  }
-  updateTweetProcessorButtonState();
-  setInterval(updateTweetProcessorButtonState, 15000);
-  
   // Setup keyword inputs
   setupKeywordInput('tweetKeywords', 'tweetKeywordTags');
   setupKeywordInput('editTweetKeywords', 'editTweetKeywordTags');

@@ -9769,6 +9769,34 @@
     "profileId": "profile_1747191044386_tsthp6",
     "isTestingModule": false,
     "pm2_task_id": "monitor_task_1747191044385",
-    "enableAffiliateLinks": true
+    "enableAffiliateLinks": true,
+    "enableTweeting": true,
+    "tweetKeywords": [
+      "+etb,-pokemon"
+    ]
+  },
+  "task_1744942422359": {
+    "label": "gamestop",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347811397257400380",
+    "targetChannels": [
+      "Gamestop"
+    ],
+    "webhookInfo": [
+      {
+        "name": "Gamestop",
+        "label": "Gamestop",
+        "webhook_url": "https://discord.com/api/webhooks/1358890319357411498/pZxyIotU4kg_B6N9lAWyo_BTRfVofaAuD5mz1_l56ZZlBkHqQ-lwjxn6d84rriUyCYMh"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-04-18T02:13:42.434Z",
+    "profileId": "profile_1744942422359_7gn16h",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1744942422359",
+    "enableAffiliateLinks": false,
+    "enableTweeting": true,
+    "tweetKeywords": []
   }
 }

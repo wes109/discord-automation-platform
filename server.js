@@ -409,7 +409,9 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
     isTestingModule, // Save testing mode to settings
     // Store the pm2 id in settings as well for persistence
     pm2_task_id,
-    enableAffiliateLinks: taskSettings.enableAffiliateLinks === true
+    enableAffiliateLinks: taskSettings.enableAffiliateLinks === true,
+    enableTweeting: taskSettings.enableTweeting === true, // <-- Save tweet setting
+    tweetKeywords: taskSettings.tweetKeywords || '' // <-- Save tweet keywords
   };
   writeTaskSettings(taskId, settings);
   
@@ -438,6 +440,12 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
   }
   if (settings.enableAffiliateLinks === true) {
     scriptArgs.push('--enable-affiliate-links');
+  }
+  if (settings.enableTweeting === true) {
+    scriptArgs.push('--enable-tweeting');
+  }
+  if (settings.tweetKeywords && settings.tweetKeywords.trim() !== '') {
+    scriptArgs.push('--tweet-keywords', `"${settings.tweetKeywords}"`);
   }
 
   // --- Set Cron Schedule to Every 3 Days --- 
@@ -491,7 +499,9 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
     },
     startTime: new Date(),
         status: 'running', // Assume running initially
-        isHeadless
+        isHeadless,
+        enableTweeting: settings.enableTweeting, // <-- Add tweet fields
+        tweetKeywords: settings.tweetKeywords
       };
       activeTasks.set(taskId, taskInfo);
 
@@ -772,10 +782,10 @@ app.get('/api/tasks/:taskId/logs', (req, res) => {
 
 // API endpoint to create a task without starting it
 app.post('/api/tasks/create', (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks } = req.body;
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, enableTweeting, tweetKeywords } = req.body;
   
   console.log('[DEBUG] Creating task with settings:', {
-    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks
+    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, enableTweeting, tweetKeywords
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -788,7 +798,9 @@ app.post('/api/tasks/create', (req, res) => {
     headless: headless === true, // Ensure boolean conversion
     enableRegularMessages: enableRegularMessages === true, // <-- Ensure boolean conversion
     isTestingModule: isTestingModule === true,
-    enableAffiliateLinks: enableAffiliateLinks === true
+    enableAffiliateLinks: enableAffiliateLinks === true,
+    enableTweeting: enableTweeting === true, // <-- Add tweet setting
+    tweetKeywords: tweetKeywords || '' // <-- Add tweet keywords
   };
   
   const result = createTask(channelUrl, targetChannels, taskSettings);
@@ -797,7 +809,7 @@ app.post('/api/tasks/create', (req, res) => {
 
 // API endpoint to start a task
 app.post('/api/tasks/start', async (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages } = req.body;
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, enableAffiliateLinks, enableTweeting, tweetKeywords } = req.body;
   
   console.log('[DEBUG] /api/tasks/start received request with headless:', headless);
   
@@ -810,6 +822,9 @@ app.post('/api/tasks/start', async (req, res) => {
     label: label || '',
     headless: headless === true, // Strict boolean comparison
     enableRegularMessages: enableRegularMessages === true, // <-- Get from request
+    enableAffiliateLinks: enableAffiliateLinks === true,
+    enableTweeting: enableTweeting === true, // <-- Add tweet setting
+    tweetKeywords: tweetKeywords || '' // <-- Add tweet keywords
   };
   
   console.log('[DEBUG] Starting task with settings:', {
@@ -827,9 +842,9 @@ app.post('/api/tasks/start', async (req, res) => {
 app.post('/api/tasks/:taskId/start', async (req, res) => {
   const { taskId } = req.params;
   // Get all settings from request body if provided
-  const { headless, enableRegularMessages, enableAffiliateLinks } = req.body || {}; 
+  const { headless, enableRegularMessages, enableAffiliateLinks, enableTweeting, tweetKeywords } = req.body || {}; 
   
-  console.log('[DEBUG] Starting saved task with parameters:', { headless, enableRegularMessages, enableAffiliateLinks });
+  console.log('[DEBUG] Starting saved task with parameters:', { headless, enableRegularMessages, enableAffiliateLinks, enableTweeting, tweetKeywords });
   
   // Find the saved task
   const savedTasks = readSavedTasks();
@@ -851,8 +866,14 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
   const useEnableAffiliateLinks = enableAffiliateLinks !== undefined
                                    ? enableAffiliateLinks === true
                                    : taskToStart.settings?.enableAffiliateLinks === true;
+  const useEnableTweeting = enableTweeting !== undefined
+                             ? enableTweeting === true
+                             : taskToStart.settings?.enableTweeting === true;
+  const useTweetKeywords = tweetKeywords !== undefined
+                            ? tweetKeywords
+                            : taskToStart.settings?.tweetKeywords || '';
   
-  console.log('[DEBUG] Using settings for task:', { useHeadless, useEnableRegularMessages, useEnableAffiliateLinks });
+  console.log('[DEBUG] Using settings for task:', { useHeadless, useEnableRegularMessages, useEnableAffiliateLinks, useEnableTweeting, useTweetKeywords });
   
   // Start the task with preserved settings and determined overrides
   const result = await startMonitoringTask(
@@ -865,7 +886,9 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
       headless: useHeadless, 
       enableRegularMessages: useEnableRegularMessages, // <-- Use determined value
       isTestingModule: taskToStart.settings?.isTestingModule === true,
-      enableAffiliateLinks: useEnableAffiliateLinks
+      enableAffiliateLinks: useEnableAffiliateLinks,
+      enableTweeting: useEnableTweeting, // <-- Use determined tweet value
+      tweetKeywords: useTweetKeywords // <-- Use determined tweet keywords
     }
   );
 
@@ -898,7 +921,7 @@ app.delete('/api/tasks/:taskId', (req, res) => {
 // API endpoint to update task settings
 app.put('/api/tasks/:taskId/settings', (req, res) => {
   const { taskId } = req.params;
-  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule, enableAffiliateLinks } = req.body;
+  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule, enableAffiliateLinks, enableTweeting, tweetKeywords } = req.body;
   
   console.log('[API] Updating task settings:', {
     taskId,
@@ -908,7 +931,9 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     label,
     enableRegularMessages,
     isTestingModule,
-    enableAffiliateLinks
+    enableAffiliateLinks,
+    enableTweeting,
+    tweetKeywords
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -948,7 +973,9 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     headless: headless === true, // Ensure boolean conversion
     enableRegularMessages: enableRegularMessages === true, // <-- Store setting
     isTestingModule: isTestingModule === true, // <-- Store testing mode setting
-    enableAffiliateLinks: enableAffiliateLinks === true
+    enableAffiliateLinks: enableAffiliateLinks === true,
+    enableTweeting: enableTweeting === true, // <-- Store tweet setting
+    tweetKeywords: tweetKeywords || '' // <-- Store tweet keywords
   };
   
   // Update task settings
@@ -962,7 +989,9 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     enableRegularMessages: updatedSettings.enableRegularMessages, // <-- Add top-level flag
     isHeadless: headless === true, // Add top-level flag for consistency
     isTestingModule: updatedSettings.isTestingModule,
-    enableAffiliateLinks: updatedSettings.enableAffiliateLinks
+    enableAffiliateLinks: updatedSettings.enableAffiliateLinks,
+    enableTweeting: updatedSettings.enableTweeting, // <-- Add top-level tweet flag
+    tweetKeywords: updatedSettings.tweetKeywords // <-- Add top-level tweet keywords
   };
   
   console.log('[API] Updated task:', savedTasks[taskIndex]);
