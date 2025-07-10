@@ -1,42 +1,5 @@
 [
   {
-    "taskId": "task_1744598253516",
-    "label": "Nvidia",
-    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760252551790703",
-    "targetChannels": [
-      "nvidia"
-    ],
-    "webhookInfo": [
-      {
-        "name": "nvidia",
-        "label": "nvidia",
-        "webhook_url": "https://discord.com/api/webhooks/1358900376417472844/ADdPPiegktb-Ec16EM_UR9NVKAeJCKCEmDrSSrvRjc7p3QHh786x6GbO3Ka4gJOSi9x5"
-      }
-    ],
-    "settings": {
-      "label": "Nvidia",
-      "channelUrl": "https://discord.com/channels/1103122365396832256/1348760252551790703",
-      "targetChannels": [
-        "nvidia"
-      ],
-      "webhookInfo": [
-        {
-          "name": "nvidia",
-          "label": "nvidia",
-          "webhook_url": "https://discord.com/api/webhooks/1358900376417472844/ADdPPiegktb-Ec16EM_UR9NVKAeJCKCEmDrSSrvRjc7p3QHh786x6GbO3Ka4gJOSi9x5"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": true,
-      "enableRegularMessages": false,
-      "startTime": "2025-04-14T02:37:33.611Z",
-      "profileId": "profile_1744598253516_ax2jco",
-      "pm2_task_id": "monitor_task_1744598253516"
-    },
-    "profileId": "profile_1744598253516_ax2jco",
-    "createdTime": "2025-04-14T02:37:34.445Z"
-  },
-  {
     "taskId": "task_1744598265569",
     "label": "NikeStock",
     "channelUrl": "https://discord.com/channels/1103122365396832256/1348760849581342790",
@@ -72,44 +35,6 @@
     },
     "profileId": "profile_1744598265570_f4vgg9",
     "createdTime": "2025-04-14T02:37:46.387Z"
-  },
-  {
-    "taskId": "task_1744940040950",
-    "label": "NikeRestocks",
-    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
-    "targetChannels": [
-      "nikeRestocks"
-    ],
-    "webhookInfo": [
-      {
-        "name": "nikeRestocks",
-        "label": "nikeRestocks",
-        "webhook_url": "https://discord.com/channels/1103122365396832256/1348761052992639096"
-      }
-    ],
-    "settings": {
-      "label": "NikeRestocks",
-      "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
-      "targetChannels": [
-        "nikeRestocks"
-      ],
-      "webhookInfo": [
-        {
-          "name": "nikeRestocks",
-          "label": "nikeRestocks",
-          "webhook_url": "https://discord.com/channels/1103122365396832256/1348761052992639096"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": true,
-      "enableRegularMessages": false,
-      "startTime": "2025-04-18T01:34:01.191Z",
-      "profileId": "profile_1744940040951_qrqoby",
-      "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1744940040950"
-    },
-    "profileId": "profile_1744940040951_qrqoby",
-    "createdTime": "2025-04-18T01:34:01.710Z"
   },
   {
     "taskId": "task_1744942422359",
@@ -388,7 +313,8 @@
       "enableAffiliateLinks": true,
       "enableTweeting": true,
       "tweetKeywords": [
-        "+etb,-pokemon"
+        "+testing,-test",
+        "+first,-try"
       ]
     },
     "profileId": "profile_1747191044386_tsthp6",
@@ -399,7 +325,51 @@
     "enableAffiliateLinks": true,
     "enableTweeting": true,
     "tweetKeywords": [
-      "+etb,-pokemon"
+      "+testing,-test",
+      "+first,-try"
     ]
+  },
+  {
+    "taskId": "task_1752116530889",
+    "label": "NikeRestocks",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+    "targetChannels": [
+      "nikeRestocks"
+    ],
+    "webhookInfo": [
+      {
+        "name": "nikeRestocks",
+        "label": "nikeRestocks",
+        "webhook_url": "https://discord.com/api/webhooks/1358899787478339754/US9RBMIOkW2Juo0SFwHGS4M5uiUQjcb2M8Q0vsPIlqJDHlJMqX3_meldmR1wEWDWFqHA"
+      }
+    ],
+    "settings": {
+      "label": "NikeRestocks",
+      "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+      "targetChannels": [
+        "nikeRestocks"
+      ],
+      "webhookInfo": [
+        {
+          "name": "nikeRestocks",
+          "label": "nikeRestocks",
+          "webhook_url": "https://discord.com/api/webhooks/1358899787478339754/US9RBMIOkW2Juo0SFwHGS4M5uiUQjcb2M8Q0vsPIlqJDHlJMqX3_meldmR1wEWDWFqHA"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": false,
+      "enableRegularMessages": false,
+      "startTime": "2025-07-10T03:02:11.091Z",
+      "profileId": "profile_1752116530890_bb9xc6",
+      "isTestingModule": false,
+      "pm2_task_id": "monitor_task_1752116530889",
+      "enableAffiliateLinks": false,
+      "enableTweeting": true,
+      "tweetKeywords": [
+        "+a"
+      ]
+    },
+    "profileId": "profile_1752116530890_bb9xc6",
+    "createdTime": "2025-07-10T03:02:11.252Z"
   }
 ]

@@ -34,7 +34,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Store active monitoring tasks with process group information
 const activeTasks = new Map();
 const taskLogs = new Map();
-const MAX_LOG_ENTRIES = 100;
+const MAX_LOG_ENTRIES = 1000;
 const TASKS_SETTINGS_FILE = path.join(__dirname, 'task_settings.json');
 const SAVED_TASKS_FILE = path.join(__dirname, 'saved_tasks.json');
 
@@ -444,8 +444,8 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
   if (settings.enableTweeting === true) {
     scriptArgs.push('--enable-tweeting');
   }
-  if (settings.tweetKeywords && settings.tweetKeywords.trim() !== '') {
-    scriptArgs.push('--tweet-keywords', `"${settings.tweetKeywords}"`);
+  if (Array.isArray(settings.tweetKeywords) && settings.tweetKeywords.length > 0) {
+    scriptArgs.push('--tweet-keywords', `"${settings.tweetKeywords.join(',')}"`);
   }
 
   // --- Set Cron Schedule to Every 3 Days --- 

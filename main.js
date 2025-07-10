@@ -106,7 +106,7 @@ enableUrlUnshorteningGlobal = argv['enable-url-unshortening'];
 enableAffiliateLinksGlobal = argv.enableAffiliateLinks;
 const isTestingModuleGlobal = argv.testingMode;
 const enableTweetingGlobal = argv.enableTweeting;
-const tweetKeywordsGlobal = argv.tweetKeywords;
+const tweetKeywordsGlobal = argv.tweetKeywords ? argv.tweetKeywords.split(',') : [];
 
 console.log('Parsed isHeadless value:', isHeadless);
 console.log('Parsed enableRegularMessages value:', enableRegularMessages);
@@ -437,6 +437,11 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
             cycleCount++;
             try {
                 logTask(currentTaskId, 'DEBUG', `Starting monitoring cycle #${cycleCount}`);
+                if (currentTweetKeywords && currentTweetKeywords.length > 0) {
+                    logTask(currentTaskId, 'DEBUG', `Current keywords for cycle #${cycleCount}: ${JSON.stringify(currentTweetKeywords)}`);
+                } else {
+                    logTask(currentTaskId, 'DEBUG', `No keywords configured for cycle #${cycleCount}`);
+                }
 
                 const scrapedMessages = await ScrapeData(page, currentEnableRegularMessages);
                 const now = new Date();
@@ -514,6 +519,25 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                                     try {
                                         await webhook.sendRegularMessage(regularMessage, channelConfig.webhook_url, currentIsTestingModule); // Pass flag
                                         logTask(currentTaskId, 'SUCCESS', `Regular message ${messageId} sent to channel: ${channelName}`);
+                                        
+                                        // Check keywords after webhook is sent (asynchronous, non-blocking)
+                                        logTask(currentTaskId, 'DEBUG', `About to check keywords for regular message ${messageId}. Keywords: ${JSON.stringify(currentTweetKeywords)}`);
+                                        if (currentTweetKeywords && currentTweetKeywords.length > 0) {
+                                            setImmediate(() => {
+                                                try {
+                                                    const { checkWebhookKeywords } = require('./utils/keyword_matcher');
+                                                    logTask(currentTaskId, 'DEBUG', `Checking keywords for regular message ${messageId}: ${JSON.stringify(currentTweetKeywords)}`);
+                                                    const matchResult = checkWebhookKeywords([{ content: regularMessage.content }], currentTweetKeywords);
+                                                    if (matchResult) {
+                                                        logTask(currentTaskId, 'INFO', `Keyword match found for regular message ${messageId}: Group "${matchResult.matchedGroup}" (index ${matchResult.groupIndex})`);
+                                                    } else {
+                                                        logTask(currentTaskId, 'DEBUG', `No keyword match for regular message ${messageId}`);
+                                                    }
+                                                } catch (error) {
+                                                    logTask(currentTaskId, 'WARNING', `Error checking keywords for regular message ${messageId}: ${error.message}`);
+                                                }
+                                            });
+                                        }
                                     } catch (error) {
                                         logTask(currentTaskId, 'ERROR', `Error sending regular message ${messageId} to ${channelName}: ${error?.message}`, error);
                                     }
@@ -547,6 +571,25 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                                     await webhook.buildWebhook(finalEmbedArray, channelConfig.webhook_url, currentIsTestingModule);
                                     logTask(currentTaskId, 'DEBUG', `Completed webhook.buildWebhook for ${channelName}`);
                                     logTask(currentTaskId, 'SUCCESS', `Embeds for ${messageId} sent to channel: ${channelName}`);
+                                    
+                                    // Check keywords after webhook is sent (asynchronous, non-blocking)
+                                    logTask(currentTaskId, 'DEBUG', `About to check keywords for embed message ${messageId}. Keywords: ${JSON.stringify(currentTweetKeywords)}`);
+                                    if (currentTweetKeywords && currentTweetKeywords.length > 0) {
+                                        setImmediate(() => {
+                                            try {
+                                                const { checkWebhookKeywords } = require('./utils/keyword_matcher');
+                                                logTask(currentTaskId, 'DEBUG', `Checking keywords for embed message ${messageId}: ${JSON.stringify(currentTweetKeywords)}`);
+                                                const matchResult = checkWebhookKeywords(finalEmbedArray, currentTweetKeywords);
+                                                if (matchResult) {
+                                                    logTask(currentTaskId, 'INFO', `Keyword match found for embed message ${messageId}: Group "${matchResult.matchedGroup}" (index ${matchResult.groupIndex})`);
+                                                } else {
+                                                    logTask(currentTaskId, 'DEBUG', `No keyword match for embed message ${messageId}`);
+                                                }
+                                            } catch (error) {
+                                                logTask(currentTaskId, 'WARNING', `Error checking keywords for embed message ${messageId}: ${error.message}`);
+                                            }
+                                        });
+                                    }
                                 } catch (error) {
                                     // This catch block in main.js should now catch errors re-thrown from buildWebhook
                                     logTask(currentTaskId, 'ERROR', `Error sending embeds for ${messageId} to ${channelName}: ${error?.message}`, error);
@@ -562,36 +605,7 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                         logTask(currentTaskId, 'WARNING', `Message ${messageId} has neither regular content nor embeds.`);
                     }
 
-                    // Process tweet if enabled
-                    if (currentEnableTweeting && (regularMessage || (embedArray && embedArray.length > 0))) {
-                        try {
-                            logTask(currentTaskId, 'INFO', `Processing tweet for message ${messageId}`);
-                            
-                            // Import tweet processor dynamically to avoid circular dependencies
-                            const { processMessageForTweet } = require('./utils/tweet_processor');
-                            
-                            const taskSettings = {
-                                enableTweeting: currentEnableTweeting,
-                                tweetKeywords: currentTweetKeywords
-                            };
-                            
-                            if (regularMessage) {
-                                await processMessageForTweet(regularMessage, taskSettings, currentTaskId);
-                            } else if (embedArray && embedArray.length > 0) {
-                                // For embeds, we need to extract the content
-                                const embedContent = embedArray.map(embed => ({
-                                    title: embed.title || '',
-                                    description: embed.description || '',
-                                    fields: embed.fields || []
-                                }));
-                                await processMessageForTweet({ content: embedContent }, taskSettings, currentTaskId);
-                            }
-                            
-                            logTask(currentTaskId, 'SUCCESS', `Tweet processing completed for message ${messageId}`);
-                        } catch (error) {
-                            logTask(currentTaskId, 'ERROR', `Error processing tweet for message ${messageId}: ${error.message}`, error);
-                        }
-                    }
+
 
                     // Add to processed set
                     processedMessageIds.add(messageId);

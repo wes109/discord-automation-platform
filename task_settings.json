@@ -9772,7 +9772,8 @@
     "enableAffiliateLinks": true,
     "enableTweeting": true,
     "tweetKeywords": [
-      "+etb,-pokemon"
+      "+testing,-test",
+      "+first,-try"
     ]
   },
   "task_1744942422359": {
@@ -9798,5 +9799,185 @@
     "enableAffiliateLinks": false,
     "enableTweeting": true,
     "tweetKeywords": []
+  },
+  "task_1744598253516": {
+    "label": "Nvidia",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760252551790703",
+    "targetChannels": [
+      "nvidia"
+    ],
+    "webhookInfo": [
+      {
+        "name": "nvidia",
+        "label": "nvidia",
+        "webhook_url": "https://discord.com/api/webhooks/1358900376417472844/ADdPPiegktb-Ec16EM_UR9NVKAeJCKCEmDrSSrvRjc7p3QHh786x6GbO3Ka4gJOSi9x5"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-04-14T02:37:33.611Z",
+    "profileId": "profile_1744598253516_ax2jco",
+    "pm2_task_id": "monitor_task_1744598253516",
+    "isTestingModule": false,
+    "enableAffiliateLinks": false,
+    "enableTweeting": true,
+    "tweetKeywords": [
+      "+a"
+    ]
+  },
+  "task_1752115720708": {
+    "label": "Nvidia",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760252551790703",
+    "targetChannels": [
+      "nvidia"
+    ],
+    "webhookInfo": [
+      {
+        "name": "nvidia",
+        "label": "nvidia",
+        "webhook_url": "https://discord.com/api/webhooks/1358900376417472844/ADdPPiegktb-Ec16EM_UR9NVKAeJCKCEmDrSSrvRjc7p3QHh786x6GbO3Ka4gJOSi9x5"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-07-10T02:48:40.921Z",
+    "profileId": "profile_1752115720709_zi7pko",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1752115720708",
+    "enableAffiliateLinks": false,
+    "enableTweeting": true,
+    "tweetKeywords": [
+      "+a"
+    ]
+  },
+  "task_1744940040950": {
+    "label": "NikeRestocks",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+    "targetChannels": [
+      "nikeRestocks"
+    ],
+    "webhookInfo": [
+      {
+        "name": "nikeRestocks",
+        "label": "nikeRestocks",
+        "webhook_url": "https://discord.com/channels/1103122365396832256/1348761052992639096"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-04-18T01:34:01.191Z",
+    "profileId": "profile_1744940040951_qrqoby",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1744940040950",
+    "enableAffiliateLinks": false,
+    "enableTweeting": true,
+    "tweetKeywords": []
+  },
+  "task_1752115820142": {
+    "label": "NikeRestocks",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+    "targetChannels": [
+      "nikeRestocks"
+    ],
+    "webhookInfo": [
+      {
+        "name": "nikeRestocks",
+        "label": "nikeRestocks",
+        "webhook_url": "https://discord.com/api/webhooks/1358899787478339754/US9RBMIOkW2Juo0SFwHGS4M5uiUQjcb2M8Q0vsPIlqJDHlJMqX3_meldmR1wEWDWFqHA"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-07-10T02:50:20.344Z",
+    "profileId": "profile_1752115820142_05eo7u",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1752115820142",
+    "enableAffiliateLinks": false,
+    "enableTweeting": true,
+    "tweetKeywords": [
+      "+a"
+    ]
+  },
+  "task_1752116006948": {
+    "label": "NikeRestocks",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+    "targetChannels": [
+      "nikeRestocks"
+    ],
+    "webhookInfo": [
+      {
+        "name": "nikeRestocks",
+        "label": "nikeRestocks",
+        "webhook_url": "https://discord.com/api/webhooks/1358899787478339754/US9RBMIOkW2Juo0SFwHGS4M5uiUQjcb2M8Q0vsPIlqJDHlJMqX3_meldmR1wEWDWFqHA"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-07-10T02:53:27.167Z",
+    "profileId": "profile_1752116006949_c9ntxv",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1752116006948",
+    "enableAffiliateLinks": false,
+    "enableTweeting": true,
+    "tweetKeywords": [
+      "+a"
+    ]
+  },
+  "task_1752116284215": {
+    "label": "NikeRestocks",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+    "targetChannels": [
+      "nikeRestocks"
+    ],
+    "webhookInfo": [
+      {
+        "name": "nikeRestocks",
+        "label": "nikeRestocks",
+        "webhook_url": "https://discord.com/api/webhooks/1358899787478339754/US9RBMIOkW2Juo0SFwHGS4M5uiUQjcb2M8Q0vsPIlqJDHlJMqX3_meldmR1wEWDWFqHA"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-07-10T02:58:04.435Z",
+    "profileId": "profile_1752116284216_y98b0n",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1752116284215",
+    "enableAffiliateLinks": false,
+    "enableTweeting": true,
+    "tweetKeywords": [
+      "+a"
+    ]
+  },
+  "task_1752116530889": {
+    "label": "NikeRestocks",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+    "targetChannels": [
+      "nikeRestocks"
+    ],
+    "webhookInfo": [
+      {
+        "name": "nikeRestocks",
+        "label": "nikeRestocks",
+        "webhook_url": "https://discord.com/api/webhooks/1358899787478339754/US9RBMIOkW2Juo0SFwHGS4M5uiUQjcb2M8Q0vsPIlqJDHlJMqX3_meldmR1wEWDWFqHA"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-07-10T03:02:11.091Z",
+    "profileId": "profile_1752116530890_bb9xc6",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1752116530889",
+    "enableAffiliateLinks": false,
+    "enableTweeting": true,
+    "tweetKeywords": [
+      "+a"
+    ]
   }
 }
