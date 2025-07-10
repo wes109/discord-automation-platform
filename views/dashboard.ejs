@@ -122,9 +122,17 @@
           <button class="btn bg-primary-DEFAULT hover:bg-primary-hover text-white font-bold py-2 px-4 rounded inline-flex items-center" data-bs-toggle="modal" data-bs-target="#newTaskModal">
             <i class="bi bi-plus-circle mr-2"></i> New Task
           </button>
-          <button class="btn bg-info-DEFAULT hover:bg-info-hover text-white font-bold py-2 px-4 rounded inline-flex items-center" id="mavelyManagerControlBtn">
-            <i class="bi bi-gear mr-2"></i> Initialize Mavely Manager
-          </button>
+          <!-- Mavely Manager Control -->
+          <div class="mb-4">
+            <button id="mavelyManagerControlBtn" class="btn bg-info-DEFAULT hover:bg-info-hover text-white font-bold py-2 px-4 rounded inline-flex items-center">
+              <i class="bi bi-gear mr-2"></i> Initialize Mavely Manager
+            </button>
+            
+            <!-- Tweet Processor Control -->
+            <button id="tweetProcessorControlBtn" class="btn bg-info-DEFAULT hover:bg-info-hover text-white font-bold py-2 px-4 rounded inline-flex items-center ml-2">
+              <i class="bi bi-twitter mr-2"></i> Initialize Tweet Processor
+            </button>
+          </div>
         </div>
       </div>
 
@@ -343,22 +351,53 @@
                             </div>
                             <p class="mt-1 text-xs text-gray-500">Select channels to forward messages to.</p>
                         </div>
+                        <!-- Task Settings Section -->
+                        <div class="mb-4">
+                          <label class="block text-gray-700 text-sm font-bold mb-2">Task Settings</label>
+                          <div class="flex flex-wrap gap-4">
+                            <!-- URL Unshortening -->
+                            <div class="flex items-center">
+                              <input type="checkbox" id="enableUrlUnshortening" class="form-checkbox h-4 w-4 text-primary-DEFAULT">
+                              <label for="enableUrlUnshortening" class="ml-2 text-sm">Enable URL Unshortening</label>
+                            </div>
+                            
+                            <!-- Regular Messages -->
+                            <div class="flex items-center">
+                              <input type="checkbox" id="enableRegularMessages" class="form-checkbox h-4 w-4 text-primary-DEFAULT">
+                              <label for="enableRegularMessages" class="ml-2 text-sm">Enable Regular Messages</label>
+                            </div>
+                            
+                            <!-- Affiliate Links -->
+                            <div class="flex items-center">
+                              <input type="checkbox" id="enableAffiliateLinks" class="form-checkbox h-4 w-4 text-primary-DEFAULT">
+                              <label for="enableAffiliateLinks" class="ml-2 text-sm">Enable Affiliate Links</label>
+                            </div>
+                            
+                            <!-- Tweet Integration -->
+                            <div class="flex items-center">
+                              <input type="checkbox" id="enableTweeting" class="form-checkbox h-4 w-4 text-primary-DEFAULT">
+                              <label for="enableTweeting" class="ml-2 text-sm">Enable Tweet Integration</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Tweet Keywords Section (hidden by default) -->
+                        <div id="tweetKeywordsSection" class="mb-4 hidden">
+                          <label for="tweetKeywords" class="block text-gray-700 text-sm font-bold mb-2">Tweet Keywords</label>
+                          <div class="relative">
+                            <input type="text" id="tweetKeywords" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Add keywords (e.g., +ETB, -pokemon)">
+                            <div id="tweetKeywordTags" class="flex flex-wrap gap-2 mt-2"></div>
+                          </div>
+                          <p class="text-sm text-gray-500 mt-1">Use + for required words, - for excluded words. Press Enter to add.</p>
+                        </div>
                         <div class="mb-4 flex items-center">
                             <input type="checkbox" class="h-4 w-4 rounded border-gray-500 bg-gray-600 text-primary-DEFAULT focus:ring-primary-DEFAULT" id="enableHeadless">
                             <label class="ml-2 text-sm font-medium text-gray-300" for="enableHeadless">Headless Mode</label>
                         </div>
                         <div class="mb-4 flex items-center">
-                            <input type="checkbox" class="h-4 w-4 rounded border-gray-500 bg-gray-600 text-primary-DEFAULT focus:ring-primary-DEFAULT" id="enableRegularMessages">
-                            <label class="ml-2 text-sm font-medium text-gray-300" for="enableRegularMessages">Regular Messages Enabled</label>
-                        </div>
-                        <div class="mb-4 flex items-center">
                             <input type="checkbox" class="h-4 w-4 rounded border-gray-500 bg-gray-600 text-primary-DEFAULT focus:ring-primary-DEFAULT" id="enableTestingModule">
                             <label class="ml-2 text-sm font-medium text-gray-300" for="enableTestingModule">Testing Mode</label>
                             <p class="mt-1 text-xs text-gray-500 ml-6">Skip sending webhooks if enabled.</p>
-                        </div>
-                        <div class="mb-4 flex items-center">
-                            <input type="checkbox" class="h-4 w-4 rounded border-gray-500 bg-gray-600 text-primary-DEFAULT focus:ring-primary-DEFAULT" id="enableAffiliateLinks">
-                            <label class="ml-2 text-sm font-medium text-gray-300" for="enableAffiliateLinks">Enable Affiliate Links (via Mavely)</label>
                         </div>
                     </form>
                 </div>
@@ -428,22 +467,53 @@
                             </div>
                             <p class="mt-1 text-xs text-gray-500">Select channels to forward messages to.</p>
                         </div>
+                        <!-- Task Settings Section -->
+                        <div class="mb-4">
+                          <label class="block text-gray-700 text-sm font-bold mb-2">Task Settings</label>
+                          <div class="flex flex-wrap gap-4">
+                            <!-- URL Unshortening -->
+                            <div class="flex items-center">
+                              <input type="checkbox" id="editEnableUrlUnshortening" class="form-checkbox h-4 w-4 text-primary-DEFAULT">
+                              <label for="editEnableUrlUnshortening" class="ml-2 text-sm">Enable URL Unshortening</label>
+                            </div>
+                            
+                            <!-- Regular Messages -->
+                            <div class="flex items-center">
+                              <input type="checkbox" id="editEnableRegularMessages" class="form-checkbox h-4 w-4 text-primary-DEFAULT">
+                              <label for="editEnableRegularMessages" class="ml-2 text-sm">Enable Regular Messages</label>
+                            </div>
+                            
+                            <!-- Affiliate Links -->
+                            <div class="flex items-center">
+                              <input type="checkbox" id="editEnableAffiliateLinks" class="form-checkbox h-4 w-4 text-primary-DEFAULT">
+                              <label for="editEnableAffiliateLinks" class="ml-2 text-sm">Enable Affiliate Links</label>
+                            </div>
+                            
+                            <!-- Tweet Integration -->
+                            <div class="flex items-center">
+                              <input type="checkbox" id="editEnableTweeting" class="form-checkbox h-4 w-4 text-primary-DEFAULT">
+                              <label for="editEnableTweeting" class="ml-2 text-sm">Enable Tweet Integration</label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Tweet Keywords Section (hidden by default) -->
+                        <div id="editTweetKeywordsSection" class="mb-4 hidden">
+                          <label for="editTweetKeywords" class="block text-gray-700 text-sm font-bold mb-2">Tweet Keywords</label>
+                          <div class="relative">
+                            <input type="text" id="editTweetKeywords" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Add keywords (e.g., +ETB, -pokemon)">
+                            <div id="editTweetKeywordTags" class="flex flex-wrap gap-2 mt-2"></div>
+                          </div>
+                          <p class="text-sm text-gray-500 mt-1">Use + for required words, - for excluded words. Press Enter to add.</p>
+                        </div>
                         <div class="mb-4 flex items-center">
                             <input type="checkbox" class="h-4 w-4 rounded border-gray-500 bg-gray-600 text-primary-DEFAULT focus:ring-primary-DEFAULT" id="editEnableHeadless">
                             <label class="ml-2 text-sm font-medium text-gray-300" for="editEnableHeadless">Headless Mode</label>
                         </div>
                         <div class="mb-4 flex items-center">
-                            <input type="checkbox" class="h-4 w-4 rounded border-gray-500 bg-gray-600 text-primary-DEFAULT focus:ring-primary-DEFAULT" id="editEnableRegularMessages">
-                            <label class="ml-2 text-sm font-medium text-gray-300" for="editEnableRegularMessages">Regular Messages Enabled</label>
-                        </div>
-                        <div class="mb-4 flex items-center">
                             <input type="checkbox" class="h-4 w-4 rounded border-gray-500 bg-gray-600 text-primary-DEFAULT focus:ring-primary-DEFAULT" id="editEnableTestingModule">
                             <label class="ml-2 text-sm font-medium text-gray-300" for="editEnableTestingModule">Testing Mode</label>
                             <p class="mt-1 text-xs text-gray-500 ml-6">Skip sending webhooks if enabled.</p>
-                        </div>
-                        <div class="mb-4 flex items-center">
-                            <input type="checkbox" class="h-4 w-4 rounded border-gray-500 bg-gray-600 text-primary-DEFAULT focus:ring-primary-DEFAULT" id="editEnableAffiliateLinks">
-                            <label class="ml-2 text-sm font-medium text-gray-300" for="editEnableAffiliateLinks">Enable Affiliate Links (via Mavely)</label>
                         </div>
                     </form>
                 </div>

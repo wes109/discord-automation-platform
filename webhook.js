@@ -1,5 +1,6 @@
 const { Webhook, MessageBuilder } = require('discord-webhook-node');
 const fetch = require('node-fetch');
+const { webhookEmitter } = require('./utils/tweet_processor');
 
 exports.sendRegularMessage = async (message, webhookUrl, isTestingModule = false) => {
     // Skip sending if in testing mode
@@ -37,6 +38,12 @@ exports.sendRegularMessage = async (message, webhookUrl, isTestingModule = false
         }
         
         console.log('[4/4] Success');
+        
+        // Fire and forget - emit webhook event
+        webhookEmitter.emit('webhook_sent', {
+            regularMessage: message,
+            messageId: message.id || Date.now().toString()
+        });
     } catch (error) {
         console.log(`[4/4] Failed - ${error.message}`);
         throw error;
@@ -67,7 +74,14 @@ exports.buildWebhook = async (embedArray, webhookUrl, isTestingModule = false) =
             if (regularMessage.avatar_url) {
                 hook.setAvatar(regularMessage.avatar_url);
             }
-            return await hook.send(regularMessage.content);
+            await hook.send(regularMessage.content);
+            
+            // Fire and forget - emit webhook event for regular message
+            webhookEmitter.emit('webhook_sent', {
+                regularMessage,
+                messageId: regularMessage.id || Date.now().toString()
+            });
+            return;
         }
 
         let skipNext = false;
@@ -152,7 +166,13 @@ exports.buildWebhook = async (embedArray, webhookUrl, isTestingModule = false) =
         const logFnDebug = typeof logTask === 'function' ? logTask : (id, lvl, ...args) => console.log(`[${id}] [${lvl}]`, ...args);
         logFnDebug('WEBHOOK', 'DEBUG', 'Attempting final hook.send');
         
-        return await hook.send(embedMessage);
+        await hook.send(embedMessage);
+        
+        // Fire and forget - emit webhook event for embeds
+        webhookEmitter.emit('webhook_sent', {
+            embedArray,
+            messageId: Date.now().toString()
+        });
     } catch (error) {
         const logFnError = typeof logTask === 'function' ? logTask : (id, lvl, ...args) => console.error(`[${id}] [${lvl}]`, ...args);
         logFnError('WEBHOOK', 'ERROR', `Error in buildWebhook outer catch: ${error?.message}`, error);

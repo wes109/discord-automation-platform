@@ -46,6 +46,10 @@ let mavelyManagerInstance = null;
 let mavelyManagerStatus = 'stopped'; // 'stopped', 'initializing', 'running', 'stopping', 'error'
 let mavelyLastError = null;
 
+// Tweet Processor Status
+let tweetProcessorStatus = 'stopped'; // 'stopped', 'initializing', 'running', 'stopping', 'error'
+let tweetProcessorLastError = null;
+
 // Load saved tasks on server start
 function loadSavedTasks() {
   try {
@@ -276,7 +280,10 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     enableRegularMessages: taskSettings.enableRegularMessages === true,
     createdTime: new Date().toISOString(),
     isTestingModule: taskSettings.isTestingModule === true,
-    enableAffiliateLinks: taskSettings.enableAffiliateLinks === true
+    enableAffiliateLinks: taskSettings.enableAffiliateLinks === true,
+    // Add tweet settings
+    enableTweeting: taskSettings.enableTweeting === true,
+    tweetKeywords: taskSettings.tweetKeywords || ''
   };
   
   // Create the task object with headless state at all levels
@@ -287,12 +294,16 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     enableRegularMessages: settings.enableRegularMessages,
     isHeadless, // Add isHeadless flag
     enableAffiliateLinks: settings.enableAffiliateLinks,
+    enableTweeting: settings.enableTweeting,
+    tweetKeywords: settings.tweetKeywords,
     settings: {
       ...settings,
       headless: isHeadless, // Ensure it's in settings
       enableRegularMessages: settings.enableRegularMessages, // And here
       isTestingModule: settings.isTestingModule,
-      enableAffiliateLinks: settings.enableAffiliateLinks
+      enableAffiliateLinks: settings.enableAffiliateLinks,
+      enableTweeting: settings.enableTweeting,
+      tweetKeywords: settings.tweetKeywords
     }
   };
   
@@ -301,16 +312,7 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
   savedTasks.push(taskToSave);
   writeSavedTasks(savedTasks);
   
-  // Also save to task settings file
-  writeTaskSettings(taskId, settings);
-  
-  console.log('[Task Manager] Created new task with settings:', {
-    taskId,
-    headless: isHeadless,
-    taskToSave
-  });
-  
-  return { success: true, taskId, settings };
+  return taskToSave;
 }
 
 // Function to delete a saved task
@@ -654,33 +656,63 @@ app.get('/', (req, res) => {
 
 // API endpoint to get all tasks
 app.get('/api/tasks', (req, res) => {
-  // Get saved tasks (which are not actively running according to server.js memory)
-  const savedTasksData = readSavedTasks();
-  const activeTaskIds = new Set(activeTasks.keys());
+  try {
+    const savedTasks = readSavedTasks();
+    const taskSettings = readTaskSettings();
+    
+    // Combine task info with settings and active status
+    const tasks = savedTasks.map(task => {
+      const isActive = activeTasks.has(task.taskId);
+      const isStopping = stoppingTasks.has(task.taskId);
+      
+      // Determine task status
+      let status = 'saved';
+      if (isActive) {
+        status = 'running';
+      } else if (isStopping) {
+        status = 'stopping';
+      }
 
-  const savedOnlyTasks = savedTasksData
-    .filter(task => !activeTaskIds.has(task.taskId)) // Filter out tasks that are currently active in memory
-    .map(task => ({
-    ...task,
-    status: 'saved',
-    isSaved: true,
-    isHeadless: task.settings?.headless === true
-  }));
-  
-  // Get active tasks from server memory
-  const runningTasks = Array.from(activeTasks.values()).map(task => ({
-    ...task,
-    process: undefined, // Don't send process object
-    status: task.status || 'running', // Ensure status is included
-    isSaved: savedTasksData.some(saved => saved.taskId === task.taskId), // Check if it exists in saved file
-    isHeadless: task.settings?.headless === true || task.isHeadless === true
-  }));
-  
-  res.json({
-    tasks: [...savedOnlyTasks, ...runningTasks]
-  });
+      return {
+        ...task,
+        status,
+        settings: taskSettings[task.taskId] || {}
+      };
+    });
+    
+    res.json({ tasks });
+  } catch (error) {
+    console.error('Error getting tasks:', error);
+    res.status(500).json({ error: 'Failed to get tasks' });
+  }
 });
 
+// Get single task details
+app.get('/api/tasks/:taskId', (req, res) => {
+  try {
+    const { taskId } = req.params;
+    const savedTasks = readSavedTasks();
+    const taskSettings = readTaskSettings();
+    
+    // Find the specific task
+    const task = savedTasks.find(t => t.taskId === taskId);
+    if (!task) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
+    
+    // Combine task info with settings and active status
+    const taskDetails = {
+      ...task,
+      ...taskSettings[taskId],  // Spread settings at top level for easier access
+      isActive: activeTasks.has(taskId)
+    };
+    
+    res.json(taskDetails);
+  } catch (error) {
+    console.error('Error getting task details:', error);
+    res.status(500).json({ error: 'Failed to get task details' });
+  }
+});
 
 // API endpoint to get task logs (fetch from PM2)
 app.get('/api/tasks/:taskId/logs', (req, res) => {
@@ -1305,6 +1337,60 @@ app.post('/api/mavely/generate-link', async (req, res) => {
     console.error(`[Mavely API] Error generating Mavely link for ${url}:`, error);
     res.status(500).json({ message: 'Error generating Mavely link.', error: error.message });
   }
+});
+
+// Initialize Tweet Processor
+app.post('/api/tweet-processor/initialize', async (req, res) => {
+  if (tweetProcessorStatus === 'running' || tweetProcessorStatus === 'initializing') {
+    return res.status(400).json({ message: `Tweet Processor is already ${tweetProcessorStatus}.` });
+  }
+  
+  tweetProcessorStatus = 'initializing';
+  tweetProcessorLastError = null;
+  console.log('[Tweet API] Initializing Tweet Processor...');
+  
+  try {
+    // Initialize n8n connection here if needed
+    tweetProcessorStatus = 'running';
+    console.log('[Tweet API] Tweet Processor initialized successfully.');
+    res.status(200).json({ message: 'Tweet Processor initialized successfully.' });
+  } catch (error) {
+    tweetProcessorStatus = 'error';
+    tweetProcessorLastError = error.message;
+    console.error('[Tweet API] Critical error during Tweet Processor initialization:', error);
+    res.status(500).json({ message: 'Critical error during Tweet Processor initialization.', error: error.message });
+  }
+});
+
+// Stop Tweet Processor
+app.post('/api/tweet-processor/close', async (req, res) => {
+  if (tweetProcessorStatus === 'stopped' || tweetProcessorStatus === 'stopping') {
+    return res.status(400).json({ message: 'Tweet Processor is not running or already stopping.' });
+  }
+  
+  tweetProcessorStatus = 'stopping';
+  tweetProcessorLastError = null;
+  console.log('[Tweet API] Stopping Tweet Processor...');
+  
+  try {
+    // Cleanup n8n connection here if needed
+    tweetProcessorStatus = 'stopped';
+    console.log('[Tweet API] Tweet Processor stopped successfully.');
+    res.status(200).json({ message: 'Tweet Processor stopped successfully.' });
+  } catch (error) {
+    tweetProcessorStatus = 'error';
+    tweetProcessorLastError = error.message;
+    console.error('[Tweet API] Critical error during Tweet Processor stopping:', error);
+    res.status(500).json({ message: 'Critical error during Tweet Processor stopping.', error: error.message });
+  }
+});
+
+// Get Tweet Processor Status
+app.get('/api/tweet-processor/status', (req, res) => {
+  res.status(200).json({
+    status: tweetProcessorStatus,
+    lastError: tweetProcessorLastError
+  });
 });
 
 // Start the server

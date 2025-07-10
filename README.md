@@ -2,6 +2,14 @@
 
 A sophisticated e-commerce monitoring and automation system built with Node.js, focusing on real-time product tracking and automated notifications.
 
+## ⚠️ Prerequisites
+
+- Node.js (>=20.19 and <=24.x) for n8n compatibility
+  - If you need to manage multiple Node.js versions, consider using [nvm](https://github.com/nvm-sh/nvm) or [nvm-windows](https://github.com/coreybutler/nvm-windows)
+- Chrome/Chromium browser
+- Discord webhook URLs for target channels
+- Twitter Developer Account (for n8n Twitter integration)
+
 ## 🚀 Features
 
 ### Real-Time Product Monitoring
@@ -21,6 +29,13 @@ A sophisticated e-commerce monitoring and automation system built with Node.js, 
 - Rich embed message formatting
 - Customizable notification templates
 - Automated retry mechanisms with exponential backoff
+- Twitter integration via n8n workflows
+
+### Workflow Automation
+- n8n integration for advanced automation
+- Customizable webhook endpoints
+- Twitter posting capabilities
+- Extensible workflow system
 
 ### Performance Optimization
 - Singleton pattern implementation for resource management
@@ -57,6 +72,11 @@ npm install
   - Browser profile settings
   - Affiliate network credentials
 
+4. Configure n8n (optional):
+- Copy `.env.example` to `.env`
+- Set up your Twitter OAuth2 credentials in `.env`
+- Configure n8n port and host settings if needed
+
 ## 🚦 Usage
 
 1. Ensure your `config.json` is properly configured
@@ -65,11 +85,21 @@ npm install
 node main.js
 ```
 
+3. Start n8n (optional):
+```bash
+# Start n8n in production mode
+npm run n8n
+
+# Start n8n in development mode with tunnel
+npm run n8n:dev
+```
+
 The application will automatically:
 - Load configuration from `config.json`
 - Initialize browser sessions
 - Begin monitoring configured channels
 - Send notifications through specified webhooks
+- Start n8n server if enabled
 
 ## 🏗 Architecture
 
@@ -213,4 +243,36 @@ node server.js
 
 ## License
 
-MIT License - See LICENSE file for details 
+MIT License - See LICENSE file for details
+
+## n8n Integration
+
+### Available Workflows
+
+1. Tweet via HTTP
+- Endpoint: POST /webhook/tweet
+- Functionality: Posts tweets via Twitter API
+- Parameters: 
+  - tweet: The text content to tweet
+- Example usage:
+```bash
+curl -X POST http://localhost:5678/webhook/tweet \
+  -H "Content-Type: application/json" \
+  -d '{"tweet": "Hello from DollarShoeClub!"}'
+```
+
+### Setting up Twitter Integration
+
+1. Create a Twitter Developer Account
+2. Create a new project and app
+3. Get your OAuth2 credentials:
+   - Client ID
+   - Client Secret
+4. Configure the callback URL in Twitter Developer Portal:
+   - http://localhost:5678/rest/oauth2-credential/callback
+5. Update your `.env` file with the credentials
+6. Configure the Twitter credentials in n8n:
+   - Open n8n interface (http://localhost:5678)
+   - Go to Settings > Credentials
+   - Add new Twitter OAuth2 credentials
+   - Update the workflow with your credential ID 

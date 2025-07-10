@@ -110,6 +110,172 @@ document.addEventListener('DOMContentLoaded', function() {
   // Run health check immediately and then every 60 seconds
   checkTaskHealth();
   setInterval(checkTaskHealth, 60000);
+
+  // --- Tweet Processor Control Functions ---
+
+  let isTweetActionInProgress = false;
+
+  async function updateTweetProcessorButtonState() {
+    const tweetBtn = document.getElementById('tweetProcessorControlBtn');
+    if (!tweetBtn || isTweetActionInProgress) return;
+
+    try {
+      const response = await fetch('/api/tweet-processor/status');
+      const data = await response.json();
+
+      // Clear existing classes
+      tweetBtn.classList.remove('bg-info-DEFAULT', 'hover:bg-info-hover', 'bg-success-DEFAULT', 'hover:bg-success-hover', 'bg-danger-DEFAULT', 'hover:bg-danger-hover', 'bg-warning-DEFAULT', 'hover:bg-warning-hover', 'bg-secondary-DEFAULT', 'hover:bg-secondary-hover', 'opacity-50', 'cursor-not-allowed');
+      tweetBtn.disabled = false;
+      const icon = tweetBtn.querySelector('i');
+      icon.className = 'bi bi-twitter mr-2';
+
+      switch (data.status) {
+        case 'running':
+          tweetBtn.classList.add('bg-success-DEFAULT', 'hover:bg-success-hover');
+          tweetBtn.innerHTML = '<i class="bi bi-stop-circle mr-2"></i> Stop Tweet Processor';
+          tweetBtn.setAttribute('data-action', 'stop');
+          break;
+        case 'stopped':
+          tweetBtn.classList.add('bg-info-DEFAULT', 'hover:bg-info-hover');
+          tweetBtn.innerHTML = '<i class="bi bi-play-circle mr-2"></i> Initialize Tweet Processor';
+          tweetBtn.setAttribute('data-action', 'start');
+          break;
+        case 'initializing':
+          tweetBtn.classList.add('bg-warning-DEFAULT', 'opacity-50', 'cursor-not-allowed');
+          tweetBtn.innerHTML = '<i class="bi bi-hourglass-split mr-2"></i> Tweet Processor Initializing...';
+          tweetBtn.disabled = true;
+          tweetBtn.removeAttribute('data-action');
+          break;
+        case 'stopping':
+          tweetBtn.classList.add('bg-warning-DEFAULT', 'opacity-50', 'cursor-not-allowed');
+          tweetBtn.innerHTML = '<i class="bi bi-hourglass-split mr-2"></i> Tweet Processor Stopping...';
+          tweetBtn.disabled = true;
+          tweetBtn.removeAttribute('data-action');
+          break;
+        case 'error':
+          tweetBtn.classList.add('bg-danger-DEFAULT', 'hover:bg-danger-hover');
+          tweetBtn.innerHTML = '<i class="bi bi-exclamation-triangle mr-2"></i> Tweet Processor Error';
+          tweetBtn.setAttribute('data-action', 'start');
+          if (data.lastError) {
+            tweetBtn.title = `Last Error: ${data.lastError}`;
+          }
+          break;
+        default:
+          tweetBtn.classList.add('bg-secondary-DEFAULT', 'hover:bg-secondary-hover');
+          tweetBtn.innerHTML = '<i class="bi bi-question-circle mr-2"></i> Tweet Processor Status Unknown';
+          tweetBtn.setAttribute('data-action', 'start');
+      }
+    } catch (error) {
+      console.error('Error fetching Tweet Processor status:', error);
+      tweetBtn.classList.add('bg-secondary-DEFAULT', 'hover:bg-secondary-hover');
+      tweetBtn.innerHTML = '<i class="bi bi-question-circle mr-2"></i> Tweet Processor Status Error';
+      tweetBtn.setAttribute('data-action', 'start');
+    }
+  }
+
+  async function handleTweetProcessorClick() {
+    if (isTweetActionInProgress) return;
+
+    const tweetBtn = document.getElementById('tweetProcessorControlBtn');
+    const action = tweetBtn.getAttribute('data-action');
+
+    if (!action) return;
+
+    isTweetActionInProgress = true;
+    tweetBtn.disabled = true;
+    tweetBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    const originalHtml = tweetBtn.innerHTML;
+    tweetBtn.innerHTML = '<i class="bi bi-hourglass-split mr-2"></i> Processing...';
+
+    try {
+      const endpoint = action === 'start' ? '/api/tweet-processor/initialize' : '/api/tweet-processor/close';
+      const response = await fetch(endpoint, { method: 'POST' });
+      const result = await response.json();
+
+      if (response.ok) {
+        showToast(result.message || `Tweet Processor ${action === 'start' ? 'initialization' : 'stopping'} started.`, 'success');
+      } else {
+        showToast(`Error: ${result.message || 'Failed to perform Tweet Processor action.'}`, 'danger');
+      }
+    } catch (error) {
+      console.error(`Error during Tweet Processor ${action}:`, error);
+      showToast(`Network or server error during Tweet Processor ${action}.`, 'danger');
+    } finally {
+      isTweetActionInProgress = false;
+      updateTweetProcessorButtonState();
+    }
+  }
+
+  // --- Keyword Tag Management ---
+
+  function createKeywordTag(keyword, container, input) {
+    const tag = document.createElement('span');
+    tag.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800';
+    tag.innerHTML = `
+      ${keyword}
+      <button type="button" class="ml-1 inline-flex items-center p-0.5 hover:bg-blue-200 rounded-full">
+        <i class="bi bi-x"></i>
+      </button>
+    `;
+    
+    tag.querySelector('button').addEventListener('click', () => {
+      tag.remove();
+      updateKeywordsList(container, input);
+    });
+    
+    container.appendChild(tag);
+    updateKeywordsList(container, input);
+  }
+
+  function updateKeywordsList(container, input) {
+    const tags = Array.from(container.children).map(tag => tag.textContent.trim());
+    input.value = '';
+    return tags;
+  }
+
+  function setupKeywordInput(inputId, containerId) {
+    const input = document.getElementById(inputId);
+    const container = document.getElementById(containerId);
+    
+    if (!input || !container) return;
+    
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && input.value.trim()) {
+        e.preventDefault();
+        const keyword = input.value.trim();
+        if (keyword.startsWith('+') || keyword.startsWith('-')) {
+          createKeywordTag(keyword, container, input);
+        } else {
+          showToast('Keywords must start with + or -', 'warning');
+        }
+      }
+    });
+  }
+
+  // --- Event Listeners ---
+
+  // Tweet Processor Control
+  const tweetBtn = document.getElementById('tweetProcessorControlBtn');
+  if (tweetBtn) {
+    tweetBtn.addEventListener('click', handleTweetProcessorClick);
+  }
+  updateTweetProcessorButtonState();
+  setInterval(updateTweetProcessorButtonState, 15000);
+  
+  // Setup keyword inputs
+  setupKeywordInput('tweetKeywords', 'tweetKeywordTags');
+  setupKeywordInput('editTweetKeywords', 'editTweetKeywordTags');
+  
+  // Show/hide keyword sections based on tweet integration checkbox
+  ['enableTweeting', 'editEnableTweeting'].forEach(id => {
+    const checkbox = document.getElementById(id);
+    const section = document.getElementById(id === 'enableTweeting' ? 'tweetKeywordsSection' : 'editTweetKeywordsSection');
+    if (checkbox && section) {
+      checkbox.addEventListener('change', () => {
+        section.classList.toggle('hidden', !checkbox.checked);
+      });
+    }
+  });
 });
 
 // Current task ID for logs modal
@@ -1028,90 +1194,130 @@ function updateTaskRow(row, task) {
 
 // Function to edit a task
 async function editTask(taskId) {
-  try {
-    // Fetch task details
-    const response = await fetch('/api/tasks');
-    const result = await response.json();
-    const task = result.tasks.find(t => t.taskId === taskId);
-    
-    if (!task) {
-      console.error('Task not found');
-      return;
+    try {
+        const response = await fetch(`/api/tasks/${taskId}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch task: ${response.statusText}`);
+        }
+        
+        const task = await response.json();
+        if (!task) {
+            showToast('Task not found', 'error');
+            return;
+        }
+
+        // Set form values
+        document.getElementById('editTaskId').value = taskId;
+        document.getElementById('editChannelUrl').value = task.channelUrl || '';
+        document.getElementById('editTaskLabel').value = task.label || '';
+        document.getElementById('editEnableHeadless').checked = task.settings?.headless || false;
+        document.getElementById('editEnableRegularMessages').checked = task.settings?.enableRegularMessages || false;
+        document.getElementById('editEnableTestingModule').checked = task.settings?.isTestingModule || false;
+        document.getElementById('editEnableAffiliateLinks').checked = task.settings?.enableAffiliateLinks || false;
+        document.getElementById('editEnableTweeting').checked = task.settings?.enableTweeting || false;
+        document.getElementById('editEnableUrlUnshortening').checked = task.settings?.enableUrlUnshortening || false;
+
+        // Handle tweet keywords section visibility
+        const tweetSection = document.getElementById('editTweetKeywordsSection');
+        if (tweetSection) {
+            tweetSection.classList.toggle('hidden', !task.settings?.enableTweeting);
+            
+            // Clear existing tags
+            const tagContainer = document.getElementById('editTweetKeywordTags');
+            if (tagContainer) {
+                tagContainer.innerHTML = '';
+                
+                // Add existing tags if any
+                if (task.settings?.tweetKeywords && Array.isArray(task.settings.tweetKeywords)) {
+                    task.settings.tweetKeywords.forEach(keyword => {
+                        createKeywordTag(keyword, tagContainer, document.getElementById('editTweetKeywords'));
+                    });
+                }
+            }
+        }
+
+        // Set target channels
+        const editTargetChannels = document.querySelector('.edit-target-channels-group');
+        if (editTargetChannels) {
+            editTargetChannels.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = task.targetChannels && task.targetChannels.includes(checkbox.value);
+            });
+        }
+
+        // Open the modal
+        openModal('editTaskModal');
+    } catch (error) {
+        console.error('Error loading task for editing:', error);
+        showToast(error.message || 'Error loading task for editing', 'error');
     }
-    
-    // Set values in the edit modal
-    document.getElementById('editTaskId').value = taskId;
-    document.getElementById('editChannelUrl').value = task.channelUrl;
-    document.getElementById('editTaskLabel').value = task.label || '';
-    document.getElementById('editEnableHeadless').checked = task.settings?.headless || false;
-    document.getElementById('editEnableRegularMessages').checked = task.settings?.enableRegularMessages || false;
-    document.getElementById('editEnableTestingModule').checked = task.settings?.isTestingModule || false;
-    document.getElementById('editEnableAffiliateLinks').checked = task.settings?.enableAffiliateLinks || false;
-    
-    // Set selected target channels
-    document.querySelectorAll('.edit-target-channel-checkbox').forEach(cb => {
-      cb.checked = task.targetChannels.includes(cb.value);
-    });
-    
-    // Show the edit task modal using vanilla JS
-    openModal('editTaskModal');
-  } catch (error) {
-    console.error('Error loading task for editing:', error);
-    showToast('Error loading task for editing', 'danger');
-  }
 }
 
 // Function to save edited task
 async function saveEditedTask() {
-  const taskId = document.getElementById('editTaskId').value;
-  const channelUrl = document.getElementById('editChannelUrl').value;
-  const targetChannels = Array.from(document.querySelectorAll('.edit-target-channel-checkbox:checked')).map(cb => cb.value);
-  const headless = document.getElementById('editEnableHeadless').checked;
-  const label = document.getElementById('editTaskLabel').value;
-  const enableRegularMessages = document.getElementById('editEnableRegularMessages').checked;
-  const isTestingModule = document.getElementById('editEnableTestingModule').checked;
-  const enableAffiliateLinks = document.getElementById('editEnableAffiliateLinks').checked;
+    try {
+        const taskId = document.getElementById('editTaskId').value;
+        const channelUrl = document.getElementById('editChannelUrl').value;
+        const label = document.getElementById('editTaskLabel').value;
+        
+        // Get target channels
+        const targetChannels = [];
+        document.querySelectorAll('.edit-target-channels-group input[type="checkbox"]:checked').forEach(cb => {
+            targetChannels.push(cb.value);
+        });
+        
+        // Get tweet keywords
+        const tweetKeywords = [];
+        if (document.getElementById('editEnableTweeting').checked) {
+            document.querySelectorAll('#editTweetKeywordTags span').forEach(tag => {
+                tweetKeywords.push(tag.textContent.trim());
+            });
+        }
 
-  if (!channelUrl || targetChannels.length === 0) {
-    showToast('Please select a channel URL and at least one target channel', 'danger');
-    return;
-  }
+        // Validate inputs
+        if (!channelUrl) {
+            showToast('Channel URL is required', 'error');
+            return;
+        }
+        
+        if (targetChannels.length === 0) {
+            showToast('At least one target channel is required', 'error');
+            return;
+        }
 
-  try {
-    // Update the task settings
-    const response = await fetch(`/api/tasks/${taskId}/settings`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        channelUrl,
-        targetChannels,
-        headless,
-        label,
-        enableRegularMessages,
-        isTestingModule,
-        enableAffiliateLinks
-      })
-    });
+        // Build task settings
+        const taskSettings = {
+            label,
+            channelUrl,
+            targetChannels,
+            headless: document.getElementById('editEnableHeadless').checked,
+            enableRegularMessages: document.getElementById('editEnableRegularMessages').checked,
+            isTestingModule: document.getElementById('editEnableTestingModule').checked,
+            enableAffiliateLinks: document.getElementById('editEnableAffiliateLinks').checked,
+            enableTweeting: document.getElementById('editEnableTweeting').checked,
+            tweetKeywords: tweetKeywords
+        };
 
-    const result = await response.json();
+        // Send update request
+        const response = await fetch(`/api/tasks/${taskId}/settings`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(taskSettings)
+        });
 
-    if (result.success) {
-      // Close the modal using vanilla JS
-      closeModal('editTaskModal');
-      
-      // Refresh the tasks table
-      refreshTasksTable();
-      
-      showToast('Task updated successfully', 'success');
-    } else {
-      showToast(`Failed to update task: ${result.message}`, 'danger');
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Failed to update task');
+        }
+
+        showToast('Task updated successfully', 'success');
+        closeModal('editTaskModal');
+        refreshTasksTable();
+    } catch (error) {
+        console.error('Error saving edited task:', error);
+        showToast(error.message || 'Error saving task', 'error');
     }
-  } catch (error) {
-    console.error('Error updating task:', error);
-    showToast('An error occurred while updating the task', 'danger');
-  }
 }
 
 // Function to save all active tasks
