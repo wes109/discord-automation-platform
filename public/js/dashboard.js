@@ -109,6 +109,51 @@ document.addEventListener('DOMContentLoaded', function() {
   // Periodically check Mavely status
   setInterval(updateMavelyButtonState, 15000); // Check every 15 seconds
 
+  // --- Tweet Processor Status Indicator ---
+  
+  // Update tweet processor status every 10 seconds
+  async function updateTweetProcessorStatus() {
+    const statusIndicator = document.getElementById('tweetProcessorStatus');
+    const statusText = document.getElementById('tweetProcessorText');
+    
+    if (!statusIndicator || !statusText) return;
+    
+    try {
+      const response = await fetch('/api/tweet-processor/status');
+      const data = await response.json();
+      
+      // Clear existing classes
+      statusIndicator.classList.remove('bg-green-500', 'bg-red-500', 'bg-gray-500');
+      
+      switch (data.status) {
+        case 'running':
+          statusIndicator.classList.add('bg-green-500');
+          statusText.textContent = 'Tweet Processor (n8n)';
+          statusText.title = `Last check: ${new Date(data.lastCheck).toLocaleTimeString()}`;
+          break;
+        case 'error':
+          statusIndicator.classList.add('bg-red-500');
+          statusText.textContent = 'Tweet Processor (n8n)';
+          statusText.title = `Error: ${data.lastError}\nLast check: ${new Date(data.lastCheck).toLocaleTimeString()}`;
+          break;
+        default:
+          statusIndicator.classList.add('bg-gray-500');
+          statusText.textContent = 'Tweet Processor (n8n)';
+          statusText.title = 'Status unknown';
+      }
+    } catch (error) {
+      console.error('Error fetching Tweet Processor status:', error);
+      statusIndicator.classList.remove('bg-green-500', 'bg-red-500');
+      statusIndicator.classList.add('bg-gray-500');
+      statusText.textContent = 'Tweet Processor (n8n)';
+      statusText.title = 'Could not check status';
+    }
+  }
+  
+  // Start status updates every 10 seconds
+  updateTweetProcessorStatus(); // Initial check
+  setInterval(updateTweetProcessorStatus, 10000); // Update every 10 seconds
+
   // Discord Channel Management
   const saveDiscordChannelBtn = document.getElementById('saveDiscordChannelBtn');
   if (saveDiscordChannelBtn) {
@@ -153,104 +198,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Set up interval to refresh tasks table
   setInterval(refreshTasksTable, 10000); // Refresh every 10 seconds
   
-  // Run health check immediately and then every 60 seconds
-  checkTaskHealth();
-  setInterval(checkTaskHealth, 60000);
+  // Health check is now manual only - use the refresh button in the UI
+  // Removed periodic health check to reduce resource usage
 
   // --- Tweet Processor Control Functions ---
 
-  let isTweetActionInProgress = false;
-
-  async function updateTweetProcessorButtonState() {
-    const tweetBtn = document.getElementById('tweetProcessorControlBtn');
-    if (!tweetBtn || isTweetActionInProgress) return;
-
-    try {
-      const response = await fetch('/api/tweet-processor/status');
-      const data = await response.json();
-
-      // Clear existing classes
-      tweetBtn.classList.remove('bg-info-DEFAULT', 'hover:bg-info-hover', 'bg-success-DEFAULT', 'hover:bg-success-hover', 'bg-danger-DEFAULT', 'hover:bg-danger-hover', 'bg-warning-DEFAULT', 'hover:bg-warning-hover', 'bg-secondary-DEFAULT', 'hover:bg-secondary-hover', 'opacity-50', 'cursor-not-allowed');
-      tweetBtn.disabled = false;
-      const icon = tweetBtn.querySelector('i');
-      icon.className = 'bi bi-twitter mr-2';
-
-      switch (data.status) {
-        case 'running':
-          tweetBtn.classList.add('bg-success-DEFAULT', 'hover:bg-success-hover');
-          tweetBtn.innerHTML = '<i class="bi bi-stop-circle mr-2"></i> Stop Tweet Processor';
-          tweetBtn.setAttribute('data-action', 'stop');
-          break;
-        case 'stopped':
-          tweetBtn.classList.add('bg-info-DEFAULT', 'hover:bg-info-hover');
-          tweetBtn.innerHTML = '<i class="bi bi-play-circle mr-2"></i> Initialize Tweet Processor';
-          tweetBtn.setAttribute('data-action', 'start');
-          break;
-        case 'initializing':
-          tweetBtn.classList.add('bg-warning-DEFAULT', 'opacity-50', 'cursor-not-allowed');
-          tweetBtn.innerHTML = '<i class="bi bi-hourglass-split mr-2"></i> Tweet Processor Initializing...';
-          tweetBtn.disabled = true;
-          tweetBtn.removeAttribute('data-action');
-          break;
-        case 'stopping':
-          tweetBtn.classList.add('bg-warning-DEFAULT', 'opacity-50', 'cursor-not-allowed');
-          tweetBtn.innerHTML = '<i class="bi bi-hourglass-split mr-2"></i> Tweet Processor Stopping...';
-          tweetBtn.disabled = true;
-          tweetBtn.removeAttribute('data-action');
-          break;
-        case 'error':
-          tweetBtn.classList.add('bg-danger-DEFAULT', 'hover:bg-danger-hover');
-          tweetBtn.innerHTML = '<i class="bi bi-exclamation-triangle mr-2"></i> Tweet Processor Error';
-          tweetBtn.setAttribute('data-action', 'start');
-          if (data.lastError) {
-            tweetBtn.title = `Last Error: ${data.lastError}`;
-          }
-          break;
-        default:
-          tweetBtn.classList.add('bg-secondary-DEFAULT', 'hover:bg-secondary-hover');
-          tweetBtn.innerHTML = '<i class="bi bi-question-circle mr-2"></i> Tweet Processor Status Unknown';
-          tweetBtn.setAttribute('data-action', 'start');
-      }
-    } catch (error) {
-      console.error('Error fetching Tweet Processor status:', error);
-      tweetBtn.classList.add('bg-secondary-DEFAULT', 'hover:bg-secondary-hover');
-      tweetBtn.innerHTML = '<i class="bi bi-question-circle mr-2"></i> Tweet Processor Status Error';
-      tweetBtn.setAttribute('data-action', 'start');
-    }
-  }
-
-  async function handleTweetProcessorClick() {
-    if (isTweetActionInProgress) return;
-
-    const tweetBtn = document.getElementById('tweetProcessorControlBtn');
-    const action = tweetBtn.getAttribute('data-action');
-
-    if (!action) return;
-
-    isTweetActionInProgress = true;
-    tweetBtn.disabled = true;
-    tweetBtn.classList.add('opacity-50', 'cursor-not-allowed');
-    const originalHtml = tweetBtn.innerHTML;
-    tweetBtn.innerHTML = '<i class="bi bi-hourglass-split mr-2"></i> Processing...';
-
-    try {
-      const endpoint = action === 'start' ? '/api/tweet-processor/initialize' : '/api/tweet-processor/close';
-      const response = await fetch(endpoint, { method: 'POST' });
-      const result = await response.json();
-
-      if (response.ok) {
-        showToast(result.message || `Tweet Processor ${action === 'start' ? 'initialization' : 'stopping'} started.`, 'success');
-      } else {
-        showToast(`Error: ${result.message || 'Failed to perform Tweet Processor action.'}`, 'danger');
-      }
-    } catch (error) {
-      console.error(`Error during Tweet Processor ${action}:`, error);
-      showToast(`Network or server error during Tweet Processor ${action}.`, 'danger');
-    } finally {
-      isTweetActionInProgress = false;
-      updateTweetProcessorButtonState();
-    }
-  }
+  // The handleTweetProcessorClick and updateTweetProcessorButtonState functions are removed
+  // as the button is now a status indicator.
 
   // --- Keyword Tag Management ---
 
@@ -258,13 +212,20 @@ document.addEventListener('DOMContentLoaded', function() {
   setupKeywordInput('tweetKeywords', 'tweetKeywordTags');
   setupKeywordInput('editTweetKeywords', 'editTweetKeywordTags');
   
-  // Show/hide keyword sections based on tweet integration checkbox
+  // Show/hide keyword and timeout sections based on tweet integration checkbox
   ['enableTweeting', 'editEnableTweeting'].forEach(id => {
     const checkbox = document.getElementById(id);
-    const section = document.getElementById(id === 'enableTweeting' ? 'tweetKeywordsSection' : 'editTweetKeywordsSection');
-    if (checkbox && section) {
+    const keywordSection = document.getElementById(id === 'enableTweeting' ? 'tweetKeywordsSection' : 'editTweetKeywordsSection');
+    const timeoutSection = document.getElementById(id === 'enableTweeting' ? 'tweetTimeoutSection' : 'editTweetTimeoutSection');
+    
+    if (checkbox) {
       checkbox.addEventListener('change', () => {
-        section.classList.toggle('hidden', !checkbox.checked);
+        if (keywordSection) {
+          keywordSection.classList.toggle('hidden', !checkbox.checked);
+        }
+        if (timeoutSection) {
+          timeoutSection.classList.toggle('hidden', !checkbox.checked);
+        }
       });
     }
   });
@@ -275,6 +236,8 @@ let currentTaskId = null;
 
 // Object to store the last known health state for each task
 let taskHealthStates = {}; // Structure: { taskId: { isHealthy: boolean, lastCheck: string, unhealthySince: Date | null, restartAttempts: number, lastRestartAttempt: Date | null } }
+
+// Tweet Processor state - no longer needed with status indicator
 
 // --- Constants for Auto Restart ---
 const UNHEALTHY_RESTART_THRESHOLD_MS = 3 * 60 * 1000; // 3 minutes
@@ -462,6 +425,18 @@ async function handleCreateTaskSubmit() {
   const enableRegularMessages = document.getElementById('enableRegularMessages').checked;
   const isTestingModule = document.getElementById('enableTestingModule').checked;
   const enableAffiliateLinks = document.getElementById('enableAffiliateLinks').checked;
+  const enableTweeting = document.getElementById('enableTweeting').checked;
+  
+  // Get tweet keywords
+  const tweetKeywords = [];
+  if (enableTweeting) {
+    document.querySelectorAll('#tweetKeywordTags span').forEach(tag => {
+      tweetKeywords.push(tag.textContent.trim());
+    });
+  }
+  
+  // Get tweet timeout
+  const tweetTimeout = enableTweeting ? parseInt(document.getElementById('tweetTimeout').value) || 30 : 30;
 
   if (!channelUrl || targetChannels.length === 0) {
     showToast('Please select a channel URL and at least one target channel', 'danger');
@@ -482,7 +457,10 @@ async function handleCreateTaskSubmit() {
         label,
         enableRegularMessages,
         isTestingModule,
-        enableAffiliateLinks
+        enableAffiliateLinks,
+        enableTweeting,
+        tweetKeywords,
+        tweetTimeout
       })
     });
 
@@ -500,12 +478,13 @@ async function handleCreateTaskSubmit() {
       document.getElementById('enableRegularMessages').checked = false;
       document.getElementById('enableTestingModule').checked = false;
       document.getElementById('enableAffiliateLinks').checked = false;
+      document.getElementById('enableTweeting').checked = false;
+      document.getElementById('tweetKeywords').value = '';
+      document.getElementById('tweetKeywordTags').innerHTML = '';
+      document.getElementById('tweetTimeout').value = '30';
       
       // Refresh the tasks table
       refreshTasksTable();
-      
-      // Run health check immediately for the new task
-      setTimeout(checkTaskHealth, 1000);
       
       showToast('Task created successfully', 'success');
     } else {
@@ -574,9 +553,6 @@ async function startSavedTask(taskId, skipConfirm = false) {
       
       // Refresh the tasks table
       refreshTasksTable();
-      
-      // Run health check immediately for the started task
-      setTimeout(checkTaskHealth, 1000);
       
       showToast('Task started successfully', 'success');
     } else {
@@ -1097,6 +1073,40 @@ function updateTaskRow(row, task) {
        targetChannelsDisplay = '<span class="text-gray-500">None</span>';
   }
 
+  // Only render health-check-cell and log/stop buttons for running or stopping tasks
+  let healthCellHtml = '';
+  let actionsHtml = '';
+  if (task.status === 'running' || task.status === 'stopping') {
+    healthCellHtml = `<td class="px-6 py-4 whitespace-nowrap text-sm text-center health-check-cell" data-task-id="${task.taskId}" data-last-check="${healthTitle}">
+      <div class="${healthClass}" title="${healthTitle}"></div>
+    </td>`;
+    actionsHtml = `
+      <div class="flex space-x-3 items-center">
+        <button class="text-blue-400 hover:text-blue-300 view-logs-btn" data-task-id="${task.taskId}" title="View task logs">
+          <i class="bi bi-journal-text"></i> Logs
+        </button>
+        <button class="text-yellow-400 hover:text-yellow-300 stop-task-btn" data-task-id="${task.taskId}" title="Stop this task">
+           <i class="bi bi-stop-circle"></i> Stop
+        </button>
+      </div>
+    `;
+  } else {
+    healthCellHtml = '<td class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">N/A</td>';
+    actionsHtml = `
+      <div class="flex space-x-3 items-center">
+        <button class="text-green-400 hover:text-green-300 start-saved-task-btn" data-task-id="${task.taskId}" title="Start this task">
+          <i class="bi bi-play"></i> Start
+        </button>
+        <button class="text-blue-400 hover:text-blue-300 edit-task-btn" data-task-id="${task.taskId}" title="Edit this task">
+          <i class="bi bi-pencil"></i> Edit
+        </button>
+        <button class="text-red-500 hover:text-red-400 delete-saved-task-btn" data-task-id="${task.taskId}" title="Delete this task">
+          <i class="bi bi-trash"></i> Delete
+        </button>
+      </div>
+    `;
+  }
+
   // Create row content using the stored health state
   const rowHtml = `
     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white"><strong>${task.label || getChannelName(task.channelUrl)}</strong></td>
@@ -1108,48 +1118,9 @@ function updateTaskRow(row, task) {
     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400 truncate" title="${task.channelUrl}">${getChannelName(task.channelUrl)}</td>
     <td class="px-6 py-4 text-sm text-gray-400">${targetChannelsDisplay}</td>
     <td class="px-6 py-4 whitespace-nowrap text-sm">${settingsBadges}</td>
-    <td class="px-6 py-4 whitespace-nowrap text-sm text-center health-check-cell" data-task-id="${task.taskId}" data-last-check="${healthTitle}">
-      <div class="${healthClass}" title="${healthTitle}"></div>
-    </td>
+    ${healthCellHtml}
     <td class="px-6 py-4 whitespace-nowrap text-sm">
-      <div class="flex space-x-3 items-center">
-        ${ task.status === 'running'
-           ? `<button class="text-blue-400 hover:text-blue-300 view-logs-btn" data-task-id="${task.taskId}" title="View task logs">
-                <i class="bi bi-journal-text"></i> Logs
-              </button>
-              <button class="text-yellow-400 hover:text-yellow-300 stop-task-btn" data-task-id="${task.taskId}" title="Stop this task">
-                 <i class="bi bi-stop-circle"></i> Stop
-              </button>`
-         : task.status === 'stopping'
-           ? `<button class="text-blue-400 hover:text-blue-300 view-logs-btn" data-task-id="${task.taskId}" title="View task logs">
-                <i class="bi bi-journal-text"></i> Logs
-              </button>
-              <button class="text-gray-500 cursor-not-allowed flex items-center" disabled>
-                 <svg class="animate-spin -ml-1 mr-1 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                 </svg> Stopping...
-              </button>`
-         : task.status === 'saved'
-           ? `<button class="text-green-400 hover:text-green-300 start-saved-task-btn" data-task-id="${task.taskId}" title="Start this task">
-                <i class="bi bi-play"></i> Start
-              </button>
-              <button class="text-blue-400 hover:text-blue-300 edit-task-btn" data-task-id="${task.taskId}" title="Edit this task">
-                <i class="bi bi-pencil"></i> Edit
-              </button>
-              <button class="text-red-500 hover:text-red-400 delete-saved-task-btn" data-task-id="${task.taskId}" title="Delete this task">
-                <i class="bi bi-trash"></i> Delete
-              </button>`
-         : task.status === 'stopped' || task.status === 'error'
-            ? `<button class="text-blue-400 hover:text-blue-300 view-logs-btn" data-task-id="${task.taskId}" title="View task logs">
-                 <i class="bi bi-journal-text"></i> Logs
-               </button>
-               <button class="text-red-500 hover:text-red-400 delete-saved-task-btn" data-task-id="${task.taskId}" title="Delete this task">
-                 <i class="bi bi-trash"></i> Delete
-               </button>`
-         : ''
-        }
-      </div>
+      ${actionsHtml}
     </td>
   `;
 
@@ -1211,6 +1182,7 @@ async function editTask(taskId) {
 
         // Handle tweet keywords section visibility
         const tweetSection = document.getElementById('editTweetKeywordsSection');
+        const tweetTimeoutSection = document.getElementById('editTweetTimeoutSection');
         if (tweetSection) {
             tweetSection.classList.toggle('hidden', !task.settings?.enableTweeting);
             
@@ -1226,6 +1198,12 @@ async function editTask(taskId) {
                     });
                 }
             }
+        }
+        
+        // Handle tweet timeout section visibility and set value
+        if (tweetTimeoutSection) {
+            tweetTimeoutSection.classList.toggle('hidden', !task.settings?.enableTweeting);
+            document.getElementById('editTweetTimeout').value = task.settings?.tweetTimeout || 30;
         }
 
         // Set target channels
@@ -1264,6 +1242,10 @@ async function saveEditedTask() {
                 tweetKeywords.push(tag.textContent.trim());
             });
         }
+        
+        // Get tweet timeout
+        const tweetTimeout = document.getElementById('editEnableTweeting').checked ? 
+            parseInt(document.getElementById('editTweetTimeout').value) || 30 : 30;
 
         // Validate inputs
         if (!channelUrl) {
@@ -1286,7 +1268,8 @@ async function saveEditedTask() {
             isTestingModule: document.getElementById('editEnableTestingModule').checked,
             enableAffiliateLinks: document.getElementById('editEnableAffiliateLinks').checked,
             enableTweeting: document.getElementById('editEnableTweeting').checked,
-            tweetKeywords: tweetKeywords
+            tweetKeywords: tweetKeywords,
+            tweetTimeout: tweetTimeout
         };
 
         // Send update request
@@ -1412,34 +1395,66 @@ function checkTaskHealth() {
       return;
     }
     
-    console.log(`Checking health for task ${taskId}`);
+    // Check if this task is actually running by looking at the status in the DOM
+    const taskRow = cell.closest('tr');
+    if (!taskRow) {
+      console.log(`Task ${taskId}: No task row found, skipping health check`);
+      return;
+    }
+    
+    // Find the status span in the second column (index 1)
+    const statusCell = taskRow.querySelector('td:nth-child(2) span');
+    if (!statusCell) {
+      console.log(`Task ${taskId}: No status cell found, skipping health check`);
+      return;
+    }
+    
+    const status = statusCell.textContent.trim().toLowerCase();
+    if (status !== 'running') {
+      console.log(`Task ${taskId}: Status is '${status}', skipping health check`);
+      return;
+    }
+    
+    console.log(`Checking health for running task ${taskId}`);
     
     try {
       // Fetch task logs
       const response = await fetch(`/api/tasks/${taskId}/logs`);
       const data = await response.json();
       
-      // --- BEGIN TEMPORARY DEBUG LOGGING ---
-      // console.log(`[Health Check Debug] Logs received for task ${taskId}:`, data.logs);
-      // if (data.logs && data.logs.length > 0) {
-      //  console.log(`[Health Check Debug] Sample log entry for task ${taskId}:`, data.logs[data.logs.length - 1]); 
-      // }
-      // --- END TEMPORARY DEBUG LOGGING ---
-      
-      // Get the last 100 log entries or all if less than 100
+      // Get the last 1000 log entries or all if less than 1000
       const logs = data.logs || [];
-      const recentLogs = logs.slice(-100);
+      const recentLogs = logs.slice(-1000);
       console.log(`Task ${taskId}: Found ${recentLogs.length} recent logs`);
       
-      // Check for "already processed. Skipping." message (case-insensitive) in the last 100 lines
+      // Debug: Show some sample logs
+      if (recentLogs.length > 0) {
+        console.log(`Task ${taskId}: Sample logs:`, recentLogs.slice(-3).map(log => `${log.type}: ${log.message}`));
+      }
+      
+      // Check for "already processed. Skipping." message (case-insensitive) in the last 1000 lines
       const searchString = 'already processed. Skipping.'.toLowerCase();
       const hasProcessedMessage = recentLogs.some(log => 
         log.type.toUpperCase() === 'DEBUG' && 
         log.message.toLowerCase().includes(searchString)
       );
       
-      // Update health indicator based on finding the message
-      updateHealthIndicator(taskId, hasProcessedMessage);
+      // Debug: Show what we found
+      console.log(`Task ${taskId}: Looking for "${searchString}" in DEBUG logs`);
+      console.log(`Task ${taskId}: Found matching logs:`, recentLogs.filter(log => 
+        log.type.toUpperCase() === 'DEBUG' && 
+        log.message.toLowerCase().includes(searchString)
+      ).length);
+      
+      // Fallback: If no specific message found but we have recent logs, consider it healthy
+      // This handles cases where the task is working but hasn't hit the specific message yet
+      const hasRecentActivity = recentLogs.length > 0;
+      const isHealthy = hasProcessedMessage || hasRecentActivity;
+      
+      console.log(`Task ${taskId}: Has recent activity: ${hasRecentActivity}, Final health result: ${isHealthy}`);
+      
+      // Update health indicator based on finding the message or recent activity
+      updateHealthIndicator(taskId, isHealthy);
       
       console.log(`Task ${taskId}: Health check result - ${hasProcessedMessage ? 'healthy' : 'unhealthy'}`);
     } catch (error) {

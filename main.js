@@ -10,6 +10,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const webhook = require('./webhook');
 const yargs = require('yargs');
+const fetch = require('node-fetch');
 
 // Initialize Puppeteer plugins
 puppeteer.use(StealthPlugin());
@@ -92,6 +93,11 @@ const argv = require('yargs')(args)
         type: 'string',
         default: ''
     })
+    .option('tweet-timeout', {
+        describe: 'Tweet timeout in minutes',
+        type: 'number',
+        default: 30
+    })
     .help()
     .argv;
 
@@ -107,6 +113,7 @@ enableAffiliateLinksGlobal = argv.enableAffiliateLinks;
 const isTestingModuleGlobal = argv.testingMode;
 const enableTweetingGlobal = argv.enableTweeting;
 const tweetKeywordsGlobal = argv.tweetKeywords ? argv.tweetKeywords.split(',') : [];
+const tweetTimeoutGlobal = argv.tweetTimeout || 30;
 
 console.log('Parsed isHeadless value:', isHeadless);
 console.log('Parsed enableRegularMessages value:', enableRegularMessages);
@@ -115,6 +122,7 @@ console.log('Parsed enableAffiliateLinksGlobal value:', enableAffiliateLinksGlob
 console.log('Parsed isTestingModuleGlobal value:', isTestingModuleGlobal);
 console.log('Parsed enableTweetingGlobal value:', enableTweetingGlobal);
 console.log('Parsed tweetKeywordsGlobal value:', tweetKeywordsGlobal);
+console.log('Parsed tweetTimeoutGlobal value:', tweetTimeoutGlobal);
 
 // Helper function to generate task ID
 function generateTaskId() {
@@ -327,6 +335,139 @@ async function unshorten(url) {
     }
 }
 
+// Add this function after the existing utility functions and before monitorChannel
+async function triggerTweetForMatch(messageId, embedArray, regularMessage, taskId, matchResult, tweetedProducts, tweetTimeout) {
+    try {
+        logTask(taskId, 'INFO', `Triggering tweet for message ${messageId} with keyword match: "${matchResult.matchedGroup}"`);
+        
+        // Create a unique product identifier
+        let productIdentifier = '';
+        if (embedArray && embedArray.length > 0) {
+            // For embeds, use title + description as identifier
+            const titleField = embedArray.find(e => e.title && e.title.toLowerCase() === 'title');
+            const descField = embedArray.find(e => e.title && e.title.toLowerCase() === 'description');
+            productIdentifier = `${titleField?.value || ''} ${descField?.value || ''}`.trim();
+        } else if (regularMessage && regularMessage.content) {
+            // For regular messages, use content as identifier
+            productIdentifier = regularMessage.content.trim();
+        }
+        
+        // Check if this product was recently tweeted
+        if (productIdentifier && tweetedProducts.has(productIdentifier)) {
+            const lastTweeted = tweetedProducts.get(productIdentifier);
+            const now = Date.now();
+            const timeSinceLastTweet = now - lastTweeted;
+            const timeoutMs = tweetTimeout * 60 * 1000; // Convert minutes to milliseconds
+            
+            if (timeSinceLastTweet < timeoutMs) {
+                const remainingMinutes = Math.ceil((timeoutMs - timeSinceLastTweet) / (60 * 1000));
+                logTask(taskId, 'INFO', `Skipping tweet for product "${productIdentifier.substring(0, 50)}..." - tweeted ${Math.floor(timeSinceLastTweet / (60 * 1000))} minutes ago. Timeout: ${tweetTimeout} minutes.`);
+                return;
+            }
+        }
+        
+        // Extract product information from the message
+        let productInfo = {
+            messageId,
+            taskId,
+            matchedKeywords: matchResult.matchedGroup,
+            timestamp: new Date().toISOString()
+        };
+
+        // For regular messages, extract content
+        if (regularMessage && regularMessage.content) {
+            productInfo.content = regularMessage.content;
+            productInfo.type = 'regular_message';
+        }
+
+        // For embeds, extract title, description, and image
+        if (embedArray && embedArray.length > 0) {
+            productInfo.type = 'embed';
+            
+            // Find title field
+            const titleField = embedArray.find(e => e.title && e.title.toLowerCase() === 'title');
+            if (titleField && titleField.value) {
+                productInfo.title = titleField.value;
+            }
+            
+            // Find description field
+            const descField = embedArray.find(e => e.title && e.title.toLowerCase() === 'description');
+            if (descField && descField.value) {
+                productInfo.description = descField.value;
+            }
+            
+            // Find image field
+            const imageField = embedArray.find(e => e.title && e.title.toLowerCase() === 'image');
+            if (imageField && imageField.value) {
+                productInfo.imageUrl = imageField.value;
+            }
+            
+            // Find thumbnail field
+            const thumbField = embedArray.find(e => e.title && e.title.toLowerCase() === 'thumbnail');
+            if (thumbField && thumbField.value) {
+                productInfo.thumbnailUrl = thumbField.value;
+            }
+        }
+
+        // Compose tweet content
+        let tweetContent = '';
+        if (productInfo.title) {
+            tweetContent += `${productInfo.title}\n\n`;
+        }
+        if (productInfo.description) {
+            tweetContent += `${productInfo.description}\n\n`;
+        }
+        if (productInfo.content) {
+            tweetContent += `${productInfo.content}\n\n`;
+        }
+        
+        // Add hashtags based on matched keywords
+        if (matchResult.matchedGroup) {
+            const hashtags = matchResult.matchedGroup.split(' ').map(word => 
+                word.startsWith('+') ? `#${word.substring(1)}` : word.startsWith('-') ? '' : `#${word}`
+            ).filter(tag => tag.length > 0);
+            
+            if (hashtags.length > 0) {
+                tweetContent += hashtags.join(' ');
+            }
+        }
+
+        // Truncate to Twitter's character limit (280 characters)
+        if (tweetContent.length > 280) {
+            tweetContent = tweetContent.substring(0, 277) + '...';
+        }
+
+        // Send to n8n webhook for tweeting
+        const n8nWebhookUrl = 'http://localhost:5678/webhook/tweet';
+        const response = await fetch(n8nWebhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tweet: tweetContent,
+                productInfo: productInfo
+            })
+        });
+
+        if (response.ok) {
+            logTask(taskId, 'SUCCESS', `Tweet triggered successfully for message ${messageId}`);
+            
+            // Record that this product was tweeted
+            if (productIdentifier) {
+                tweetedProducts.set(productIdentifier, Date.now());
+                logTask(taskId, 'DEBUG', `Recorded tweet for product: "${productIdentifier.substring(0, 50)}..."`);
+            }
+        } else {
+            const errorText = await response.text();
+            logTask(taskId, 'ERROR', `Failed to trigger tweet for message ${messageId}: HTTP ${response.status} - ${errorText}`);
+        }
+
+    } catch (error) {
+        logTask(taskId, 'ERROR', `Error triggering tweet for message ${messageId}: ${error.message}`, error);
+    }
+}
+
 // Launch a browser instance for a task
 async function launchBrowser(profileId, headless = false) {
     const taskId = generateTaskId();
@@ -365,9 +506,12 @@ async function launchBrowser(profileId, headless = false) {
 }
 
 // Monitor a Discord channel
-async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId, currentEnableRegularMessages, currentIsTestingModule, currentEnableAffiliateLinks, currentEnableTweeting, currentTweetKeywords) {
+async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId, currentEnableRegularMessages, currentIsTestingModule, currentEnableAffiliateLinks, currentEnableTweeting, currentTweetKeywords, currentTweetTimeout) {
     let page;
     let scrollIntervalId = null; // Variable to hold the interval ID
+    
+    // Tweet timeout tracking - store when products were last tweeted
+    const tweetedProducts = new Map(); // Map of product identifier to timestamp
     try {
         logTask(currentTaskId, 'INFO', `Starting monitoring for ${channelUrl}`);
         logTask(currentTaskId, 'INFO', `Regular message processing: ${currentEnableRegularMessages ? 'ENABLED' : 'DISABLED'}`);
@@ -523,13 +667,18 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                                         // Check keywords after webhook is sent (asynchronous, non-blocking)
                                         logTask(currentTaskId, 'DEBUG', `About to check keywords for regular message ${messageId}. Keywords: ${JSON.stringify(currentTweetKeywords)}`);
                                         if (currentTweetKeywords && currentTweetKeywords.length > 0) {
-                                            setImmediate(() => {
+                                            setImmediate(async () => {
                                                 try {
                                                     const { checkWebhookKeywords } = require('./utils/keyword_matcher');
                                                     logTask(currentTaskId, 'DEBUG', `Checking keywords for regular message ${messageId}: ${JSON.stringify(currentTweetKeywords)}`);
                                                     const matchResult = checkWebhookKeywords([{ content: regularMessage.content }], currentTweetKeywords);
                                                     if (matchResult) {
                                                         logTask(currentTaskId, 'INFO', `Keyword match found for regular message ${messageId}: Group "${matchResult.matchedGroup}" (index ${matchResult.groupIndex})`);
+                                                        
+                                                        // Trigger tweet if tweeting is enabled
+                                                        if (currentEnableTweeting) {
+                                                            await triggerTweetForMatch(messageId, null, regularMessage, currentTaskId, matchResult, tweetedProducts, currentTweetTimeout);
+                                                        }
                                                     } else {
                                                         logTask(currentTaskId, 'DEBUG', `No keyword match for regular message ${messageId}`);
                                                     }
@@ -575,13 +724,18 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                                     // Check keywords after webhook is sent (asynchronous, non-blocking)
                                     logTask(currentTaskId, 'DEBUG', `About to check keywords for embed message ${messageId}. Keywords: ${JSON.stringify(currentTweetKeywords)}`);
                                     if (currentTweetKeywords && currentTweetKeywords.length > 0) {
-                                        setImmediate(() => {
+                                        setImmediate(async () => {
                                             try {
                                                 const { checkWebhookKeywords } = require('./utils/keyword_matcher');
                                                 logTask(currentTaskId, 'DEBUG', `Checking keywords for embed message ${messageId}: ${JSON.stringify(currentTweetKeywords)}`);
                                                 const matchResult = checkWebhookKeywords(finalEmbedArray, currentTweetKeywords);
                                                 if (matchResult) {
                                                     logTask(currentTaskId, 'INFO', `Keyword match found for embed message ${messageId}: Group "${matchResult.matchedGroup}" (index ${matchResult.groupIndex})`);
+                                                    
+                                                    // Trigger tweet if tweeting is enabled
+                                                    if (currentEnableTweeting) {
+                                                        await triggerTweetForMatch(messageId, finalEmbedArray, null, currentTaskId, matchResult, tweetedProducts, currentTweetTimeout);
+                                                    }
                                                 } else {
                                                     logTask(currentTaskId, 'DEBUG', `No keyword match for embed message ${messageId}`);
                                                 }
@@ -700,7 +854,7 @@ async function main() {
 
         // Start monitoring
         logTask(taskId, 'INFO', `Starting monitoring for ${channelUrlArg}`);
-        await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId, enableRegularMessages, isTestingModuleGlobal, enableAffiliateLinksGlobal, enableTweetingGlobal, tweetKeywordsGlobal);
+        await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId, enableRegularMessages, isTestingModuleGlobal, enableAffiliateLinksGlobal, enableTweetingGlobal, tweetKeywordsGlobal, tweetTimeoutGlobal);
 
     } catch (error) {
         logTask(taskId || 'MAIN_ERROR', 'ERROR', 'Critical error during browser launch or monitor initiation.', error);

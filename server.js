@@ -47,8 +47,9 @@ let mavelyManagerStatus = 'stopped'; // 'stopped', 'initializing', 'running', 's
 let mavelyLastError = null;
 
 // Tweet Processor Status
-let tweetProcessorStatus = 'stopped'; // 'stopped', 'initializing', 'running', 'stopping', 'error'
+let tweetProcessorStatus = 'unknown'; // 'running', 'stopped', 'error'
 let tweetProcessorLastError = null;
+let tweetProcessorLastCheck = null;
 
 // Load saved tasks on server start
 function loadSavedTasks() {
@@ -283,7 +284,8 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     enableAffiliateLinks: taskSettings.enableAffiliateLinks === true,
     // Add tweet settings
     enableTweeting: taskSettings.enableTweeting === true,
-    tweetKeywords: taskSettings.tweetKeywords || ''
+    tweetKeywords: taskSettings.tweetKeywords || '',
+    tweetTimeout: taskSettings.tweetTimeout || 30
   };
   
   // Create the task object with headless state at all levels
@@ -296,6 +298,7 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     enableAffiliateLinks: settings.enableAffiliateLinks,
     enableTweeting: settings.enableTweeting,
     tweetKeywords: settings.tweetKeywords,
+    tweetTimeout: settings.tweetTimeout,
     settings: {
       ...settings,
       headless: isHeadless, // Ensure it's in settings
@@ -303,7 +306,8 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
       isTestingModule: settings.isTestingModule,
       enableAffiliateLinks: settings.enableAffiliateLinks,
       enableTweeting: settings.enableTweeting,
-      tweetKeywords: settings.tweetKeywords
+      tweetKeywords: settings.tweetKeywords,
+      tweetTimeout: settings.tweetTimeout
     }
   };
   
@@ -411,7 +415,8 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
     pm2_task_id,
     enableAffiliateLinks: taskSettings.enableAffiliateLinks === true,
     enableTweeting: taskSettings.enableTweeting === true, // <-- Save tweet setting
-    tweetKeywords: taskSettings.tweetKeywords || '' // <-- Save tweet keywords
+    tweetKeywords: taskSettings.tweetKeywords || '', // <-- Save tweet keywords
+    tweetTimeout: taskSettings.tweetTimeout || 30 // <-- Save tweet timeout
   };
   writeTaskSettings(taskId, settings);
   
@@ -446,6 +451,9 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
   }
   if (Array.isArray(settings.tweetKeywords) && settings.tweetKeywords.length > 0) {
     scriptArgs.push('--tweet-keywords', `"${settings.tweetKeywords.join(',')}"`);
+  }
+  if (settings.tweetTimeout && settings.tweetTimeout > 0) {
+    scriptArgs.push('--tweet-timeout', settings.tweetTimeout.toString());
   }
 
   // --- Set Cron Schedule to Every 3 Days --- 
@@ -733,9 +741,8 @@ app.get('/api/tasks/:taskId/logs', (req, res) => {
   const pm2_task_id = taskInfo?.pm2_task_id || taskInfo?.settings?.pm2_task_id; // Check both places
 
   if (!pm2_task_id) {
-    // If we can't find the PM2 ID, return an error or empty logs
-    console.warn(`[Logs API] Could not find pm2_task_id for taskId ${taskId}`);
-    return res.json({ logs: [{ timestamp: new Date(), type: 'error', message: 'Could not find PM2 task ID for this task.' }] });
+    // If we can't find the PM2 ID, return empty logs without warning (this is normal for saved tasks)
+    return res.json({ logs: [] });
   }
 
   // Construct the PM2 logs command
@@ -782,10 +789,10 @@ app.get('/api/tasks/:taskId/logs', (req, res) => {
 
 // API endpoint to create a task without starting it
 app.post('/api/tasks/create', (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, enableTweeting, tweetKeywords } = req.body;
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, enableTweeting, tweetKeywords, tweetTimeout } = req.body;
   
   console.log('[DEBUG] Creating task with settings:', {
-    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, enableTweeting, tweetKeywords
+    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, enableTweeting, tweetKeywords, tweetTimeout
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -800,7 +807,8 @@ app.post('/api/tasks/create', (req, res) => {
     isTestingModule: isTestingModule === true,
     enableAffiliateLinks: enableAffiliateLinks === true,
     enableTweeting: enableTweeting === true, // <-- Add tweet setting
-    tweetKeywords: tweetKeywords || '' // <-- Add tweet keywords
+    tweetKeywords: tweetKeywords || '', // <-- Add tweet keywords
+    tweetTimeout: tweetTimeout || 30 // <-- Add tweet timeout
   };
   
   const result = createTask(channelUrl, targetChannels, taskSettings);
@@ -809,7 +817,7 @@ app.post('/api/tasks/create', (req, res) => {
 
 // API endpoint to start a task
 app.post('/api/tasks/start', async (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, enableAffiliateLinks, enableTweeting, tweetKeywords } = req.body;
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, enableAffiliateLinks, enableTweeting, tweetKeywords, tweetTimeout } = req.body;
   
   console.log('[DEBUG] /api/tasks/start received request with headless:', headless);
   
@@ -824,7 +832,8 @@ app.post('/api/tasks/start', async (req, res) => {
     enableRegularMessages: enableRegularMessages === true, // <-- Get from request
     enableAffiliateLinks: enableAffiliateLinks === true,
     enableTweeting: enableTweeting === true, // <-- Add tweet setting
-    tweetKeywords: tweetKeywords || '' // <-- Add tweet keywords
+    tweetKeywords: tweetKeywords || '', // <-- Add tweet keywords
+    tweetTimeout: tweetTimeout || 30 // <-- Add tweet timeout
   };
   
   console.log('[DEBUG] Starting task with settings:', {
@@ -842,7 +851,7 @@ app.post('/api/tasks/start', async (req, res) => {
 app.post('/api/tasks/:taskId/start', async (req, res) => {
   const { taskId } = req.params;
   // Get all settings from request body if provided
-  const { headless, enableRegularMessages, enableAffiliateLinks, enableTweeting, tweetKeywords } = req.body || {}; 
+  const { headless, enableRegularMessages, enableAffiliateLinks, enableTweeting, tweetKeywords, tweetTimeout } = req.body || {}; 
   
   console.log('[DEBUG] Starting saved task with parameters:', { headless, enableRegularMessages, enableAffiliateLinks, enableTweeting, tweetKeywords });
   
@@ -872,6 +881,9 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
   const useTweetKeywords = tweetKeywords !== undefined
                             ? tweetKeywords
                             : taskToStart.settings?.tweetKeywords || '';
+  const useTweetTimeout = tweetTimeout !== undefined
+                           ? tweetTimeout
+                           : taskToStart.settings?.tweetTimeout || 30;
   
   console.log('[DEBUG] Using settings for task:', { useHeadless, useEnableRegularMessages, useEnableAffiliateLinks, useEnableTweeting, useTweetKeywords });
   
@@ -888,7 +900,8 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
       isTestingModule: taskToStart.settings?.isTestingModule === true,
       enableAffiliateLinks: useEnableAffiliateLinks,
       enableTweeting: useEnableTweeting, // <-- Use determined tweet value
-      tweetKeywords: useTweetKeywords // <-- Use determined tweet keywords
+      tweetKeywords: useTweetKeywords, // <-- Use determined tweet keywords
+      tweetTimeout: useTweetTimeout // <-- Use determined tweet timeout
     }
   );
 
@@ -921,7 +934,7 @@ app.delete('/api/tasks/:taskId', (req, res) => {
 // API endpoint to update task settings
 app.put('/api/tasks/:taskId/settings', (req, res) => {
   const { taskId } = req.params;
-  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule, enableAffiliateLinks, enableTweeting, tweetKeywords } = req.body;
+  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule, enableAffiliateLinks, enableTweeting, tweetKeywords, tweetTimeout } = req.body;
   
   console.log('[API] Updating task settings:', {
     taskId,
@@ -975,7 +988,8 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     isTestingModule: isTestingModule === true, // <-- Store testing mode setting
     enableAffiliateLinks: enableAffiliateLinks === true,
     enableTweeting: enableTweeting === true, // <-- Store tweet setting
-    tweetKeywords: tweetKeywords || '' // <-- Store tweet keywords
+    tweetKeywords: tweetKeywords || '', // <-- Store tweet keywords
+    tweetTimeout: tweetTimeout || 30 // <-- Store tweet timeout
   };
   
   // Update task settings
@@ -1368,67 +1382,90 @@ app.post('/api/mavely/generate-link', async (req, res) => {
   }
 });
 
-// Initialize Tweet Processor
-app.post('/api/tweet-processor/initialize', async (req, res) => {
-  if (tweetProcessorStatus === 'running' || tweetProcessorStatus === 'initializing') {
-    return res.status(400).json({ message: `Tweet Processor is already ${tweetProcessorStatus}.` });
-  }
-  
-  tweetProcessorStatus = 'initializing';
-  tweetProcessorLastError = null;
-  console.log('[Tweet API] Initializing Tweet Processor...');
-  
+// Check Tweet Processor Status (n8n availability)
+app.get('/api/tweet-processor/status', async (req, res) => {
   try {
-    // Initialize n8n connection here if needed
-    tweetProcessorStatus = 'running';
-    console.log('[Tweet API] Tweet Processor initialized successfully.');
-    res.status(200).json({ message: 'Tweet Processor initialized successfully.' });
+    // Check if n8n is running by testing the webhook endpoint
+    const n8nResponse = await fetch('http://localhost:5678/webhook/tweet', {
+      method: 'GET',
+      timeout: 5000 // 5 second timeout
+    });
+
+    if (n8nResponse.ok) {
+      tweetProcessorStatus = 'running';
+      tweetProcessorLastError = null;
+    } else {
+      tweetProcessorStatus = 'error';
+      tweetProcessorLastError = `n8n responded with status ${n8nResponse.status}: ${n8nResponse.statusText}`;
+    }
+    
+    tweetProcessorLastCheck = new Date().toISOString();
+    
+    res.status(200).json({
+      status: tweetProcessorStatus,
+      lastError: tweetProcessorLastError,
+      lastCheck: tweetProcessorLastCheck
+    });
   } catch (error) {
     tweetProcessorStatus = 'error';
     tweetProcessorLastError = error.message;
-    console.error('[Tweet API] Critical error during Tweet Processor initialization:', error);
-    res.status(500).json({ message: 'Critical error during Tweet Processor initialization.', error: error.message });
+    tweetProcessorLastCheck = new Date().toISOString();
+    
+    console.error('[Tweet API] Error checking n8n status:', error);
+    
+    res.status(200).json({
+      status: 'error',
+      lastError: error.message,
+      lastCheck: tweetProcessorLastCheck
+    });
   }
 });
 
-// Stop Tweet Processor
-app.post('/api/tweet-processor/close', async (req, res) => {
-  if (tweetProcessorStatus === 'stopped' || tweetProcessorStatus === 'stopping') {
-    return res.status(400).json({ message: 'Tweet Processor is not running or already stopping.' });
-  }
-  
-  tweetProcessorStatus = 'stopping';
-  tweetProcessorLastError = null;
-  console.log('[Tweet API] Stopping Tweet Processor...');
-  
-  try {
-    // Cleanup n8n connection here if needed
-    tweetProcessorStatus = 'stopped';
-    console.log('[Tweet API] Tweet Processor stopped successfully.');
-    res.status(200).json({ message: 'Tweet Processor stopped successfully.' });
-  } catch (error) {
-    tweetProcessorStatus = 'error';
-    tweetProcessorLastError = error.message;
-    console.error('[Tweet API] Critical error during Tweet Processor stopping:', error);
-    res.status(500).json({ message: 'Critical error during Tweet Processor stopping.', error: error.message });
-  }
-});
-
-// Get Tweet Processor Status
-app.get('/api/tweet-processor/status', (req, res) => {
-  res.status(200).json({
-    status: tweetProcessorStatus,
-    lastError: tweetProcessorLastError
-  });
-});
+// Remove the old initialize and stop endpoints - they were misleading
+// since n8n runs independently and we can't actually start/stop it from here
 
 // Start the server
 server.listen(port, () => {
   console.log(`Discord Monitor Dashboard running on http://localhost:${port}`);
   
+  // Clean up any orphaned PM2 tasks on startup (synchronous)
+  console.log('🧹 Cleaning up orphaned PM2 tasks on startup...');
+  try {
+    // Force stop and delete all PM2 processes
+    execSync('pm2 stop all --silent', { stdio: 'ignore' });
+    execSync('pm2 delete all --silent', { stdio: 'ignore' });
+    execSync('pm2 kill --silent', { stdio: 'ignore' });
+    console.log('✅ PM2 cleanup completed');
+  } catch (error) {
+    console.log('⚠️  PM2 cleanup completed (some steps may have failed, which is normal)');
+  }
+  
   // Load saved tasks on server start
   const savedTasks = loadSavedTasks();
   console.log(`Loaded ${savedTasks.length} saved tasks`);
+  
+  // Clean up saved tasks by removing pm2_task_id from non-running tasks
+  let cleanedTasksCount = 0;
+  const cleanedTasks = savedTasks.map(task => {
+    if (task.settings && task.settings.pm2_task_id) {
+      // Remove pm2_task_id from saved tasks since they're not running
+      delete task.settings.pm2_task_id;
+      cleanedTasksCount++;
+      console.log(`Cleaned pm2_task_id from saved task: ${task.taskId}`);
+    }
+    if (task.pm2_task_id) {
+      // Also clean from top level if it exists
+      delete task.pm2_task_id;
+      cleanedTasksCount++;
+      console.log(`Cleaned pm2_task_id from saved task top level: ${task.taskId}`);
+    }
+    return task;
+  });
+  
+  if (cleanedTasksCount > 0) {
+    writeSavedTasks(cleanedTasks);
+    console.log(`Cleaned pm2_task_id from ${cleanedTasksCount} saved tasks`);
+  }
   
   // Validate saved tasks and clean up orphaned profile folders
   try {
@@ -1439,7 +1476,7 @@ server.listen(port, () => {
     
     // Get all profile IDs from saved tasks
     const savedProfileIds = new Set();
-    savedTasks.forEach(task => {
+    cleanedTasks.forEach(task => {
       if (task.settings && task.settings.profileId) {
         savedProfileIds.add(task.settings.profileId);
       }
@@ -1467,8 +1504,33 @@ server.listen(port, () => {
     console.error('Error cleaning up profile folders:', error);
   }
   
+  // Clean up task_settings.json by removing pm2_task_id from saved tasks
+  try {
+    const taskSettings = readTaskSettings();
+    let cleanedSettingsCount = 0;
+    
+    Object.keys(taskSettings).forEach(taskId => {
+      if (taskSettings[taskId] && taskSettings[taskId].pm2_task_id) {
+        // Only remove pm2_task_id if this task is not currently running
+        const isCurrentlyRunning = Array.from(activeTasks.values()).some(task => task.taskId === taskId);
+        if (!isCurrentlyRunning) {
+          delete taskSettings[taskId].pm2_task_id;
+          cleanedSettingsCount++;
+          console.log(`Cleaned pm2_task_id from task settings: ${taskId}`);
+        }
+      }
+    });
+    
+    if (cleanedSettingsCount > 0) {
+      fs.writeJsonSync(TASKS_SETTINGS_FILE, taskSettings, { spaces: 2 });
+      console.log(`Cleaned pm2_task_id from ${cleanedSettingsCount} task settings`);
+    }
+  } catch (error) {
+    console.error('Error cleaning up task settings:', error);
+  }
+  
   // Initialize task logs for saved tasks
-  savedTasks.forEach(task => {
+  cleanedTasks.forEach(task => {
     if (!taskLogs.has(task.taskId)) {
       taskLogs.set(task.taskId, [{
         timestamp: new Date(),

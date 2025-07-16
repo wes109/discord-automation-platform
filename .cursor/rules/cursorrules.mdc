@@ -1,0 +1,46 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+description: "Ensure syntax correctness and basic error checks before returning code"
+globs:
+  - "*.js"
+  - "*.ts"
+  - "*.py"
+alwaysApply: true
+---
+
+# Enforce syntax correctness and clean code before accepting any AI-generated code
+
+# 1. Always check syntax:
+#    - For JavaScript/TypeScript: run `tsc --noEmit` or `npm run lint`
+#    - For Python: use `flake8`, `black --check`, or `mypy`
+
+# 2. If errors or warnings are detected:
+#    - Stop and report them
+#    - Retry with corrections until code passes cleanly
+
+# 3. Add minimal unit tests when new functions or modules are generated
+#    - JS: use Jest syntax
+#    - Python: use `unittest` or `pytest`
+
+# 4. Always wrap risky code in error-handling:
+#    - JS/TS: `try / catch` around async calls
+#    - Python: `try / except` with specific exceptions
+
+# 5. Avoid deprecated patterns:
+#    - JS: Do not use `var`, prefer `const`/`let`
+#    - Python: Avoid bare `except`, use specific exceptions
+
+# JS example:
+# ❌ var result = await fetchData();
+# ✅ const result = await fetchData().catch(err => {
+#      console.error("Error:", err);
+#      throw err;
+#    });
+
+# Python example:
+# ❌ try: ... except: pass
+# ✅ try: ... except ValueError as e: print(e)

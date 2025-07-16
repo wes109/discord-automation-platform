@@ -5,8 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "n8n": "n8n start",
-    "n8n:dev": "n8n start --tunnel"
+    "start-clean": "lsof -ti:3001 | xargs kill -9 2>/dev/null || true && sleep 1 && node server.js",
+    "clean-start": "node cleanup-pm2.js && node server.js",
+    "n8n": "N8N_WORKFLOWS_DIR=./workflows n8n start",
+    "n8n:dev": "N8N_WORKFLOWS_DIR=./workflows n8n start --tunnel"
   },
   "author": "wes109",
   "license": "MIT",

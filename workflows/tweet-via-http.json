@@ -31,9 +31,20 @@
       }
     },
     {
+      "id": "log_data",
+      "parameters": {
+        "level": "info",
+        "message": "Tweet triggered for product: {{ $json.body.productInfo.title || 'No title' }} - Keywords: {{ $json.body.productInfo.matchedKeywords }}"
+      },
+      "name": "Log Tweet Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [400, 500]
+    },
+    {
       "id": "respond",
       "parameters": {
-        "responseData": "={{ $json }}",
+        "responseData": "={{ { success: true, tweet: $json.body.tweet, productInfo: $json.body.productInfo } }}",
         "responseMode": "lastNode",
         "statusCode": 200
       },
@@ -51,11 +62,27 @@
             "node": "Post Tweet",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Log Tweet Data",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
     },
     "Post Tweet": {
+      "main": [
+        [
+          {
+            "node": "Send Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Tweet Data": {
       "main": [
         [
           {
