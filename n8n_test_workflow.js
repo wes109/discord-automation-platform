@@ -1,5 +1,9 @@
-// n8n Test Workflow - Simple Test Data
-console.log('=== n8n Test Workflow ===');
+// n8n Test Workflow - Actually ping the webhook
+console.log('=== n8n Test Workflow - Webhook Testing ===');
+
+// Test configuration
+const isHealthCheck = true; // Set to true for health check testing, false for normal tweet testing
+const webhookUrl = 'http://localhost:5678/webhook-test/tweet';
 
 // Create test data that mimics the output from previous nodes
 const testData = {
@@ -13,59 +17,72 @@ const testData = {
   hasImage: true
 };
 
-// Create a simple test image (1x1 pixel PNG)
-const testImageBuffer = Buffer.from([
-  0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, // PNG header
-  0x00, 0x00, 0x00, 0x0D, 0x49, 0x48, 0x44, 0x52, // IHDR chunk
-  0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, // 1x1 pixel
-  0x08, 0x02, 0x00, 0x00, 0x00, 0x90, 0x77, 0x53, // Color type, compression, filter, interlace
-  0xDE, 0x00, 0x00, 0x00, 0x0C, 0x49, 0x44, 0x41, // IDAT chunk
-  0x54, 0x08, 0x99, 0x01, 0x01, 0x00, 0x00, 0x00, // IDAT data
-  0xFF, 0xFF, 0x00, 0x00, 0x00, 0x02, 0x00, 0x01, // IDAT data
-  0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, // IEND chunk
-  0xAE, 0x42, 0x60, 0x82  // IEND data
-]);
-
-// Simulate the binary data structure that n8n would provide
-const mockBinaryData = {
-  imageData: {
-    mimeType: 'image/png',
-    fileType: 'png',
-    fileExtension: 'png',
-    directory: '/tmp',
-    fileName: 'test-image.png',
-    fileSize: testImageBuffer.length
-  }
+// Create payload based on test mode
+const payload = isHealthCheck ? {
+  // Health check payload
+  isHealthCheck: true,
+  test: true,
+  messageId: 'health-check',
+  taskId: 'health-check',
+  timestamp: new Date().toISOString(),
+  source: 'health-check'
+} : {
+  // Normal tweet payload
+  isHealthCheck: false,
+  test: true,
+  messageId: 'test-tweet',
+  taskId: 'test-task',
+  timestamp: new Date().toISOString(),
+  source: 'test-data',
+  ...testData
 };
 
-console.log('Test data created:');
-console.log('- Tweet text length:', testData.tweetText.length);
-console.log('- Image buffer size:', testImageBuffer.length);
-console.log('- Binary data keys:', Object.keys(mockBinaryData));
+console.log('Sending payload to webhook:');
+console.log('- Health check mode:', isHealthCheck);
+console.log('- Webhook URL:', webhookUrl);
+console.log('- Payload keys:', Object.keys(payload));
 
-// Return test data
-return {
-  // JSON data
-  ...testData,
-  
-  // Test status
-  testMode: true,
-  imageSize: testImageBuffer.length,
-  method: 'test-data',
-  uploadError: null,
-  
-  // Debug info
-  debug: {
-    foundIn: 'test-data',
-    testMode: true,
-    bufferLength: testImageBuffer.length
-  },
-  
-  bufferLength: testImageBuffer.length,
-  bufferType: 'object',
-  isBuffer: true,
-  
-  // Raw data for inspection
-  jsonKeys: Object.keys(testData),
-  binaryKeys: Object.keys(mockBinaryData)
-}; 
+// Actually send the request to n8n webhook
+async function sendToWebhook() {
+  try {
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    console.log('Webhook Response:');
+    console.log('- Status:', response.status);
+    console.log('- Status Text:', response.statusText);
+    
+    if (response.ok) {
+      const responseText = await response.text();
+      console.log('- Response Body:', responseText);
+      console.log('✅ Webhook request successful!');
+    } else {
+      console.log('❌ Webhook request failed!');
+    }
+    
+    return {
+      success: response.ok,
+      status: response.status,
+      statusText: response.statusText,
+      payload: payload,
+      isHealthCheck: isHealthCheck
+    };
+    
+  } catch (error) {
+    console.error('❌ Error sending webhook request:', error.message);
+    return {
+      success: false,
+      error: error.message,
+      payload: payload,
+      isHealthCheck: isHealthCheck
+    };
+  }
+}
+
+// Execute the webhook request
+return sendToWebhook(); 

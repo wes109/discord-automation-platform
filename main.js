@@ -352,16 +352,16 @@ async function triggerTweetForMatch(messageId, embedArray, regularMessage, taskI
             productIdentifier = regularMessage.content.trim();
         }
         
-        // Check if this product was recently tweeted
-        if (productIdentifier && tweetedProducts.has(productIdentifier)) {
-            const lastTweeted = tweetedProducts.get(productIdentifier);
+        // Check if ANY tweet was recently sent (global timeout)
+        const lastTweetTime = tweetedProducts.get('__last_tweet_time__');
+        if (lastTweetTime) {
             const now = Date.now();
-            const timeSinceLastTweet = now - lastTweeted;
+            const timeSinceLastTweet = now - lastTweetTime;
             const timeoutMs = tweetTimeout * 60 * 1000; // Convert minutes to milliseconds
             
             if (timeSinceLastTweet < timeoutMs) {
                 const remainingMinutes = Math.ceil((timeoutMs - timeSinceLastTweet) / (60 * 1000));
-                logTask(taskId, 'INFO', `Skipping tweet for product "${productIdentifier.substring(0, 50)}..." - tweeted ${Math.floor(timeSinceLastTweet / (60 * 1000))} minutes ago. Timeout: ${tweetTimeout} minutes.`);
+                logTask(taskId, 'INFO', `Skipping tweet - last tweet was ${Math.floor(timeSinceLastTweet / (60 * 1000))} minutes ago. Timeout: ${tweetTimeout} minutes. Remaining: ${remainingMinutes} minutes.`);
                 return;
             }
         }
@@ -388,6 +388,10 @@ async function triggerTweetForMatch(messageId, embedArray, regularMessage, taskI
             const titleField = embedArray.find(e => e.title && e.title.toLowerCase() === 'title');
             if (titleField && titleField.value) {
                 productInfo.title = titleField.value;
+                // Extract URL from title field if available
+                if (titleField.url) {
+                    productInfo.imageUrl = titleField.url;
+                }
             }
             
             // Find description field
@@ -437,27 +441,66 @@ async function triggerTweetForMatch(messageId, embedArray, regularMessage, taskI
             tweetContent = tweetContent.substring(0, 277) + '...';
         }
 
-        // Send to n8n webhook for tweeting
+        // Send the properly formatted tweet to n8n webhook
         const n8nWebhookUrl = 'http://localhost:5678/webhook/tweet';
+        
+        // Only proceed if we have the required information
+        if (!productInfo.title && !productInfo.description && !productInfo.content) {
+            logTask(taskId, 'WARN', `Skipping tweet for message ${messageId} - no product information available`);
+            return;
+        }
+        
+        // Only proceed if we have a valid URL to extract store information
+        if (!productInfo.imageUrl) {
+            logTask(taskId, 'WARN', `Skipping tweet for message ${messageId} - no product URL available`);
+            return;
+        }
+        
+        let storeName;
+        let refererDomain;
+        try {
+            const url = new URL(productInfo.imageUrl);
+            storeName = url.hostname.replace('www.', '').split('.')[0];
+            storeName = storeName.charAt(0).toUpperCase() + storeName.slice(1);
+            refererDomain = url.origin;
+        } catch (e) {
+            logTask(taskId, 'WARN', `Skipping tweet for message ${messageId} - invalid product URL: ${productInfo.imageUrl}`);
+            return;
+        }
+        
+        // Create payload matching n8n expected format - only with accurate data
+        const n8nPayload = {
+            tweetText: `🚨RESTOCK ALERT (${storeName})🚨\n\n${productInfo.title || productInfo.description || productInfo.content}\n\n${productInfo.imageUrl}\n\n🎮 JOIN OUR DISCORD: https://discord.gg/8u9nWThtyk`,
+            thumbnailUrl: productInfo.thumbnailUrl || productInfo.imageUrl,
+            storeName: storeName,
+            productTitle: productInfo.title || productInfo.description || productInfo.content,
+            productUrl: productInfo.imageUrl,
+            refererDomain: refererDomain,
+            hasImage: !!(productInfo.thumbnailUrl || productInfo.imageUrl),
+            messageId: messageId,
+            taskId: taskId,
+            matchedKeywords: matchResult.matchedGroup,
+            timestamp: new Date().toISOString(),
+            source: 'discord-monitor'
+        };
+        
+        // Debug: Log the payload being sent
+        logTask(taskId, 'DEBUG', `Sending payload to n8n: ${JSON.stringify(n8nPayload, null, 2)}`);
+        
         const response = await fetch(n8nWebhookUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                tweet: tweetContent,
-                productInfo: productInfo
-            })
+            body: JSON.stringify(n8nPayload)
         });
 
         if (response.ok) {
             logTask(taskId, 'SUCCESS', `Tweet triggered successfully for message ${messageId}`);
             
-            // Record that this product was tweeted
-            if (productIdentifier) {
-                tweetedProducts.set(productIdentifier, Date.now());
-                logTask(taskId, 'DEBUG', `Recorded tweet for product: "${productIdentifier.substring(0, 50)}..."`);
-            }
+            // Record the global tweet time
+            tweetedProducts.set('__last_tweet_time__', Date.now());
+            logTask(taskId, 'DEBUG', `Recorded global tweet time for timeout: ${tweetTimeout} minutes`);
         } else {
             const errorText = await response.text();
             logTask(taskId, 'ERROR', `Failed to trigger tweet for message ${messageId}: HTTP ${response.status} - ${errorText}`);

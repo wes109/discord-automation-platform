@@ -193,46 +193,6 @@
     "createdTime": "2025-05-03T17:56:34.183Z"
   },
   {
-    "taskId": "task_1746308827179",
-    "label": "pokemonAIO",
-    "channelUrl": "https://discord.com/channels/1296182793407168614/1339589432260431882",
-    "targetChannels": [
-      "pokemonAIO-DSC"
-    ],
-    "webhookInfo": [
-      {
-        "name": "pokemonAIO-DSC",
-        "label": "pokemonAIO-DSC",
-        "webhook_url": "https://discord.com/api/webhooks/1358889451081826577/Gs0M8QQgWvQj_7YifrM9nJJSsv5Nkwb0iAVlFj2sRi6DiWwS9MzEbjXM-211DZYPx4sv"
-      }
-    ],
-    "settings": {
-      "label": "pokemonAIO",
-      "channelUrl": "https://discord.com/channels/1296182793407168614/1339589432260431882",
-      "targetChannels": [
-        "pokemonAIO-DSC"
-      ],
-      "webhookInfo": [
-        {
-          "name": "pokemonAIO-DSC",
-          "label": "pokemonAIO-DSC",
-          "webhook_url": "https://discord.com/api/webhooks/1358889451081826577/Gs0M8QQgWvQj_7YifrM9nJJSsv5Nkwb0iAVlFj2sRi6DiWwS9MzEbjXM-211DZYPx4sv"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": true,
-      "enableRegularMessages": false,
-      "startTime": "2025-05-03T21:47:07.246Z",
-      "profileId": "profile_1746308827179_im1w01",
-      "isTestingModule": false
-    },
-    "profileId": "profile_1746308827179_im1w01",
-    "createdTime": "2025-05-03T21:47:07.358Z",
-    "enableRegularMessages": false,
-    "isHeadless": true,
-    "isTestingModule": false
-  },
-  {
     "taskId": "task_1746486314889",
     "label": "Pokemon",
     "channelUrl": "https://discord.com/channels/1296182793407168614/1296182795621634158",
@@ -354,5 +314,49 @@
     },
     "profileId": "profile_1752297682220_w007ob",
     "createdTime": "2025-07-12T05:37:30.919Z"
+  },
+  {
+    "taskId": "task_1752981425601",
+    "label": "pokemonAIO",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1339589432260431882",
+    "targetChannels": [
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889451081826577/Gs0M8QQgWvQj_7YifrM9nJJSsv5Nkwb0iAVlFj2sRi6DiWwS9MzEbjXM-211DZYPx4sv"
+      }
+    ],
+    "settings": {
+      "label": "pokemonAIO",
+      "channelUrl": "https://discord.com/channels/1296182793407168614/1339589432260431882",
+      "targetChannels": [
+        "pokemonAIO-DSC"
+      ],
+      "webhookInfo": [
+        {
+          "name": "pokemonAIO-DSC",
+          "label": "pokemonAIO-DSC",
+          "webhook_url": "https://discord.com/api/webhooks/1358889451081826577/Gs0M8QQgWvQj_7YifrM9nJJSsv5Nkwb0iAVlFj2sRi6DiWwS9MzEbjXM-211DZYPx4sv"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": false,
+      "enableRegularMessages": false,
+      "startTime": "2025-07-20T03:17:05.917Z",
+      "profileId": "profile_1752981425602_95cls2",
+      "isTestingModule": false,
+      "enableAffiliateLinks": false,
+      "enableTweeting": true,
+      "tweetKeywords": [
+        "+pokemon",
+        "-destined"
+      ],
+      "tweetTimeout": 30
+    },
+    "profileId": "profile_1752981425602_95cls2",
+    "createdTime": "2025-07-20T03:17:06.301Z"
   }
 ]

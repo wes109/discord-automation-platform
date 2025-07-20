@@ -1385,9 +1385,21 @@ app.post('/api/mavely/generate-link', async (req, res) => {
 // Check Tweet Processor Status (n8n availability)
 app.get('/api/tweet-processor/status', async (req, res) => {
   try {
-    // Check if n8n is running by testing the webhook endpoint
+    // Check if n8n is running by testing the webhook endpoint with a POST request
+    // Send a test payload with a flag to prevent actual tweet processing
     const n8nResponse = await fetch('http://localhost:5678/webhook/tweet', {
-      method: 'GET',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        isHealthCheck: true,
+        test: true,
+        messageId: 'health-check',
+        taskId: 'health-check',
+        timestamp: new Date().toISOString(),
+        source: 'health-check'
+      }),
       timeout: 5000 // 5 second timeout
     });
 

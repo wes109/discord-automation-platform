@@ -31,7 +31,7 @@ function parseKeywordGroup(keywordGroup) {
 
 /**
  * Extract all text content from webhook embeds for keyword matching
- * @param {Array} embeds - Array of Discord embed objects
+ * @param {Array} embeds - Array of embed objects with title/value structure
  * @returns {string} - Combined text content
  */
 function extractWebhookContent(embeds) {
@@ -42,10 +42,16 @@ function extractWebhookContent(embeds) {
   const contentParts = [];
   
   for (const embed of embeds) {
-    if (embed.title) contentParts.push(embed.title);
-    if (embed.description) contentParts.push(embed.description);
-    if (embed.author && embed.author.name) contentParts.push(embed.author.name);
-    if (embed.footer && embed.footer.text) contentParts.push(embed.footer.text);
+    // Handle the title/value structure used by the monitor (primary format)
+    if (embed.title && embed.value) {
+      contentParts.push(embed.title);
+      contentParts.push(embed.value);
+    }
+    // Also handle regular Discord embed structure for compatibility
+    else if (embed.title) contentParts.push(embed.title);
+    else if (embed.description) contentParts.push(embed.description);
+    else if (embed.author && embed.author.name) contentParts.push(embed.author.name);
+    else if (embed.footer && embed.footer.text) contentParts.push(embed.footer.text);
     
     if (embed.fields && Array.isArray(embed.fields)) {
       for (const field of embed.fields) {
@@ -55,7 +61,9 @@ function extractWebhookContent(embeds) {
     }
   }
   
-  return contentParts.join(' ').toLowerCase();
+  const combinedContent = contentParts.join(' ').toLowerCase();
+  console.log('DEBUG: Extracted content for keyword matching:', combinedContent.substring(0, 200) + (combinedContent.length > 200 ? '...' : ''));
+  return combinedContent;
 }
 
 /**

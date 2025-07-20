@@ -1058,6 +1058,9 @@ function updateTaskRow(row, task) {
   if (task.settings?.enableAffiliateLinks) {
       settingsBadges += '<span class="inline-block bg-cyan-600 text-cyan-100 text-xs font-medium px-2.5 py-0.5 rounded">Affiliate</span>';
   }
+  if (task.settings?.enableTweeting) {
+      settingsBadges += '<span class="inline-block bg-sky-500 text-sky-100 text-xs font-medium px-2.5 py-0.5 rounded">Tweet</span>';
+  }
 
   // Target Channels Display
   let targetChannelsDisplay = '';

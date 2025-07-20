@@ -9058,11 +9058,18 @@
       }
     ],
     "enableUrlUnshortening": false,
-    "headless": true,
+    "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-05-03T21:47:07.246Z",
     "profileId": "profile_1746308827179_im1w01",
-    "isTestingModule": false
+    "isTestingModule": false,
+    "enableAffiliateLinks": false,
+    "enableTweeting": true,
+    "tweetKeywords": [
+      "+pokemon",
+      "-destined"
+    ],
+    "tweetTimeout": 30
   },
   "task_1746308864733": {
     "label": "Target",
