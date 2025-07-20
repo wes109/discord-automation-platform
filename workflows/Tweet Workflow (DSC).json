@@ -1,0 +1,281 @@
+{
+  "name": "Tweet Workflow (DSC)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tweet",
+        "options": {}
+      },
+      "id": "dc1e8d7c-37a1-4e3a-8a28-777e3f669fff",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        -1260
+      ],
+      "webhookId": "4b065497-d8ad-47bf-be1d-33920a89f1c0"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.tweetText }}",
+        "additionalFields": {}
+      },
+      "id": "dac87502-bbb2-4367-9552-6fc8b7a73a84",
+      "name": "Post Tweet",
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 2,
+      "position": [
+        2820,
+        -1260
+      ],
+      "credentials": {
+        "twitterOAuth2Api": {
+          "id": "fhe9wZEIpmILax5w",
+          "name": "X account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format Tweet Node (Updated for AI Hashtag Generator)\nconsole.log('Starting format tweet process');\n\n// Get data from AI Hashtag Generator node\nvar aiNodeData = $json;\nconsole.log('AI Node Data:', JSON.stringify(aiNodeData, null, 2));\n\n// Extract data from AI node output\nvar hashtagString = aiNodeData.hashtagString || '';\nvar hashtags = aiNodeData.hashtags || [];\nvar aiGenerated = aiNodeData.aiGenerated || false;\nvar productInfo = aiNodeData.productInfo || {};\nvar originalData = aiNodeData.originalData || {};\n\nconsole.log('Hashtag String:', hashtagString);\nconsole.log('Hashtags:', hashtags);\nconsole.log('AI Generated:', aiGenerated);\nconsole.log('Product Info:', productInfo);\n\n// Extract product information from AI node data\nvar storeName = productInfo.store || 'Unknown';\nvar productTitle = productInfo.title || 'Product';\nvar productUrl = productInfo.url || '';\n\n// Get thumbnail URL from original embed data\nvar thumbnailUrl = null;\nif (originalData.embedArray && originalData.embedArray.length > 0) {\n  var thumbnailEmbed = originalData.embedArray.find(e => e.title === 'Thumbnail');\n  if (thumbnailEmbed) {\n    thumbnailUrl = thumbnailEmbed.url;\n  }\n}\n\nconsole.log('Store Name:', storeName);\nconsole.log('Product Title:', productTitle);\nconsole.log('Product URL:', productUrl);\nconsole.log('Thumbnail URL:', thumbnailUrl);\n\nfunction getDomain(url) {\n  var parts = url.split('://');\n  if (parts.length === 2) {\n    var protocol = parts[0];\n    var rest = parts[1].split('/')[0];\n    return protocol + '://' + rest;\n  }\n  return 'https://www.google.com';\n}\n\n// Add hashtags to tweet if available\nvar hashtagSection = hashtagString ? '\\n\\n' + hashtagString : '';\n\nvar tweetText = '🚨RESTOCK ALERT (' + storeName + ')🚨\\n\\n' + productTitle + '\\n\\n' + productUrl + '\\n\\n🎮 JOIN OUR DISCORD: https://dsc.gg/dollar-shoe-club' + hashtagSection;\nvar refererDomain = getDomain(productUrl);\n\nconsole.log('Final tweet text:', tweetText);\n\nif (!thumbnailUrl) {\n  return {\n    tweetText: tweetText,\n    thumbnailUrl: null,\n    storeName: storeName,\n    productTitle: productTitle,\n    productUrl: productUrl,\n    refererDomain: refererDomain,\n    hasImage: false,\n    hashtags: hashtags,\n    aiGenerated: aiGenerated\n  };\n} else {\n  return {\n    tweetText: tweetText,\n    thumbnailUrl: thumbnailUrl,\n    storeName: storeName,\n    productTitle: productTitle,\n    productUrl: productUrl,\n    refererDomain: refererDomain,\n    hasImage: true,\n    hashtags: hashtags,\n    aiGenerated: aiGenerated\n  };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2620,
+        -1260
+      ],
+      "id": "8dc4feae-c339-42b2-bb4d-42bd88cec54a",
+      "name": "Format Tweet"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.webhookUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "=Content-Type",
+              "value": "={{ $json.headers[\"Content-Type\"] }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.payload }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3480,
+        -1260
+      ],
+      "id": "49d518de-82f7-4b81-8a28-ff094cbcc6b5",
+      "name": "Discord Ping"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare Discord notification data for HTTP Request node\nconsole.log('=== Preparing Discord Twitter Notification ===');\n\n// Get the data from previous nodes (Twitter API response)\nvar twitterResponse = $json;\nif ($json.body && $json.body.body) {\n  twitterResponse = $json.body.body;\n} else if ($json.body) {\n  twitterResponse = $json.body;\n}\n\nconsole.log('Twitter Response Data:', JSON.stringify(twitterResponse, null, 2));\n\n// Extract important Twitter response information\nvar tweetId = '';\nvar tweetText = '';\nvar mediaIds = [];\nvar status = 'unknown';\nvar errorMessage = '';\n\n// Check if it's a successful response\nif (twitterResponse && twitterResponse.text && twitterResponse.id) {\n  // Handle direct tweet object format\n  status = 'success';\n  tweetId = twitterResponse.id || '';\n  tweetText = twitterResponse.text || '';\n  \n  if (twitterResponse.attachments && twitterResponse.attachments.media_keys) {\n    mediaIds = twitterResponse.attachments.media_keys;\n  }\n} else if (twitterResponse && Array.isArray(twitterResponse) && twitterResponse.length > 0) {\n  // Handle array format from Twitter API\n  var tweetData = twitterResponse[0];\n  status = 'success';\n  tweetId = tweetData.id || '';\n  tweetText = tweetData.text || '';\n  \n  if (tweetData.attachments && tweetData.attachments.media_keys) {\n    mediaIds = tweetData.attachments.media_keys;\n  }\n} else if (twitterResponse && twitterResponse.data) {\n  // Handle single object format\n  status = 'success';\n  tweetId = twitterResponse.data.id || '';\n  tweetText = twitterResponse.data.text || '';\n  \n  if (twitterResponse.data.attachments && twitterResponse.data.attachments.media_keys) {\n    mediaIds = twitterResponse.data.attachments.media_keys;\n  }\n} else if (twitterResponse && twitterResponse.errors) {\n  status = 'error';\n  if (twitterResponse.errors[0] && twitterResponse.errors[0].message) {\n    errorMessage = twitterResponse.errors[0].message;\n  } else {\n    errorMessage = 'Unknown error';\n  }\n} else if (twitterResponse && twitterResponse.status) {\n  status = twitterResponse.status;\n}\n\nconsole.log('Extracted Info:', {\n  status: status,\n  tweetId: tweetId,\n  tweetText: tweetText,\n  mediaIds: mediaIds,\n  errorMessage: errorMessage\n});\n\n// Discord webhook URL\nvar discordWebhookUrl = 'https://discord.com/api/webhooks/1395974258815012986/vilYBE5suFo9S2PPgebKEgGr7-Lou4QYSeP0i8VxZYbrHTxCkNl2Zv-rPPgh7zuYGadQ';\n\n// Create Discord message based on status\nvar discordMessage = '';\nvar embedColor = '#00FF00';\n\nif (status === 'success') {\n  discordMessage = '🎉 **Tweet Posted Successfully!**\\n\\n';\n  discordMessage += '**Tweet ID:** `' + tweetId + '`\\n';\n  discordMessage += '**Content:** ' + tweetText + '\\n';\n  \n  if (mediaIds.length > 0) {\n    discordMessage += '**Media IDs:** ' + mediaIds.join(', ') + '\\n';\n  }\n  \n  discordMessage += '\\n**Posted at:** ' + new Date().toLocaleString();\n  embedColor = '#00FF00';\n} else {\n  discordMessage = '❌ **Tweet Failed to Post**\\n\\n';\n  discordMessage += '**Status:** ' + status + '\\n';\n  \n  if (errorMessage) {\n    discordMessage += '**Error:** ' + errorMessage + '\\n';\n  }\n  \n  discordMessage += '\\n**Failed at:** ' + new Date().toLocaleString();\n  embedColor = '#FF0000';\n}\n\n// Create Discord payload\nvar discordPayload = {\n  embeds: [\n    {\n      title: status === 'success' ? '✅ Tweet Posted' : '❌ Tweet Failed',\n      description: discordMessage,\n      color: parseInt(embedColor.replace('#', ''), 16),\n      timestamp: new Date().toISOString(),\n      footer: {\n        text: 'Dollar Shoe Club Twitter Bot'\n      }\n    }\n  ]\n};\n\nconsole.log('Discord Payload:', JSON.stringify(discordPayload, null, 2));\n\n// Return data for HTTP Request node\nreturn {\n  webhookUrl: discordWebhookUrl,\n  payload: JSON.stringify(discordPayload),\n  headers: {\n    'Content-Type': 'application/json'\n  },\n  method: 'POST',\n  twitterInfo: {\n    status: status,\n    tweetId: tweetId,\n    tweetText: tweetText,\n    mediaIds: mediaIds,\n    errorMessage: errorMessage\n  }\n}; "
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3260,
+        -1260
+      ],
+      "id": "1c12a138-04af-4d56-937c-5a3e1565edf8",
+      "name": "Prepare Embed"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "8db03899-43b1-4fc8-8baa-b70d70ae165e",
+      "name": "Receive Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        3040,
+        -1260
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// AI Hashtag Generator Node - Complete (API call + processing in one node)\nconsole.log('=== AI Hashtag Generator Node (Complete) ===');\n\n// Get the webhook data\nvar webhookData = $json;\nif ($json.body && $json.body.body) {\n  webhookData = $json.body.body; // Handle nested structure\n} else if ($json.body) {\n  webhookData = $json.body;\n}\n\nconsole.log('Analyzing webhook data for AI hashtag generation...');\n\n// Extract product information\nvar productTitle = '';\nvar storeName = '';\nvar productUrl = '';\n\nif (webhookData.embedArray && webhookData.embedArray.length > 0) {\n  var titleEmbed = webhookData.embedArray.find(e => e.title === 'Title');\n  \n  if (titleEmbed) {\n    productTitle = titleEmbed.description || '';\n    productUrl = titleEmbed.url || '';\n    \n    // Extract store name from URL\n    if (productUrl) {\n      var urlParts = productUrl.split('://');\n      var domain = urlParts[1] || urlParts[0];\n      var hostParts = domain.split('/');\n      var hostname = hostParts[0];\n      var cleanDomain = hostname.replace('www.', '');\n      var storeParts = cleanDomain.split('.');\n      storeName = storeParts[0].charAt(0).toUpperCase() + storeParts[0].slice(1);\n    }\n  }\n}\n\nconsole.log('Product Title:', productTitle);\nconsole.log('Store Name:', storeName);\nconsole.log('Product URL:', productUrl);\n\n// Create AI prompt for hashtag generation\nvar aiPrompt = `Analyze this product and generate 5-6 relevant hashtags for social media:\n\nProduct Title: ${productTitle}\nStore: ${storeName}\nURL: ${productUrl}\n\n🚨 FORBIDDEN WORDS - NEVER USE THESE:\n- \"elite\" → use \"ETB\" instead\n- \"air\" → use \"airmax\" instead  \n- \"playstation\" → use \"ps5\" instead\n- \"nintendo\" → use \"switch\" instead\n- \"trainer\" → use \"tcg\" instead\n- \"box\" → use \"ETB\" or \"booster\" instead\n- \"card\" → use \"pokemon\" or \"tcg\" instead\n\n✅ REQUIRED REPLACEMENTS:\n- \"Elite Trainer Box\" = #ETB\n- \"Nike Air Max\" = #airmax  \n- \"PlayStation 5\" = #ps5\n- \"Nintendo Switch\" = #switch\n- \"Pokemon Cards\" = #pokemon #tcg\n\nGenerate hashtags that are:\n1. Relevant to the product category and brand\n2. Popular and trending in social media (use the most common hashtags people actually search)\n3. Include the store name if it's a major retailer\n4. Focus on gaming, sneakers, electronics, or collectibles if applicable\n5. Use common abbreviations and variations (e.g., #pokemon, #nike, #ps5, #ETB for Elite Trainer Box)\n6. Avoid generic words - prefer specific product terms and popular community hashtags\n7. For trading cards: use #ETB, #booster, #tcg, #pokemon, #cards\n8. For sneakers: use #nike, #jordan, #yeezy, #sneakers, #shoes\n9. For electronics: use #ps5, #xbox, #nintendo, #switch, #gaming\n\nCRITICAL: If you see \"Elite Trainer Box\" in the title, you MUST use #ETB, NEVER #elite.\n\nReturn ONLY the hashtags separated by spaces, no other text. Example format:\n#costco #pokemon #prismatic #evolutions #ETB #trainer`;\n\nconsole.log('AI Prompt:', aiPrompt);\n\n// Make API call to OpenAI using n8n's HTTP request\nvar hashtags = [];\nvar hashtagString = '';\nvar aiGenerated = false;\n\ntry {\n  console.log('Making OpenAI API call...');\n  \n  var openaiResponse = await $http.request({\n    method: 'POST',\n    url: 'https://api.openai.com/v1/chat/completions',\n    headers: {\n      'Authorization': 'Bearer {{ $credentials.openaiApiKey }}',\n      'Content-Type': 'application/json'\n    },\n    body: {\n      model: 'gpt-3.5-turbo',\n      messages: [\n        {\n          role: 'system',\n          content: 'You are a social media expert who generates relevant hashtags for product announcements. Always return only hashtags separated by spaces, no other text.'\n        },\n        {\n          role: 'user',\n          content: aiPrompt\n        }\n      ],\n      max_tokens: 100,\n      temperature: 0.7\n    }\n  });\n\n  console.log('OpenAI Response:', JSON.stringify(openaiResponse, null, 2));\n\n  // Extract hashtags from AI response\n  if (openaiResponse && openaiResponse.choices && openaiResponse.choices[0] && openaiResponse.choices[0].message) {\n    var aiContent = openaiResponse.choices[0].message.content;\n    console.log('AI Content:', aiContent);\n    \n    // Extract hashtags from the response\n    var hashtagMatches = aiContent.match(/#\\w+/g);\n    if (hashtagMatches) {\n      hashtags = hashtagMatches;\n      \n      // Post-process to replace generic words with specific terms\n      hashtags = hashtags.map(hashtag => {\n        var lowerHashtag = hashtag.toLowerCase();\n        if (lowerHashtag === '#elite') return '#ETB';\n        if (lowerHashtag === '#air') return '#airmax';\n        if (lowerHashtag === '#playstation') return '#ps5';\n        if (lowerHashtag === '#nintendo') return '#switch';\n        if (lowerHashtag === '#trainer') return '#tcg';\n        if (lowerHashtag === '#box') return '#ETB';\n        if (lowerHashtag === '#card') return '#pokemon';\n        return hashtag;\n      });\n      \n      hashtagString = hashtags.join(' ');\n      aiGenerated = true;\n      console.log('AI Generated hashtags (after post-processing):', hashtags);\n    }\n  }\n} catch (error) {\n  console.log('OpenAI API call failed:', error.message);\n}\n\n// Fallback if AI fails or no hashtags generated\nif (hashtags.length === 0) {\n  console.log('Using fallback hashtag generation...');\n  \n  // Simple fallback: store name + key words from title\n  var fallbackHashtags = [];\n  \n  // Always add store name\n  if (storeName && storeName.toLowerCase() !== 'unknown') {\n    fallbackHashtags.push('#' + storeName.toLowerCase());\n  }\n  \n  // Extract key words from title (simple approach)\n  if (productTitle) {\n    var titleWords = productTitle.toLowerCase().split(/\\s+/);\n    var commonWords = ['the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'a', 'an', 'is', 'are', 'was', 'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'can', 'this', 'that', 'these', 'those', 'i', 'you', 'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'my', 'your', 'his', 'her', 'its', 'our', 'their', 'mine', 'yours', 'his', 'hers', 'ours', 'theirs', 'pack', 'bundle', 'box', 'set', 'collection', 'edition', 'version', 'model', 'size', 'color', 'black', 'white', 'red', 'blue', 'green', 'yellow', 'new', 'used', 'refurbished', 'original', 'authentic', 'genuine', 'official', 'licensed', 'brand', 'product', 'item', 'goods', 'merchandise'];\n    \n    for (var i = 0; i < titleWords.length && fallbackHashtags.length < 5; i++) {\n      var word = titleWords[i].replace(/[^a-zA-Z0-9]/g, '');\n      if (word.length >= 3 && !commonWords.includes(word)) {\n        fallbackHashtags.push('#' + word);\n      }\n    }\n  }\n  \n  hashtags = fallbackHashtags;\n  hashtagString = hashtags.join(' ');\n  aiGenerated = false;\n  console.log('Fallback hashtags:', hashtags);\n}\n\nconsole.log('Final hashtags:', hashtags);\nconsole.log('Hashtag string:', hashtagString);\nconsole.log('AI Generated:', aiGenerated);\n\n// Return the hashtag data\nreturn {\n  hashtags: hashtags,\n  hashtagString: hashtagString,\n  aiGenerated: aiGenerated,\n  productInfo: {\n    title: productTitle,\n    store: storeName,\n    url: productUrl\n  },\n  // Pass through original data\n  originalData: webhookData\n}; "
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        -1260
+      ],
+      "id": "322a4e18-3e77-4d22-91a0-80c6fa8eb68f",
+      "name": "Gen Hashtags (AI)"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"status\": \"running\",\n  \"message\": \"Health check successful\",\n  \"timestamp\": \"{{ $now }}\"\n}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        2100,
+        -1380
+      ],
+      "id": "bddebadc-33b2-4623-b12f-81ab32ed2669",
+      "name": "Health Check Response"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ffefe702-dc74-48ff-809a-45efafca630b",
+              "leftValue": "={{ $json.body.isHealthCheck }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        -1260
+      ],
+      "id": "af1102e7-3a49-49c7-a0d0-795099fc0928",
+      "name": "IF Health Check"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "IF Health Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post Tweet": {
+      "main": [
+        [
+          {
+            "node": "Receive Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Tweet": {
+      "main": [
+        [
+          {
+            "node": "Post Tweet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Embed": {
+      "main": [
+        [
+          {
+            "node": "Discord Ping",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receive Response": {
+      "main": [
+        [
+          {
+            "node": "Prepare Embed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gen Hashtags (AI)": {
+      "main": [
+        [
+          {
+            "node": "Format Tweet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Health Check Response": {
+      "main": [
+        []
+      ]
+    },
+    "IF Health Check": {
+      "main": [
+        [
+          {
+            "node": "Health Check Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Gen Hashtags (AI)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "af0e318d-7f65-46d5-ab94-62b1819aacd9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9b2fb600eb275ae53a15cb683bd1faf5bc13ea766f15ef16f1618090cfba8a48"
+  },
+  "id": "Z0ZDlAAwOVORZqSD",
+  "tags": []
+}
