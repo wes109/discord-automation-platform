@@ -28,6 +28,11 @@ function concatenateValues(array) {
     return result;
 }
 
+function removeDiscordMentions(text) {
+    if (typeof text !== 'string') return text;
+    return text.replace(/@everyone/g, '').replace(/@here/g, '').trim();
+}
+
 function sendMessage(botToken, message) {
     try {
         const apiUrl = `https://hook.us1.make.com/${botToken}`;
@@ -35,6 +40,8 @@ function sendMessage(botToken, message) {
         console.log(message)
         for (var i = 0; i < message.length; i++) {
             if (message[i].name == undefined) { message[i].name = 'title' }
+            // Remove @everyone and @here from message values
+            message[i].value = removeDiscordMentions(message[i].value);
             formdata.append(message[i].name, message[i].value)
         }
         const response = fetch(apiUrl, {

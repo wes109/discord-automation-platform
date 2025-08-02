@@ -83,20 +83,10 @@ const argv = require('yargs')(args)
         type: 'boolean',
         default: false 
     })
-    .option('enable-tweeting', {
-        describe: 'Enable tweet integration',
+    .option('disable-embed-webhook', {
+        describe: 'Send regular messages instead of embeds',
         type: 'boolean',
         default: false
-    })
-    .option('tweet-keywords', {
-        describe: 'Tweet keywords for filtering',
-        type: 'string',
-        default: ''
-    })
-    .option('tweet-timeout', {
-        describe: 'Tweet timeout in minutes',
-        type: 'number',
-        default: 30
     })
     .help()
     .argv;
@@ -111,23 +101,89 @@ enableRegularMessages = argv.enableRegularMessages;
 enableUrlUnshorteningGlobal = argv['enable-url-unshortening'];
 enableAffiliateLinksGlobal = argv.enableAffiliateLinks;
 const isTestingModuleGlobal = argv.testingMode;
-const enableTweetingGlobal = argv.enableTweeting;
-const tweetKeywordsGlobal = argv.tweetKeywords ? argv.tweetKeywords.split(',') : [];
-const tweetTimeoutGlobal = argv.tweetTimeout || 30;
+const disableEmbedWebhookGlobal = argv['disable-embed-webhook'];
 
 console.log('Parsed isHeadless value:', isHeadless);
 console.log('Parsed enableRegularMessages value:', enableRegularMessages);
 console.log('Parsed enableUrlUnshorteningGlobal value:', enableUrlUnshorteningGlobal);
 console.log('Parsed enableAffiliateLinksGlobal value:', enableAffiliateLinksGlobal);
 console.log('Parsed isTestingModuleGlobal value:', isTestingModuleGlobal);
-console.log('Parsed enableTweetingGlobal value:', enableTweetingGlobal);
-console.log('Parsed tweetKeywordsGlobal value:', tweetKeywordsGlobal);
-console.log('Parsed tweetTimeoutGlobal value:', tweetTimeoutGlobal);
+console.log('Parsed disableEmbedWebhookGlobal value:', disableEmbedWebhookGlobal);
 
 // Helper function to generate task ID
 function generateTaskId() {
     taskCounter++;
     return `TASK_${taskCounter.toString().padStart(4, '0')}`;
+}
+
+// Helper function to convert embed array to regular message format
+function convertEmbedToRegularMessage(embedArray) {
+    if (!embedArray || embedArray.length === 0) {
+        return { content: 'No content available' };
+    }
+
+    // Helper function to convert markdown links to plain URLs for Discord regular messages
+    const markdownToPlainUrls = (text) => {
+        if (!text) return text;
+        
+        // Convert markdown links [text](url) to just the URL
+        // This is because Discord regular messages don't render markdown links automatically
+        return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$2');
+    };
+
+    let messageContent = '';
+    let username = 'Dollar Shoe Club';
+    let avatar_url = 'https://pbs.twimg.com/profile_images/1563967215438790656/y8DLGAKv_400x400.jpg';
+
+    // Process each embed item
+    embedArray.forEach((embed, index) => {
+        if (!embed || !embed.title || !embed.value) {
+            return;
+        }
+
+        const { title, value, url } = embed;
+
+        switch (title.toLowerCase()) {
+            case 'author':
+                username = value;
+                break;
+            case 'description':
+                if (messageContent) messageContent += '\n\n';
+                messageContent += markdownToPlainUrls(value);
+                break;
+            case 'title':
+                if (messageContent) messageContent += '\n\n';
+                if (url) {
+                    messageContent += `**${value}**\n${url}`;
+                } else {
+                    messageContent += `**${value}**`;
+                }
+                break;
+            case 'thumbnail':
+            case 'image':
+                if (messageContent) messageContent += '\n\n';
+                messageContent += markdownToPlainUrls(value);
+                break;
+            case 'footer':
+                // Skip footer content for regular messages
+                break;
+            default:
+                if (messageContent) messageContent += '\n\n';
+                messageContent += `**${title}:** ${markdownToPlainUrls(value)}`;
+                break;
+        }
+    });
+
+    // Ensure content doesn't exceed Discord's limit
+    if (messageContent.length > 2000) {
+        messageContent = messageContent.substring(0, 1997) + '...';
+    }
+
+    return {
+        content: messageContent || 'No content available',
+        username: username,
+        avatar_url: avatar_url
+    };
 }
 
 // Helper function to clean Nike URLs
@@ -207,7 +263,7 @@ async function processAffiliateEmbedValue(value, taskId) {
         try {
             logTask(taskId, 'DEBUG', `Calling Mavely API for URL: ${originalUrl}`);
             
-            const response = await fetch('http://localhost:3001/api/mavely/generate-link', {
+            const response = await fetch('http://localhost:3002/api/mavely/generate-link', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -278,7 +334,7 @@ async function processEmbedsForWebhook(embedArray, taskId, shouldAffiliateLinks)
             if (processedEmbed.url && shouldAffiliateLinks) {
                 logTask(taskId, 'INFO', `Attempting to affiliate direct embed.url for '${embed.title || 'Untitled Embed'}': ${processedEmbed.url}`);
                 try {
-                    const response = await fetch('http://localhost:3001/api/mavely/generate-link', {
+                    const response = await fetch('http://localhost:3002/api/mavely/generate-link', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -549,7 +605,7 @@ async function launchBrowser(profileId, headless = false) {
 }
 
 // Monitor a Discord channel
-async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId, currentEnableRegularMessages, currentIsTestingModule, currentEnableAffiliateLinks, currentEnableTweeting, currentTweetKeywords, currentTweetTimeout) {
+async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId, currentEnableRegularMessages, currentIsTestingModule, currentEnableAffiliateLinks, currentDisableEmbedWebhook) {
     let page;
     let scrollIntervalId = null; // Variable to hold the interval ID
     
@@ -561,10 +617,7 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
         logTask(currentTaskId, 'INFO', `Affiliate link processing: ${currentEnableAffiliateLinks ? 'ENABLED' : 'DISABLED'}`);
         logTask(currentTaskId, 'INFO', `URL unshortening (standard): ${enableUrlUnshorteningGlobal ? 'ENABLED' : 'DISABLED'}`);
         logTask(currentTaskId, 'INFO', `Testing mode (no webhooks): ${currentIsTestingModule ? 'ENABLED' : 'DISABLED'}`);
-        logTask(currentTaskId, 'INFO', `Tweet processing: ${currentEnableTweeting ? 'ENABLED' : 'DISABLED'}`);
-        if (currentEnableTweeting && currentTweetKeywords) {
-            logTask(currentTaskId, 'INFO', `Tweet keywords: ${currentTweetKeywords}`);
-        }
+        logTask(currentTaskId, 'INFO', `Disable embed webhook: ${currentDisableEmbedWebhook ? 'ENABLED' : 'DISABLED'}`);
 
         // Get existing pages (usually just the initial blank tab)
         const pages = await browser.pages();
@@ -760,32 +813,16 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                                     
                                     const finalEmbedArray = await processEmbedsForWebhook(embedArray, currentTaskId, currentEnableAffiliateLinks);
                                     
-                                    await webhook.buildWebhook(finalEmbedArray, channelConfig.webhook_url, currentIsTestingModule);
-                                    logTask(currentTaskId, 'DEBUG', `Completed webhook.buildWebhook for ${channelName}`);
-                                    logTask(currentTaskId, 'SUCCESS', `Embeds for ${messageId} sent to channel: ${channelName}`);
-                                    
-                                    // Check keywords after webhook is sent (asynchronous, non-blocking)
-                                    logTask(currentTaskId, 'DEBUG', `About to check keywords for embed message ${messageId}. Keywords: ${JSON.stringify(currentTweetKeywords)}`);
-                                    if (currentTweetKeywords && currentTweetKeywords.length > 0) {
-                                        setImmediate(async () => {
-                                            try {
-                                                const { checkWebhookKeywords } = require('./utils/keyword_matcher');
-                                                logTask(currentTaskId, 'DEBUG', `Checking keywords for embed message ${messageId}: ${JSON.stringify(currentTweetKeywords)}`);
-                                                const matchResult = checkWebhookKeywords(finalEmbedArray, currentTweetKeywords);
-                                                if (matchResult) {
-                                                    logTask(currentTaskId, 'INFO', `Keyword match found for embed message ${messageId}: Group "${matchResult.matchedGroup}" (index ${matchResult.groupIndex})`);
-                                                    
-                                                    // Trigger tweet if tweeting is enabled
-                                                    if (currentEnableTweeting) {
-                                                        await triggerTweetForMatch(messageId, finalEmbedArray, null, currentTaskId, matchResult, tweetedProducts, currentTweetTimeout);
-                                                    }
-                                                } else {
-                                                    logTask(currentTaskId, 'DEBUG', `No keyword match for embed message ${messageId}`);
-                                                }
-                                            } catch (error) {
-                                                logTask(currentTaskId, 'WARNING', `Error checking keywords for embed message ${messageId}: ${error.message}`);
-                                            }
-                                        });
+                                    if (currentDisableEmbedWebhook) {
+                                        // Convert embed array to regular message format
+                                        const regularMessage = convertEmbedToRegularMessage(finalEmbedArray);
+                                        await webhook.sendRegularMessage(regularMessage, channelConfig.webhook_url, currentIsTestingModule);
+                                        logTask(currentTaskId, 'DEBUG', `Completed webhook.sendRegularMessage for ${channelName}`);
+                                        logTask(currentTaskId, 'SUCCESS', `Regular message for ${messageId} sent to channel: ${channelName}`);
+                                    } else {
+                                        await webhook.buildWebhook(finalEmbedArray, channelConfig.webhook_url, currentIsTestingModule);
+                                        logTask(currentTaskId, 'DEBUG', `Completed webhook.buildWebhook for ${channelName}`);
+                                        logTask(currentTaskId, 'SUCCESS', `Embeds for ${messageId} sent to channel: ${channelName}`);
                                     }
                                 } catch (error) {
                                     // This catch block in main.js should now catch errors re-thrown from buildWebhook
@@ -883,8 +920,7 @@ async function main() {
          enableRegularMessages: enableRegularMessages,
          isTestingModule: isTestingModuleGlobal,
          enableAffiliateLinks: enableAffiliateLinksGlobal,
-         enableTweeting: enableTweetingGlobal,
-         tweetKeywords: tweetKeywordsGlobal
+         disableEmbedWebhook: disableEmbedWebhookGlobal
      });
 
     let browser;
@@ -897,7 +933,7 @@ async function main() {
 
         // Start monitoring
         logTask(taskId, 'INFO', `Starting monitoring for ${channelUrlArg}`);
-        await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId, enableRegularMessages, isTestingModuleGlobal, enableAffiliateLinksGlobal, enableTweetingGlobal, tweetKeywordsGlobal, tweetTimeoutGlobal);
+        await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId, enableRegularMessages, isTestingModuleGlobal, enableAffiliateLinksGlobal, disableEmbedWebhookGlobal);
 
     } catch (error) {
         logTask(taskId || 'MAIN_ERROR', 'ERROR', 'Critical error during browser launch or monitor initiation.', error);

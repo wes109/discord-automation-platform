@@ -22,7 +22,7 @@ const MavelyManager = require('./mavely_manager');
 // Initialize Express app
 const app = express();
 const server = http.createServer(app);
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
@@ -282,10 +282,7 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     createdTime: new Date().toISOString(),
     isTestingModule: taskSettings.isTestingModule === true,
     enableAffiliateLinks: taskSettings.enableAffiliateLinks === true,
-    // Add tweet settings
-    enableTweeting: taskSettings.enableTweeting === true,
-    tweetKeywords: taskSettings.tweetKeywords || '',
-    tweetTimeout: taskSettings.tweetTimeout || 30
+    disableEmbedWebhook: taskSettings.disableEmbedWebhook === true
   };
   
   // Create the task object with headless state at all levels
@@ -296,18 +293,14 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     enableRegularMessages: settings.enableRegularMessages,
     isHeadless, // Add isHeadless flag
     enableAffiliateLinks: settings.enableAffiliateLinks,
-    enableTweeting: settings.enableTweeting,
-    tweetKeywords: settings.tweetKeywords,
-    tweetTimeout: settings.tweetTimeout,
+    disableEmbedWebhook: settings.disableEmbedWebhook,
     settings: {
       ...settings,
       headless: isHeadless, // Ensure it's in settings
       enableRegularMessages: settings.enableRegularMessages, // And here
       isTestingModule: settings.isTestingModule,
       enableAffiliateLinks: settings.enableAffiliateLinks,
-      enableTweeting: settings.enableTweeting,
-      tweetKeywords: settings.tweetKeywords,
-      tweetTimeout: settings.tweetTimeout
+      disableEmbedWebhook: settings.disableEmbedWebhook
     }
   };
   
@@ -398,6 +391,7 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
   const isHeadless = taskSettings.headless === true;
   const label = taskSettings.label || channelUrl.split('/').pop();
   const isTestingModule = taskSettings.isTestingModule === true; // Read testing mode
+  const disableEmbedWebhook = taskSettings.disableEmbedWebhook === true; // Read disable embed webhook
   
   // Save initial task settings (keep this)
   const settings = {
@@ -414,9 +408,7 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
     // Store the pm2 id in settings as well for persistence
     pm2_task_id,
     enableAffiliateLinks: taskSettings.enableAffiliateLinks === true,
-    enableTweeting: taskSettings.enableTweeting === true, // <-- Save tweet setting
-    tweetKeywords: taskSettings.tweetKeywords || '', // <-- Save tweet keywords
-    tweetTimeout: taskSettings.tweetTimeout || 30 // <-- Save tweet timeout
+    disableEmbedWebhook: disableEmbedWebhook
   };
   writeTaskSettings(taskId, settings);
   
@@ -446,14 +438,8 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
   if (settings.enableAffiliateLinks === true) {
     scriptArgs.push('--enable-affiliate-links');
   }
-  if (settings.enableTweeting === true) {
-    scriptArgs.push('--enable-tweeting');
-  }
-  if (Array.isArray(settings.tweetKeywords) && settings.tweetKeywords.length > 0) {
-    scriptArgs.push('--tweet-keywords', `"${settings.tweetKeywords.join(',')}"`);
-  }
-  if (settings.tweetTimeout && settings.tweetTimeout > 0) {
-    scriptArgs.push('--tweet-timeout', settings.tweetTimeout.toString());
+  if (disableEmbedWebhook === true) {
+    scriptArgs.push('--disable-embed-webhook');
   }
 
   // --- Set Cron Schedule to Every 3 Days --- 
@@ -789,10 +775,10 @@ app.get('/api/tasks/:taskId/logs', (req, res) => {
 
 // API endpoint to create a task without starting it
 app.post('/api/tasks/create', (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, enableTweeting, tweetKeywords, tweetTimeout } = req.body;
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, disableEmbedWebhook } = req.body;
   
   console.log('[DEBUG] Creating task with settings:', {
-    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, enableTweeting, tweetKeywords, tweetTimeout
+    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, disableEmbedWebhook
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -806,9 +792,7 @@ app.post('/api/tasks/create', (req, res) => {
     enableRegularMessages: enableRegularMessages === true, // <-- Ensure boolean conversion
     isTestingModule: isTestingModule === true,
     enableAffiliateLinks: enableAffiliateLinks === true,
-    enableTweeting: enableTweeting === true, // <-- Add tweet setting
-    tweetKeywords: tweetKeywords || '', // <-- Add tweet keywords
-    tweetTimeout: tweetTimeout || 30 // <-- Add tweet timeout
+    disableEmbedWebhook: disableEmbedWebhook === true
   };
   
   const result = createTask(channelUrl, targetChannels, taskSettings);
@@ -817,7 +801,7 @@ app.post('/api/tasks/create', (req, res) => {
 
 // API endpoint to start a task
 app.post('/api/tasks/start', async (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, enableAffiliateLinks, enableTweeting, tweetKeywords, tweetTimeout } = req.body;
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, disableEmbedWebhook } = req.body;
   
   console.log('[DEBUG] /api/tasks/start received request with headless:', headless);
   
@@ -830,10 +814,7 @@ app.post('/api/tasks/start', async (req, res) => {
     label: label || '',
     headless: headless === true, // Strict boolean comparison
     enableRegularMessages: enableRegularMessages === true, // <-- Get from request
-    enableAffiliateLinks: enableAffiliateLinks === true,
-    enableTweeting: enableTweeting === true, // <-- Add tweet setting
-    tweetKeywords: tweetKeywords || '', // <-- Add tweet keywords
-    tweetTimeout: tweetTimeout || 30 // <-- Add tweet timeout
+    disableEmbedWebhook: disableEmbedWebhook === true
   };
   
   console.log('[DEBUG] Starting task with settings:', {
@@ -899,9 +880,7 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
       enableRegularMessages: useEnableRegularMessages, // <-- Use determined value
       isTestingModule: taskToStart.settings?.isTestingModule === true,
       enableAffiliateLinks: useEnableAffiliateLinks,
-      enableTweeting: useEnableTweeting, // <-- Use determined tweet value
-      tweetKeywords: useTweetKeywords, // <-- Use determined tweet keywords
-      tweetTimeout: useTweetTimeout // <-- Use determined tweet timeout
+      disableEmbedWebhook: taskToStart.settings?.disableEmbedWebhook === true
     }
   );
 

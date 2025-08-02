@@ -62,7 +62,7 @@ const numberOfCopies = parseInt(args[0]) || 1;
         });
 
         console.log('Navigating to Discord...');
-        await page.goto('https://discord.com/channels/@me', { 
+        await page.goto('https://discord.com/app', { 
             waitUntil: ['domcontentloaded', 'networkidle0'],
             timeout: 600000 
         });
@@ -81,7 +81,7 @@ const numberOfCopies = parseInt(args[0]) || 1;
 
         // Wait for auth token with timeout
         console.log('Waiting for authentication token...');
-        let tokenTimeout = 60000; // 1 minute timeout
+        let tokenTimeout = 120000; // 2 minute timeout (increased from 1 minute)
         let startTime = Date.now();
         
         while (!authToken && Date.now() - startTime < tokenTimeout) {
@@ -92,11 +92,29 @@ const numberOfCopies = parseInt(args[0]) || 1;
             throw new Error('Failed to capture authentication token');
         }
 
+        // Wait a bit more for all cookies to be set
+        console.log('Waiting for all cookies to be set...');
+        await new Promise(resolve => setTimeout(resolve, 10000));
+
+        // Navigate to a few more Discord pages to ensure all cookies are set
+        console.log('Navigating to additional Discord pages to ensure all cookies are set...');
+        await page.goto('https://discord.com/channels/@me', { waitUntil: 'networkidle0' });
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        
+        await page.goto('https://discord.com/app', { waitUntil: 'networkidle0' });
+        await new Promise(resolve => setTimeout(resolve, 3000));
+
         // Save auth token and cookies
         await fs.writeFile(path.join(mainProfilePath, 'auth-token.txt'), authToken);
         console.log('Authentication token saved!');
 
         const cookies = await page.cookies();
+        console.log(`Captured ${cookies.length} cookies`);
+        
+        // Log cookie names for debugging
+        const cookieNames = cookies.map(c => c.name);
+        console.log('Cookie names:', cookieNames);
+        
         await fs.writeFile(
             path.join(mainProfilePath, 'cookies.json'), 
             JSON.stringify(cookies, null, 2)

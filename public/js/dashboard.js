@@ -425,18 +425,7 @@ async function handleCreateTaskSubmit() {
   const enableRegularMessages = document.getElementById('enableRegularMessages').checked;
   const isTestingModule = document.getElementById('enableTestingModule').checked;
   const enableAffiliateLinks = document.getElementById('enableAffiliateLinks').checked;
-  const enableTweeting = document.getElementById('enableTweeting').checked;
-  
-  // Get tweet keywords
-  const tweetKeywords = [];
-  if (enableTweeting) {
-    document.querySelectorAll('#tweetKeywordTags span').forEach(tag => {
-      tweetKeywords.push(tag.textContent.trim());
-    });
-  }
-  
-  // Get tweet timeout
-  const tweetTimeout = enableTweeting ? parseInt(document.getElementById('tweetTimeout').value) || 30 : 30;
+  const disableEmbedWebhook = document.getElementById('disableEmbedWebhook').checked;
 
   if (!channelUrl || targetChannels.length === 0) {
     showToast('Please select a channel URL and at least one target channel', 'danger');
@@ -458,9 +447,7 @@ async function handleCreateTaskSubmit() {
         enableRegularMessages,
         isTestingModule,
         enableAffiliateLinks,
-        enableTweeting,
-        tweetKeywords,
-        tweetTimeout
+        disableEmbedWebhook
       })
     });
 
@@ -478,10 +465,7 @@ async function handleCreateTaskSubmit() {
       document.getElementById('enableRegularMessages').checked = false;
       document.getElementById('enableTestingModule').checked = false;
       document.getElementById('enableAffiliateLinks').checked = false;
-      document.getElementById('enableTweeting').checked = false;
-      document.getElementById('tweetKeywords').value = '';
-      document.getElementById('tweetKeywordTags').innerHTML = '';
-      document.getElementById('tweetTimeout').value = '30';
+      document.getElementById('disableEmbedWebhook').checked = false;
       
       // Refresh the tasks table
       refreshTasksTable();
