@@ -97,11 +97,13 @@ targetChannelsArg = argv.targets.split(',').map(t => t.trim()).filter(t => t);
 isHeadless = argv.headless;
 taskId = argv['task-id'];
 profileId = argv.profile;
-enableRegularMessages = argv.enableRegularMessages;
+enableRegularMessages = argv['enable-regular-messages'];
 enableUrlUnshorteningGlobal = argv['enable-url-unshortening'];
-enableAffiliateLinksGlobal = argv.enableAffiliateLinks;
-const isTestingModuleGlobal = argv.testingMode;
-const disableEmbedWebhookGlobal = argv['disable-embed-webhook'];
+enableAffiliateLinksGlobal = argv['enable-affiliate-links'];
+const isTestingModuleGlobal = argv['testing-mode'];
+const enableTweetingGlobal = argv['enable-tweeting'];
+const tweetKeywordsGlobal = argv['tweet-keywords'] ? argv['tweet-keywords'].split(',') : [];
+const tweetTimeoutGlobal = argv['tweet-timeout'] || 30;
 
 console.log('Parsed isHeadless value:', isHeadless);
 console.log('Parsed enableRegularMessages value:', enableRegularMessages);
@@ -589,7 +591,15 @@ async function launchBrowser(profileId, headless = false) {
                 '--disable-background-networking',
                 '--disable-background-timer-throttling',
                 '--disable-renderer-backgrounding',
-                '--disk-cache-size=0'
+                '--disk-cache-size=0',
+                '--use-fake-ui-for-media-stream',
+                '--use-fake-device-for-media-stream',
+                '--disable-media-stream',
+                '--disable-audio-capture',
+                '--disable-video-capture',
+                '--disable-speech-api',
+                '--disable-speech-synthesis-api',
+                '--disable-notifications'
             ]
         };
         
@@ -632,6 +642,10 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
         
         await page.setViewport({ width: 1920, height: 1080 }); // Use a common desktop resolution
 
+        // Set permissions to deny microphone and camera access
+        // Note: page.context() doesn't exist in current Puppeteer versions
+        // Permissions are handled through browser launch arguments and page-level settings
+        
         logTask(currentTaskId, 'INFO', `Navigating to ${channelUrl}`);
         await page.goto(channelUrl, { waitUntil: ['load', 'domcontentloaded', 'networkidle0'], timeout: 60000 });
         logTask(currentTaskId, 'SUCCESS', `Navigation complete for ${channelUrl}`);
