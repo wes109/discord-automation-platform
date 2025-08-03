@@ -276,7 +276,8 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     enableRegularMessages: taskSettings.enableRegularMessages === true,
     createdTime: new Date().toISOString(),
     isTestingModule: taskSettings.isTestingModule === true,
-    enableAffiliateLinks: taskSettings.enableAffiliateLinks === true
+    enableAffiliateLinks: taskSettings.enableAffiliateLinks === true,
+    disableEmbedWebhook: taskSettings.disableEmbedWebhook === true
   };
   
   // Create the task object with headless state at all levels
@@ -287,12 +288,14 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     enableRegularMessages: settings.enableRegularMessages,
     isHeadless, // Add isHeadless flag
     enableAffiliateLinks: settings.enableAffiliateLinks,
+    disableEmbedWebhook: settings.disableEmbedWebhook, // <-- Add here
     settings: {
       ...settings,
       headless: isHeadless, // Ensure it's in settings
       enableRegularMessages: settings.enableRegularMessages, // And here
       isTestingModule: settings.isTestingModule,
-      enableAffiliateLinks: settings.enableAffiliateLinks
+      enableAffiliateLinks: settings.enableAffiliateLinks,
+      disableEmbedWebhook: settings.disableEmbedWebhook // <-- Add here
     }
   };
   
@@ -407,7 +410,8 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
     isTestingModule, // Save testing mode to settings
     // Store the pm2 id in settings as well for persistence
     pm2_task_id,
-    enableAffiliateLinks: taskSettings.enableAffiliateLinks === true
+    enableAffiliateLinks: taskSettings.enableAffiliateLinks === true,
+    disableEmbedWebhook: taskSettings.disableEmbedWebhook === true // <-- Add here
   };
   writeTaskSettings(taskId, settings);
   
@@ -436,6 +440,9 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
   }
   if (settings.enableAffiliateLinks === true) {
     scriptArgs.push('--enable-affiliate-links');
+  }
+  if (settings.disableEmbedWebhook === true) {
+    scriptArgs.push('--disable-embed-webhook');
   }
 
   // --- Set Cron Schedule to Every 3 Days --- 
@@ -740,10 +747,10 @@ app.get('/api/tasks/:taskId/logs', (req, res) => {
 
 // API endpoint to create a task without starting it
 app.post('/api/tasks/create', (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks } = req.body;
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, disableEmbedWebhook } = req.body;
   
   console.log('[DEBUG] Creating task with settings:', {
-    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks
+    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, disableEmbedWebhook
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -756,7 +763,8 @@ app.post('/api/tasks/create', (req, res) => {
     headless: headless === true, // Ensure boolean conversion
     enableRegularMessages: enableRegularMessages === true, // <-- Ensure boolean conversion
     isTestingModule: isTestingModule === true,
-    enableAffiliateLinks: enableAffiliateLinks === true
+    enableAffiliateLinks: enableAffiliateLinks === true,
+    disableEmbedWebhook: disableEmbedWebhook === true
   };
   
   const result = createTask(channelUrl, targetChannels, taskSettings);
@@ -795,9 +803,9 @@ app.post('/api/tasks/start', async (req, res) => {
 app.post('/api/tasks/:taskId/start', async (req, res) => {
   const { taskId } = req.params;
   // Get all settings from request body if provided
-  const { headless, enableRegularMessages, enableAffiliateLinks } = req.body || {}; 
+  const { headless, enableRegularMessages, enableAffiliateLinks, disableEmbedWebhook } = req.body || {}; 
   
-  console.log('[DEBUG] Starting saved task with parameters:', { headless, enableRegularMessages, enableAffiliateLinks });
+  console.log('[DEBUG] Starting saved task with parameters:', { headless, enableRegularMessages, enableAffiliateLinks, disableEmbedWebhook });
   
   // Find the saved task
   const savedTasks = readSavedTasks();
@@ -819,8 +827,11 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
   const useEnableAffiliateLinks = enableAffiliateLinks !== undefined
                                    ? enableAffiliateLinks === true
                                    : taskToStart.settings?.enableAffiliateLinks === true;
+  const useDisableEmbedWebhook = disableEmbedWebhook !== undefined
+                                   ? disableEmbedWebhook === true
+                                   : taskToStart.settings?.disableEmbedWebhook === true;
   
-  console.log('[DEBUG] Using settings for task:', { useHeadless, useEnableRegularMessages, useEnableAffiliateLinks });
+  console.log('[DEBUG] Using settings for task:', { useHeadless, useEnableRegularMessages, useEnableAffiliateLinks, useDisableEmbedWebhook });
   
   // Start the task with preserved settings and determined overrides
   const result = await startMonitoringTask(
@@ -833,7 +844,8 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
       headless: useHeadless, 
       enableRegularMessages: useEnableRegularMessages, // <-- Use determined value
       isTestingModule: taskToStart.settings?.isTestingModule === true,
-      enableAffiliateLinks: useEnableAffiliateLinks
+      enableAffiliateLinks: useEnableAffiliateLinks,
+      disableEmbedWebhook: useDisableEmbedWebhook // <-- Pass to monitor
     }
   );
 
@@ -866,7 +878,7 @@ app.delete('/api/tasks/:taskId', (req, res) => {
 // API endpoint to update task settings
 app.put('/api/tasks/:taskId/settings', (req, res) => {
   const { taskId } = req.params;
-  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule, enableAffiliateLinks } = req.body;
+  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule, enableAffiliateLinks, disableEmbedWebhook } = req.body;
   
   console.log('[API] Updating task settings:', {
     taskId,
@@ -876,7 +888,8 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     label,
     enableRegularMessages,
     isTestingModule,
-    enableAffiliateLinks
+    enableAffiliateLinks,
+    disableEmbedWebhook
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -916,7 +929,8 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     headless: headless === true, // Ensure boolean conversion
     enableRegularMessages: enableRegularMessages === true, // <-- Store setting
     isTestingModule: isTestingModule === true, // <-- Store testing mode setting
-    enableAffiliateLinks: enableAffiliateLinks === true
+    enableAffiliateLinks: enableAffiliateLinks === true,
+    disableEmbedWebhook: disableEmbedWebhook === true // <-- Store disableEmbedWebhook
   };
   
   // Update task settings
@@ -930,7 +944,8 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     enableRegularMessages: updatedSettings.enableRegularMessages, // <-- Add top-level flag
     isHeadless: headless === true, // Add top-level flag for consistency
     isTestingModule: updatedSettings.isTestingModule,
-    enableAffiliateLinks: updatedSettings.enableAffiliateLinks
+    enableAffiliateLinks: updatedSettings.enableAffiliateLinks,
+    disableEmbedWebhook: updatedSettings.disableEmbedWebhook // <-- Add top-level flag
   };
   
   console.log('[API] Updated task:', savedTasks[taskIndex]);

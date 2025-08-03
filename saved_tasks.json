@@ -945,7 +945,7 @@
     "createdTime": "2025-08-02T22:15:16.951Z"
   },
   {
-    "taskId": "task_1754190853372",
+    "taskId": "task_1754192673014",
     "label": "familiaCollector2",
     "channelUrl": "https://discord.com/channels/1103122365396832256/1103128802541965422",
     "targetChannels": [
@@ -974,13 +974,14 @@
       "enableUrlUnshortening": false,
       "headless": false,
       "enableRegularMessages": false,
-      "startTime": "2025-08-03T03:14:13.604Z",
-      "profileId": "profile_1754190853373_ctv52k",
+      "startTime": "2025-08-03T03:44:33.152Z",
+      "profileId": "profile_1754192673015_vm5xzx",
       "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1754190853372",
-      "enableAffiliateLinks": false
+      "pm2_task_id": "monitor_task_1754192673014",
+      "enableAffiliateLinks": false,
+      "disableEmbedWebhook": true
     },
-    "profileId": "profile_1754190853373_ctv52k",
-    "createdTime": "2025-08-03T03:14:14.516Z"
+    "profileId": "profile_1754192673015_vm5xzx",
+    "createdTime": "2025-08-03T03:44:33.267Z"
   }
 ]

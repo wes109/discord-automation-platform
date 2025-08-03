@@ -82,6 +82,11 @@ const argv = require('yargs')(args)
         type: 'boolean',
         default: false 
     })
+    .option('disable-embed-webhook', {
+        describe: 'Send all as regular message (no embeds)',
+        type: 'boolean',
+        default: false
+    })
     .help()
     .argv;
 
@@ -95,6 +100,9 @@ enableRegularMessages = argv.enableRegularMessages;
 enableUrlUnshorteningGlobal = argv['enable-url-unshortening'];
 enableAffiliateLinksGlobal = argv.enableAffiliateLinks;
 const isTestingModuleGlobal = argv.testingMode;
+let disableEmbedWebhook = false;
+disableEmbedWebhook = argv.disableEmbedWebhook;
+console.log('Parsed disableEmbedWebhook value:', disableEmbedWebhook);
 
 console.log('Parsed isHeadless value:', isHeadless);
 console.log('Parsed enableRegularMessages value:', enableRegularMessages);
@@ -351,7 +359,7 @@ async function launchBrowser(profileId, headless = false) {
 }
 
 // Monitor a Discord channel
-async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId, currentEnableRegularMessages, currentIsTestingModule, currentEnableAffiliateLinks) {
+async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId, currentEnableRegularMessages, currentIsTestingModule, currentEnableAffiliateLinks, currentDisableEmbedWebhook) {
     let page;
     let scrollIntervalId = null; // Variable to hold the interval ID
     try {
@@ -510,34 +518,39 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                     // Handle embeds
                     else if (embedArray && embedArray.length > 0) {
                         logTask(currentTaskId, 'INFO', `Processing ${embedArray.length} embeds for message ${messageId}`);
-
-                        // Loop through target channels
                         for (const channelName of targetChannels) {
                             logTask(currentTaskId, 'DEBUG', `Looping target channel: ${channelName}`);
-                            
                             logTask(currentTaskId, 'DEBUG', `Searching config for channel: ${channelName}`);
                             const channelConfig = config.discord.channels.find(c => c.name === channelName);
                             logTask(currentTaskId, 'DEBUG', `Found config for ${channelName}: ${!!channelConfig}`);
-                            
                             if (channelConfig) {
                                 logTask(currentTaskId, 'INFO', `Sending embeds for ${messageId} to channel: ${channelName}`); 
                                 try {
-                                    logTask(currentTaskId, 'DEBUG', `Preparing embeds for ${channelName}. Affiliation enabled: ${currentEnableAffiliateLinks}`);
-                                    
-                                    const finalEmbedArray = await processEmbedsForWebhook(embedArray, currentTaskId, currentEnableAffiliateLinks);
-                                    
-                                    await webhook.buildWebhook(finalEmbedArray, channelConfig.webhook_url, currentIsTestingModule);
-                                    logTask(currentTaskId, 'DEBUG', `Completed webhook.buildWebhook for ${channelName}`);
-                                    logTask(currentTaskId, 'SUCCESS', `Embeds for ${messageId} sent to channel: ${channelName}`);
+                                    if (currentDisableEmbedWebhook) {
+                                        // Convert embedArray to a regular message string
+                                        const content = embedArray.map(e => (e.title ? `**${e.title}:** ` : '') + (e.value || '')).join('\n');
+                                        const regularMsg = {
+                                            content: content.substring(0, 2000),
+                                            username: embedArray[0]?.username || 'DSC Monitor',
+                                            avatar_url: embedArray[0]?.avatar_url || undefined
+                                        };
+                                        await webhook.sendRegularMessage(regularMsg, channelConfig.webhook_url, currentIsTestingModule);
+                                        logTask(currentTaskId, 'SUCCESS', `Embed(s) for ${messageId} sent as regular message to channel: ${channelName}`);
+                                    } else {
+                                        logTask(currentTaskId, 'DEBUG', `Preparing embeds for ${channelName}. Affiliation enabled: ${currentEnableAffiliateLinks}`);
+                                        const finalEmbedArray = await processEmbedsForWebhook(embedArray, currentTaskId, currentEnableAffiliateLinks);
+                                        await webhook.buildWebhook(finalEmbedArray, channelConfig.webhook_url, currentIsTestingModule);
+                                        logTask(currentTaskId, 'DEBUG', `Completed webhook.buildWebhook for ${channelName}`);
+                                        logTask(currentTaskId, 'SUCCESS', `Embeds for ${messageId} sent to channel: ${channelName}`);
+                                    }
                                 } catch (error) {
-                                    // This catch block in main.js should now catch errors re-thrown from buildWebhook
                                     logTask(currentTaskId, 'ERROR', `Error sending embeds for ${messageId} to ${channelName}: ${error?.message}`, error);
                                 }
                             } else {
                                 logTask(currentTaskId, 'WARNING', `Channel config not found for: ${channelName}`);
                             }
                             logTask(currentTaskId, 'DEBUG', `Finished processing target channel: ${channelName}`);
-                        } // End for loop targetChannels
+                        }
                         logTask(currentTaskId, 'DEBUG', `Finished looping through all target channels for message ${messageId}`);
                     }
                     else {
@@ -622,7 +635,8 @@ async function main() {
          enableUrlUnshortening: enableUrlUnshorteningGlobal,
          enableRegularMessages: enableRegularMessages,
          isTestingModule: isTestingModuleGlobal,
-         enableAffiliateLinks: enableAffiliateLinksGlobal
+         enableAffiliateLinks: enableAffiliateLinksGlobal,
+         disableEmbedWebhook: disableEmbedWebhook
      });
 
     let browser;
@@ -635,7 +649,7 @@ async function main() {
 
         // Start monitoring
         logTask(taskId, 'INFO', `Starting monitoring for ${channelUrlArg}`);
-        await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId, enableRegularMessages, isTestingModuleGlobal, enableAffiliateLinksGlobal);
+        await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId, enableRegularMessages, isTestingModuleGlobal, enableAffiliateLinksGlobal, disableEmbedWebhook);
 
     } catch (error) {
         logTask(taskId || 'MAIN_ERROR', 'ERROR', 'Critical error during browser launch or monitor initiation.', error);

@@ -16709,5 +16709,118 @@
     "isTestingModule": false,
     "pm2_task_id": "monitor_task_1754190853372",
     "enableAffiliateLinks": false
+  },
+  "task_1754191880804": {
+    "label": "familiaCollector2",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1103128802541965422",
+    "targetChannels": [
+      "MacysDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "MacysDSC",
+        "label": "MacysDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-08-03T03:31:20.875Z",
+    "profileId": "profile_1754191880805_nomuhw",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1754191880804",
+    "enableAffiliateLinks": false
+  },
+  "task_1754192073407": {
+    "label": "familiaCollector2",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1103128802541965422",
+    "targetChannels": [
+      "MacysDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "MacysDSC",
+        "label": "MacysDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-08-03T03:34:33.537Z",
+    "profileId": "profile_1754192073408_x36rrn",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1754192073407",
+    "enableAffiliateLinks": false
+  },
+  "task_1754192314004": {
+    "label": "familiaCollector2",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1103128802541965422",
+    "targetChannels": [
+      "MacysDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "MacysDSC",
+        "label": "MacysDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-08-03T03:38:34.139Z",
+    "profileId": "profile_1754192314005_kcbtbm",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1754192314004",
+    "enableAffiliateLinks": false,
+    "disableEmbedWebhook": true
+  },
+  "task_1754192508878": {
+    "label": "familiaCollector2",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1103128802541965422",
+    "targetChannels": [
+      "MacysDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "MacysDSC",
+        "label": "MacysDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-08-03T03:41:49.006Z",
+    "profileId": "profile_1754192508879_83s2qq",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1754192508878",
+    "enableAffiliateLinks": false,
+    "disableEmbedWebhook": true
+  },
+  "task_1754192673014": {
+    "label": "familiaCollector2",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1103128802541965422",
+    "targetChannels": [
+      "MacysDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "MacysDSC",
+        "label": "MacysDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-08-03T03:44:33.152Z",
+    "profileId": "profile_1754192673015_vm5xzx",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1754192673014",
+    "enableAffiliateLinks": false,
+    "disableEmbedWebhook": true
   }
 }
