@@ -304,6 +304,7 @@ async function handleCreateTaskSubmit() {
   const enableRegularMessages = document.getElementById('enableRegularMessages').checked;
   const isTestingModule = document.getElementById('enableTestingModule').checked;
   const enableAffiliateLinks = document.getElementById('enableAffiliateLinks').checked;
+  const disableEmbedWebhook = document.getElementById('disableEmbedWebhook').checked;
 
   if (!channelUrl || targetChannels.length === 0) {
     showToast('Please select a channel URL and at least one target channel', 'danger');
@@ -324,7 +325,8 @@ async function handleCreateTaskSubmit() {
         label,
         enableRegularMessages,
         isTestingModule,
-        enableAffiliateLinks
+        enableAffiliateLinks,
+        disableEmbedWebhook
       })
     });
 
@@ -342,6 +344,7 @@ async function handleCreateTaskSubmit() {
       document.getElementById('enableRegularMessages').checked = false;
       document.getElementById('enableTestingModule').checked = false;
       document.getElementById('enableAffiliateLinks').checked = false;
+      document.getElementById('disableEmbedWebhook').checked = false;
       
       // Refresh the tasks table
       refreshTasksTable();
@@ -389,6 +392,7 @@ async function startSavedTask(taskId, skipConfirm = false) {
   const headless = task.settings?.headless === true;
   const enableRegularMessages = task.settings?.enableRegularMessages === true;
   const enableAffiliateLinks = task.settings?.enableAffiliateLinks === true;
+  const disableEmbedWebhook = task.settings?.disableEmbedWebhook === true;
   console.log(`Starting saved task ${taskId} with headless: ${headless}, regularMessages: ${enableRegularMessages}, affiliateLinks: ${enableAffiliateLinks}`);
   
   try {
@@ -400,7 +404,8 @@ async function startSavedTask(taskId, skipConfirm = false) {
       body: JSON.stringify({ 
         headless, 
         enableRegularMessages, 
-        enableAffiliateLinks
+        enableAffiliateLinks,
+        disableEmbedWebhook
       })
     });
 
@@ -924,6 +929,9 @@ function updateTaskRow(row, task) {
   if (task.settings?.enableAffiliateLinks) {
       settingsBadges += '<span class="inline-block bg-cyan-600 text-cyan-100 text-xs font-medium px-2.5 py-0.5 rounded">Affiliate</span>';
   }
+  if (task.settings?.disableEmbedWebhook) {
+      settingsBadges += '<span class="inline-block bg-red-600 text-red-100 text-xs font-medium px-2.5 py-0.5 rounded">No Embeds</span>';
+  }
 
   // Target Channels Display
   let targetChannelsDisplay = '';
@@ -1047,6 +1055,7 @@ async function editTask(taskId) {
     document.getElementById('editEnableRegularMessages').checked = task.settings?.enableRegularMessages || false;
     document.getElementById('editEnableTestingModule').checked = task.settings?.isTestingModule || false;
     document.getElementById('editEnableAffiliateLinks').checked = task.settings?.enableAffiliateLinks || false;
+    document.getElementById('editDisableEmbedWebhook').checked = task.settings?.disableEmbedWebhook || false;
     
     // Set selected target channels
     document.querySelectorAll('.edit-target-channel-checkbox').forEach(cb => {
@@ -1071,6 +1080,7 @@ async function saveEditedTask() {
   const enableRegularMessages = document.getElementById('editEnableRegularMessages').checked;
   const isTestingModule = document.getElementById('editEnableTestingModule').checked;
   const enableAffiliateLinks = document.getElementById('editEnableAffiliateLinks').checked;
+  const disableEmbedWebhook = document.getElementById('editDisableEmbedWebhook').checked;
 
   if (!channelUrl || targetChannels.length === 0) {
     showToast('Please select a channel URL and at least one target channel', 'danger');
@@ -1091,7 +1101,8 @@ async function saveEditedTask() {
         label,
         enableRegularMessages,
         isTestingModule,
-        enableAffiliateLinks
+        enableAffiliateLinks,
+        disableEmbedWebhook
       })
     });
 
