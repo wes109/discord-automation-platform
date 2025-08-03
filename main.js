@@ -525,10 +525,15 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                             logTask(currentTaskId, 'DEBUG', `Found config for ${channelName}: ${!!channelConfig}`);
                             if (channelConfig) {
                                 logTask(currentTaskId, 'INFO', `Sending embeds for ${messageId} to channel: ${channelName}`); 
-                                try {
-                                    if (currentDisableEmbedWebhook) {
-                                        // Convert embedArray to a regular message string
-                                        const content = embedArray.map(e => (e.title ? `**${e.title}:** ` : '') + (e.value || '')).join('\n');
+                                if (currentDisableEmbedWebhook) {
+                                    try {
+                                        // Extract all URLs from all embed values
+                                        const urlRegex = /https?:\/\/[\w\-._~:/?#[\]@!$&'()*+,;=%]+/g;
+                                        const urls = embedArray
+                                            .map(e => (e.value ? Array.from(e.value.matchAll(urlRegex)).map(m => m[0]) : []))
+                                            .flat()
+                                            .filter(Boolean);
+                                        const content = urls.join('\n');
                                         const regularMsg = {
                                             content: content.substring(0, 2000),
                                             username: embedArray[0]?.username || 'DSC Monitor',
@@ -536,18 +541,19 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                                         };
                                         await webhook.sendRegularMessage(regularMsg, channelConfig.webhook_url, currentIsTestingModule);
                                         logTask(currentTaskId, 'SUCCESS', `Embed(s) for ${messageId} sent as regular message to channel: ${channelName}`);
-                                    } else {
-                                        logTask(currentTaskId, 'DEBUG', `Preparing embeds for ${channelName}. Affiliation enabled: ${currentEnableAffiliateLinks}`);
-                                        const finalEmbedArray = await processEmbedsForWebhook(embedArray, currentTaskId, currentEnableAffiliateLinks);
-                                        await webhook.buildWebhook(finalEmbedArray, channelConfig.webhook_url, currentIsTestingModule);
-                                        logTask(currentTaskId, 'DEBUG', `Completed webhook.buildWebhook for ${channelName}`);
-                                        logTask(currentTaskId, 'SUCCESS', `Embeds for ${messageId} sent to channel: ${channelName}`);
+                                    } catch (error) {
+                                        logTask(currentTaskId, 'ERROR', `Error sending embeds for ${messageId} to ${channelName}: ${error?.message}`, error);
                                     }
-                                } catch (error) {
-                                    logTask(currentTaskId, 'ERROR', `Error sending embeds for ${messageId} to ${channelName}: ${error?.message}`, error);
+                                    continue;
+                                } else {
+                                    logTask(currentTaskId, 'DEBUG', `Preparing embeds for ${channelName}. Affiliation enabled: ${currentEnableAffiliateLinks}`);
+                                    const finalEmbedArray = await processEmbedsForWebhook(embedArray, currentTaskId, currentEnableAffiliateLinks);
+                                    await webhook.buildWebhook(finalEmbedArray, channelConfig.webhook_url, currentIsTestingModule);
+                                    logTask(currentTaskId, 'DEBUG', `Completed webhook.buildWebhook for ${channelName}`);
+                                    logTask(currentTaskId, 'SUCCESS', `Embeds for ${messageId} sent to channel: ${channelName}`);
                                 }
-                            } else {
-                                logTask(currentTaskId, 'WARNING', `Channel config not found for: ${channelName}`);
+                            } catch (error) {
+                                logTask(currentTaskId, 'ERROR', `Error sending embeds for ${messageId} to ${channelName}: ${error?.message}`, error);
                             }
                             logTask(currentTaskId, 'DEBUG', `Finished processing target channel: ${channelName}`);
                         }
