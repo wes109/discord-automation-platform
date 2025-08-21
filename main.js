@@ -84,9 +84,24 @@ const argv = require('yargs')(args)
         default: false 
     })
     .option('disable-embed-webhook', {
-        describe: 'Send regular messages instead of embeds',
+        describe: 'Send all as regular message (no embeds)',
         type: 'boolean',
         default: false
+    })
+    .option('enable-tweeting', {
+        describe: 'Enable automatic tweeting of matched products',
+        type: 'boolean',
+        default: false
+    })
+    .option('tweet-keywords', {
+        describe: 'Comma-separated list of keywords to trigger tweets',
+        type: 'string',
+        default: ''
+    })
+    .option('tweet-timeout', {
+        describe: 'Timeout in minutes between tweets',
+        type: 'number',
+        default: 30
     })
     .help()
     .argv;
@@ -104,13 +119,18 @@ const isTestingModuleGlobal = argv['testing-mode'];
 const enableTweetingGlobal = argv['enable-tweeting'];
 const tweetKeywordsGlobal = argv['tweet-keywords'] ? argv['tweet-keywords'].split(',') : [];
 const tweetTimeoutGlobal = argv['tweet-timeout'] || 30;
+let disableEmbedWebhook = false;
+disableEmbedWebhook = argv['disable-embed-webhook'];
 
 console.log('Parsed isHeadless value:', isHeadless);
 console.log('Parsed enableRegularMessages value:', enableRegularMessages);
 console.log('Parsed enableUrlUnshorteningGlobal value:', enableUrlUnshorteningGlobal);
 console.log('Parsed enableAffiliateLinksGlobal value:', enableAffiliateLinksGlobal);
 console.log('Parsed isTestingModuleGlobal value:', isTestingModuleGlobal);
-console.log('Parsed disableEmbedWebhookGlobal value:', disableEmbedWebhookGlobal);
+console.log('Parsed disableEmbedWebhookGlobal value:', disableEmbedWebhook);
+console.log('Parsed enableTweetingGlobal value:', enableTweetingGlobal);
+console.log('Parsed tweetKeywordsGlobal value:', tweetKeywordsGlobal);
+console.log('Parsed tweetTimeoutGlobal value:', tweetTimeoutGlobal);
 
 // Helper function to generate task ID
 function generateTaskId() {
@@ -619,6 +639,11 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
     let page;
     let scrollIntervalId = null; // Variable to hold the interval ID
     
+    // Add local variables for tweet functionality
+    const currentTweetKeywords = tweetKeywordsGlobal;
+    const currentEnableTweeting = enableTweetingGlobal;
+    const currentTweetTimeout = tweetTimeoutGlobal;
+    
     // Tweet timeout tracking - store when products were last tweeted
     const tweetedProducts = new Map(); // Map of product identifier to timestamp
     try {
@@ -691,8 +716,8 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
             cycleCount++;
             try {
                 logTask(currentTaskId, 'DEBUG', `Starting monitoring cycle #${cycleCount}`);
-                if (currentTweetKeywords && currentTweetKeywords.length > 0) {
-                    logTask(currentTaskId, 'DEBUG', `Current keywords for cycle #${cycleCount}: ${JSON.stringify(currentTweetKeywords)}`);
+                if (tweetKeywordsGlobal && tweetKeywordsGlobal.length > 0) {
+                    logTask(currentTaskId, 'DEBUG', `Current keywords for cycle #${cycleCount}: ${JSON.stringify(tweetKeywordsGlobal)}`);
                 } else {
                     logTask(currentTaskId, 'DEBUG', `No keywords configured for cycle #${cycleCount}`);
                 }
@@ -775,19 +800,19 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                                         logTask(currentTaskId, 'SUCCESS', `Regular message ${messageId} sent to channel: ${channelName}`);
                                         
                                         // Check keywords after webhook is sent (asynchronous, non-blocking)
-                                        logTask(currentTaskId, 'DEBUG', `About to check keywords for regular message ${messageId}. Keywords: ${JSON.stringify(currentTweetKeywords)}`);
-                                        if (currentTweetKeywords && currentTweetKeywords.length > 0) {
+                                        logTask(currentTaskId, 'DEBUG', `About to check keywords for regular message ${messageId}. Keywords: ${JSON.stringify(tweetKeywordsGlobal)}`);
+                                        if (tweetKeywordsGlobal && tweetKeywordsGlobal.length > 0) {
                                             setImmediate(async () => {
                                                 try {
                                                     const { checkWebhookKeywords } = require('./utils/keyword_matcher');
-                                                    logTask(currentTaskId, 'DEBUG', `Checking keywords for regular message ${messageId}: ${JSON.stringify(currentTweetKeywords)}`);
-                                                    const matchResult = checkWebhookKeywords([{ content: regularMessage.content }], currentTweetKeywords);
+                                                    logTask(currentTaskId, 'DEBUG', `Checking keywords for regular message ${messageId}: ${JSON.stringify(tweetKeywordsGlobal)}`);
+                                                    const matchResult = checkWebhookKeywords([{ content: regularMessage.content }], tweetKeywordsGlobal);
                                                     if (matchResult) {
                                                         logTask(currentTaskId, 'INFO', `Keyword match found for regular message ${messageId}: Group "${matchResult.matchedGroup}" (index ${matchResult.groupIndex})`);
                                                         
                                                         // Trigger tweet if tweeting is enabled
-                                                        if (currentEnableTweeting) {
-                                                            await triggerTweetForMatch(messageId, null, regularMessage, currentTaskId, matchResult, tweetedProducts, currentTweetTimeout);
+                                                        if (enableTweetingGlobal) {
+                                                            await triggerTweetForMatch(messageId, null, regularMessage, currentTaskId, matchResult, tweetedProducts, tweetTimeoutGlobal);
                                                         }
                                                     } else {
                                                         logTask(currentTaskId, 'DEBUG', `No keyword match for regular message ${messageId}`);
@@ -811,15 +836,11 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                     // Handle embeds
                     else if (embedArray && embedArray.length > 0) {
                         logTask(currentTaskId, 'INFO', `Processing ${embedArray.length} embeds for message ${messageId}`);
-
-                        // Loop through target channels
                         for (const channelName of targetChannels) {
                             logTask(currentTaskId, 'DEBUG', `Looping target channel: ${channelName}`);
-                            
                             logTask(currentTaskId, 'DEBUG', `Searching config for channel: ${channelName}`);
                             const channelConfig = config.discord.channels.find(c => c.name === channelName);
                             logTask(currentTaskId, 'DEBUG', `Found config for ${channelName}: ${!!channelConfig}`);
-                            
                             if (channelConfig) {
                                 logTask(currentTaskId, 'INFO', `Sending embeds for ${messageId} to channel: ${channelName}`); 
                                 try {
@@ -827,26 +848,17 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                                     
                                     const finalEmbedArray = await processEmbedsForWebhook(embedArray, currentTaskId, currentEnableAffiliateLinks);
                                     
-                                    if (currentDisableEmbedWebhook) {
-                                        // Convert embed array to regular message format
-                                        const regularMessage = convertEmbedToRegularMessage(finalEmbedArray);
-                                        await webhook.sendRegularMessage(regularMessage, channelConfig.webhook_url, currentIsTestingModule);
-                                        logTask(currentTaskId, 'DEBUG', `Completed webhook.sendRegularMessage for ${channelName}`);
-                                        logTask(currentTaskId, 'SUCCESS', `Regular message for ${messageId} sent to channel: ${channelName}`);
-                                    } else {
-                                        await webhook.buildWebhook(finalEmbedArray, channelConfig.webhook_url, currentIsTestingModule);
-                                        logTask(currentTaskId, 'DEBUG', `Completed webhook.buildWebhook for ${channelName}`);
-                                        logTask(currentTaskId, 'SUCCESS', `Embeds for ${messageId} sent to channel: ${channelName}`);
-                                    }
+                                    await webhook.buildWebhook(finalEmbedArray, channelConfig.webhook_url, currentIsTestingModule);
+                                    logTask(currentTaskId, 'DEBUG', `Completed webhook.buildWebhook for ${channelName}`);
+                                    logTask(currentTaskId, 'SUCCESS', `Embeds for ${messageId} sent to channel: ${channelName}`);
                                 } catch (error) {
-                                    // This catch block in main.js should now catch errors re-thrown from buildWebhook
                                     logTask(currentTaskId, 'ERROR', `Error sending embeds for ${messageId} to ${channelName}: ${error?.message}`, error);
                                 }
                             } else {
                                 logTask(currentTaskId, 'WARNING', `Channel config not found for: ${channelName}`);
                             }
                             logTask(currentTaskId, 'DEBUG', `Finished processing target channel: ${channelName}`);
-                        } // End for loop targetChannels
+                        }
                         logTask(currentTaskId, 'DEBUG', `Finished looping through all target channels for message ${messageId}`);
                     }
                     else {
@@ -933,8 +945,7 @@ async function main() {
          enableUrlUnshortening: enableUrlUnshorteningGlobal,
          enableRegularMessages: enableRegularMessages,
          isTestingModule: isTestingModuleGlobal,
-         enableAffiliateLinks: enableAffiliateLinksGlobal,
-         disableEmbedWebhook: disableEmbedWebhookGlobal
+         enableAffiliateLinks: enableAffiliateLinksGlobal
      });
 
     let browser;
@@ -947,7 +958,7 @@ async function main() {
 
         // Start monitoring
         logTask(taskId, 'INFO', `Starting monitoring for ${channelUrlArg}`);
-        await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId, enableRegularMessages, isTestingModuleGlobal, enableAffiliateLinksGlobal, disableEmbedWebhookGlobal);
+        await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId, enableRegularMessages, isTestingModuleGlobal, enableAffiliateLinksGlobal, disableEmbedWebhook);
 
     } catch (error) {
         logTask(taskId || 'MAIN_ERROR', 'ERROR', 'Critical error during browser launch or monitor initiation.', error);

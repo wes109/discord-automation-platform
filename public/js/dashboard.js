@@ -510,6 +510,7 @@ async function startSavedTask(taskId, skipConfirm = false) {
   const headless = task.settings?.headless === true;
   const enableRegularMessages = task.settings?.enableRegularMessages === true;
   const enableAffiliateLinks = task.settings?.enableAffiliateLinks === true;
+  const disableEmbedWebhook = task.settings?.disableEmbedWebhook === true;
   console.log(`Starting saved task ${taskId} with headless: ${headless}, regularMessages: ${enableRegularMessages}, affiliateLinks: ${enableAffiliateLinks}`);
   
   try {
@@ -521,7 +522,8 @@ async function startSavedTask(taskId, skipConfirm = false) {
       body: JSON.stringify({ 
         headless, 
         enableRegularMessages, 
-        enableAffiliateLinks
+        enableAffiliateLinks,
+        disableEmbedWebhook
       })
     });
 
@@ -1042,6 +1044,9 @@ function updateTaskRow(row, task) {
   if (task.settings?.enableAffiliateLinks) {
       settingsBadges += '<span class="inline-block bg-cyan-600 text-cyan-100 text-xs font-medium px-2.5 py-0.5 rounded">Affiliate</span>';
   }
+  if (task.settings?.disableEmbedWebhook) {
+      settingsBadges += '<span class="inline-block bg-red-600 text-red-100 text-xs font-medium px-2.5 py-0.5 rounded">No Embeds</span>';
+  }
   if (task.settings?.enableTweeting) {
       settingsBadges += '<span class="inline-block bg-sky-500 text-sky-100 text-xs font-medium px-2.5 py-0.5 rounded">Tweet</span>';
   }
@@ -1256,7 +1261,8 @@ async function saveEditedTask() {
             enableAffiliateLinks: document.getElementById('editEnableAffiliateLinks').checked,
             enableTweeting: document.getElementById('editEnableTweeting').checked,
             tweetKeywords: tweetKeywords,
-            tweetTimeout: tweetTimeout
+            tweetTimeout: tweetTimeout,
+            disableEmbedWebhook: document.getElementById('editDisableEmbedWebhook').checked
         };
 
         // Send update request
