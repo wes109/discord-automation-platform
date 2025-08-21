@@ -10,18 +10,27 @@ exports.sendRegularMessage = async (message, webhookUrl, isTestingModule = false
     
     console.log('[1/4] Init regular message send');
     
-    if (!message?.content) {
-        console.log('[1/4] Abort - Missing content');
+    if (!message?.content && !message?.attachments) {
+        console.log('[1/4] Abort - Missing content and attachments');
         return;
     }
 
     try {
         console.log('[2/4] Building payload');
         const payload = {
-            content: message.content.substring(0, 2000),
+            content: message.content ? message.content.substring(0, 2000) : '',
             username: message.username?.substring(0, 80) || 'Unknown User',
             avatar_url: message.avatar_url || 'https://pbs.twimg.com/profile_images/1563967215438790656/y8DLGAKv_400x400.jpg'
         };
+
+        // Add embeds for attachments if they exist
+        if (message.attachments && message.attachments.length > 0) {
+            payload.embeds = message.attachments.map(attachment => ({
+                image: {
+                    url: attachment.url
+                }
+            }));
+        }
 
         console.log('[3/4] Payload:', JSON.stringify(payload));
         console.log('[3/4] Sending to Discord API');

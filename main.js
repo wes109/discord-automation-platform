@@ -527,12 +527,50 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                                 logTask(currentTaskId, 'INFO', `Sending embeds for ${messageId} to channel: ${channelName}`); 
                                 try {
                                     if (currentDisableEmbedWebhook) {
-                                        // Convert embedArray to a regular message string
-                                        const content = embedArray.map(e => (e.title ? `**${e.title}:** ` : '') + (e.value || '')).join('\n');
+                                        // Convert embedArray to regular message with clean URLs when no embeds option is enabled
+                                        const cleanUrlsInValue = (value) => {
+                                            if (!value) return '';
+                                            // Regex to match markdown links [text](url) and plain URLs
+                                            const urlRegex = /\[(.*?)\]\((.*?)\)|(https?:\/\/[^\s<>)\"\']+[^\s.,;!?)<>\'\"]+)/g;
+                                            let cleanedValue = value;
+                                            
+                                            // Replace markdown links with just the URL, wrapped in angle brackets to disable Discord auto-embeds
+                                            cleanedValue = cleanedValue.replace(urlRegex, (match, linkText, url, plainUrl) => {
+                                                const extractedUrl = url || plainUrl || match;
+                                                return `<${extractedUrl}>`; // Wrap URL in angle brackets to disable Discord auto-embeds
+                                            });
+                                            
+                                            return cleanedValue;
+                                        };
+                                        
+                                        // Filter out footer, embedAuthorName, and author entries when no embeds option is enabled
+                                        const filteredEmbedArray = embedArray.filter(e => 
+                                            e.title && 
+                                            e.title.toLowerCase() !== 'footer' &&
+                                            e.title.toLowerCase() !== 'embedauthorname' &&
+                                            e.title.toLowerCase() !== 'author'
+                                        );
+                                        
+                                        // Extract image URLs for attachments
+                                        const imageEntries = embedArray.filter(e => 
+                                            e.title && 
+                                            e.title.toLowerCase() === 'image' && 
+                                            e.value
+                                        );
+                                        
+                                        const content = filteredEmbedArray.map(e => {
+                                            // Skip URL cleaning for image entries to allow them to display properly
+                                            if (e.title && e.title.toLowerCase() === 'image') {
+                                                return ''; // Don't include image URLs in text content
+                                            }
+                                            return cleanUrlsInValue(e.value || '');
+                                        }).filter(text => text.trim() !== '').join('\n');
+                                        
                                         const regularMsg = {
                                             content: content.substring(0, 2000),
-                                            username: embedArray[0]?.username || 'DSC Monitor',
-                                            avatar_url: embedArray[0]?.avatar_url || undefined
+                                            username: 'DSC Monitor',
+                                            avatar_url: undefined,
+                                            attachments: imageEntries.length > 0 ? imageEntries.map(e => ({ type: 'image', url: e.value })) : undefined
                                         };
                                         await webhook.sendRegularMessage(regularMsg, channelConfig.webhook_url, currentIsTestingModule);
                                         logTask(currentTaskId, 'SUCCESS', `Embed(s) for ${messageId} sent as regular message to channel: ${channelName}`);
