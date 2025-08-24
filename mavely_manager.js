@@ -480,21 +480,6 @@ class MavelyManager {
             logTask(taskId, 'INFO', `Navigating to Mavely login page: ${MAVELY_LOGIN_URL}`);
             await this.page.goto(MAVELY_LOGIN_URL, { waitUntil: 'domcontentloaded', timeout: 60000 });
             
-            // Take screenshot of login page
-            try {
-                const loginScreenshotPath = `./screenshots/mavely-login-page-${Date.now()}.png`;
-                
-                // Create directory if it doesn't exist
-                if (!fs.existsSync('./screenshots')) {
-                    fs.mkdirSync('./screenshots', { recursive: true });
-                }
-                
-                await this.page.screenshot({ path: loginScreenshotPath });
-                logTask(taskId, 'INFO', `Saved login page screenshot to ${loginScreenshotPath}`);
-            } catch (ssError) {
-                logTask(taskId, 'WARNING', `Could not take login screenshot: ${ssError.message}`);
-            }
-            
             // Check if we need to log in or are already logged in
             if (!await this.isLoggedIn()) {
                 logTask(taskId, 'INFO', 'On Mavely login page - attempting automated login');
@@ -629,9 +614,6 @@ class MavelyManager {
                     } else {
                         // If we're still on the login page, check for error messages
                         logTask(taskId, 'WARNING', 'Still on login page after attempting to login');
-                        
-                        // Take a screenshot for debugging
-                        await this.takeScreenshot('login-failed', taskId);
                         
                         // Try to check for error messages
                         const errorMessages = await this.page.evaluate(() => {
@@ -876,47 +858,7 @@ class MavelyManager {
         } catch (error) {
             console.error(`❌ [MAVELY] Error in generateMavelyLink: ${error.message}`);
             
-            // Try to take a screenshot if possible
-            try {
-                if (this.page) {
-                    await this.takeScreenshot('mavely-link-error', taskId);
-                }
-            } catch (screenshotError) {
-                console.error(`❌ [MAVELY] Error taking screenshot: ${screenshotError.message}`);
-            }
-            
             return url;
-        }
-    }
-
-    /**
-     * Take a screenshot for debugging
-     * @param {string} name - The name of the screenshot
-     * @param {string} taskId - The task ID for logging
-     * @returns {Promise<string|null>} - The path to the screenshot or null if there was an error
-     */
-    async takeScreenshot(name, taskId = 'MAVELY') {
-        if (!this.page) {
-            logTask(taskId, 'ERROR', 'Cannot take screenshot: page not initialized');
-            return null;
-        }
-        
-        try {
-            // Create screenshots directory if it doesn't exist
-            if (!fs.existsSync('./screenshots')) {
-                fs.mkdirSync('./screenshots', { recursive: true });
-            }
-            
-            // Generate timestamp for unique filename
-            const timestamp = new Date().toISOString().replace(/:/g, '-').replace(/\..+/, '');
-            const filename = `./screenshots/mavely-${name}-${timestamp}.png`;
-            
-            await this.page.screenshot({ path: filename, fullPage: true });
-            logTask(taskId, 'INFO', `Saved screenshot to ${filename}`);
-            return filename;
-        } catch (error) {
-            logTask(taskId, 'ERROR', `Failed to take screenshot: ${error.message}`);
-            return null;
         }
     }
 
@@ -1030,9 +972,6 @@ class MavelyManager {
 - Passes validateUrl: ${this.validateUrl(url)}
             `);
 
-            // Take a screenshot of current state
-            await this.takeScreenshot('target-debug', taskId);
-
             // Try to navigate to dashboard to check general functionality
             try {
                 logTask(taskId, 'INFO', 'Attempting to navigate to Mavely dashboard for Target URL test');
@@ -1041,9 +980,6 @@ class MavelyManager {
                 // Check login status
                 const isLoggedIn = await this.isLoggedIn();
                 logTask(taskId, 'INFO', `Login status for Target URL test: ${isLoggedIn ? 'Logged in' : 'Not logged in'}`);
-                
-                // Take a screenshot of dashboard
-                await this.takeScreenshot('target-debug-dashboard', taskId);
                 
                 return {
                     isTarget: true,
