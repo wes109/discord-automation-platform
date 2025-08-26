@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const config = require('./config.json');
 const MavelyManager = require('./mavely_manager');
+const BestBuyManager = require('./bestbuy_manager');
 
 // Cron job configuration
 // REMOVE const CRON_SCHEDULE = "*/1 * * * *"; // Default: every 5 minutes
@@ -45,6 +46,11 @@ const stoppingTasks = new Set();
 let mavelyManagerInstance = null;
 let mavelyManagerStatus = 'stopped'; // 'stopped', 'initializing', 'running', 'stopping', 'error'
 let mavelyLastError = null;
+
+// BestBuy Manager Instance and Status
+let bestbuyManagerInstance = null;
+let bestbuyManagerStatus = 'stopped'; // 'stopped', 'initializing', 'running', 'stopping', 'error'
+let bestbuyLastError = null;
 
 // Tweet Processor Status
 let tweetProcessorStatus = 'unknown'; // 'running', 'stopped', 'error'
@@ -281,7 +287,8 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     enableRegularMessages: taskSettings.enableRegularMessages === true,
     createdTime: new Date().toISOString(),
     isTestingModule: taskSettings.isTestingModule === true,
-    enableAffiliateLinks: taskSettings.enableAffiliateLinks === true,
+    enableBestBuyAffiliateLinks: taskSettings.enableBestBuyAffiliateLinks === true,
+    enableMavelyAffiliateLinks: taskSettings.enableMavelyAffiliateLinks === true,
     disableEmbedWebhook: taskSettings.disableEmbedWebhook === true
   };
   
@@ -292,14 +299,16 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     headless: isHeadless, // Add at top level
     enableRegularMessages: settings.enableRegularMessages,
     isHeadless, // Add isHeadless flag
-    enableAffiliateLinks: settings.enableAffiliateLinks,
+    enableBestBuyAffiliateLinks: settings.enableBestBuyAffiliateLinks,
+    enableMavelyAffiliateLinks: settings.enableMavelyAffiliateLinks,
     disableEmbedWebhook: settings.disableEmbedWebhook,
     settings: {
       ...settings,
       headless: isHeadless, // Ensure it's in settings
       enableRegularMessages: settings.enableRegularMessages, // And here
       isTestingModule: settings.isTestingModule,
-      enableAffiliateLinks: settings.enableAffiliateLinks,
+      enableBestBuyAffiliateLinks: settings.enableBestBuyAffiliateLinks,
+      enableMavelyAffiliateLinks: settings.enableMavelyAffiliateLinks,
       disableEmbedWebhook: settings.disableEmbedWebhook
     }
   };
@@ -407,7 +416,8 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
     isTestingModule, // Save testing mode to settings
     // Store the pm2 id in settings as well for persistence
     pm2_task_id,
-    enableAffiliateLinks: taskSettings.enableAffiliateLinks === true,
+    enableBestBuyAffiliateLinks: taskSettings.enableBestBuyAffiliateLinks === true,
+    enableMavelyAffiliateLinks: taskSettings.enableMavelyAffiliateLinks === true,
     disableEmbedWebhook: taskSettings.disableEmbedWebhook === true
   };
   writeTaskSettings(taskId, settings);
@@ -435,7 +445,10 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
   if (isTestingModule === true) { // Pass flag to main.js
     scriptArgs.push('--testing-mode');
   }
-  if (settings.enableAffiliateLinks === true) {
+  if (settings.enableBestBuyAffiliateLinks === true) {
+    scriptArgs.push('--enable-bestbuy-affiliate-links');
+  }
+  if (settings.enableMavelyAffiliateLinks === true) {
     scriptArgs.push('--enable-affiliate-links');
   }
   if (settings.disableEmbedWebhook === true) {
@@ -775,10 +788,10 @@ app.get('/api/tasks/:taskId/logs', (req, res) => {
 
 // API endpoint to create a task without starting it
 app.post('/api/tasks/create', (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, disableEmbedWebhook } = req.body;
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook } = req.body;
   
   console.log('[DEBUG] Creating task with settings:', {
-    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableAffiliateLinks, disableEmbedWebhook
+    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -791,7 +804,8 @@ app.post('/api/tasks/create', (req, res) => {
     headless: headless === true, // Ensure boolean conversion
     enableRegularMessages: enableRegularMessages === true, // <-- Ensure boolean conversion
     isTestingModule: isTestingModule === true,
-    enableAffiliateLinks: enableAffiliateLinks === true,
+    enableBestBuyAffiliateLinks: enableBestBuyAffiliateLinks === true,
+    enableMavelyAffiliateLinks: enableMavelyAffiliateLinks === true,
     disableEmbedWebhook: disableEmbedWebhook === true
   };
   
@@ -832,9 +846,9 @@ app.post('/api/tasks/start', async (req, res) => {
 app.post('/api/tasks/:taskId/start', async (req, res) => {
   const { taskId } = req.params;
   // Get all settings from request body if provided
-  const { headless, enableRegularMessages, enableAffiliateLinks, disableEmbedWebhook } = req.body || {}; 
+  const { headless, enableRegularMessages, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook } = req.body || {}; 
   
-  console.log('[DEBUG] Starting saved task with parameters:', { headless, enableRegularMessages, enableAffiliateLinks, disableEmbedWebhook });
+  console.log('[DEBUG] Starting saved task with parameters:', { headless, enableRegularMessages, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook });
   
   // Find the saved task
   const savedTasks = readSavedTasks();
@@ -853,14 +867,17 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
   const useEnableRegularMessages = enableRegularMessages !== undefined 
                                    ? enableRegularMessages === true 
                                    : taskToStart.settings?.enableRegularMessages === true;
-  const useEnableAffiliateLinks = enableAffiliateLinks !== undefined
-                                   ? enableAffiliateLinks === true
-                                   : taskToStart.settings?.enableAffiliateLinks === true;
+  const useEnableBestBuyAffiliateLinks = enableBestBuyAffiliateLinks !== undefined
+                                   ? enableBestBuyAffiliateLinks === true
+                                   : taskToStart.settings?.enableBestBuyAffiliateLinks === true;
+  const useEnableMavelyAffiliateLinks = enableMavelyAffiliateLinks !== undefined
+                                   ? enableMavelyAffiliateLinks === true
+                                   : taskToStart.settings?.enableMavelyAffiliateLinks === true;
   const useDisableEmbedWebhook = disableEmbedWebhook !== undefined
                                    ? disableEmbedWebhook === true
                                    : taskToStart.settings?.disableEmbedWebhook === true;
   
-  console.log('[DEBUG] Using settings for task:', { useHeadless, useEnableRegularMessages, useEnableAffiliateLinks, useDisableEmbedWebhook });
+  console.log('[DEBUG] Using settings for task:', { useHeadless, useEnableRegularMessages, useEnableBestBuyAffiliateLinks, useEnableMavelyAffiliateLinks, useDisableEmbedWebhook });
   
   // Start the task with preserved settings and determined overrides
   const result = await startMonitoringTask(
@@ -873,7 +890,8 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
       headless: useHeadless, 
       enableRegularMessages: useEnableRegularMessages, // <-- Use determined value
       isTestingModule: taskToStart.settings?.isTestingModule === true,
-      enableAffiliateLinks: useEnableAffiliateLinks,
+      enableBestBuyAffiliateLinks: useEnableBestBuyAffiliateLinks,
+      enableMavelyAffiliateLinks: useEnableMavelyAffiliateLinks,
       disableEmbedWebhook: useDisableEmbedWebhook
     }
   );
@@ -907,7 +925,7 @@ app.delete('/api/tasks/:taskId', (req, res) => {
 // API endpoint to update task settings
 app.put('/api/tasks/:taskId/settings', (req, res) => {
   const { taskId } = req.params;
-  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule, enableAffiliateLinks, disableEmbedWebhook } = req.body;
+  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook } = req.body;
   
   console.log('[API] Updating task settings:', {
     taskId,
@@ -917,7 +935,8 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     label,
     enableRegularMessages,
     isTestingModule,
-    enableAffiliateLinks,
+    enableBestBuyAffiliateLinks,
+    enableMavelyAffiliateLinks,
     disableEmbedWebhook
   });
   
@@ -958,7 +977,8 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     headless: headless === true, // Ensure boolean conversion
     enableRegularMessages: enableRegularMessages === true, // <-- Store setting
     isTestingModule: isTestingModule === true, // <-- Store testing mode setting
-    enableAffiliateLinks: enableAffiliateLinks === true,
+    enableBestBuyAffiliateLinks: enableBestBuyAffiliateLinks === true,
+    enableMavelyAffiliateLinks: enableMavelyAffiliateLinks === true,
     disableEmbedWebhook: disableEmbedWebhook === true
   };
   
@@ -973,7 +993,8 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     enableRegularMessages: updatedSettings.enableRegularMessages, // <-- Add top-level flag
     isHeadless: headless === true, // Add top-level flag for consistency
     isTestingModule: updatedSettings.isTestingModule,
-    enableAffiliateLinks: updatedSettings.enableAffiliateLinks,
+    enableBestBuyAffiliateLinks: updatedSettings.enableBestBuyAffiliateLinks,
+    enableMavelyAffiliateLinks: updatedSettings.enableMavelyAffiliateLinks,
     disableEmbedWebhook: updatedSettings.disableEmbedWebhook
   };
   
@@ -1350,6 +1371,133 @@ app.post('/api/mavely/generate-link', async (req, res) => {
     res.status(500).json({ message: 'Error generating Mavely link.', error: error.message });
   }
 });
+
+// --- BestBuy Manager API Endpoints ---
+
+// Initialize BestBuy Manager
+app.post('/api/bestbuy/initialize', async (req, res) => {
+  try {
+    if (bestbuyManagerStatus === 'running' || bestbuyManagerStatus === 'initializing') {
+      return res.status(400).json({ message: `BestBuy Manager is already ${bestbuyManagerStatus}.` });
+    }
+
+    bestbuyManagerStatus = 'initializing';
+    console.log('[BestBuy API] Initializing BestBuy Manager...');
+
+    try {
+      if (bestbuyManagerInstance) {
+        console.log('[BestBuy API] Closing existing instance...');
+        await bestbuyManagerInstance.close();
+      }
+
+      bestbuyManagerInstance = new BestBuyManager();
+      const success = await bestbuyManagerInstance.initialize('SERVER_BESTBUY');
+
+      if (success) {
+        bestbuyManagerStatus = 'running';
+        bestbuyLastError = null;
+        console.log('[BestBuy API] BestBuy Manager initialized successfully.');
+        res.status(200).json({ message: 'BestBuy Manager initialized successfully.' });
+      } else {
+        bestbuyManagerStatus = 'error';
+        bestbuyLastError = bestbuyManagerInstance.lastError || 'Unknown initialization error';
+        console.error(`[BestBuy API] Failed to initialize BestBuy Manager: ${bestbuyLastError}`);
+        res.status(500).json({ message: 'Failed to initialize BestBuy Manager.', error: bestbuyLastError });
+      }
+    } catch (error) {
+      bestbuyManagerStatus = 'error';
+      bestbuyLastError = error.message;
+      console.error('[BestBuy API] Critical error during BestBuy Manager initialization:', error);
+      res.status(500).json({ message: 'Critical error during BestBuy Manager initialization.', error: error.message });
+    }
+  } catch (error) {
+    console.error('[BestBuy API] Unexpected error in initialize endpoint:', error);
+    res.status(500).json({ message: 'Unexpected error in BestBuy Manager initialization.', error: error.message });
+  }
+});
+
+// Close BestBuy Manager
+app.post('/api/bestbuy/close', async (req, res) => {
+  try {
+    if (!bestbuyManagerInstance || bestbuyManagerStatus === 'stopped' || bestbuyManagerStatus === 'stopping') {
+      return res.status(400).json({ message: 'BestBuy Manager is not running or already stopping.' });
+    }
+
+    bestbuyManagerStatus = 'stopping';
+    console.log('[BestBuy API] Closing BestBuy Manager...');
+
+    try {
+      const success = await bestbuyManagerInstance.close();
+      if (success) {
+        bestbuyManagerStatus = 'stopped';
+        bestbuyManagerInstance = null; // Release instance
+        console.log('[BestBuy API] BestBuy Manager closed successfully.');
+        res.status(200).json({ message: 'BestBuy Manager closed successfully.' });
+      } else {
+        bestbuyManagerStatus = 'error'; // Indicate an issue occurred during close
+        bestbuyLastError = 'Failed to close BestBuy Manager cleanly.';
+        console.error('[BestBuy API] Failed to close BestBuy Manager cleanly.');
+        res.status(500).json({ message: 'Failed to close BestBuy Manager cleanly.' });
+      }
+    } catch (error) {
+      bestbuyManagerStatus = 'error'; // Error during close attempt
+      bestbuyLastError = error.message;
+      bestbuyManagerInstance = null; // Release instance
+      console.error('[BestBuy API] Critical error during BestBuy Manager closing:', error);
+      res.status(500).json({ message: 'Critical error during BestBuy Manager closing.', error: error.message });
+    }
+  } catch (error) {
+    console.error('[BestBuy API] Unexpected error in close endpoint:', error);
+    res.status(500).json({ message: 'Unexpected error in BestBuy Manager closing.', error: error.message });
+  }
+});
+
+// Get BestBuy Manager Status
+app.get('/api/bestbuy/status', (req, res) => {
+  res.status(200).json({
+    status: bestbuyManagerStatus,
+    lastError: bestbuyLastError
+  });
+});
+
+// Generate BestBuy Affiliate Link
+app.post('/api/bestbuy/generate-link', async (req, res) => {
+  try {
+    const { url } = req.body;
+    
+    if (!url) {
+      return res.status(400).json({ message: 'URL is required.' });
+    }
+
+    if (!bestbuyManagerInstance || bestbuyManagerStatus !== 'running') {
+      return res.status(409).json({ message: 'BestBuy Manager is not running.' });
+    }
+
+    console.log(`[BestBuy API] Generating affiliate link for: ${url}`);
+
+    const bestbuyLink = await bestbuyManagerInstance.generateBestBuyLink(url, 'SERVER_API');
+
+    if (bestbuyLink === url) {
+      // It might be an invalid URL or a generation failure that didn't throw an error
+      // Check if the URL was considered valid by the manager
+      if (!bestbuyManagerInstance.validateUrl(url)) {
+        console.log(`[BestBuy API] URL rejected by validation: ${url}`);
+        return res.status(400).json({ message: 'URL is not valid for BestBuy affiliation.', originalUrl: url, generatedLink: null });
+      } else {
+        console.warn(`[BestBuy API] Link generation returned original URL for valid domain: ${url}. Treating as failure.`);
+        return res.status(500).json({ message: 'Failed to generate BestBuy link (returned original URL).', originalUrl: url, generatedLink: null });
+      }
+    } else {
+      console.log(`[BestBuy API] Generated link for ${url}: ${bestbuyLink}`);
+      res.status(200).json({ message: 'Link generated successfully.', originalUrl: url, generatedLink: bestbuyLink });
+    }
+  } catch (error) {
+    console.error(`[BestBuy API] Error generating BestBuy link for ${url}:`, error);
+    res.status(500).json({ message: 'Error generating BestBuy link.', error: error.message });
+  }
+});
+
+// --- End BestBuy Manager API Endpoints ---
 
 // Check Tweet Processor Status (n8n availability)
 app.get('/api/tweet-processor/status', async (req, res) => {

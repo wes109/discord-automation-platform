@@ -109,6 +109,16 @@ document.addEventListener('DOMContentLoaded', function() {
   // Periodically check Mavely status
   setInterval(updateMavelyButtonState, 15000); // Check every 15 seconds
 
+  // BestBuy Manager Control Button
+  const bestbuyBtn = document.getElementById('bestbuyManagerControlBtn');
+  if (bestbuyBtn) {
+    bestbuyBtn.addEventListener('click', handleBestBuyControlClick);
+  }
+  // Initial check for BestBuy status on page load
+  updateBestBuyButtonState();
+  // Periodically check BestBuy status
+  setInterval(updateBestBuyButtonState, 15000); // Check every 15 seconds
+
   // --- Tweet Processor Status Indicator ---
   
   // Update tweet processor status every 10 seconds
@@ -364,6 +374,113 @@ async function handleMavelyControlClick() {
 
 // --- End Mavely Manager Control Functions ---
 
+// --- BestBuy Manager Control Functions ---
+
+let isBestBuyActionInProgress = false; // Prevent double clicks
+
+async function updateBestBuyButtonState() {
+  const bestbuyBtn = document.getElementById('bestbuyManagerControlBtn');
+  if (!bestbuyBtn || isBestBuyActionInProgress) return;
+
+  try {
+    const response = await fetch('/api/bestbuy/status');
+    const data = await response.json();
+
+    // Clear existing classes
+    bestbuyBtn.classList.remove('bg-info-DEFAULT', 'hover:bg-info-hover', 'bg-success-DEFAULT', 'hover:bg-success-hover', 'bg-danger-DEFAULT', 'hover:bg-danger-hover', 'bg-warning-DEFAULT', 'hover:bg-warning-hover', 'bg-secondary-DEFAULT', 'hover:bg-secondary-hover', 'opacity-50', 'cursor-not-allowed');
+    bestbuyBtn.disabled = false;
+    const icon = bestbuyBtn.querySelector('i');
+    icon.className = 'bi bi-gear mr-2'; // Reset icon
+
+    switch (data.status) {
+      case 'running':
+        bestbuyBtn.classList.add('bg-success-DEFAULT', 'hover:bg-success-hover');
+        bestbuyBtn.innerHTML = '<i class="bi bi-stop-circle mr-2"></i> Stop BestBuy Manager';
+        bestbuyBtn.setAttribute('data-action', 'stop');
+        break;
+      case 'stopped':
+        bestbuyBtn.classList.add('bg-info-DEFAULT', 'hover:bg-info-hover');
+        bestbuyBtn.innerHTML = '<i class="bi bi-play-circle mr-2"></i> Initialize BestBuy Manager';
+        bestbuyBtn.setAttribute('data-action', 'start');
+        break;
+      case 'initializing':
+        bestbuyBtn.classList.add('bg-warning-DEFAULT', 'opacity-50', 'cursor-not-allowed');
+        bestbuyBtn.innerHTML = '<i class="bi bi-hourglass-split mr-2"></i> BestBuy Initializing...';
+        bestbuyBtn.disabled = true;
+        bestbuyBtn.removeAttribute('data-action');
+        break;
+      case 'stopping':
+        bestbuyBtn.classList.add('bg-warning-DEFAULT', 'opacity-50', 'cursor-not-allowed');
+        bestbuyBtn.innerHTML = '<i class="bi bi-hourglass-split mr-2"></i> BestBuy Stopping...';
+        bestbuyBtn.disabled = true;
+        bestbuyBtn.removeAttribute('data-action');
+        break;
+      case 'error':
+        bestbuyBtn.classList.add('bg-danger-DEFAULT', 'hover:bg-danger-hover');
+        bestbuyBtn.innerHTML = '<i class="bi bi-exclamation-triangle mr-2"></i> BestBuy Error (Re-Initialize)';
+        bestbuyBtn.setAttribute('data-action', 'start'); // Allow re-initialization attempt
+        if (data.lastError) {
+            bestbuyBtn.title = `Last Error: ${data.lastError}`;
+        } else {
+             bestbuyBtn.title = 'An error occurred with the BestBuy Manager.';
+        }
+        break;
+      default:
+        bestbuyBtn.classList.add('bg-secondary-DEFAULT', 'hover:bg-secondary-hover');
+        bestbuyBtn.innerHTML = '<i class="bi bi-question-circle mr-2"></i> BestBuy Status Unknown';
+        bestbuyBtn.setAttribute('data-action', 'start'); // Default to allowing start
+    }
+  } catch (error) {
+    console.error('Error fetching BestBuy status:', error);
+    bestbuyBtn.classList.add('bg-secondary-DEFAULT', 'hover:bg-secondary-hover');
+    bestbuyBtn.innerHTML = '<i class="bi bi-question-circle mr-2"></i> BestBuy Status Error';
+    bestbuyBtn.disabled = false; // Allow attempting action even if status fails
+    bestbuyBtn.setAttribute('data-action', 'start');
+     bestbuyBtn.title = 'Could not fetch BestBuy Manager status.';
+  }
+}
+
+async function handleBestBuyControlClick() {
+  if (isBestBuyActionInProgress) return;
+
+  const bestbuyBtn = document.getElementById('bestbuyManagerControlBtn');
+  const action = bestbuyBtn.getAttribute('data-action');
+
+  if (!action) return; // Should not happen if button is not disabled
+
+  isBestBuyActionInProgress = true;
+  bestbuyBtn.disabled = true;
+  const originalHtml = bestbuyBtn.innerHTML;
+  bestbuyBtn.innerHTML = '<i class="bi bi-hourglass-split mr-2"></i> Processing...';
+  bestbuyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+  try {
+    let endpoint = '';
+    if (action === 'start') {
+      endpoint = '/api/bestbuy/initialize';
+    } else if (action === 'stop') {
+      endpoint = '/api/bestbuy/close';
+    }
+
+    const response = await fetch(endpoint, { method: 'POST' });
+    const result = await response.json();
+
+    if (response.ok) {
+      showToast(result.message || (action === 'start' ? 'BestBuy initialization started.' : 'BestBuy stopping process started.'), 'success');
+    } else {
+      showToast(`Error: ${result.message || 'Failed to perform BestBuy action.'}`, 'danger');
+    }
+  } catch (error) {
+    console.error(`Error during BestBuy ${action} action:`, error);
+    showToast(`Network or server error during BestBuy ${action}.`, 'danger');
+  } finally {
+    isBestBuyActionInProgress = false;
+    updateBestBuyButtonState(); // Immediately update state after action attempt
+  }
+}
+
+// --- End BestBuy Manager Control Functions ---
+
 // Function to show a toast notification
 function showToast(message, type = 'info') {
   const toastContainer = document.getElementById('toast-container');
@@ -424,7 +541,8 @@ async function handleCreateTaskSubmit() {
   const label = document.getElementById('taskLabel').value;
   const enableRegularMessages = document.getElementById('enableRegularMessages').checked;
   const isTestingModule = document.getElementById('enableTestingModule').checked;
-  const enableAffiliateLinks = document.getElementById('enableAffiliateLinks').checked;
+  const enableBestBuyAffiliateLinks = document.getElementById('enableBestBuyAffiliateLinks').checked;
+  const enableMavelyAffiliateLinks = document.getElementById('enableMavelyAffiliateLinks').checked;
   const disableEmbedWebhook = document.getElementById('disableEmbedWebhook').checked;
 
   if (!channelUrl || targetChannels.length === 0) {
@@ -446,7 +564,8 @@ async function handleCreateTaskSubmit() {
         label,
         enableRegularMessages,
         isTestingModule,
-        enableAffiliateLinks,
+        enableBestBuyAffiliateLinks,
+        enableMavelyAffiliateLinks,
         disableEmbedWebhook
       })
     });
@@ -464,7 +583,8 @@ async function handleCreateTaskSubmit() {
       document.getElementById('enableHeadless').checked = false;
       document.getElementById('enableRegularMessages').checked = false;
       document.getElementById('enableTestingModule').checked = false;
-      document.getElementById('enableAffiliateLinks').checked = false;
+      document.getElementById('enableBestBuyAffiliateLinks').checked = false;
+      document.getElementById('enableMavelyAffiliateLinks').checked = false;
       document.getElementById('disableEmbedWebhook').checked = false;
       
       // Refresh the tasks table
@@ -509,9 +629,10 @@ async function startSavedTask(taskId, skipConfirm = false) {
   // Get the headless and regular message settings from the task
   const headless = task.settings?.headless === true;
   const enableRegularMessages = task.settings?.enableRegularMessages === true;
-  const enableAffiliateLinks = task.settings?.enableAffiliateLinks === true;
+  const enableBestBuyAffiliateLinks = task.settings?.enableBestBuyAffiliateLinks === true;
+  const enableMavelyAffiliateLinks = task.settings?.enableMavelyAffiliateLinks === true;
   const disableEmbedWebhook = task.settings?.disableEmbedWebhook === true;
-  console.log(`Starting saved task ${taskId} with headless: ${headless}, regularMessages: ${enableRegularMessages}, affiliateLinks: ${enableAffiliateLinks}`);
+  console.log(`Starting saved task ${taskId} with headless: ${headless}, regularMessages: ${enableRegularMessages}, BestBuy affiliateLinks: ${enableBestBuyAffiliateLinks}, Mavely affiliateLinks: ${enableMavelyAffiliateLinks}`);
   
   try {
     const response = await fetch(`/api/tasks/${taskId}/start`, {
@@ -522,7 +643,8 @@ async function startSavedTask(taskId, skipConfirm = false) {
       body: JSON.stringify({ 
         headless, 
         enableRegularMessages, 
-        enableAffiliateLinks,
+        enableBestBuyAffiliateLinks,
+        enableMavelyAffiliateLinks,
         disableEmbedWebhook
       })
     });
@@ -1041,8 +1163,11 @@ function updateTaskRow(row, task) {
    if (task.settings?.enableRegularMessages) {
       settingsBadges += '<span class="inline-block bg-purple-600 text-purple-100 text-xs font-medium px-2.5 py-0.5 rounded">RegMsg</span>';
   }
-  if (task.settings?.enableAffiliateLinks) {
-      settingsBadges += '<span class="inline-block bg-cyan-600 text-cyan-100 text-xs font-medium px-2.5 py-0.5 rounded">Affiliate</span>';
+  if (task.settings?.enableBestBuyAffiliateLinks) {
+      settingsBadges += '<span class="inline-block bg-cyan-600 text-cyan-100 text-xs font-medium px-2.5 py-0.5 rounded">BestBuy</span>';
+  }
+  if (task.settings?.enableMavelyAffiliateLinks) {
+      settingsBadges += '<span class="inline-block bg-cyan-600 text-cyan-100 text-xs font-medium px-2.5 py-0.5 rounded">Mavely</span>';
   }
   if (task.settings?.disableEmbedWebhook) {
       settingsBadges += '<span class="inline-block bg-red-600 text-red-100 text-xs font-medium px-2.5 py-0.5 rounded">No Embeds</span>';
@@ -1168,7 +1293,8 @@ async function editTask(taskId) {
         document.getElementById('editEnableHeadless').checked = task.settings?.headless || false;
         document.getElementById('editEnableRegularMessages').checked = task.settings?.enableRegularMessages || false;
         document.getElementById('editEnableTestingModule').checked = task.settings?.isTestingModule || false;
-        document.getElementById('editEnableAffiliateLinks').checked = task.settings?.enableAffiliateLinks || false;
+        document.getElementById('editEnableBestBuyAffiliateLinks').checked = task.settings?.enableBestBuyAffiliateLinks || false;
+        document.getElementById('editEnableMavelyAffiliateLinks').checked = task.settings?.enableMavelyAffiliateLinks || false;
         document.getElementById('editEnableTweeting').checked = task.settings?.enableTweeting || false;
         document.getElementById('editEnableUrlUnshortening').checked = task.settings?.enableUrlUnshortening || false;
 
@@ -1258,7 +1384,8 @@ async function saveEditedTask() {
             headless: document.getElementById('editEnableHeadless').checked,
             enableRegularMessages: document.getElementById('editEnableRegularMessages').checked,
             isTestingModule: document.getElementById('editEnableTestingModule').checked,
-            enableAffiliateLinks: document.getElementById('editEnableAffiliateLinks').checked,
+            enableBestBuyAffiliateLinks: document.getElementById('editEnableBestBuyAffiliateLinks').checked,
+            enableMavelyAffiliateLinks: document.getElementById('editEnableMavelyAffiliateLinks').checked,
             enableTweeting: document.getElementById('editEnableTweeting').checked,
             tweetKeywords: tweetKeywords,
             tweetTimeout: tweetTimeout,

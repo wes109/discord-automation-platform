@@ -29,7 +29,8 @@ let taskId = null;
 let profileId = null;
 let enableRegularMessages = false;
 let enableUrlUnshorteningGlobal = false; // For the original processEmbedValue
-let enableAffiliateLinksGlobal = false; // For Mavely affiliation
+let enableBestBuyAffiliateLinksGlobal = false; // For BestBuy affiliation
+let enableMavelyAffiliateLinksGlobal = false; // For Mavely affiliation
 
 console.log('Command line arguments:', args); // Debug log
 
@@ -114,7 +115,8 @@ taskId = argv['task-id'];
 profileId = argv.profile;
 enableRegularMessages = argv['enable-regular-messages'];
 enableUrlUnshorteningGlobal = argv['enable-url-unshortening'];
-enableAffiliateLinksGlobal = argv['enable-affiliate-links'];
+enableBestBuyAffiliateLinksGlobal = argv['enable-bestbuy-affiliate-links'];
+enableMavelyAffiliateLinksGlobal = argv['enable-affiliate-links'];
 const isTestingModuleGlobal = argv['testing-mode'];
 const enableTweetingGlobal = argv['enable-tweeting'];
 const tweetKeywordsGlobal = argv['tweet-keywords'] ? argv['tweet-keywords'].split(',') : [];
@@ -125,7 +127,8 @@ disableEmbedWebhook = argv['disable-embed-webhook'];
 console.log('Parsed isHeadless value:', isHeadless);
 console.log('Parsed enableRegularMessages value:', enableRegularMessages);
 console.log('Parsed enableUrlUnshorteningGlobal value:', enableUrlUnshorteningGlobal);
-console.log('Parsed enableAffiliateLinksGlobal value:', enableAffiliateLinksGlobal);
+console.log('Parsed enableBestBuyAffiliateLinksGlobal value:', enableBestBuyAffiliateLinksGlobal);
+console.log('Parsed enableMavelyAffiliateLinksGlobal value:', enableMavelyAffiliateLinksGlobal);
 console.log('Parsed isTestingModuleGlobal value:', isTestingModuleGlobal);
 console.log('Parsed disableEmbedWebhookGlobal value:', disableEmbedWebhook);
 console.log('Parsed enableTweetingGlobal value:', enableTweetingGlobal);
@@ -269,8 +272,8 @@ async function processEmbedValue(value, taskId) {
     return modifiedValue;
 }
 
-// New helper function to process embed values with Mavely affiliate links
-async function processAffiliateEmbedValue(value, taskId) {
+// New helper function to process embed values with BestBuy and Mavely affiliate links
+async function processAffiliateEmbedValue(value, taskId, shouldAffiliateBestBuyLinks, shouldAffiliateMavelyLinks) {
     logTask(taskId, 'INFO', `Attempting to affiliate links in value for task ${taskId}.`);
     // Corrected Regex for matching markdown and plain URLs
     const urlRegex = /\[(.*?)\]\((.*?)\)|(https?:\/\/[^\s<>)\"\']+[^\s.,;!?)<>\'\"]+)/g;
@@ -282,50 +285,93 @@ async function processAffiliateEmbedValue(value, taskId) {
         const originalUrl = match[2] || match[3]; // URL part of markdown OR plain URL
         const fullMatch = match[0]; // The entire matched string, e.g., "[Click here](url)" or "url"
 
-        try {
-            logTask(taskId, 'DEBUG', `Calling Mavely API for URL: ${originalUrl}`);
-            
-            const response = await fetch('http://localhost:3002/api/mavely/generate-link', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ url: originalUrl })
-            });
+        // Determine which service to use based on URL domain
+        const urlLower = originalUrl.toLowerCase();
+        const isBestBuyUrl = urlLower.includes('bestbuy.com');
+        const shouldUseBestBuy = isBestBuyUrl && shouldAffiliateBestBuyLinks;
+        const shouldUseMavely = !isBestBuyUrl && shouldAffiliateMavelyLinks;
+        
+        if (shouldUseBestBuy) {
+            try {
+                logTask(taskId, 'DEBUG', `Calling BestBuy API for URL: ${originalUrl}`);
+                
+                const response = await fetch('http://localhost:3002/api/bestbuy/generate-link', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ url: originalUrl })
+                });
 
-            const result = await response.json(); // Try to parse JSON regardless of status for error messages
+                const result = await response.json();
 
-            if (response.ok) {
-                if (result.generatedLink && result.generatedLink !== originalUrl) {
-                    const newAffiliatedUrl = result.generatedLink;
-                    if (markdownLinkText !== undefined) { // Markdown link
-                        modifiedValue = modifiedValue.replace(fullMatch, `[${markdownLinkText}](${newAffiliatedUrl})`);
+                if (response.ok) {
+                    if (result.generatedLink && result.generatedLink !== originalUrl) {
+                        const newAffiliatedUrl = result.generatedLink;
+                        if (markdownLinkText !== undefined) { // Markdown link
+                            modifiedValue = modifiedValue.replace(fullMatch, `[${markdownLinkText}](${newAffiliatedUrl})`);
+                        } else { // Plain URL
+                            modifiedValue = modifiedValue.replace(fullMatch, newAffiliatedUrl);
+                        }
+                        logTask(taskId, 'SUCCESS', `BestBuy affiliated ${originalUrl} to ${newAffiliatedUrl}`);
+                    } else if (result.generatedLink === originalUrl) {
+                        logTask(taskId, 'INFO', `BestBuy API returned original URL for ${originalUrl}. No affiliation needed or it was a silent failure by BestBuy.`);
+                    } else {
+                         logTask(taskId, 'INFO', `BestBuy API response for ${originalUrl} did not result in an affiliated link (generatedLink: ${result.generatedLink}). Keeping original.`);
+                    }
+                } else {
+                    logTask(taskId, 'WARNING', `BestBuy API call failed for ${originalUrl} (Status: ${response.status}): ${result.message || response.statusText}. Keeping original link.`);
+                }
+            } catch (error) {
+                logTask(taskId, 'ERROR', `Network/fetch error while trying to BestBuy affiliate URL ${originalUrl}: ${error.message}. Keeping original link.`);
+            }
+        } else if (shouldUseMavely) {
+            try {
+                logTask(taskId, 'DEBUG', `Calling Mavely API for URL: ${originalUrl}`);
+                
+                const response = await fetch('http://localhost:3002/api/mavely/generate-link', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ url: originalUrl })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    if (result.generatedLink && result.generatedLink !== originalUrl) {
+                        const newAffiliatedUrl = result.generatedLink;
+                        if (markdownLinkText !== undefined) { // Markdown link
+                            modifiedValue = modifiedValue.replace(fullMatch, `[${markdownLinkText}](${newAffiliatedUrl})`);
                     } else { // Plain URL
                         modifiedValue = modifiedValue.replace(fullMatch, newAffiliatedUrl);
                     }
-                    logTask(taskId, 'SUCCESS', `Affiliated ${originalUrl} to ${newAffiliatedUrl}`);
-                } else if (result.generatedLink === originalUrl) {
-                    logTask(taskId, 'INFO', `Mavely API returned original URL for ${originalUrl}. No affiliation needed or it was a silent failure by Mavely.`);
+                        logTask(taskId, 'SUCCESS', `Mavely affiliated ${originalUrl} to ${newAffiliatedUrl}`);
+                    } else if (result.generatedLink === originalUrl) {
+                        logTask(taskId, 'INFO', `Mavely API returned original URL for ${originalUrl}. No affiliation needed or it was a silent failure by Mavely.`);
+                    } else {
+                         logTask(taskId, 'INFO', `Mavely API response for ${originalUrl} did not result in an affiliated link (generatedLink: ${result.generatedLink}). Keeping original.`);
+                    }
                 } else {
-                     logTask(taskId, 'INFO', `Mavely API response for ${originalUrl} did not result in an affiliated link (generatedLink: ${result.generatedLink}). Keeping original.`);
+                    logTask(taskId, 'WARNING', `Mavely API call failed for ${originalUrl} (Status: ${response.status}): ${result.message || response.statusText}. Keeping original link.`);
                 }
-            } else {
-                // Handle 400 (validation), 409 (manager not running), 500 (server error)
-                logTask(taskId, 'WARNING', `Mavely API call failed for ${originalUrl} (Status: ${response.status}): ${result.message || response.statusText}. Keeping original link.`);
+            } catch (error) {
+                logTask(taskId, 'ERROR', `Network/fetch error while trying to Mavely affiliate URL ${originalUrl}: ${error.message}. Keeping original link.`);
             }
-        } catch (error) {
-            logTask(taskId, 'ERROR', `Network/fetch error while trying to affiliate URL ${originalUrl}: ${error.message}. Keeping original link.`);
+        } else {
+            logTask(taskId, 'DEBUG', `Skipping URL ${originalUrl} - no matching affiliation service enabled for this domain`);
         }
     }
     return modifiedValue;
 }
 
 // Helper function to process embeds (controller function)
-async function processEmbedsForWebhook(embedArray, taskId, shouldAffiliateLinks) {
+async function processEmbedsForWebhook(embedArray, taskId, shouldAffiliateBestBuyLinks, shouldAffiliateMavelyLinks) {
     const processedEmbeds = [];
     if (!embedArray || embedArray.length === 0) return [];
 
-    logTask(taskId, 'DEBUG', `Processing ${embedArray.length} embeds. Affiliation: ${shouldAffiliateLinks}`);
+    logTask(taskId, 'DEBUG', `Processing ${embedArray.length} embeds. BestBuy affiliation: ${shouldAffiliateBestBuyLinks}, Mavely affiliation: ${shouldAffiliateMavelyLinks}`);
 
     for (const embed of embedArray) {
         const processedEmbed = { ...embed }; // Shallow copy
@@ -341,9 +387,9 @@ async function processEmbedsForWebhook(embedArray, taskId, shouldAffiliateLinks)
             // Not an author embed, proceed with normal link processing
             // 1. Process URLs within embed.value (existing logic)
             if (processedEmbed.value) { 
-                if (shouldAffiliateLinks) {
-                    logTask(taskId, 'DEBUG', `Using AFFILIATE processing for embed field (value): '${embed.title || 'Untitled'}'.`);
-                    processedEmbed.value = await processAffiliateEmbedValue(processedEmbed.value, taskId);
+                if (shouldAffiliateBestBuyLinks || shouldAffiliateMavelyLinks) {
+                    logTask(taskId, 'DEBUG', `Using AFFILIATE processing for embed field (value): '${embed.title || 'Untitled'}'. BestBuy: ${shouldAffiliateBestBuyLinks}, Mavely: ${shouldAffiliateMavelyLinks}`);
+                    processedEmbed.value = await processAffiliateEmbedValue(processedEmbed.value, taskId, shouldAffiliateBestBuyLinks, shouldAffiliateMavelyLinks);
                 } else if (enableUrlUnshorteningGlobal) { 
                     logTask(taskId, 'DEBUG', `Using STANDARD unshortening for embed field (value): '${embed.title || 'Untitled'}'.`);
                     processedEmbed.value = await processEmbedValue(processedEmbed.value, taskId); 
@@ -353,29 +399,59 @@ async function processEmbedsForWebhook(embedArray, taskId, shouldAffiliateLinks)
             }
 
             // 2. Process embed.url directly (new logic for title links, etc.)
-            if (processedEmbed.url && shouldAffiliateLinks) {
+            if (processedEmbed.url && (shouldAffiliateBestBuyLinks || shouldAffiliateMavelyLinks)) {
                 logTask(taskId, 'INFO', `Attempting to affiliate direct embed.url for '${embed.title || 'Untitled Embed'}': ${processedEmbed.url}`);
-                try {
-                    const response = await fetch('http://localhost:3002/api/mavely/generate-link', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ url: processedEmbed.url })
-                    });
-                    const result = await response.json();
-                    if (response.ok && result.generatedLink && result.generatedLink !== processedEmbed.url) {
-                        logTask(taskId, 'SUCCESS', `Affiliated embed.url ${processedEmbed.url} to ${result.generatedLink}`);
-                        processedEmbed.url = result.generatedLink;
-                    } else if (response.ok && result.generatedLink === processedEmbed.url) {
-                         logTask(taskId, 'INFO', `Mavely API returned original URL for embed.url ${processedEmbed.url}. No affiliation needed or silent failure.`);
-                    } else {
-                        logTask(taskId, 'WARNING', `Mavely API call failed for embed.url ${processedEmbed.url} (Status: ${response.status}): ${result.message || response.statusText}. Keeping original embed.url.`);
+                
+                // Determine which service to use based on URL domain
+                const urlLower = processedEmbed.url.toLowerCase();
+                const isBestBuyUrl = urlLower.includes('bestbuy.com');
+                const shouldUseBestBuy = isBestBuyUrl && shouldAffiliateBestBuyLinks;
+                const shouldUseMavely = !isBestBuyUrl && shouldAffiliateMavelyLinks;
+                
+                if (shouldUseBestBuy) {
+                    try {
+                        const response = await fetch('http://localhost:3002/api/bestbuy/generate-link', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ url: processedEmbed.url })
+                        });
+                        const result = await response.json();
+                        if (response.ok && result.generatedLink && result.generatedLink !== processedEmbed.url) {
+                            logTask(taskId, 'SUCCESS', `BestBuy affiliated embed.url ${processedEmbed.url} to ${result.generatedLink}`);
+                            processedEmbed.url = result.generatedLink;
+                        } else if (response.ok && result.generatedLink === processedEmbed.url) {
+                             logTask(taskId, 'INFO', `BestBuy API returned original URL for embed.url ${processedEmbed.url}. No affiliation needed or silent failure.`);
+                        } else {
+                            logTask(taskId, 'WARNING', `BestBuy API call failed for embed.url ${processedEmbed.url} (Status: ${response.status}): ${result.message || response.statusText}. Keeping original embed.url.`);
+                        }
+                    } catch (error) {
+                        logTask(taskId, 'ERROR', `Network/fetch error while trying to BestBuy affiliate embed.url ${processedEmbed.url}: ${error.message}. Keeping original embed.url.`);
                     }
-                } catch (error) {
-                    logTask(taskId, 'ERROR', `Network/fetch error while trying to affiliate embed.url ${processedEmbed.url}: ${error.message}. Keeping original embed.url.`);
+                } else if (shouldUseMavely) {
+                    try {
+                        const response = await fetch('http://localhost:3002/api/mavely/generate-link', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ url: processedEmbed.url })
+                        });
+                        const result = await response.json();
+                        if (response.ok && result.generatedLink && result.generatedLink !== processedEmbed.url) {
+                            logTask(taskId, 'SUCCESS', `Mavely affiliated embed.url ${processedEmbed.url} to ${result.generatedLink}`);
+                            processedEmbed.url = result.generatedLink;
+                        } else if (response.ok && result.generatedLink === processedEmbed.url) {
+                             logTask(taskId, 'INFO', `Mavely API returned original URL for embed.url ${processedEmbed.url}. No affiliation needed or silent failure.`);
+                        } else {
+                            logTask(taskId, 'WARNING', `Mavely API call failed for embed.url ${processedEmbed.url} (Status: ${response.status}): ${result.message || response.statusText}. Keeping original embed.url.`);
+                        }
+                    } catch (error) {
+                        logTask(taskId, 'ERROR', `Network/fetch error while trying to Mavely affiliate embed.url ${processedEmbed.url}: ${error.message}. Keeping original embed.url.`);
+                    }
                 }
-            } else if (processedEmbed.url && !shouldAffiliateLinks && enableUrlUnshorteningGlobal) {
+            } else if (processedEmbed.url && !shouldAffiliateBestBuyLinks && !shouldAffiliateMavelyLinks && enableUrlUnshorteningGlobal) {
                 // Optional: If not affiliating, but URL unshortening is on, consider unshortening embed.url too
                 // logTask(taskId, 'DEBUG', `Standard unshortening for embed.url: ${processedEmbed.url}`)
                 // processedEmbed.url = await unshorten(processedEmbed.url); // Requires unshorten to be robust
@@ -635,7 +711,7 @@ async function launchBrowser(profileId, headless = false) {
 }
 
 // Monitor a Discord channel
-async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId, currentEnableRegularMessages, currentIsTestingModule, currentEnableAffiliateLinks, currentDisableEmbedWebhook) {
+async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId, currentEnableRegularMessages, currentIsTestingModule, currentEnableBestBuyAffiliateLinks, currentEnableMavelyAffiliateLinks, currentDisableEmbedWebhook) {
     let page;
     let scrollIntervalId = null; // Variable to hold the interval ID
     
@@ -649,7 +725,8 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
     try {
         logTask(currentTaskId, 'INFO', `Starting monitoring for ${channelUrl}`);
         logTask(currentTaskId, 'INFO', `Regular message processing: ${currentEnableRegularMessages ? 'ENABLED' : 'DISABLED'}`);
-        logTask(currentTaskId, 'INFO', `Affiliate link processing: ${currentEnableAffiliateLinks ? 'ENABLED' : 'DISABLED'}`);
+        logTask(currentTaskId, 'INFO', `BestBuy affiliate link processing: ${currentEnableBestBuyAffiliateLinks ? 'ENABLED' : 'DISABLED'}`);
+    logTask(currentTaskId, 'INFO', `Mavely affiliate link processing: ${currentEnableMavelyAffiliateLinks ? 'ENABLED' : 'DISABLED'}`);
         logTask(currentTaskId, 'INFO', `URL unshortening (standard): ${enableUrlUnshorteningGlobal ? 'ENABLED' : 'DISABLED'}`);
         logTask(currentTaskId, 'INFO', `Testing mode (no webhooks): ${currentIsTestingModule ? 'ENABLED' : 'DISABLED'}`);
         logTask(currentTaskId, 'INFO', `Disable embed webhook: ${currentDisableEmbedWebhook ? 'ENABLED' : 'DISABLED'}`);
@@ -844,9 +921,9 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                             if (channelConfig) {
                                 logTask(currentTaskId, 'INFO', `Sending embeds for ${messageId} to channel: ${channelName}`); 
                                 try {
-                                    logTask(currentTaskId, 'DEBUG', `Preparing embeds for ${channelName}. Affiliation enabled: ${currentEnableAffiliateLinks}`);
-                                    
-                                    const finalEmbedArray = await processEmbedsForWebhook(embedArray, currentTaskId, currentEnableAffiliateLinks);
+                                                                    logTask(currentTaskId, 'DEBUG', `Preparing embeds for ${channelName}. BestBuy affiliation: ${currentEnableBestBuyAffiliateLinks}, Mavely affiliation: ${currentEnableMavelyAffiliateLinks}`);
+                                
+                                const finalEmbedArray = await processEmbedsForWebhook(embedArray, currentTaskId, currentEnableBestBuyAffiliateLinks, currentEnableMavelyAffiliateLinks);
                                     
                                     await webhook.buildWebhook(finalEmbedArray, channelConfig.webhook_url, currentIsTestingModule);
                                     logTask(currentTaskId, 'DEBUG', `Completed webhook.buildWebhook for ${channelName}`);
@@ -930,7 +1007,7 @@ async function main() {
 
     // Arguments are already parsed by yargs at the top and assigned to global vars
     // So, we use channelUrlArg, targetChannelsArg, taskId, profileId, isHeadless, 
-    // enableUrlUnshorteningGlobal, enableRegularMessages, isTestingModuleGlobal, enableAffiliateLinksGlobal directly.
+    // enableUrlUnshorteningGlobal, enableRegularMessages, isTestingModuleGlobal, enableBestBuyAffiliateLinksGlobal, enableMavelyAffiliateLinksGlobal directly.
 
     // Always start with an empty set for each run/restart
     processedMessageIds = new Set();
@@ -945,7 +1022,8 @@ async function main() {
          enableUrlUnshortening: enableUrlUnshorteningGlobal,
          enableRegularMessages: enableRegularMessages,
          isTestingModule: isTestingModuleGlobal,
-         enableAffiliateLinks: enableAffiliateLinksGlobal
+         enableBestBuyAffiliateLinks: enableBestBuyAffiliateLinksGlobal,
+         enableMavelyAffiliateLinks: enableMavelyAffiliateLinksGlobal
      });
 
     let browser;
@@ -958,7 +1036,7 @@ async function main() {
 
         // Start monitoring
         logTask(taskId, 'INFO', `Starting monitoring for ${channelUrlArg}`);
-        await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId, enableRegularMessages, isTestingModuleGlobal, enableAffiliateLinksGlobal, disableEmbedWebhook);
+        await monitorChannel(browser, channelUrlArg, targetChannelsArg, taskId, enableRegularMessages, isTestingModuleGlobal, enableBestBuyAffiliateLinksGlobal, enableMavelyAffiliateLinksGlobal, disableEmbedWebhook);
 
     } catch (error) {
         logTask(taskId || 'MAIN_ERROR', 'ERROR', 'Critical error during browser launch or monitor initiation.', error);
