@@ -3,7 +3,7 @@ node_modules/
 
 # Profile directories
 profile_*/
-my-profile*/
+my-profile*
 
 # Environment files
 .env
