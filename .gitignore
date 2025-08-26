@@ -5,6 +5,10 @@ node_modules/
 profile_*/
 my-profile*
 
+# BestBuy manager cache files
+.bestbuy_token
+bestbuy_link_cache.json
+
 # Environment files
 .env
 
