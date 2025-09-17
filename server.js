@@ -9,16 +9,9 @@ const config = require('./config.json');
 const MavelyManager = require('./mavely_manager');
 const BestBuyManager = require('./bestbuy_manager');
 
-// Cron job configuration
-// REMOVE const CRON_SCHEDULE = "*/1 * * * *"; // Default: every 5 minutes
-// Other common options:
-// "0 */12 * * *" - every 12 hours
-// "0 */1 * * *" - every hour
-// "0 */2 * * *" - every 2 hours
-// "0 */4 * * *" - every 4 hours
-// "0 */6 * * *" - every 6 hours
-// "0 */8 * * *" - every 8 hours
-// "0 */24 * * *" - every 24 hours
+// PM2 Cron restarts have been disabled
+// Tasks now run continuously without automatic restarts
+// If you need to restart tasks, do so manually through the UI or PM2 commands
 
 // Initialize Express app
 const app = express();
@@ -189,8 +182,8 @@ function readConfig() {
   const defaultConfig = {
     discord: { channels: [] },
     monitoring: {
-      channels: [],
-      cronSchedule: "*/60 * * * *" // Default PM2 cron schedule (every 5 mins)
+      channels: []
+      // cronSchedule removed - PM2 cron restarts disabled
     }
   };
   try {
@@ -201,9 +194,8 @@ function readConfig() {
        return defaultConfig;
     }
     let config = fs.readJsonSync(configPath);
-    // Ensure monitoring object and cron schedule exist
-    config.monitoring = config.monitoring || { channels: [], cronSchedule: defaultConfig.monitoring.cronSchedule };
-    config.monitoring.cronSchedule = config.monitoring.cronSchedule || defaultConfig.monitoring.cronSchedule;
+    // Ensure monitoring object exists (cronSchedule no longer needed)
+    config.monitoring = config.monitoring || { channels: [] };
     config.monitoring.channels = config.monitoring.channels || []; // Ensure channels array exists
     config.discord = config.discord || { channels: [] }; // Ensure discord object exists
     config.discord.channels = config.discord.channels || []; // Ensure channels array exists
@@ -277,7 +269,7 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
   const isHeadless = taskSettings.headless === true;
   
   // Create task settings
-  const settings = {
+const settings = {
     label: taskSettings.label || channelUrl.split('/').pop(),
     channelUrl,
     targetChannels,
@@ -289,7 +281,10 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     isTestingModule: taskSettings.isTestingModule === true,
     enableBestBuyAffiliateLinks: taskSettings.enableBestBuyAffiliateLinks === true,
     enableMavelyAffiliateLinks: taskSettings.enableMavelyAffiliateLinks === true,
-    disableEmbedWebhook: taskSettings.disableEmbedWebhook === true
+    disableEmbedWebhook: taskSettings.disableEmbedWebhook === true,
+    enableTweeting: taskSettings.enableTweeting === true,
+    tweetKeywords: taskSettings.tweetKeywords || [],
+    tweetTimeout: taskSettings.tweetTimeout || 30
   };
   
   // Create the task object with headless state at all levels
@@ -302,6 +297,9 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
     enableBestBuyAffiliateLinks: settings.enableBestBuyAffiliateLinks,
     enableMavelyAffiliateLinks: settings.enableMavelyAffiliateLinks,
     disableEmbedWebhook: settings.disableEmbedWebhook,
+    enableTweeting: settings.enableTweeting,
+    tweetKeywords: settings.tweetKeywords,
+    tweetTimeout: settings.tweetTimeout,
     settings: {
       ...settings,
       headless: isHeadless, // Ensure it's in settings
@@ -309,7 +307,10 @@ function createTask(channelUrl, targetChannels, taskSettings = {}) {
       isTestingModule: settings.isTestingModule,
       enableBestBuyAffiliateLinks: settings.enableBestBuyAffiliateLinks,
       enableMavelyAffiliateLinks: settings.enableMavelyAffiliateLinks,
-      disableEmbedWebhook: settings.disableEmbedWebhook
+      disableEmbedWebhook: settings.disableEmbedWebhook,
+      enableTweeting: settings.enableTweeting,
+      tweetKeywords: settings.tweetKeywords,
+      tweetTimeout: settings.tweetTimeout
     }
   };
   
@@ -418,7 +419,10 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
     pm2_task_id,
     enableBestBuyAffiliateLinks: taskSettings.enableBestBuyAffiliateLinks === true,
     enableMavelyAffiliateLinks: taskSettings.enableMavelyAffiliateLinks === true,
-    disableEmbedWebhook: taskSettings.disableEmbedWebhook === true
+    disableEmbedWebhook: taskSettings.disableEmbedWebhook === true,
+    enableTweeting: taskSettings.enableTweeting === true,
+    tweetKeywords: taskSettings.tweetKeywords || [],
+    tweetTimeout: taskSettings.tweetTimeout || 30
   };
   writeTaskSettings(taskId, settings);
   
@@ -455,14 +459,13 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
     scriptArgs.push('--disable-embed-webhook');
   }
 
-  // --- Set Cron Schedule to Every 3 Days --- 
-  const cron_schedule = '0 0 */3 * *'; // Set to run at 00:00 every 3 days
-  console.log(`[Task Manager] Using fixed cron schedule for ${pm2_task_id}: "${cron_schedule}"`);
+  // --- No Cron Restarts - Run Continuously --- 
+  console.log(`[Task Manager] Starting ${pm2_task_id} without cron restarts (continuous mode)`);
   // --- End Cron Schedule ---
 
   // Construct the full PM2 command
-  // Remove --no-autorestart to allow PM2 to restart on crash/exit
-  const pm2Command = `pm2 start ${mainScriptPath} --name "${pm2_task_id}" --cron "${cron_schedule}" -- ${scriptArgs.join(' ')}`;
+  // Remove --cron to disable automatic restarts - tasks will run continuously
+  const pm2Command = `pm2 start ${mainScriptPath} --name "${pm2_task_id}" -- ${scriptArgs.join(' ')}`;
 
   console.log(`[Task Manager] Executing PM2 command: ${pm2Command}`);
 
@@ -788,10 +791,10 @@ app.get('/api/tasks/:taskId/logs', (req, res) => {
 
 // API endpoint to create a task without starting it
 app.post('/api/tasks/create', (req, res) => {
-  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook } = req.body;
+  const { channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook, enableTweeting, tweetKeywords, tweetTimeout } = req.body;
   
   console.log('[DEBUG] Creating task with settings:', {
-    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook
+    channelUrl, targetChannels, enableUrlUnshortening, label, headless, enableRegularMessages, isTestingModule, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook, enableTweeting, tweetKeywords, tweetTimeout
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -806,7 +809,10 @@ app.post('/api/tasks/create', (req, res) => {
     isTestingModule: isTestingModule === true,
     enableBestBuyAffiliateLinks: enableBestBuyAffiliateLinks === true,
     enableMavelyAffiliateLinks: enableMavelyAffiliateLinks === true,
-    disableEmbedWebhook: disableEmbedWebhook === true
+    disableEmbedWebhook: disableEmbedWebhook === true,
+    enableTweeting: enableTweeting === true,
+    tweetKeywords: tweetKeywords || [],
+    tweetTimeout: tweetTimeout || 30
   };
   
   const result = createTask(channelUrl, targetChannels, taskSettings);
@@ -846,9 +852,9 @@ app.post('/api/tasks/start', async (req, res) => {
 app.post('/api/tasks/:taskId/start', async (req, res) => {
   const { taskId } = req.params;
   // Get all settings from request body if provided
-  const { headless, enableRegularMessages, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook } = req.body || {}; 
+  const { headless, enableRegularMessages, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook, enableTweeting, tweetKeywords, tweetTimeout, enableUrlUnshortening } = req.body || {}; 
   
-  console.log('[DEBUG] Starting saved task with parameters:', { headless, enableRegularMessages, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook });
+  console.log('[DEBUG] Starting saved task with parameters:', { headless, enableRegularMessages, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook, enableTweeting, tweetKeywords, tweetTimeout, enableUrlUnshortening });
   
   // Find the saved task
   const savedTasks = readSavedTasks();
@@ -876,8 +882,20 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
   const useDisableEmbedWebhook = disableEmbedWebhook !== undefined
                                    ? disableEmbedWebhook === true
                                    : taskToStart.settings?.disableEmbedWebhook === true;
+  const useEnableTweeting = enableTweeting !== undefined
+                                   ? enableTweeting === true
+                                   : taskToStart.settings?.enableTweeting === true;
+  const useTweetKeywords = tweetKeywords !== undefined
+                                   ? tweetKeywords
+                                   : taskToStart.settings?.tweetKeywords || [];
+  const useTweetTimeout = tweetTimeout !== undefined
+                                   ? tweetTimeout
+                                   : taskToStart.settings?.tweetTimeout || 30;
+  const useEnableUrlUnshortening = enableUrlUnshortening !== undefined
+                                   ? enableUrlUnshortening === true
+                                   : taskToStart.settings?.enableUrlUnshortening === true;
   
-  console.log('[DEBUG] Using settings for task:', { useHeadless, useEnableRegularMessages, useEnableBestBuyAffiliateLinks, useEnableMavelyAffiliateLinks, useDisableEmbedWebhook });
+  console.log('[DEBUG] Using settings for task:', { useHeadless, useEnableRegularMessages, useEnableBestBuyAffiliateLinks, useEnableMavelyAffiliateLinks, useDisableEmbedWebhook, useEnableTweeting, useTweetKeywords, useTweetTimeout, useEnableUrlUnshortening });
   
   // Start the task with preserved settings and determined overrides
   const result = await startMonitoringTask(
@@ -885,14 +903,17 @@ app.post('/api/tasks/:taskId/start', async (req, res) => {
     taskToStart.targetChannels, 
     {
       // Preserve other saved settings if needed, add as necessary
-      enableUrlUnshortening: taskToStart.settings?.enableUrlUnshortening, // Example
+      enableUrlUnshortening: useEnableUrlUnshortening,
       label: taskToStart.label,
       headless: useHeadless, 
       enableRegularMessages: useEnableRegularMessages, // <-- Use determined value
       isTestingModule: taskToStart.settings?.isTestingModule === true,
       enableBestBuyAffiliateLinks: useEnableBestBuyAffiliateLinks,
       enableMavelyAffiliateLinks: useEnableMavelyAffiliateLinks,
-      disableEmbedWebhook: useDisableEmbedWebhook
+      disableEmbedWebhook: useDisableEmbedWebhook,
+      enableTweeting: useEnableTweeting,
+      tweetKeywords: useTweetKeywords,
+      tweetTimeout: useTweetTimeout
     }
   );
 
@@ -925,7 +946,7 @@ app.delete('/api/tasks/:taskId', (req, res) => {
 // API endpoint to update task settings
 app.put('/api/tasks/:taskId/settings', (req, res) => {
   const { taskId } = req.params;
-  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook } = req.body;
+  const { channelUrl, targetChannels, headless, label, enableRegularMessages, isTestingModule, enableBestBuyAffiliateLinks, enableMavelyAffiliateLinks, disableEmbedWebhook, enableTweeting, tweetKeywords, tweetTimeout, enableUrlUnshortening } = req.body;
   
   console.log('[API] Updating task settings:', {
     taskId,
@@ -937,7 +958,11 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     isTestingModule,
     enableBestBuyAffiliateLinks,
     enableMavelyAffiliateLinks,
-    disableEmbedWebhook
+    disableEmbedWebhook,
+    enableTweeting,
+    tweetKeywords,
+    tweetTimeout,
+    enableUrlUnshortening
   });
   
   if (!channelUrl || !targetChannels || !Array.isArray(targetChannels)) {
@@ -979,7 +1004,11 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     isTestingModule: isTestingModule === true, // <-- Store testing mode setting
     enableBestBuyAffiliateLinks: enableBestBuyAffiliateLinks === true,
     enableMavelyAffiliateLinks: enableMavelyAffiliateLinks === true,
-    disableEmbedWebhook: disableEmbedWebhook === true
+    disableEmbedWebhook: disableEmbedWebhook === true,
+    enableTweeting: enableTweeting === true,
+    tweetKeywords: tweetKeywords || [],
+    tweetTimeout: tweetTimeout || 30,
+    enableUrlUnshortening: enableUrlUnshortening === true
   };
   
   // Update task settings
@@ -995,7 +1024,11 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
     isTestingModule: updatedSettings.isTestingModule,
     enableBestBuyAffiliateLinks: updatedSettings.enableBestBuyAffiliateLinks,
     enableMavelyAffiliateLinks: updatedSettings.enableMavelyAffiliateLinks,
-    disableEmbedWebhook: updatedSettings.disableEmbedWebhook
+    disableEmbedWebhook: updatedSettings.disableEmbedWebhook,
+    enableTweeting: updatedSettings.enableTweeting,
+    tweetKeywords: updatedSettings.tweetKeywords,
+    tweetTimeout: updatedSettings.tweetTimeout,
+    enableUrlUnshortening: updatedSettings.enableUrlUnshortening
   };
   
   console.log('[API] Updated task:', savedTasks[taskIndex]);
@@ -1017,37 +1050,12 @@ app.get('/api/config', (req, res) => {
   res.json(config);
 });
 
-// API endpoint to update the cron schedule
+// API endpoint to update the cron schedule (DISABLED - No more PM2 cron restarts)
 app.put('/api/config/cron', (req, res) => {
-  const { cronSchedule } = req.body;
-
-  if (!cronSchedule || typeof cronSchedule !== 'string' || cronSchedule.trim() === '') {
-    return res.status(400).json({ success: false, message: 'Invalid cron schedule provided.' });
-  }
-
-  // Basic validation (5 or 6 parts separated by space)
-  const parts = cronSchedule.trim().split(/\s+/);
-  if (parts.length < 5 || parts.length > 6) {
-      return res.status(400).json({ success: false, message: 'Invalid cron format (must have 5 or 6 space-separated parts).' });
-  }
-
-  try {
-    const currentConfig = readConfig();
-    // Ensure monitoring object exists
-    currentConfig.monitoring = currentConfig.monitoring || { channels: [], cronSchedule: '' }; 
-    currentConfig.monitoring.cronSchedule = cronSchedule.trim(); // Update the schedule
-
-    const success = writeConfig(currentConfig);
-    if (success) {
-      console.log(`[Config] Updated PM2 Cron Schedule to: "${cronSchedule.trim()}"`);
-      res.json({ success: true });
-    } else {
-      res.status(500).json({ success: false, message: 'Failed to write updated config file.' });
-    }
-  } catch (error) {
-    console.error('Error updating cron schedule:', error);
-    res.status(500).json({ success: false, message: 'Internal server error while updating schedule.' });
-  }
+  res.status(410).json({ 
+    success: false, 
+    message: 'Cron schedule API disabled - PM2 cron restarts have been removed. Tasks now run continuously.' 
+  });
 });
 
 // API endpoint to update config (Keep existing one for other potential bulk updates? Or remove?)

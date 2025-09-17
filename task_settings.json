@@ -2104,8 +2104,7 @@
     "enableUrlUnshortening": false,
     "headless": false,
     "startTime": "2025-03-31T19:09:30.885Z",
-    "profileId": "profile_1743448170629_3p0d0g",
-    "pm2_task_id": "monitor_task_1743448170629"
+    "profileId": "profile_1743448170629_3p0d0g"
   },
   "task_1743449391474": {
     "label": "terst",
@@ -2123,8 +2122,7 @@
     "enableUrlUnshortening": false,
     "headless": false,
     "startTime": "2025-03-31T19:29:51.725Z",
-    "profileId": "profile_1743449391476_26hj04",
-    "pm2_task_id": "monitor_task_1743449391474"
+    "profileId": "profile_1743449391476_26hj04"
   },
   "task_1743449593076": {
     "label": "te",
@@ -2159,8 +2157,7 @@
     "enableUrlUnshortening": false,
     "headless": false,
     "startTime": "2025-03-31T19:33:15.142Z",
-    "profileId": "profile_1743449594923_lubqii",
-    "pm2_task_id": "monitor_task_1743449594922"
+    "profileId": "profile_1743449594923_lubqii"
   },
   "task_1743449649143": {
     "label": "de",
@@ -2195,8 +2192,7 @@
     "enableUrlUnshortening": false,
     "headless": false,
     "startTime": "2025-03-31T19:34:14.129Z",
-    "profileId": "profile_1743449653862_2mcyu2",
-    "pm2_task_id": "monitor_task_1743449653861"
+    "profileId": "profile_1743449653862_2mcyu2"
   },
   "task_1743450781842": {
     "label": "de",
@@ -2215,8 +2211,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-03-31T19:53:02.064Z",
-    "profileId": "profile_1743450781843_5fe4ue",
-    "pm2_task_id": "monitor_task_1743450781842"
+    "profileId": "profile_1743450781843_5fe4ue"
   },
   "task_1743450895787": {
     "label": "de",
@@ -2235,8 +2230,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-03-31T19:54:56.025Z",
-    "profileId": "profile_1743450895788_n1p4mc",
-    "pm2_task_id": "monitor_task_1743450895787"
+    "profileId": "profile_1743450895788_n1p4mc"
   },
   "task_1743452179391": {
     "label": "de",
@@ -2255,8 +2249,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-03-31T20:16:19.618Z",
-    "profileId": "profile_1743452179393_gkbjjc",
-    "pm2_task_id": "monitor_task_1743452179391"
+    "profileId": "profile_1743452179393_gkbjjc"
   },
   "task_1743453700801": {
     "label": "de",
@@ -2275,8 +2268,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-03-31T20:41:41.024Z",
-    "profileId": "profile_1743453700803_ivkgec",
-    "pm2_task_id": "monitor_task_1743453700801"
+    "profileId": "profile_1743453700803_ivkgec"
   },
   "task_1743473163655": {
     "label": "de",
@@ -2295,8 +2287,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-01T02:06:03.815Z",
-    "profileId": "profile_1743473163659_mqhvns",
-    "pm2_task_id": "monitor_task_1743473163655"
+    "profileId": "profile_1743473163659_mqhvns"
   },
   "task_1743473191434": {
     "label": "de",
@@ -2315,8 +2306,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-01T02:06:31.567Z",
-    "profileId": "profile_1743473191434_1sw7bq",
-    "pm2_task_id": "monitor_task_1743473191434"
+    "profileId": "profile_1743473191434_1sw7bq"
   },
   "task_1743473294074": {
     "label": "de",
@@ -2335,8 +2325,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-01T02:08:14.217Z",
-    "profileId": "profile_1743473294074_rkp400",
-    "pm2_task_id": "monitor_task_1743473294074"
+    "profileId": "profile_1743473294074_rkp400"
   },
   "task_1743475489860": {
     "label": "de",
@@ -2355,8 +2344,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-01T02:44:49.970Z",
-    "profileId": "profile_1743475489860_3fh48k",
-    "pm2_task_id": "monitor_task_1743475489860"
+    "profileId": "profile_1743475489860_3fh48k"
   },
   "task_1743476181850": {
     "label": "de",
@@ -2375,8 +2363,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-01T02:56:21.954Z",
-    "profileId": "profile_1743476181850_26c2ht",
-    "pm2_task_id": "monitor_task_1743476181850"
+    "profileId": "profile_1743476181850_26c2ht"
   },
   "task_1743476465726": {
     "label": "de",
@@ -2396,7 +2383,6 @@
     "enableRegularMessages": true,
     "startTime": "2025-04-01T03:01:05.839Z",
     "profileId": "profile_1743476465726_fslcrr",
-    "pm2_task_id": "monitor_task_1743476465726",
     "lastMessageId": "chat-messages-674455435842945025-1356460171592859680"
   },
   "task_1743477360886": {
@@ -2416,8 +2402,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-01T03:16:00.986Z",
-    "profileId": "profile_1743477360887_gnyp9u",
-    "pm2_task_id": "monitor_task_1743477360886"
+    "profileId": "profile_1743477360887_gnyp9u"
   },
   "task_1743477466754": {
     "label": "de",
@@ -2436,8 +2421,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-01T03:17:46.937Z",
-    "profileId": "profile_1743477466755_8da83a",
-    "pm2_task_id": "monitor_task_1743477466754"
+    "profileId": "profile_1743477466755_8da83a"
   },
   "task_1743477602079": {
     "label": "de",
@@ -2456,8 +2440,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-01T03:20:02.186Z",
-    "profileId": "profile_1743477602079_h0bd36",
-    "pm2_task_id": "monitor_task_1743477602079"
+    "profileId": "profile_1743477602079_h0bd36"
   },
   "task_1743477819682": {
     "label": "de",
@@ -2476,8 +2459,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-01T03:23:39.788Z",
-    "profileId": "profile_1743477819683_idj1rc",
-    "pm2_task_id": "monitor_task_1743477819682"
+    "profileId": "profile_1743477819683_idj1rc"
   },
   "task_1743478253234": {
     "label": "de",
@@ -2496,8 +2478,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-01T03:30:53.341Z",
-    "profileId": "profile_1743478253235_0mn5y5",
-    "pm2_task_id": "monitor_task_1743478253234"
+    "profileId": "profile_1743478253235_0mn5y5"
   },
   "task_1743551938266": {
     "label": "de",
@@ -2516,8 +2497,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-01T23:58:58.384Z",
-    "profileId": "profile_1743551938267_2iarmz",
-    "pm2_task_id": "monitor_task_1743551938266"
+    "profileId": "profile_1743551938267_2iarmz"
   },
   "task_1743693630056": {
     "label": "Amazon",
@@ -2554,8 +2534,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-03T15:20:32.042Z",
-    "profileId": "profile_1743693631946_nq9mvp",
-    "pm2_task_id": "monitor_task_1743693631946"
+    "profileId": "profile_1743693631946_nq9mvp"
   },
   "task_1743693652460": {
     "label": "Bestbuy",
@@ -2784,8 +2763,7 @@
     "headless": true,
     "enableRegularMessages": true,
     "startTime": "2025-04-03T15:31:06.204Z",
-    "profileId": "profile_1743694266112_8ur73c",
-    "pm2_task_id": "monitor_task_1743694266112"
+    "profileId": "profile_1743694266112_8ur73c"
   },
   "task_1743695726485": {
     "label": "test",
@@ -2822,8 +2800,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-03T15:37:23.473Z",
-    "profileId": "profile_1743694643411_3p0ndr",
-    "pm2_task_id": "monitor_task_1743694643411"
+    "profileId": "profile_1743694643411_3p0ndr"
   },
   "task_1743732455087": {
     "label": "pokemonCenter",
@@ -2842,8 +2819,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-04T02:07:35.186Z",
-    "profileId": "profile_1743732455087_c71ok2",
-    "pm2_task_id": "monitor_task_1743732455087"
+    "profileId": "profile_1743732455087_c71ok2"
   },
   "task_1743693728190": {
     "label": "Amazon",
@@ -2868,8 +2844,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-03T15:22:08.281Z",
-    "profileId": "profile_1743693728191_9twgoo",
-    "pm2_task_id": "monitor_task_1743693728190"
+    "profileId": "profile_1743693728191_9twgoo"
   },
   "task_1744041259747": {
     "label": "CostcoCA",
@@ -2906,8 +2881,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-07T15:54:29.570Z",
-    "profileId": "profile_1744041269431_s3pta0",
-    "pm2_task_id": "monitor_task_1744041269430"
+    "profileId": "profile_1744041269431_s3pta0"
   },
   "task_1744041316466": {
     "label": "CostcoCA",
@@ -2926,8 +2900,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-07T15:55:16.625Z",
-    "profileId": "profile_1744041316467_7xynhi",
-    "pm2_task_id": "monitor_task_1744041316466"
+    "profileId": "profile_1744041316467_7xynhi"
   },
   "task_1744044914888": {
     "label": "CostcoCA",
@@ -2946,8 +2919,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-07T16:55:15.081Z",
-    "profileId": "profile_1744044914888_ny1wr5",
-    "pm2_task_id": "monitor_task_1744044914888"
+    "profileId": "profile_1744044914888_ny1wr5"
   },
   "task_1744046811356": {
     "label": "CostcoCA",
@@ -2966,8 +2938,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-07T17:26:51.505Z",
-    "profileId": "profile_1744046811356_1v78jy",
-    "pm2_task_id": "monitor_task_1744046811356"
+    "profileId": "profile_1744046811356_1v78jy"
   },
   "task_1743693903347": {
     "label": "shop",
@@ -2986,8 +2957,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-03T15:25:03.448Z",
-    "profileId": "profile_1743693903347_s90pnn",
-    "pm2_task_id": "monitor_task_1743693903347"
+    "profileId": "profile_1743693903347_s90pnn"
   },
   "task_1744046955544": {
     "label": "shop",
@@ -3006,8 +2976,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-07T17:29:15.662Z",
-    "profileId": "profile_1744046955545_ctk95a",
-    "pm2_task_id": "monitor_task_1744046955544"
+    "profileId": "profile_1744046955545_ctk95a"
   },
   "task_1743693731427": {
     "label": "Bestbuy",
@@ -3032,8 +3001,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-03T15:22:11.490Z",
-    "profileId": "profile_1743693731427_f631bt",
-    "pm2_task_id": "monitor_task_1743693731427"
+    "profileId": "profile_1743693731427_f631bt"
   },
   "task_1744055701874": {
     "label": "Bestbuy",
@@ -3058,8 +3026,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-07T19:55:01.992Z",
-    "profileId": "profile_1744055701874_xlie85",
-    "pm2_task_id": "monitor_task_1744055701874"
+    "profileId": "profile_1744055701874_xlie85"
   },
   "task_1743693754451": {
     "label": "Costco",
@@ -3090,8 +3057,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-03T15:22:34.507Z",
-    "profileId": "profile_1743693754451_uer6mk",
-    "pm2_task_id": "monitor_task_1743693754451"
+    "profileId": "profile_1743693754451_uer6mk"
   },
   "task_1744047128093": {
     "label": "shop",
@@ -3116,8 +3082,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-07T17:32:08.224Z",
-    "profileId": "profile_1744047128094_ykvbsq",
-    "pm2_task_id": "monitor_task_1744047128093"
+    "profileId": "profile_1744047128094_ykvbsq"
   },
   "task_1743693786523": {
     "label": "Mattel",
@@ -3142,8 +3107,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-03T15:23:06.596Z",
-    "profileId": "profile_1743693786523_n7dt4d",
-    "pm2_task_id": "monitor_task_1743693786523"
+    "profileId": "profile_1743693786523_n7dt4d"
   },
   "task_1743693840795": {
     "label": "Sams",
@@ -3168,8 +3132,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-03T15:24:00.888Z",
-    "profileId": "profile_1743693840795_ng9w41",
-    "pm2_task_id": "monitor_task_1743693840795"
+    "profileId": "profile_1743693840795_ng9w41"
   },
   "task_1743693855069": {
     "label": "Scheels",
@@ -3194,8 +3157,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-03T15:24:15.147Z",
-    "profileId": "profile_1743693855069_b0gkam",
-    "pm2_task_id": "monitor_task_1743693855069"
+    "profileId": "profile_1743693855069_b0gkam"
   },
   "task_1743693874448": {
     "label": "Target",
@@ -3226,8 +3188,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-03T15:24:34.542Z",
-    "profileId": "profile_1743693874449_pjtses",
-    "pm2_task_id": "monitor_task_1743693874448"
+    "profileId": "profile_1743693874449_pjtses"
   },
   "task_1743693888599": {
     "label": "Walmart",
@@ -3252,8 +3213,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-03T15:24:48.710Z",
-    "profileId": "profile_1743693888599_8nnupy",
-    "pm2_task_id": "monitor_task_1743693888599"
+    "profileId": "profile_1743693888599_8nnupy"
   },
   "task_1743732793522": {
     "label": "pokemonCenter",
@@ -3278,8 +3238,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-04T02:13:13.631Z",
-    "profileId": "profile_1743732793523_an0ie0",
-    "pm2_task_id": "monitor_task_1743732793522"
+    "profileId": "profile_1743732793523_an0ie0"
   },
   "task_1743735218079": {
     "label": "Amazon",
@@ -3310,8 +3269,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-04T02:53:38.179Z",
-    "profileId": "profile_1743735218079_kg0jd3",
-    "pm2_task_id": "monitor_task_1743735218079"
+    "profileId": "profile_1743735218079_kg0jd3"
   },
   "task_1744056470329": {
     "label": "fnl-jd",
@@ -3348,8 +3306,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-07T20:07:54.045Z",
-    "profileId": "profile_1744056473897_3rr59g",
-    "pm2_task_id": "monitor_task_1744056473897"
+    "profileId": "profile_1744056473897_3rr59g"
   },
   "task_1744057147337": {
     "label": "gamestop",
@@ -3482,8 +3439,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T03:02:56.522Z",
-    "profileId": "profile_1744081376418_14wyec",
-    "pm2_task_id": "monitor_task_1744081376418"
+    "profileId": "profile_1744081376418_14wyec"
   },
   "task_1744127984024": {
     "label": "shop",
@@ -3508,8 +3464,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T15:59:44.143Z",
-    "profileId": "profile_1744127984025_0u6f3b",
-    "pm2_task_id": "monitor_task_1744127984024"
+    "profileId": "profile_1744127984025_0u6f3b"
   },
   "task_1744128556322": {
     "label": "shop",
@@ -3534,8 +3489,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T16:09:16.515Z",
-    "profileId": "profile_1744128556323_tatpdi",
-    "pm2_task_id": "monitor_task_1744128556322"
+    "profileId": "profile_1744128556323_tatpdi"
   },
   "task_1744128725199": {
     "label": "Canada eh?",
@@ -3572,8 +3526,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T16:12:53.530Z",
-    "profileId": "profile_1744128773442_rgggwq",
-    "pm2_task_id": "monitor_task_1744128773442"
+    "profileId": "profile_1744128773442_rgggwq"
   },
   "task_1744128790560": {
     "label": "Pokemon",
@@ -3592,8 +3545,7 @@
     "headless": true,
     "enableRegularMessages": true,
     "startTime": "2025-04-08T16:13:10.644Z",
-    "profileId": "profile_1744128790560_bc4u93",
-    "pm2_task_id": "monitor_task_1744128790560"
+    "profileId": "profile_1744128790560_bc4u93"
   },
   "task_1744128800183": {
     "label": "Bestbuy",
@@ -3618,8 +3570,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T16:13:20.261Z",
-    "profileId": "profile_1744128800183_dkad4u",
-    "pm2_task_id": "monitor_task_1744128800183"
+    "profileId": "profile_1744128800183_dkad4u"
   },
   "task_1744128804240": {
     "label": "Costco",
@@ -3650,8 +3601,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T16:13:24.324Z",
-    "profileId": "profile_1744128804241_snsasc",
-    "pm2_task_id": "monitor_task_1744128804240"
+    "profileId": "profile_1744128804241_snsasc"
   },
   "task_1744128807702": {
     "label": "Amazon",
@@ -3682,8 +3632,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T16:13:27.797Z",
-    "profileId": "profile_1744128807702_j5l1ta",
-    "pm2_task_id": "monitor_task_1744128807702"
+    "profileId": "profile_1744128807702_j5l1ta"
   },
   "task_1744128810480": {
     "label": "Walmart",
@@ -3708,8 +3657,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T16:13:30.598Z",
-    "profileId": "profile_1744128810481_ln19pi",
-    "pm2_task_id": "monitor_task_1744128810480"
+    "profileId": "profile_1744128810481_ln19pi"
   },
   "task_1744128813278": {
     "label": "Target",
@@ -3740,8 +3688,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T16:13:33.386Z",
-    "profileId": "profile_1744128813278_i5g19t",
-    "pm2_task_id": "monitor_task_1744128813278"
+    "profileId": "profile_1744128813278_i5g19t"
   },
   "task_1744128817169": {
     "label": "Sams",
@@ -3766,8 +3713,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T16:13:37.242Z",
-    "profileId": "profile_1744128817169_wfhocq",
-    "pm2_task_id": "monitor_task_1744128817169"
+    "profileId": "profile_1744128817169_wfhocq"
   },
   "task_1744128819395": {
     "label": "Scheels",
@@ -3792,8 +3738,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T16:13:39.547Z",
-    "profileId": "profile_1744128819395_282qxj",
-    "pm2_task_id": "monitor_task_1744128819395"
+    "profileId": "profile_1744128819395_282qxj"
   },
   "task_1744128822412": {
     "label": "Mattel",
@@ -3818,8 +3763,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T16:13:42.486Z",
-    "profileId": "profile_1744128822412_uk87ve",
-    "pm2_task_id": "monitor_task_1744128822412"
+    "profileId": "profile_1744128822412_uk87ve"
   },
   "task_1744128825581": {
     "label": "shop",
@@ -3844,8 +3788,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T16:13:45.735Z",
-    "profileId": "profile_1744128825581_giqbgo",
-    "pm2_task_id": "monitor_task_1744128825581"
+    "profileId": "profile_1744128825581_giqbgo"
   },
   "task_1744156511864": {
     "label": "Shopify",
@@ -3918,8 +3861,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T23:56:42.712Z",
-    "profileId": "profile_1744156602599_bztbz5",
-    "pm2_task_id": "monitor_task_1744156602598"
+    "profileId": "profile_1744156602599_bztbz5"
   },
   "task_1744156665839": {
     "label": "Shopify",
@@ -3944,8 +3886,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-08T23:57:45.939Z",
-    "profileId": "profile_1744156665840_jfm2m3",
-    "pm2_task_id": "monitor_task_1744156665839"
+    "profileId": "profile_1744156665840_jfm2m3"
   },
   "task_1744156753305": {
     "label": "Mattel",
@@ -3988,8 +3929,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-09T00:05:47.513Z",
-    "profileId": "profile_1744157147425_9x97pq",
-    "pm2_task_id": "monitor_task_1744157147425"
+    "profileId": "profile_1744157147425_9x97pq"
   },
   "task_1744157150886": {
     "label": "Scheels",
@@ -4014,8 +3954,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-09T00:05:50.983Z",
-    "profileId": "profile_1744157150886_lvt87n",
-    "pm2_task_id": "monitor_task_1744157150886"
+    "profileId": "profile_1744157150886_lvt87n"
   },
   "task_1744157977463": {
     "label": "Scheels",
@@ -4040,8 +3979,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-09T00:19:37.566Z",
-    "profileId": "profile_1744157977463_fmmaaa",
-    "pm2_task_id": "monitor_task_1744157977463"
+    "profileId": "profile_1744157977463_fmmaaa"
   },
   "task_1744157979962": {
     "label": "Sams",
@@ -4066,8 +4004,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-09T00:19:40.040Z",
-    "profileId": "profile_1744157979963_skqcy6",
-    "pm2_task_id": "monitor_task_1744157979962"
+    "profileId": "profile_1744157979963_skqcy6"
   },
   "task_1744157983073": {
     "label": "Target",
@@ -4098,8 +4035,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-09T00:19:43.161Z",
-    "profileId": "profile_1744157983073_x4rnd5",
-    "pm2_task_id": "monitor_task_1744157983073"
+    "profileId": "profile_1744157983073_x4rnd5"
   },
   "task_1744157988689": {
     "label": "Walmart",
@@ -4124,8 +4060,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-09T00:19:48.765Z",
-    "profileId": "profile_1744157988689_xwuk42",
-    "pm2_task_id": "monitor_task_1744157988689"
+    "profileId": "profile_1744157988689_xwuk42"
   },
   "task_1744157991312": {
     "label": "Amazon",
@@ -4156,8 +4091,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-09T00:19:51.403Z",
-    "profileId": "profile_1744157991312_azusar",
-    "pm2_task_id": "monitor_task_1744157991312"
+    "profileId": "profile_1744157991312_azusar"
   },
   "task_1744157993764": {
     "label": "Costco",
@@ -4188,8 +4122,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-09T00:19:53.845Z",
-    "profileId": "profile_1744157993764_dw9u1b",
-    "pm2_task_id": "monitor_task_1744157993764"
+    "profileId": "profile_1744157993764_dw9u1b"
   },
   "task_1744158045314": {
     "label": "Bestbuy",
@@ -4214,8 +4147,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-09T00:20:45.435Z",
-    "profileId": "profile_1744158045314_0qin70",
-    "pm2_task_id": "monitor_task_1744158045314"
+    "profileId": "profile_1744158045314_0qin70"
   },
   "task_1744158050893": {
     "label": "Dicks",
@@ -4234,8 +4166,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-09T00:20:50.991Z",
-    "profileId": "profile_1744158050893_tjane3",
-    "pm2_task_id": "monitor_task_1744158050893"
+    "profileId": "profile_1744158050893_tjane3"
   },
   "task_1744206756383": {
     "label": "Pokemon",
@@ -4254,8 +4185,7 @@
     "headless": true,
     "enableRegularMessages": true,
     "startTime": "2025-04-09T13:52:36.507Z",
-    "profileId": "profile_1744206756384_cndocp",
-    "pm2_task_id": "monitor_task_1744206756383"
+    "profileId": "profile_1744206756384_cndocp"
   },
   "task_1744249756451": {
     "label": "pokemonCenter",
@@ -4280,8 +4210,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-10T01:49:16.580Z",
-    "profileId": "profile_1744249756453_ghdqdp",
-    "pm2_task_id": "monitor_task_1744249756451"
+    "profileId": "profile_1744249756453_ghdqdp"
   },
   "task_1744426146491": {
     "label": "nvidia2",
@@ -4324,8 +4253,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T02:54:42.336Z",
-    "profileId": "profile_1744426482184_8jqps5",
-    "pm2_task_id": "monitor_task_1744426482183"
+    "profileId": "profile_1744426482184_8jqps5"
   },
   "task_1744426580655": {
     "label": "Shopify",
@@ -4350,8 +4278,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T02:56:20.794Z",
-    "profileId": "profile_1744426580656_kl7t6k",
-    "pm2_task_id": "monitor_task_1744426580655"
+    "profileId": "profile_1744426580656_kl7t6k"
   },
   "task_1744426628520": {
     "label": "Shopify",
@@ -4376,8 +4303,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T02:57:08.672Z",
-    "profileId": "profile_1744426628520_z7mbdr",
-    "pm2_task_id": "monitor_task_1744426628520"
+    "profileId": "profile_1744426628520_z7mbdr"
   },
   "task_1744427524575": {
     "label": "test",
@@ -4414,8 +4340,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T03:22:21.980Z",
-    "profileId": "profile_1744428141799_w75l6u",
-    "pm2_task_id": "monitor_task_1744428141799"
+    "profileId": "profile_1744428141799_w75l6u"
   },
   "task_1744492434588": {
     "label": "Shopify",
@@ -4440,8 +4365,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T21:13:54.654Z",
-    "profileId": "profile_1744492434589_dyuwob",
-    "pm2_task_id": "monitor_task_1744492434588"
+    "profileId": "profile_1744492434589_dyuwob"
   },
   "task_1744492791485": {
     "label": "Shopify",
@@ -4466,8 +4390,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T21:19:51.604Z",
-    "profileId": "profile_1744492791485_q9urjp",
-    "pm2_task_id": "monitor_task_1744492791485"
+    "profileId": "profile_1744492791485_q9urjp"
   },
   "task_1744492825514": {
     "label": "Shopify",
@@ -4486,8 +4409,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T21:20:25.613Z",
-    "profileId": "profile_1744492825515_zauba9",
-    "pm2_task_id": "monitor_task_1744492825514"
+    "profileId": "profile_1744492825515_zauba9"
   },
   "task_1744492849956": {
     "label": "Walmart",
@@ -4512,8 +4434,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T21:20:50.034Z",
-    "profileId": "profile_1744492849956_962bv5",
-    "pm2_task_id": "monitor_task_1744492849956"
+    "profileId": "profile_1744492849956_962bv5"
   },
   "task_1744492906481": {
     "label": "Walmart",
@@ -4538,8 +4459,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T21:21:46.611Z",
-    "profileId": "profile_1744492906481_fq9iow",
-    "pm2_task_id": "monitor_task_1744492906481"
+    "profileId": "profile_1744492906481_fq9iow"
   },
   "task_1744492437374": {
     "label": "Target",
@@ -4570,8 +4490,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T21:13:57.490Z",
-    "profileId": "profile_1744492437375_1epqcz",
-    "pm2_task_id": "monitor_task_1744492437374"
+    "profileId": "profile_1744492437375_1epqcz"
   },
   "task_1744492927615": {
     "label": "Target",
@@ -4602,8 +4521,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T21:22:07.710Z",
-    "profileId": "profile_1744492927615_rkmdxd",
-    "pm2_task_id": "monitor_task_1744492927615"
+    "profileId": "profile_1744492927615_rkmdxd"
   },
   "task_1744492953651": {
     "label": "Target",
@@ -4634,8 +4552,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T21:22:33.788Z",
-    "profileId": "profile_1744492953651_b9t5do",
-    "pm2_task_id": "monitor_task_1744492953651"
+    "profileId": "profile_1744492953651_b9t5do"
   },
   "task_1744493065370": {
     "label": "Sams",
@@ -4660,8 +4577,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T21:24:25.480Z",
-    "profileId": "profile_1744493065370_7gxlhp",
-    "pm2_task_id": "monitor_task_1744493065370"
+    "profileId": "profile_1744493065370_7gxlhp"
   },
   "task_1744493068335": {
     "label": "Scheels",
@@ -4686,8 +4602,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T21:24:28.465Z",
-    "profileId": "profile_1744493068335_j3m28c",
-    "pm2_task_id": "monitor_task_1744493068335"
+    "profileId": "profile_1744493068335_j3m28c"
   },
   "task_1744493098832": {
     "label": "pokemonCenter",
@@ -4712,8 +4627,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T21:24:58.957Z",
-    "profileId": "profile_1744493098833_vktrso",
-    "pm2_task_id": "monitor_task_1744493098832"
+    "profileId": "profile_1744493098833_vktrso"
   },
   "task_1744493196711": {
     "label": "Pokemon",
@@ -4732,8 +4646,7 @@
     "headless": true,
     "enableRegularMessages": true,
     "startTime": "2025-04-12T21:26:36.873Z",
-    "profileId": "profile_1744493196713_goquxw",
-    "pm2_task_id": "monitor_task_1744493196711"
+    "profileId": "profile_1744493196713_goquxw"
   },
   "task_1744493012904": {
     "label": "Amazon",
@@ -4764,8 +4677,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-12T21:23:33.038Z",
-    "profileId": "profile_1744493012905_cdz31w",
-    "pm2_task_id": "monitor_task_1744493012904"
+    "profileId": "profile_1744493012905_cdz31w"
   },
   "task_1744511269906": {
     "label": "Amazon",
@@ -4796,8 +4708,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-13T02:27:49.985Z",
-    "profileId": "profile_1744511269907_3805pv",
-    "pm2_task_id": "monitor_task_1744511269906"
+    "profileId": "profile_1744511269907_3805pv"
   },
   "task_1744510880165": {
     "label": "Shopify",
@@ -4822,8 +4733,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-13T02:21:20.253Z",
-    "profileId": "profile_1744510880166_cdlh6m",
-    "pm2_task_id": "monitor_task_1744510880165"
+    "profileId": "profile_1744510880166_cdlh6m"
   },
   "task_1744582909656": {
     "label": "Shopify",
@@ -4848,8 +4758,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-13T22:21:49.735Z",
-    "profileId": "profile_1744582909657_uvuib5",
-    "pm2_task_id": "monitor_task_1744582909656"
+    "profileId": "profile_1744582909657_uvuib5"
   },
   "task_1744593349454": {
     "label": "pokemonCenter",
@@ -4874,8 +4783,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-14T01:15:49.560Z",
-    "profileId": "profile_1744593349454_7ff8yk",
-    "pm2_task_id": "monitor_task_1744593349454"
+    "profileId": "profile_1744593349454_7ff8yk"
   },
   "task_1744595569282": {
     "label": "Dicks",
@@ -4894,8 +4802,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-14T01:52:49.457Z",
-    "profileId": "profile_1744595569283_osmf8c",
-    "pm2_task_id": "monitor_task_1744595569282"
+    "profileId": "profile_1744595569283_osmf8c"
   },
   "task_1744595569283": {
     "label": "Shopify",
@@ -4920,8 +4827,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-14T01:52:49.459Z",
-    "profileId": "profile_1744595569284_w9ds4w",
-    "pm2_task_id": "monitor_task_1744595569283"
+    "profileId": "profile_1744595569284_w9ds4w"
   },
   "task_1744596469158": {
     "label": "Costco",
@@ -4952,8 +4858,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-14T02:07:49.282Z",
-    "profileId": "profile_1744596469158_2w2tnh",
-    "pm2_task_id": "monitor_task_1744596469158"
+    "profileId": "profile_1744596469158_2w2tnh"
   },
   "task_1744597986766": {
     "label": "Macys",
@@ -4972,8 +4877,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-14T02:33:06.871Z",
-    "profileId": "profile_1744597986766_r9roi4",
-    "pm2_task_id": "monitor_task_1744597986766"
+    "profileId": "profile_1744597986766_r9roi4"
   },
   "task_1744597996793": {
     "label": "pokemonAIO",
@@ -4992,8 +4896,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-14T02:33:16.892Z",
-    "profileId": "profile_1744597996793_2z22ag",
-    "pm2_task_id": "monitor_task_1744597996793"
+    "profileId": "profile_1744597996793_2z22ag"
   },
   "task_1744598168070": {
     "label": "pokemonAIO",
@@ -5012,8 +4915,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-14T02:36:08.189Z",
-    "profileId": "profile_1744598168070_kurrvh",
-    "pm2_task_id": "monitor_task_1744598168070"
+    "profileId": "profile_1744598168070_kurrvh"
   },
   "task_1744598248407": {
     "label": "gamestop",
@@ -5032,8 +4934,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-14T02:37:28.495Z",
-    "profileId": "profile_1744598248407_vbrsj2",
-    "pm2_task_id": "monitor_task_1744598248407"
+    "profileId": "profile_1744598248407_vbrsj2"
   },
   "task_1744647185303": {
     "label": "pokemonCenter",
@@ -5058,8 +4959,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-14T16:13:05.458Z",
-    "profileId": "profile_1744647185304_em40vo",
-    "pm2_task_id": "monitor_task_1744647185303"
+    "profileId": "profile_1744647185304_em40vo"
   },
   "task_1744655736745": {
     "label": "pokemonCenter",
@@ -5084,8 +4984,7 @@
     "headless": true,
     "enableRegularMessages": true,
     "startTime": "2025-04-14T18:35:36.929Z",
-    "profileId": "profile_1744655736745_nqja1d",
-    "pm2_task_id": "monitor_task_1744655736745"
+    "profileId": "profile_1744655736745_nqja1d"
   },
   "task_1744664105366": {
     "label": "Bestbuy",
@@ -5110,8 +5009,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-14T20:55:05.482Z",
-    "profileId": "profile_1744664105367_7t98m4",
-    "pm2_task_id": "monitor_task_1744664105366"
+    "profileId": "profile_1744664105367_7t98m4"
   },
   "task_1744682048496": {
     "label": "walmart",
@@ -5154,8 +5052,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T02:10:36.470Z",
-    "profileId": "profile_1744683036336_6xyzmg",
-    "pm2_task_id": "monitor_task_1744683036336"
+    "profileId": "profile_1744683036336_6xyzmg"
   },
   "task_1744684844340": {
     "label": "walmart",
@@ -5174,8 +5071,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T02:40:44.495Z",
-    "profileId": "profile_1744684844341_21pih3",
-    "pm2_task_id": "monitor_task_1744684844340"
+    "profileId": "profile_1744684844341_21pih3"
   },
   "task_1744685246073": {
     "label": "scheels",
@@ -5278,8 +5174,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T03:04:13.258Z",
-    "profileId": "profile_1744686253095_r5x2m4",
-    "pm2_task_id": "monitor_task_1744686253094"
+    "profileId": "profile_1744686253095_r5x2m4"
   },
   "task_1744685048508": {
     "label": "walmart",
@@ -5304,8 +5199,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T02:44:08.704Z",
-    "profileId": "profile_1744685048509_4ltlta",
-    "pm2_task_id": "monitor_task_1744685048508"
+    "profileId": "profile_1744685048509_4ltlta"
   },
   "task_1744685756064": {
     "label": "Scheels",
@@ -5330,8 +5224,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T02:55:56.684Z",
-    "profileId": "profile_1744685756065_7v46ii",
-    "pm2_task_id": "monitor_task_1744685756064"
+    "profileId": "profile_1744685756065_7v46ii"
   },
   "task_1744685742819": {
     "label": "Sams",
@@ -5356,8 +5249,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T02:55:43.327Z",
-    "profileId": "profile_1744685742822_ahi83r",
-    "pm2_task_id": "monitor_task_1744685742819"
+    "profileId": "profile_1744685742822_ahi83r"
   },
   "task_1744687083586": {
     "label": "walmart",
@@ -5382,8 +5274,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T03:18:03.699Z",
-    "profileId": "profile_1744687083586_syny4j",
-    "pm2_task_id": "monitor_task_1744687083586"
+    "profileId": "profile_1744687083586_syny4j"
   },
   "task_1744687093655": {
     "label": "Sams",
@@ -5408,8 +5299,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T03:18:13.892Z",
-    "profileId": "profile_1744687093655_fyw5u3",
-    "pm2_task_id": "monitor_task_1744687093655"
+    "profileId": "profile_1744687093655_fyw5u3"
   },
   "task_1744687105439": {
     "label": "Scheels",
@@ -5434,8 +5324,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T03:18:25.689Z",
-    "profileId": "profile_1744687105440_i2igbi",
-    "pm2_task_id": "monitor_task_1744687105439"
+    "profileId": "profile_1744687105440_i2igbi"
   },
   "task_1744594548361": {
     "label": "Target",
@@ -5466,8 +5355,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-14T01:35:48.618Z",
-    "profileId": "profile_1744594548361_dgp8pd",
-    "pm2_task_id": "monitor_task_1744594548361"
+    "profileId": "profile_1744594548361_dgp8pd"
   },
   "task_1744722180010": {
     "label": "Target",
@@ -5498,8 +5386,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T13:03:00.216Z",
-    "profileId": "profile_1744722180011_wfgwan",
-    "pm2_task_id": "monitor_task_1744722180010"
+    "profileId": "profile_1744722180011_wfgwan"
   },
   "task_1744722245099": {
     "label": "Target",
@@ -5530,8 +5417,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T13:04:05.219Z",
-    "profileId": "profile_1744722245100_b90kms",
-    "pm2_task_id": "monitor_task_1744722245099"
+    "profileId": "profile_1744722245100_b90kms"
   },
   "task_1744728846115": {
     "label": "Amazon",
@@ -5562,8 +5448,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T14:54:06.277Z",
-    "profileId": "profile_1744728846116_ow1k6v",
-    "pm2_task_id": "monitor_task_1744728846115"
+    "profileId": "profile_1744728846116_ow1k6v"
   },
   "task_1744656965782": {
     "label": "Pokemon",
@@ -5582,8 +5467,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-14T18:56:05.889Z",
-    "profileId": "profile_1744656965782_lbmvlo",
-    "pm2_task_id": "monitor_task_1744656965782"
+    "profileId": "profile_1744656965782_lbmvlo"
   },
   "task_1744735704933": {
     "label": "Pokemon",
@@ -5602,8 +5486,7 @@
     "headless": true,
     "enableRegularMessages": true,
     "startTime": "2025-04-15T16:48:25.060Z",
-    "profileId": "profile_1744735704933_gqgxn7",
-    "pm2_task_id": "monitor_task_1744735704933"
+    "profileId": "profile_1744735704933_gqgxn7"
   },
   "task_1744735796414": {
     "label": "Pokemon",
@@ -5622,8 +5505,7 @@
     "headless": true,
     "enableRegularMessages": true,
     "startTime": "2025-04-15T16:49:56.589Z",
-    "profileId": "profile_1744735796414_o55q90",
-    "pm2_task_id": "monitor_task_1744735796414"
+    "profileId": "profile_1744735796414_o55q90"
   },
   "task_1744685036457": {
     "label": "pokemonCenter",
@@ -5648,8 +5530,7 @@
     "headless": false,
     "enableRegularMessages": true,
     "startTime": "2025-04-15T02:43:56.608Z",
-    "profileId": "profile_1744685036458_1r6g9t",
-    "pm2_task_id": "monitor_task_1744685036457"
+    "profileId": "profile_1744685036458_1r6g9t"
   },
   "task_1744735875361": {
     "label": "pokemonCenter",
@@ -5674,8 +5555,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T16:51:15.509Z",
-    "profileId": "profile_1744735875362_9z6cxt",
-    "pm2_task_id": "monitor_task_1744735875361"
+    "profileId": "profile_1744735875362_9z6cxt"
   },
   "task_1744735915168": {
     "label": "pokemonCenter",
@@ -5700,8 +5580,7 @@
     "headless": true,
     "enableRegularMessages": true,
     "startTime": "2025-04-15T16:51:55.306Z",
-    "profileId": "profile_1744735915168_hmr9r7",
-    "pm2_task_id": "monitor_task_1744735915168"
+    "profileId": "profile_1744735915168_hmr9r7"
   },
   "task_1744736102001": {
     "label": "Dicks",
@@ -5720,8 +5599,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T16:55:02.090Z",
-    "profileId": "profile_1744736102002_qo562i",
-    "pm2_task_id": "monitor_task_1744736102001"
+    "profileId": "profile_1744736102002_qo562i"
   },
   "task_1744736118390": {
     "label": "Pokemon",
@@ -5740,8 +5618,7 @@
     "headless": true,
     "enableRegularMessages": true,
     "startTime": "2025-04-15T16:55:18.469Z",
-    "profileId": "profile_1744736118390_rs9o60",
-    "pm2_task_id": "monitor_task_1744736118390"
+    "profileId": "profile_1744736118390_rs9o60"
   },
   "task_1744736132446": {
     "label": "Shopify",
@@ -5766,8 +5643,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T16:55:32.660Z",
-    "profileId": "profile_1744736132449_tg1od8",
-    "pm2_task_id": "monitor_task_1744736132446"
+    "profileId": "profile_1744736132449_tg1od8"
   },
   "task_1744736145633": {
     "label": "Mattel",
@@ -5792,8 +5668,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T16:55:45.741Z",
-    "profileId": "profile_1744736145634_7hhy1l",
-    "pm2_task_id": "monitor_task_1744736145633"
+    "profileId": "profile_1744736145634_7hhy1l"
   },
   "task_1744736151573": {
     "label": "walmart",
@@ -5818,8 +5693,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T16:55:51.727Z",
-    "profileId": "profile_1744736151574_qdsvqc",
-    "pm2_task_id": "monitor_task_1744736151573"
+    "profileId": "profile_1744736151574_qdsvqc"
   },
   "task_1744741315677": {
     "label": "Target",
@@ -5850,8 +5724,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T18:21:55.851Z",
-    "profileId": "profile_1744741315678_wxzmo9",
-    "pm2_task_id": "monitor_task_1744741315677"
+    "profileId": "profile_1744741315678_wxzmo9"
   },
   "task_1744736127084": {
     "label": "Scheels",
@@ -5876,8 +5749,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T16:55:27.216Z",
-    "profileId": "profile_1744736127085_fhvbwl",
-    "pm2_task_id": "monitor_task_1744736127084"
+    "profileId": "profile_1744736127085_fhvbwl"
   },
   "task_1744742392478": {
     "label": "Scheels",
@@ -5902,8 +5774,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T18:39:52.596Z",
-    "profileId": "profile_1744742392478_aa64m5",
-    "pm2_task_id": "monitor_task_1744742392478"
+    "profileId": "profile_1744742392478_aa64m5"
   },
   "task_1744742428303": {
     "label": "Scheels",
@@ -5928,8 +5799,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T18:40:28.479Z",
-    "profileId": "profile_1744742428304_uruxca",
-    "pm2_task_id": "monitor_task_1744742428303"
+    "profileId": "profile_1744742428304_uruxca"
   },
   "task_1744742419064": {
     "label": "Target",
@@ -5960,8 +5830,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T18:40:19.204Z",
-    "profileId": "profile_1744742419065_bdwquy",
-    "pm2_task_id": "monitor_task_1744742419064"
+    "profileId": "profile_1744742419065_bdwquy"
   },
   "task_1744736123111": {
     "label": "Sams",
@@ -5986,8 +5855,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T16:55:23.222Z",
-    "profileId": "profile_1744736123112_x06avh",
-    "pm2_task_id": "monitor_task_1744736123111"
+    "profileId": "profile_1744736123112_x06avh"
   },
   "task_1744742528051": {
     "label": "Sams",
@@ -6012,8 +5880,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T18:42:08.183Z",
-    "profileId": "profile_1744742528051_bhxq26",
-    "pm2_task_id": "monitor_task_1744742528051"
+    "profileId": "profile_1744742528051_bhxq26"
   },
   "task_1744742560849": {
     "label": "Sams",
@@ -6038,8 +5905,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T18:42:40.998Z",
-    "profileId": "profile_1744742560849_aahlu9",
-    "pm2_task_id": "monitor_task_1744742560849"
+    "profileId": "profile_1744742560849_aahlu9"
   },
   "task_1744736105280": {
     "label": "Costco",
@@ -6070,8 +5936,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T16:55:05.392Z",
-    "profileId": "profile_1744736105280_9ev7qs",
-    "pm2_task_id": "monitor_task_1744736105280"
+    "profileId": "profile_1744736105280_9ev7qs"
   },
   "task_1744742591196": {
     "label": "Costco",
@@ -6102,8 +5967,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T18:43:11.336Z",
-    "profileId": "profile_1744742591196_402fe2",
-    "pm2_task_id": "monitor_task_1744742591196"
+    "profileId": "profile_1744742591196_402fe2"
   },
   "task_1744742619597": {
     "label": "Costco",
@@ -6134,8 +5998,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T18:43:39.797Z",
-    "profileId": "profile_1744742619598_leorao",
-    "pm2_task_id": "monitor_task_1744742619597"
+    "profileId": "profile_1744742619598_leorao"
   },
   "task_1744736096190": {
     "label": "Amazon",
@@ -6166,8 +6029,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T16:54:56.295Z",
-    "profileId": "profile_1744736096191_bn7l32",
-    "pm2_task_id": "monitor_task_1744736096190"
+    "profileId": "profile_1744736096191_bn7l32"
   },
   "task_1744742645192": {
     "label": "Amazon",
@@ -6198,8 +6060,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T18:44:05.301Z",
-    "profileId": "profile_1744742645192_sntypy",
-    "pm2_task_id": "monitor_task_1744742645192"
+    "profileId": "profile_1744742645192_sntypy"
   },
   "task_1744742483032": {
     "label": "Target",
@@ -6230,8 +6091,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T18:41:23.166Z",
-    "profileId": "profile_1744742483032_gmkn5c",
-    "pm2_task_id": "monitor_task_1744742483032"
+    "profileId": "profile_1744742483032_gmkn5c"
   },
   "task_1744747119699": {
     "label": "Target2",
@@ -6280,8 +6140,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T19:55:28.436Z",
-    "profileId": "profile_1744746928336_sppdp9",
-    "pm2_task_id": "monitor_task_1744746928335"
+    "profileId": "profile_1744746928336_sppdp9"
   },
   "task_1744747126795": {
     "label": "Target2",
@@ -6300,8 +6159,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-15T19:58:46.940Z",
-    "profileId": "profile_1744747126796_klwdzf",
-    "pm2_task_id": "monitor_task_1744747126795"
+    "profileId": "profile_1744747126796_klwdzf"
   },
   "task_1744782104811": {
     "label": "Bestbuy",
@@ -6326,8 +6184,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-16T05:41:44.964Z",
-    "profileId": "profile_1744782104812_l38pq7",
-    "pm2_task_id": "monitor_task_1744782104811"
+    "profileId": "profile_1744782104812_l38pq7"
   },
   "task_1744813371909": {
     "label": "pokemonCenter",
@@ -6352,8 +6209,7 @@
     "headless": true,
     "enableRegularMessages": true,
     "startTime": "2025-04-16T14:22:52.688Z",
-    "profileId": "profile_1744813371912_1eou9z",
-    "pm2_task_id": "monitor_task_1744813371909"
+    "profileId": "profile_1744813371912_1eou9z"
   },
   "task_1744839767337": {
     "label": "Target",
@@ -6384,8 +6240,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-16T21:42:47.839Z",
-    "profileId": "profile_1744839767338_zb6wr0",
-    "pm2_task_id": "monitor_task_1744839767337"
+    "profileId": "profile_1744839767338_zb6wr0"
   },
   "task_1744840613393": {
     "label": "Amazon",
@@ -6416,8 +6271,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-16T21:56:54.581Z",
-    "profileId": "profile_1744840613395_4qdw39",
-    "pm2_task_id": "monitor_task_1744840613393"
+    "profileId": "profile_1744840613395_4qdw39"
   },
   "task_1744848292738": {
     "label": "Amazon",
@@ -6448,8 +6302,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T00:04:52.984Z",
-    "profileId": "profile_1744848292739_7x95ne",
-    "pm2_task_id": "monitor_task_1744848292738"
+    "profileId": "profile_1744848292739_7x95ne"
   },
   "task_1744848297602": {
     "label": "Bestbuy",
@@ -6474,8 +6327,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T00:04:58.112Z",
-    "profileId": "profile_1744848297603_3xqocl",
-    "pm2_task_id": "monitor_task_1744848297602"
+    "profileId": "profile_1744848297603_3xqocl"
   },
   "task_1744848310561": {
     "label": "walmart",
@@ -6500,8 +6352,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T00:05:14.714Z",
-    "profileId": "profile_1744848310562_frift2",
-    "pm2_task_id": "monitor_task_1744848310561"
+    "profileId": "profile_1744848310562_frift2"
   },
   "task_1744848487307": {
     "label": "Shopify",
@@ -6526,8 +6377,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T00:08:07.875Z",
-    "profileId": "profile_1744848487313_s47vpg",
-    "pm2_task_id": "monitor_task_1744848487307"
+    "profileId": "profile_1744848487313_s47vpg"
   },
   "task_1744857774532": {
     "label": "Costco",
@@ -6558,8 +6408,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T02:42:54.581Z",
-    "profileId": "profile_1744857774532_6k21ej",
-    "pm2_task_id": "monitor_task_1744857774532"
+    "profileId": "profile_1744857774532_6k21ej"
   },
   "task_1744857779549": {
     "label": "Mattel",
@@ -6584,8 +6433,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T02:42:59.617Z",
-    "profileId": "profile_1744857779549_72p0ow",
-    "pm2_task_id": "monitor_task_1744857779549"
+    "profileId": "profile_1744857779549_72p0ow"
   },
   "task_1744857786664": {
     "label": "walmart",
@@ -6610,8 +6458,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T02:43:06.929Z",
-    "profileId": "profile_1744857786665_iwh898",
-    "pm2_task_id": "monitor_task_1744857786664"
+    "profileId": "profile_1744857786665_iwh898"
   },
   "task_1744857812652": {
     "label": "Shopify",
@@ -6636,8 +6483,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T02:43:32.750Z",
-    "profileId": "profile_1744857812653_vg5bp2",
-    "pm2_task_id": "monitor_task_1744857812652"
+    "profileId": "profile_1744857812653_vg5bp2"
   },
   "task_1744857783958": {
     "label": "Target",
@@ -6668,8 +6514,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T02:43:04.014Z",
-    "profileId": "profile_1744857783958_d3qr7m",
-    "pm2_task_id": "monitor_task_1744857783958"
+    "profileId": "profile_1744857783958_d3qr7m"
   },
   "task_1744861063612": {
     "label": "Amazon",
@@ -6700,8 +6545,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T03:37:43.714Z",
-    "profileId": "profile_1744861063612_qas4we",
-    "pm2_task_id": "monitor_task_1744861063612"
+    "profileId": "profile_1744861063612_qas4we"
   },
   "task_1744862171000": {
     "label": "pokemonCenter",
@@ -6727,7 +6571,6 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T03:56:11.088Z",
     "profileId": "profile_1744862171000_eyek3h",
-    "pm2_task_id": "monitor_task_1744862171000",
     "isTestingModule": false
   },
   "task_1744862177785": {
@@ -6747,8 +6590,7 @@
     "headless": true,
     "enableRegularMessages": true,
     "startTime": "2025-04-17T03:56:17.847Z",
-    "profileId": "profile_1744862177785_d2nj39",
-    "pm2_task_id": "monitor_task_1744862177785"
+    "profileId": "profile_1744862177785_d2nj39"
   },
   "task_1744862180359": {
     "label": "Scheels",
@@ -6773,8 +6615,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T03:56:20.409Z",
-    "profileId": "profile_1744862180359_z9o59u",
-    "pm2_task_id": "monitor_task_1744862180359"
+    "profileId": "profile_1744862180359_z9o59u"
   },
   "task_1744862183764": {
     "label": "Sams",
@@ -6799,8 +6640,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T03:56:23.860Z",
-    "profileId": "profile_1744862183765_q5u1xf",
-    "pm2_task_id": "monitor_task_1744862183764"
+    "profileId": "profile_1744862183765_q5u1xf"
   },
   "task_1744862189065": {
     "label": "Dicks",
@@ -6819,8 +6659,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T03:56:29.121Z",
-    "profileId": "profile_1744862189065_imsfnz",
-    "pm2_task_id": "monitor_task_1744862189065"
+    "profileId": "profile_1744862189065_imsfnz"
   },
   "task_1744857770973": {
     "label": "Bestbuy",
@@ -6845,8 +6684,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T02:42:51.040Z",
-    "profileId": "profile_1744857770973_wjt5o1",
-    "pm2_task_id": "monitor_task_1744857770973"
+    "profileId": "profile_1744857770973_wjt5o1"
   },
   "task_1744862264156": {
     "label": "Bestbuy",
@@ -6871,8 +6709,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T03:57:44.281Z",
-    "profileId": "profile_1744862264157_u0cr62",
-    "pm2_task_id": "monitor_task_1744862264156"
+    "profileId": "profile_1744862264157_u0cr62"
   },
   "task_1744862305792": {
     "label": "Bestbuy",
@@ -6897,8 +6734,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T03:58:25.885Z",
-    "profileId": "profile_1744862305792_e9q1rk",
-    "pm2_task_id": "monitor_task_1744862305792"
+    "profileId": "profile_1744862305792_e9q1rk"
   },
   "task_1744894064072": {
     "label": "Target",
@@ -6929,8 +6765,7 @@
     "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T12:47:44.212Z",
-    "profileId": "profile_1744894064073_389kge",
-    "pm2_task_id": "monitor_task_1744894064072"
+    "profileId": "profile_1744894064073_389kge"
   },
   "task_1744894304042": {
     "label": "Costco",
@@ -6949,8 +6784,7 @@
     "headless": true,
     "enableRegularMessages": false,
     "startTime": "2025-04-17T12:51:44.113Z",
-    "profileId": "profile_1744894304043_jsyhtf",
-    "pm2_task_id": "monitor_task_1744894304042"
+    "profileId": "profile_1744894304043_jsyhtf"
   },
   "task_1744894290824": {
     "label": "Amazon",
@@ -6982,7 +6816,6 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T12:51:30.934Z",
     "profileId": "profile_1744894290825_p5tjhh",
-    "pm2_task_id": "monitor_task_1744894290824",
     "isTestingModule": true
   },
   "task_1744894842937": {
@@ -7015,8 +6848,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T13:00:43.055Z",
     "profileId": "profile_1744894842938_0ojmwu",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1744894842937"
+    "isTestingModule": true
   },
   "task_1744894866574": {
     "label": "Amazon",
@@ -7048,8 +6880,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T13:01:06.652Z",
     "profileId": "profile_1744894866575_9ji9fx",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1744894866574"
+    "isTestingModule": true
   },
   "task_1744895044061": {
     "label": "Amazon",
@@ -7075,8 +6906,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T13:04:04.143Z",
     "profileId": "profile_1744895044062_mqtit1",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744895044061"
+    "isTestingModule": false
   },
   "task_1744895349289": {
     "label": "Amazon",
@@ -7108,8 +6938,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T13:09:09.385Z",
     "profileId": "profile_1744895349289_lvoi18",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744895349289"
+    "isTestingModule": false
   },
   "task_1744894293989": {
     "label": "Bestbuy",
@@ -7135,7 +6964,6 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T12:51:34.047Z",
     "profileId": "profile_1744894293990_f0x864",
-    "pm2_task_id": "monitor_task_1744894293989",
     "isTestingModule": false
   },
   "task_1744894449485": {
@@ -7162,7 +6990,6 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T12:54:09.613Z",
     "profileId": "profile_1744894449486_mxutwg",
-    "pm2_task_id": "monitor_task_1744894449485",
     "isTestingModule": false
   },
   "task_1744895605786": {
@@ -7195,8 +7022,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T13:13:25.921Z",
     "profileId": "profile_1744895605786_ms7oml",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744895605786"
+    "isTestingModule": false
   },
   "task_1744895530573": {
     "label": "Costco",
@@ -7222,8 +7048,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T13:12:10.621Z",
     "profileId": "profile_1744895530573_b13lk8",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1744895530573"
+    "isTestingModule": true
   },
   "task_1744914927355": {
     "label": "Costco",
@@ -7243,8 +7068,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T18:35:27.458Z",
     "profileId": "profile_1744914927355_87h23u",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744914927355"
+    "isTestingModule": false
   },
   "task_1744895587218": {
     "label": "Pokemon",
@@ -7264,8 +7088,7 @@
     "enableRegularMessages": true,
     "startTime": "2025-04-17T13:13:07.336Z",
     "profileId": "profile_1744895587218_9ei2ft",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744895587218"
+    "isTestingModule": false
   },
   "task_1744920405826": {
     "label": "Pokemon",
@@ -7285,8 +7108,7 @@
     "enableRegularMessages": true,
     "startTime": "2025-04-17T20:06:45.925Z",
     "profileId": "profile_1744920405826_0tmdnn",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744920405826"
+    "isTestingModule": false
   },
   "task_1744927314938": {
     "label": "pokemonCenter",
@@ -7312,8 +7134,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T22:01:55.054Z",
     "profileId": "profile_1744927314939_6whnjl",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744927314938"
+    "isTestingModule": false
   },
   "task_1744915121184": {
     "label": "Costco",
@@ -7339,8 +7160,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-17T18:38:41.314Z",
     "profileId": "profile_1744915121185_yjaxfg",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744915121184"
+    "isTestingModule": false
   },
   "task_1744940030533": {
     "label": "gamestop",
@@ -7360,8 +7180,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T01:33:50.689Z",
     "profileId": "profile_1744940030533_g3l9wg",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744940030533"
+    "isTestingModule": false
   },
   "task_1744942740196": {
     "label": "Amazon",
@@ -7393,8 +7212,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:19:00.266Z",
     "profileId": "profile_1744942740197_i5u3dy",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942740196"
+    "isTestingModule": false
   },
   "task_1744942755411": {
     "label": "Amazon",
@@ -7426,8 +7244,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:19:15.502Z",
     "profileId": "profile_1744942755411_1gyqvr",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942755411"
+    "isTestingModule": false
   },
   "task_1744942764169": {
     "label": "Bestbuy",
@@ -7453,8 +7270,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:19:24.212Z",
     "profileId": "profile_1744942764170_879saw",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942764169"
+    "isTestingModule": false
   },
   "task_1744942767887": {
     "label": "Costco",
@@ -7480,8 +7296,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:19:27.941Z",
     "profileId": "profile_1744942767887_8sbiej",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942767887"
+    "isTestingModule": false
   },
   "task_1744942775002": {
     "label": "Costco",
@@ -7507,8 +7322,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:19:35.051Z",
     "profileId": "profile_1744942775003_fw9gnz",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942775002"
+    "isTestingModule": false
   },
   "task_1744942830525": {
     "label": "Amazon",
@@ -7540,8 +7354,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:20:30.585Z",
     "profileId": "profile_1744942830526_mohz5a",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942830525"
+    "isTestingModule": false
   },
   "task_1744942834063": {
     "label": "Costco",
@@ -7561,8 +7374,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:20:34.126Z",
     "profileId": "profile_1744942834063_jku4d8",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942834063"
+    "isTestingModule": false
   },
   "task_1744942837071": {
     "label": "Bestbuy",
@@ -7588,8 +7400,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:20:37.127Z",
     "profileId": "profile_1744942837071_s11b8z",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942837071"
+    "isTestingModule": false
   },
   "task_1744942840280": {
     "label": "Dicks",
@@ -7609,8 +7420,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:20:40.334Z",
     "profileId": "profile_1744942840280_picsjc",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942840280"
+    "isTestingModule": false
   },
   "task_1744942844794": {
     "label": "Mattel",
@@ -7636,8 +7446,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:20:44.869Z",
     "profileId": "profile_1744942844794_68xqtv",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942844794"
+    "isTestingModule": false
   },
   "task_1744942860600": {
     "label": "Shopify",
@@ -7663,8 +7472,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:21:00.646Z",
     "profileId": "profile_1744942860600_lkofzr",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942860600"
+    "isTestingModule": false
   },
   "task_1744942887494": {
     "label": "Target",
@@ -7696,8 +7504,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:21:27.592Z",
     "profileId": "profile_1744942887494_c398e9",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942887494"
+    "isTestingModule": false
   },
   "task_1744942891894": {
     "label": "walmart",
@@ -7723,8 +7530,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:21:31.945Z",
     "profileId": "profile_1744942891894_hl1l06",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942891894"
+    "isTestingModule": false
   },
   "task_1744942898356": {
     "label": "Scheels",
@@ -7750,8 +7556,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:21:38.446Z",
     "profileId": "profile_1744942898356_26vaf8",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744942898356"
+    "isTestingModule": false
   },
   "task_1744946103394": {
     "label": "Amazon",
@@ -7783,8 +7588,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T03:15:03.507Z",
     "profileId": "profile_1744946103395_39fza1",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1744946103394"
+    "isTestingModule": true
   },
   "task_1744946106832": {
     "label": "Bestbuy",
@@ -7810,8 +7614,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T03:15:06.891Z",
     "profileId": "profile_1744946106832_uo5afu",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1744946106832"
+    "isTestingModule": true
   },
   "task_1744946114087": {
     "label": "Target",
@@ -7843,8 +7646,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T03:15:14.156Z",
     "profileId": "profile_1744946114087_l8wfy4",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1744946114087"
+    "isTestingModule": true
   },
   "task_1744946117457": {
     "label": "walmart",
@@ -7870,8 +7672,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T03:15:17.513Z",
     "profileId": "profile_1744946117457_uvsy2m",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1744946117457"
+    "isTestingModule": true
   },
   "task_1744946121352": {
     "label": "Shopify",
@@ -7897,8 +7698,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T03:15:21.398Z",
     "profileId": "profile_1744946121352_xbdkhl",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1744946121352"
+    "isTestingModule": true
   },
   "task_1744946130281": {
     "label": "Dicks",
@@ -7918,8 +7718,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T03:15:30.346Z",
     "profileId": "profile_1744946130282_dzibgi",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744946130281"
+    "isTestingModule": false
   },
   "task_1744946136406": {
     "label": "Scheels",
@@ -7945,8 +7744,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T03:15:36.467Z",
     "profileId": "profile_1744946136406_iiuoke",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1744946136406"
+    "isTestingModule": true
   },
   "task_1744946139394": {
     "label": "Sams",
@@ -7972,8 +7770,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T03:15:39.479Z",
     "profileId": "profile_1744946139395_uvaq28",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744946139394"
+    "isTestingModule": false
   },
   "task_1744946146058": {
     "label": "Mattel",
@@ -7999,8 +7796,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T03:15:46.132Z",
     "profileId": "profile_1744946146059_zyicco",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744946146058"
+    "isTestingModule": false
   },
   "task_1744987686359": {
     "label": "Costco",
@@ -8020,8 +7816,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T14:48:06.558Z",
     "profileId": "profile_1744987686360_qpfnod",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1744987686359"
+    "isTestingModule": false
   },
   "task_1745857540885": {
     "label": "walmart",
@@ -8047,8 +7842,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-28T16:25:41.078Z",
     "profileId": "profile_1745857540885_00pm15",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1745857540885"
+    "isTestingModule": false
   },
   "task_1745929927930": {
     "label": "Shopify",
@@ -8074,8 +7868,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-29T12:32:08.097Z",
     "profileId": "profile_1745929927931_zwvdfr",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1745929927930"
+    "isTestingModule": false
   },
   "task_1745930041094": {
     "label": "Target",
@@ -8107,8 +7900,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-29T12:34:01.151Z",
     "profileId": "profile_1745930041095_v45u7i",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1745930041094"
+    "isTestingModule": false
   },
   "task_1745930035839": {
     "label": "Shopify",
@@ -8134,8 +7926,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-29T12:33:55.971Z",
     "profileId": "profile_1745930035840_w53rt6",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1745930035839"
+    "isTestingModule": true
   },
   "task_1745930392451": {
     "label": "Shopify",
@@ -8161,8 +7952,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-29T12:39:52.697Z",
     "profileId": "profile_1745930392451_ohgthl",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1745930392451"
+    "isTestingModule": false
   },
   "task_1744938803423": {
     "label": "pokemonCenter",
@@ -8188,8 +7978,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-18T01:13:23.541Z",
     "profileId": "profile_1744938803423_l6jtun",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1744938803423"
+    "isTestingModule": true
   },
   "task_1745950506320": {
     "label": "Bestbuy",
@@ -8215,8 +8004,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-29T18:15:06.567Z",
     "profileId": "profile_1745950506320_30ql92",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1745950506320"
+    "isTestingModule": false
   },
   "task_1746031637327": {
     "label": "Amazon",
@@ -8248,8 +8036,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-30T16:47:17.454Z",
     "profileId": "profile_1746031637327_eqs4xx",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746031637327"
+    "isTestingModule": false
   },
   "task_1746032902464": {
     "label": "Shopify",
@@ -8275,8 +8062,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-30T17:08:22.509Z",
     "profileId": "profile_1746032902464_yrelmh",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1746032902464"
+    "isTestingModule": true
   },
   "task_1746040121033": {
     "label": "Shopify",
@@ -8302,8 +8088,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-30T19:08:41.118Z",
     "profileId": "profile_1746040121033_7w3l4m",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746040121033"
+    "isTestingModule": false
   },
   "task_1746040698145": {
     "label": "Shopify",
@@ -8329,8 +8114,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-30T19:18:18.263Z",
     "profileId": "profile_1746040698146_kuipfh",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1746040698145"
+    "isTestingModule": true
   },
   "task_1746041009684": {
     "label": "Shopify",
@@ -8356,8 +8140,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-30T19:23:29.775Z",
     "profileId": "profile_1746041009684_24jlex",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746041009684"
+    "isTestingModule": false
   },
   "task_1746041047598": {
     "label": "Shopify",
@@ -8383,8 +8166,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-30T19:24:07.682Z",
     "profileId": "profile_1746041047598_7km7mm",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1746041047598"
+    "isTestingModule": true
   },
   "task_1746118539909": {
     "label": "Shopify",
@@ -8410,8 +8192,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-01T16:55:40.031Z",
     "profileId": "profile_1746118539909_03ix2e",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746118539909"
+    "isTestingModule": false
   },
   "task_1746118626699": {
     "label": "Shopify",
@@ -8437,8 +8218,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-01T16:57:06.771Z",
     "profileId": "profile_1746118626699_n6dffd",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1746118626699"
+    "isTestingModule": true
   },
   "task_1746118710866": {
     "label": "Shopify",
@@ -8464,8 +8244,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-01T16:58:30.935Z",
     "profileId": "profile_1746118710866_hc87fc",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1746118710866"
+    "isTestingModule": true
   },
   "task_1746118826272": {
     "label": "Shopify",
@@ -8491,8 +8270,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-01T17:00:26.365Z",
     "profileId": "profile_1746118826272_uh0c3s",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746118826272"
+    "isTestingModule": false
   },
   "task_1746118746998": {
     "label": "walmart",
@@ -8518,8 +8296,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-01T16:59:07.144Z",
     "profileId": "profile_1746118746998_sdyntd",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1746118746998"
+    "isTestingModule": true
   },
   "task_1745946043252": {
     "label": "pokemonCenter",
@@ -8545,8 +8322,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-29T17:00:43.442Z",
     "profileId": "profile_1745946043253_3g67uh",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1745946043252"
+    "isTestingModule": true
   },
   "task_1746121537195": {
     "label": "pokemonCenter",
@@ -8572,8 +8348,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-01T17:45:37.301Z",
     "profileId": "profile_1746121537196_ble5nb",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746121537195"
+    "isTestingModule": false
   },
   "task_1746119735320": {
     "label": "walmart",
@@ -8599,8 +8374,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-01T17:15:35.409Z",
     "profileId": "profile_1746119735321_b3cvdo",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1746119735320"
+    "isTestingModule": true
   },
   "task_1746121729403": {
     "label": "walmart",
@@ -8626,8 +8400,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-01T17:48:49.485Z",
     "profileId": "profile_1746121729403_u2zyus",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746121729403"
+    "isTestingModule": false
   },
   "task_1746041060623": {
     "label": "Scheels",
@@ -8653,8 +8426,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-04-30T19:24:20.707Z",
     "profileId": "profile_1746041060623_n6tv0m",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1746041060623"
+    "isTestingModule": true
   },
   "task_1746118746899": {
     "label": "Amazon",
@@ -8686,8 +8458,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-01T16:59:06.995Z",
     "profileId": "profile_1746118746900_5dqcni",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746118746899"
+    "isTestingModule": false
   },
   "task_1746121846798": {
     "label": "walmart",
@@ -8713,8 +8484,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-01T17:50:46.904Z",
     "profileId": "profile_1746121846798_jx1ffo",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746121846798"
+    "isTestingModule": false
   },
   "task_1746121674130": {
     "label": "pokemonCenter",
@@ -8740,8 +8510,7 @@
     "enableRegularMessages": true,
     "startTime": "2025-05-01T17:47:54.221Z",
     "profileId": "profile_1746121674130_fd4u7y",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746121674130"
+    "isTestingModule": false
   },
   "task_1746156864613": {
     "label": "Shopify",
@@ -8767,8 +8536,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-02T03:34:24.674Z",
     "profileId": "profile_1746156864613_xa8xyp",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1746156864613"
+    "isTestingModule": true
   },
   "task_1746213969407": {
     "label": "Shopify",
@@ -8794,8 +8562,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-02T19:26:09.520Z",
     "profileId": "profile_1746213969408_4rbo76",
-    "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1746213969407"
+    "isTestingModule": true
   },
   "task_1746214090735": {
     "label": "Shopify",
@@ -8821,8 +8588,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-02T19:28:10.844Z",
     "profileId": "profile_1746214090735_0tjt0i",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746214090735"
+    "isTestingModule": false
   },
   "task_1746214292302": {
     "label": "Best Buy",
@@ -8867,8 +8633,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T03:51:23.081Z",
     "profileId": "profile_1746244282968_m5ajch",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746244282967"
+    "isTestingModule": false
   },
   "task_1746245003625": {
     "label": "Scheels",
@@ -8894,8 +8659,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T04:03:23.692Z",
     "profileId": "profile_1746245003625_bzd55a",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746245003625"
+    "isTestingModule": false
   },
   "task_1746283363388": {
     "label": "Amazon",
@@ -8927,8 +8691,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T14:42:43.496Z",
     "profileId": "profile_1746283363388_z81o8u",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746283363388"
+    "isTestingModule": false
   },
   "task_1746283365786": {
     "label": "Best Buy",
@@ -8954,8 +8717,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T14:42:45.853Z",
     "profileId": "profile_1746283365786_jnc8lw",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746283365786"
+    "isTestingModule": false
   },
   "task_1746283372312": {
     "label": "Mattel",
@@ -8981,8 +8743,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T14:42:52.370Z",
     "profileId": "profile_1746283372312_47l5nx",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746283372312"
+    "isTestingModule": false
   },
   "task_1746283380157": {
     "label": "Shopify",
@@ -9008,8 +8769,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T14:43:00.211Z",
     "profileId": "profile_1746283380157_nm3bwk",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746283380157"
+    "isTestingModule": false
   },
   "task_1746283382431": {
     "label": "Scheels",
@@ -9035,8 +8795,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T14:43:02.535Z",
     "profileId": "profile_1746283382431_i2hbul",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746283382431"
+    "isTestingModule": false
   },
   "task_1746283395830": {
     "label": "Target",
@@ -9068,8 +8827,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T14:43:15.891Z",
     "profileId": "profile_1746283395830_162sqr",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746283395830"
+    "isTestingModule": false
   },
   "task_1746283398115": {
     "label": "walmart",
@@ -9095,8 +8853,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T14:43:18.209Z",
     "profileId": "profile_1746283398118_txsf3v",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746283398115"
+    "isTestingModule": false
   },
   "task_1746283404389": {
     "label": "Pokemon",
@@ -9116,8 +8873,7 @@
     "enableRegularMessages": true,
     "startTime": "2025-05-03T14:43:24.480Z",
     "profileId": "profile_1746283404390_pm354h",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746283404389"
+    "isTestingModule": false
   },
   "task_1746294247579": {
     "label": "testing",
@@ -9168,8 +8924,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T21:45:44.126Z",
     "profileId": "profile_1746308744011_j1hqnh",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746308744010"
+    "isTestingModule": false
   },
   "task_1746308754182": {
     "label": "Best Buy",
@@ -9195,8 +8950,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T21:45:54.230Z",
     "profileId": "profile_1746308754182_tbkhoa",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746308754182"
+    "isTestingModule": false
   },
   "task_1746308756699": {
     "label": "Dicks",
@@ -9216,8 +8970,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T21:45:56.788Z",
     "profileId": "profile_1746308756699_f048jx",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746308756699"
+    "isTestingModule": false
   },
   "task_1746308759769": {
     "label": "Mattel",
@@ -9243,8 +8996,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T21:45:59.872Z",
     "profileId": "profile_1746308759769_7l3qbd",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746308759769"
+    "isTestingModule": false
   },
   "task_1746308799306": {
     "label": "Pokemon",
@@ -9264,8 +9016,7 @@
     "enableRegularMessages": true,
     "startTime": "2025-05-03T21:46:39.381Z",
     "profileId": "profile_1746308799306_xos6fr",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746308799306"
+    "isTestingModule": false
   },
   "task_1746244975146": {
     "label": "pokemonAIO",
@@ -9291,8 +9042,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T04:02:55.216Z",
     "profileId": "profile_1746244975146_blizhi",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746244975146"
+    "isTestingModule": false
   },
   "task_1746308827179": {
     "label": "pokemonAIO",
@@ -9312,8 +9062,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T21:47:07.246Z",
     "profileId": "profile_1746308827179_im1w01",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746308827179"
+    "isTestingModule": false
   },
   "task_1746308864733": {
     "label": "Target",
@@ -9345,8 +9094,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T21:47:44.804Z",
     "profileId": "profile_1746308864733_obf5ds",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746308864733"
+    "isTestingModule": false
   },
   "task_1746309206746": {
     "label": "Scheels",
@@ -9372,8 +9120,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T21:53:26.873Z",
     "profileId": "profile_1746309206746_1kyywk",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746309206746"
+    "isTestingModule": false
   },
   "task_1746309212463": {
     "label": "walmart",
@@ -9399,8 +9146,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T21:53:32.584Z",
     "profileId": "profile_1746309212463_c9rsc6",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746309212463"
+    "isTestingModule": false
   },
   "task_1746309216793": {
     "label": "Shopify",
@@ -9426,8 +9172,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-03T21:53:36.890Z",
     "profileId": "profile_1746309216793_o0szpb",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746309216793"
+    "isTestingModule": false
   },
   "task_1746392864912": {
     "label": "Amazon",
@@ -9459,8 +9204,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-04T21:07:45.527Z",
     "profileId": "profile_1746392864912_u0pa5w",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746392864912"
+    "isTestingModule": false
   },
   "task_1746392864907": {
     "label": "Shopify",
@@ -9486,8 +9230,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-04T21:07:45.542Z",
     "profileId": "profile_1746392864908_n5ie1n",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746392864907"
+    "isTestingModule": false
   },
   "task_1746392864938": {
     "label": "Best Buy",
@@ -9513,8 +9256,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-04T21:07:45.580Z",
     "profileId": "profile_1746392864939_ew7t80",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746392864938"
+    "isTestingModule": false
   },
   "task_1746392864944": {
     "label": "Dicks",
@@ -9534,8 +9276,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-04T21:07:45.583Z",
     "profileId": "profile_1746392864944_2adijm",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746392864944"
+    "isTestingModule": false
   },
   "task_1746392864953": {
     "label": "Scheels",
@@ -9561,8 +9302,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-04T21:07:45.590Z",
     "profileId": "profile_1746392864953_nqrlee",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746392864953"
+    "isTestingModule": false
   },
   "task_1746392864968": {
     "label": "Mattel",
@@ -9588,8 +9328,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-04T21:07:45.593Z",
     "profileId": "profile_1746392864968_t3qz0m",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746392864968"
+    "isTestingModule": false
   },
   "task_1746392865891": {
     "label": "walmart",
@@ -9615,8 +9354,7 @@
     "enableRegularMessages": false,
     "startTime": "2025-05-04T21:07:46.013Z",
     "profileId": "profile_1746392865891_el1f9l",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746392865891"
+    "isTestingModule": false
   },
   "task_1746486314889": {
     "label": "Pokemon",
@@ -9636,8 +9374,7 @@
     "enableRegularMessages": true,
     "startTime": "2025-05-05T23:05:14.989Z",
     "profileId": "profile_1746486314890_a7s0gr",
-    "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1746486314889"
+    "isTestingModule": false
   },
   "task_1747103478219": {
     "label": "Costco",
@@ -9658,7 +9395,6 @@
     "startTime": "2025-05-13T02:31:18.342Z",
     "profileId": "profile_1747103478220_oyoe1r",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1747103478219",
     "enableAffiliateLinks": true
   },
   "task_1747106077662": {
@@ -9680,7 +9416,6 @@
     "startTime": "2025-05-13T03:14:37.779Z",
     "profileId": "profile_1747106077663_jxhf08",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1747106077662",
     "enableAffiliateLinks": true
   },
   "task_1747106103446": {
@@ -9702,7 +9437,6 @@
     "startTime": "2025-05-13T03:15:03.546Z",
     "profileId": "profile_1747106103446_vyskn9",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1747106103446",
     "enableAffiliateLinks": true
   },
   "task_1747190140708": {
@@ -9724,7 +9458,6 @@
     "startTime": "2025-05-14T02:35:40.903Z",
     "profileId": "profile_1747190140709_lp6ibd",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1747190140708",
     "enableAffiliateLinks": true
   },
   "task_1747190680954": {
@@ -9746,7 +9479,6 @@
     "startTime": "2025-05-14T02:44:41.158Z",
     "profileId": "profile_1747190680955_e611ii",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1747190680954",
     "enableAffiliateLinks": true
   },
   "task_1747191044385": {
@@ -14858,16 +14590,15 @@
       }
     ],
     "enableUrlUnshortening": false,
-    "headless": true,
+    "headless": false,
     "enableRegularMessages": false,
     "startTime": "2025-04-18T02:13:42.434Z",
     "profileId": "profile_1744942422359_7gn16h",
-    "isTestingModule": false,
+    "isTestingModule": true,
     "enableAffiliateLinks": false,
-    "enableTweeting": false,
-    "tweetKeywords": [],
-    "tweetTimeout": 30,
-    "createdTime": "2025-04-18T02:13:42.434Z"
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
   },
   "task_1750428679860": {
     "label": "Pokemon",
@@ -16258,7 +15989,6 @@
     "startTime": "2025-08-02T22:02:22.820Z",
     "profileId": "profile_1754172142587_50120m",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754172142586",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -16318,7 +16048,6 @@
     "startTime": "2025-08-02T22:02:31.197Z",
     "profileId": "profile_1754172150980_q901zm",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754172150980",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -16353,7 +16082,6 @@
     "startTime": "2025-08-02T22:02:33.952Z",
     "profileId": "profile_1754172153737_spjjfb",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754172153736",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -16376,7 +16104,6 @@
     "startTime": "2025-08-02T22:02:38.672Z",
     "profileId": "profile_1754172158466_sazg10",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754172158466",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -16399,7 +16126,6 @@
     "startTime": "2025-08-02T22:10:48.861Z",
     "profileId": "profile_1754172648703_vw54de",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754172648702",
     "enableAffiliateLinks": true
   },
   "task_1754172655862": {
@@ -16422,7 +16148,6 @@
     "startTime": "2025-08-02T22:10:56.072Z",
     "profileId": "profile_1754172655863_w4wxx9",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754172655862",
     "enableAffiliateLinks": true
   },
   "task_1754172771264": {
@@ -16451,7 +16176,6 @@
     "startTime": "2025-08-02T22:12:51.473Z",
     "profileId": "profile_1754172771265_4yrbp3",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754172771264",
     "enableAffiliateLinks": false
   },
   "task_1754172812728": {
@@ -16493,7 +16217,6 @@
     "startTime": "2025-08-02T22:13:37.547Z",
     "profileId": "profile_1754172817328_33gujo",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754172817327",
     "enableAffiliateLinks": false
   },
   "task_1754172838578": {
@@ -16535,7 +16258,6 @@
     "startTime": "2025-08-02T22:14:02.543Z",
     "profileId": "profile_1754172842330_n0jt8e",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754172842330",
     "enableAffiliateLinks": false
   },
   "task_1754172884530": {
@@ -16577,7 +16299,6 @@
     "startTime": "2025-08-02T22:14:49.279Z",
     "profileId": "profile_1754172889051_pkh6hk",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754172889050",
     "enableAffiliateLinks": false
   },
   "task_1754172906997": {
@@ -16619,7 +16340,6 @@
     "startTime": "2025-08-02T22:15:12.025Z",
     "profileId": "profile_1754172911803_ywbhs7",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754172911803",
     "enableAffiliateLinks": false
   },
   "task_1754172915885": {
@@ -16641,7 +16361,6 @@
     "startTime": "2025-08-02T22:15:16.108Z",
     "profileId": "profile_1754172915886_zjar4i",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754172915885",
     "enableAffiliateLinks": false
   },
   "task_1754082076879": {
@@ -16662,9 +16381,11 @@
     "enableRegularMessages": false,
     "startTime": "2025-08-01T21:01:17.073Z",
     "profileId": "profile_1754082076879_9jvku8",
-    "isTestingModule": false,
+    "isTestingModule": true,
     "enableAffiliateLinks": true,
-    "disableEmbedWebhook": false
+    "disableEmbedWebhook": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false
   },
   "task_1754190795972": {
     "label": "familiaCollector2",
@@ -16685,7 +16406,6 @@
     "startTime": "2025-08-03T03:13:16.203Z",
     "profileId": "profile_1754190795972_3fzknq",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754190795972",
     "enableAffiliateLinks": false
   },
   "task_1754191880804": {
@@ -16707,7 +16427,6 @@
     "startTime": "2025-08-03T03:31:20.875Z",
     "profileId": "profile_1754191880805_nomuhw",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754191880804",
     "enableAffiliateLinks": false
   },
   "task_1754192073407": {
@@ -16729,7 +16448,6 @@
     "startTime": "2025-08-03T03:34:33.537Z",
     "profileId": "profile_1754192073408_x36rrn",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754192073407",
     "enableAffiliateLinks": false
   },
   "task_1754192314004": {
@@ -16751,7 +16469,6 @@
     "startTime": "2025-08-03T03:38:34.139Z",
     "profileId": "profile_1754192314005_kcbtbm",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754192314004",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -16774,7 +16491,6 @@
     "startTime": "2025-08-03T03:41:49.006Z",
     "profileId": "profile_1754192508879_83s2qq",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754192508878",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -16797,7 +16513,6 @@
     "startTime": "2025-08-03T03:44:33.152Z",
     "profileId": "profile_1754192673015_vm5xzx",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754192673014",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -16820,7 +16535,6 @@
     "startTime": "2025-08-03T03:50:52.040Z",
     "profileId": "profile_1754193051908_lexyce",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193051908",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -16843,7 +16557,6 @@
     "startTime": "2025-08-03T03:52:36.959Z",
     "profileId": "profile_1754193156736_8drioz",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193156735",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -16866,7 +16579,6 @@
     "startTime": "2025-08-03T03:52:57.221Z",
     "profileId": "profile_1754193177093_43cwjk",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193177093",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -16889,7 +16601,6 @@
     "startTime": "2025-08-03T03:58:41.938Z",
     "profileId": "profile_1754193521807_z5514g",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193521806",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -16912,7 +16623,6 @@
     "startTime": "2025-08-03T04:00:15.261Z",
     "profileId": "profile_1754193615119_046mid",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193615118",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -16935,7 +16645,6 @@
     "startTime": "2025-08-03T04:01:42.333Z",
     "profileId": "profile_1754193702204_kb8p4m",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193702204",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -16958,7 +16667,6 @@
     "startTime": "2025-08-03T04:02:15.050Z",
     "profileId": "profile_1754193734829_f4qm49",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193734828",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -16981,7 +16689,6 @@
     "startTime": "2025-08-03T04:02:40.643Z",
     "profileId": "profile_1754193760421_2e7a3l",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193760421",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17004,7 +16711,6 @@
     "startTime": "2025-08-03T04:04:57.365Z",
     "profileId": "profile_1754193897146_rph60t",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193897144",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17027,7 +16733,6 @@
     "startTime": "2025-08-03T04:06:04.029Z",
     "profileId": "profile_1754193963847_xbo2g3",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193963846",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17057,7 +16762,6 @@
     "startTime": "2025-08-03T04:06:08.547Z",
     "profileId": "profile_1754193968409_phkjkk",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193968409",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17081,7 +16785,6 @@
     "startTime": "2025-08-03T04:06:14.595Z",
     "profileId": "profile_1754193974462_bwskzo",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193974462",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17104,7 +16807,6 @@
     "startTime": "2025-08-03T04:06:24.958Z",
     "profileId": "profile_1754193984813_hgouap",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193984813",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17127,7 +16829,6 @@
     "startTime": "2025-08-03T04:06:28.258Z",
     "profileId": "profile_1754193988094_s202c2",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193988094",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17150,7 +16851,6 @@
     "startTime": "2025-08-03T04:06:32.086Z",
     "profileId": "profile_1754193991945_yd3zs6",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193991945",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17173,7 +16873,6 @@
     "startTime": "2025-08-03T04:06:36.909Z",
     "profileId": "profile_1754193996748_5vjgmv",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754193996748",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17196,7 +16895,6 @@
     "startTime": "2025-08-03T04:06:40.901Z",
     "profileId": "profile_1754194000742_kvgr3g",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754194000741",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17219,7 +16917,6 @@
     "startTime": "2025-08-04T13:31:23.796Z",
     "profileId": "profile_1754314283662_vybsnb",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754314283661",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17243,7 +16940,6 @@
     "startTime": "2025-08-04T13:31:26.680Z",
     "profileId": "profile_1754314286476_ctbzm4",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754314286475",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17273,7 +16969,6 @@
     "startTime": "2025-08-04T13:31:29.604Z",
     "profileId": "profile_1754314289296_qg8qiu",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754314289295",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17296,7 +16991,6 @@
     "startTime": "2025-08-04T13:31:42.827Z",
     "profileId": "profile_1754314302600_h4muh5",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754314302600",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17319,7 +17013,6 @@
     "startTime": "2025-08-04T13:31:48.744Z",
     "profileId": "profile_1754314308504_2htjuy",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754314308503",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17342,7 +17035,6 @@
     "startTime": "2025-08-04T13:31:55.416Z",
     "profileId": "profile_1754314315000_3pdc4b",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754314314999",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17365,7 +17057,6 @@
     "startTime": "2025-08-04T13:31:57.548Z",
     "profileId": "profile_1754314317305_le4llb",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754314317305",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17388,7 +17079,6 @@
     "startTime": "2025-08-05T03:18:00.080Z",
     "profileId": "profile_1754363879852_5vs18e",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754363879851",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -17411,7 +17101,6 @@
     "startTime": "2025-08-05T03:23:46.398Z",
     "profileId": "profile_1754364226158_ng2pnc",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754364226157",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -17434,7 +17123,6 @@
     "startTime": "2025-08-05T03:24:17.456Z",
     "profileId": "profile_1754364257208_vl0wpj",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754364257207",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -17457,7 +17145,6 @@
     "startTime": "2025-08-04T13:31:51.957Z",
     "profileId": "profile_1754314311618_v18h8h",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754314311616",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17480,7 +17167,6 @@
     "startTime": "2025-08-07T14:39:40.352Z",
     "profileId": "profile_1754577580088_ms6m2a",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754577580088",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17503,7 +17189,6 @@
     "startTime": "2025-08-07T14:45:05.318Z",
     "profileId": "profile_1754577904988_neju5q",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1754577904988",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17526,7 +17211,6 @@
     "startTime": "2025-08-16T21:38:08.519Z",
     "profileId": "profile_1755380288315_jw0bze",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1755380288314",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17549,7 +17233,6 @@
     "startTime": "2025-08-16T21:38:11.936Z",
     "profileId": "profile_1755380291579_1f24e6",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1755380291579",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17572,7 +17255,6 @@
     "startTime": "2025-08-16T21:38:18.413Z",
     "profileId": "profile_1755380298173_rsn0wy",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1755380298171",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17595,7 +17277,6 @@
     "startTime": "2025-08-16T21:38:06.890Z",
     "profileId": "profile_1755380286680_arzku4",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1755380286679",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17618,9 +17299,10 @@
     "startTime": "2025-08-17T15:21:57.098Z",
     "profileId": "profile_1755444116857_q0kt4b",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1755444116857",
     "enableAffiliateLinks": true,
-    "disableEmbedWebhook": false
+    "disableEmbedWebhook": true,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true
   },
   "task_1755641183128": {
     "label": "Pokemon",
@@ -17641,7 +17323,6 @@
     "startTime": "2025-08-19T22:06:23.375Z",
     "profileId": "profile_1755641183129_57tnls",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1755641183128",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -17664,7 +17345,6 @@
     "startTime": "2025-09-04T15:40:14.195Z",
     "profileId": "profile_1757000413786_anmujb",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757000413786",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17687,7 +17367,6 @@
     "startTime": "2025-09-04T15:40:14.344Z",
     "profileId": "profile_1757000413866_bd8faa",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757000413865",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17710,7 +17389,6 @@
     "startTime": "2025-09-04T15:41:30.604Z",
     "profileId": "profile_1757000490385_mgll2z",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757000490384",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17733,7 +17411,6 @@
     "startTime": "2025-09-04T15:42:44.791Z",
     "profileId": "profile_1757000564573_z3hq9v",
     "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1757000564572",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17756,7 +17433,6 @@
     "startTime": "2025-09-04T15:43:22.564Z",
     "profileId": "profile_1757000602342_xdtpui",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757000602341",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17779,7 +17455,6 @@
     "startTime": "2025-09-04T15:40:43.322Z",
     "profileId": "profile_1757000443101_134b6c",
     "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1757000443100",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17802,7 +17477,6 @@
     "startTime": "2025-09-04T15:45:49.923Z",
     "profileId": "profile_1757000749704_qeeol2",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757000749703",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17825,7 +17499,6 @@
     "startTime": "2025-09-04T15:47:14.669Z",
     "profileId": "profile_1757000834234_sz5xwx",
     "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1757000834233",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17848,7 +17521,6 @@
     "startTime": "2025-09-04T15:47:14.729Z",
     "profileId": "profile_1757000834252_bcdsdg",
     "isTestingModule": true,
-    "pm2_task_id": "monitor_task_1757000834251",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17871,7 +17543,6 @@
     "startTime": "2025-09-04T15:48:46.710Z",
     "profileId": "profile_1757000926488_tp21jq",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757000926488",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17894,7 +17565,6 @@
     "startTime": "2025-09-04T15:49:45.575Z",
     "profileId": "profile_1757000985349_frwn6e",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757000985349",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17923,7 +17593,6 @@
     "startTime": "2025-09-04T15:49:55.821Z",
     "profileId": "profile_1757000995587_mxpydo",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757000995587",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -17952,9 +17621,10 @@
     "startTime": "2025-09-04T18:43:52.110Z",
     "profileId": "profile_1757011431889_3uille",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757011431889",
     "enableAffiliateLinks": true,
-    "disableEmbedWebhook": false
+    "disableEmbedWebhook": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true
   },
   "task_1757001033921": {
     "label": "Target",
@@ -17981,7 +17651,6 @@
     "startTime": "2025-09-04T15:50:34.178Z",
     "profileId": "profile_1757001033921_4w4j1c",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757001033921",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -18010,9 +17679,10 @@
     "startTime": "2025-09-04T18:44:01.426Z",
     "profileId": "profile_1757011441207_tpnwji",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757011441207",
     "enableAffiliateLinks": true,
-    "disableEmbedWebhook": false
+    "disableEmbedWebhook": true,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true
   },
   "task_1757000892203": {
     "label": "BEST BUY",
@@ -18039,7 +17709,6 @@
     "startTime": "2025-09-04T15:48:12.477Z",
     "profileId": "profile_1757000892203_vi22ds",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757000892203",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -18048,6 +17717,7 @@
     "channelUrl": "https://discord.com/channels/1103122365396832256/1347811221046562877",
     "targetChannels": [
       "FamiliaBestBuy",
+      "BestBuyDSC",
       "PokeMonitorBAR"
     ],
     "webhookInfo": [
@@ -18055,6 +17725,11 @@
         "name": "FamiliaBestBuy",
         "label": "FamiliaBestBuy",
         "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
+      },
+      {
+        "name": "BestBuyDSC",
+        "label": "BestBuyDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887875546058812/bRkrzukJt4lYj6jPTx35i2vtjd4e0RO8pIha_8z8ki3ZgO-Q1eKmOS873Jy-xH-xnwHH"
       },
       {
         "name": "PokeMonitorBAR",
@@ -18068,9 +17743,10 @@
     "startTime": "2025-09-04T18:44:18.569Z",
     "profileId": "profile_1757011458340_51ragq",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757011458340",
     "enableAffiliateLinks": true,
-    "disableEmbedWebhook": false
+    "disableEmbedWebhook": false,
+    "enableBestBuyAffiliateLinks": true,
+    "enableMavelyAffiliateLinks": false
   },
   "task_1757000695797": {
     "label": "Amazon",
@@ -18097,7 +17773,6 @@
     "startTime": "2025-09-04T15:44:56.020Z",
     "profileId": "profile_1757000695798_0uw38b",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757000695797",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -18126,7 +17801,6 @@
     "startTime": "2025-09-04T18:44:27.224Z",
     "profileId": "profile_1757011466994_s62gxq",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757011466994",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -18177,7 +17851,6 @@
     "startTime": "2025-09-04T18:44:40.723Z",
     "profileId": "profile_1757011480449_hbrvau",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757011480449",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -18221,7 +17894,6 @@
     "startTime": "2025-09-05T16:27:10.340Z",
     "profileId": "profile_1757089630062_028gri",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757089630061",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -18250,7 +17922,6 @@
     "startTime": "2025-09-04T18:45:38.943Z",
     "profileId": "profile_1757011538461_11ijdl",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757011538460",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -18279,7 +17950,6 @@
     "startTime": "2025-09-05T16:29:46.668Z",
     "profileId": "profile_1757089786443_5bhbcq",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757089786442",
     "enableAffiliateLinks": true,
     "disableEmbedWebhook": false
   },
@@ -18302,7 +17972,6 @@
     "startTime": "2025-08-16T21:37:55.675Z",
     "profileId": "profile_1755380275468_u1dp0r",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1755380275467",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": true
   },
@@ -18325,9 +17994,10 @@
     "startTime": "2025-09-05T16:29:53.730Z",
     "profileId": "profile_1757089793475_0gmhk8",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757089793474",
     "enableAffiliateLinks": false,
-    "disableEmbedWebhook": true
+    "disableEmbedWebhook": true,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true
   },
   "task_1757089673114": {
     "label": "PKCnotify",
@@ -18348,7 +18018,6 @@
     "startTime": "2025-09-05T16:27:53.344Z",
     "profileId": "profile_1757089673114_eqzv25",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757089673114",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -18371,7 +18040,6 @@
     "startTime": "2025-09-05T16:30:02.089Z",
     "profileId": "profile_1757089801863_f12pkc",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757089801863",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -18400,7 +18068,6 @@
     "startTime": "2025-08-16T21:37:49.551Z",
     "profileId": "profile_1755380269354_o82ucg",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1755380269354",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -18409,7 +18076,8 @@
     "channelUrl": "https://discord.com/channels/1296182793407168614/1296440365028606042",
     "targetChannels": [
       "CostcoTheBar",
-      "FamiliaCostco"
+      "FamiliaCostco",
+      "cosctoDSC"
     ],
     "webhookInfo": [
       {
@@ -18421,6 +18089,11 @@
         "name": "FamiliaCostco",
         "label": "FamiliaCostco",
         "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+      },
+      {
+        "name": "cosctoDSC",
+        "label": "cosctoDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
       }
     ],
     "enableUrlUnshortening": false,
@@ -18429,9 +18102,10 @@
     "startTime": "2025-09-05T16:30:45.769Z",
     "profileId": "profile_1757089845537_5cf0q2",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757089845537",
     "enableAffiliateLinks": false,
-    "disableEmbedWebhook": false
+    "disableEmbedWebhook": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false
   },
   "task_1755711797044": {
     "label": "Pokemon",
@@ -18452,7 +18126,6 @@
     "startTime": "2025-08-20T17:43:17.325Z",
     "profileId": "profile_1755711797044_99k5qw",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1755711797044",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
   },
@@ -18475,8 +18148,2255 @@
     "startTime": "2025-09-05T16:31:25.000Z",
     "profileId": "profile_1757089884603_fclfyy",
     "isTestingModule": false,
-    "pm2_task_id": "monitor_task_1757089884603",
     "enableAffiliateLinks": false,
     "disableEmbedWebhook": false
+  },
+  "task_1757259994528": {
+    "label": "BEST BUY",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347811221046562877",
+    "targetChannels": [
+      "FamiliaBestBuy",
+      "BestBuyDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaBestBuy",
+        "label": "FamiliaBestBuy",
+        "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
+      },
+      {
+        "name": "BestBuyDSC",
+        "label": "BestBuyDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887875546058812/bRkrzukJt4lYj6jPTx35i2vtjd4e0RO8pIha_8z8ki3ZgO-Q1eKmOS873Jy-xH-xnwHH"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-07T15:46:34.542Z",
+    "profileId": "profile_1757259994529_vwfqbw",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": true,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757259927116": {
+    "label": "Amazon",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347624199078023228",
+    "targetChannels": [
+      "FamiliaAmazon",
+      "AmazonDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaAmazon",
+        "label": "FamiliaAmazon",
+        "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      },
+      {
+        "name": "AmazonDSC",
+        "label": "AmazonDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887688463450293/9XKW8-0JPIJgLdRYRWdbAdI2wape4AElle-oxkz_5Oz5gtoESD_O9mQqtBG4YOzbwVVD"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-07T15:45:27.136Z",
+    "profileId": "profile_1757259927117_3v7cos",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757260082049": {
+    "label": "PKCnotify",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1407738759968981012",
+    "targetChannels": [
+      "PokeNotifyBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": true,
+    "startTime": "2025-09-07T15:48:02.086Z",
+    "profileId": "profile_1757260082049_5lrm87",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757260102564": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347623618774958151",
+    "targetChannels": [
+      "FamiliaTarget",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaTarget",
+        "label": "FamiliaTarget",
+        "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-07T15:48:22.578Z",
+    "profileId": "profile_1757260102565_63yhhl",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757260112544": {
+    "label": "Sams",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296980944389017610",
+    "targetChannels": [
+      "FamiliaSams"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaSams",
+        "label": "FamiliaSams",
+        "webhook_url": "https://discord.com/api/webhooks/1350574314407071784/XycvTqWYRvy6mh_KRL4L3dybWS-OCar2G77LZMYjTrihc-_QvWEfLjtGPZ1OV_ZF3I4X"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-07T15:48:32.557Z",
+    "profileId": "profile_1757260112544_jp9710",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757260085115": {
+    "label": "Pokemon",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296182795621634158",
+    "targetChannels": [
+      "PokeNotifyBar",
+      "pokemonCenterDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      },
+      {
+        "name": "pokemonCenterDSC",
+        "label": "pokemonCenterDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": true,
+    "startTime": "2025-09-07T15:48:05.131Z",
+    "profileId": "profile_1757260085116_u2oqan",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757260175807": {
+    "label": "Sams",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296980944389017610",
+    "targetChannels": [
+      "FamiliaSams",
+      "SamsClubDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaSams",
+        "label": "FamiliaSams",
+        "webhook_url": "https://discord.com/api/webhooks/1350574314407071784/XycvTqWYRvy6mh_KRL4L3dybWS-OCar2G77LZMYjTrihc-_QvWEfLjtGPZ1OV_ZF3I4X"
+      },
+      {
+        "name": "SamsClubDSC",
+        "label": "SamsClubDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888223056728174/_RxikHW--bXgtbnTdV2eHePl4uBLIW7LOaDpmVu6q88k7mVqxCIZAOy0ZAdTTf61D1Av"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-07T15:49:35.827Z",
+    "profileId": "profile_1757260175808_371ou2",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757297794708": {
+    "label": "Sams",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296980944389017610",
+    "targetChannels": [
+      "FamiliaSams",
+      "SamsClubDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaSams",
+        "label": "FamiliaSams",
+        "webhook_url": "https://discord.com/api/webhooks/1350574314407071784/XycvTqWYRvy6mh_KRL4L3dybWS-OCar2G77LZMYjTrihc-_QvWEfLjtGPZ1OV_ZF3I4X"
+      },
+      {
+        "name": "SamsClubDSC",
+        "label": "SamsClubDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888223056728174/_RxikHW--bXgtbnTdV2eHePl4uBLIW7LOaDpmVu6q88k7mVqxCIZAOy0ZAdTTf61D1Av"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T02:16:34.727Z",
+    "profileId": "profile_1757297794709_181wdi",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757260138869": {
+    "label": "Walmart",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347810319875047465",
+    "targetChannels": [
+      "FamiliaWalmart",
+      "WalmartDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaWalmart",
+        "label": "FamiliaWalmart",
+        "webhook_url": "https://discord.com/api/webhooks/1350576171133435934/fATR03W1IczspfvZi0yogWo0PoZ0bSUjc2b0AeeL1tTUYIIgJUOF-Z-SJ3t4dwJdjlzJ"
+      },
+      {
+        "name": "WalmartDSC",
+        "label": "WalmartDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889123863335004/IcTdNLk5DKDvmdYuBNg1JA7rS4n2sXKzVkdlyOoqy7f5IpYDAJf6LrTOH8UQ8lVsZwM1"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-07T15:48:58.889Z",
+    "profileId": "profile_1757260138870_yowvfg",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757297841923": {
+    "label": "Walmart",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347810319875047465",
+    "targetChannels": [
+      "FamiliaWalmart",
+      "WalmartDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaWalmart",
+        "label": "FamiliaWalmart",
+        "webhook_url": "https://discord.com/api/webhooks/1350576171133435934/fATR03W1IczspfvZi0yogWo0PoZ0bSUjc2b0AeeL1tTUYIIgJUOF-Z-SJ3t4dwJdjlzJ"
+      },
+      {
+        "name": "WalmartDSC",
+        "label": "WalmartDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889123863335004/IcTdNLk5DKDvmdYuBNg1JA7rS4n2sXKzVkdlyOoqy7f5IpYDAJf6LrTOH8UQ8lVsZwM1"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T02:17:21.941Z",
+    "profileId": "profile_1757297841923_u8hvoy",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757260165319": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347623618774958151",
+    "targetChannels": [
+      "FamiliaTarget",
+      "TargetDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaTarget",
+        "label": "FamiliaTarget",
+        "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
+      },
+      {
+        "name": "TargetDSC",
+        "label": "TargetDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889025116836050/55QdKYqf0M4yUK9zYa7gAEH_7TJzBYpaJFnqT_dqHbBX5u7jE1TruKnhDXnLMdexAzdt"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-07T15:49:25.337Z",
+    "profileId": "profile_1757260165320_pqo30y",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757297853574": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347623618774958151",
+    "targetChannels": [
+      "FamiliaTarget",
+      "TargetDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaTarget",
+        "label": "FamiliaTarget",
+        "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
+      },
+      {
+        "name": "TargetDSC",
+        "label": "TargetDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889025116836050/55QdKYqf0M4yUK9zYa7gAEH_7TJzBYpaJFnqT_dqHbBX5u7jE1TruKnhDXnLMdexAzdt"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T02:17:33.592Z",
+    "profileId": "profile_1757297853575_x0j0ch",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757260123505": {
+    "label": "Shopify",
+    "channelUrl": "https://discord.com/channels/664957247373180958/1307019920130707496",
+    "targetChannels": [
+      "FamiliaShopify",
+      "shopifyDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaShopify",
+        "label": "FamiliaShopify",
+        "webhook_url": "https://discord.com/api/webhooks/658749059774808104/w8FiXE5csiB6cTrNmi4hbxL3OguBsKcIh2rAcg--koMiSemL4D13C_bAPuVpG5u6PKgY"
+      },
+      {
+        "name": "shopifyDSC",
+        "label": "shopifyDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358890475582525664/vdYFSTrCLDD2ioUwcESqKpfUTPPNsdDGUXST54SjOlyJuP480nA-2KI3uLfx33kiiUXh"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-07T15:48:43.521Z",
+    "profileId": "profile_1757260123506_6u60y5",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757297886321": {
+    "label": "Shopify",
+    "channelUrl": "https://discord.com/channels/664957247373180958/1307019920130707496",
+    "targetChannels": [
+      "FamiliaShopify",
+      "shopifyDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaShopify",
+        "label": "FamiliaShopify",
+        "webhook_url": "https://discord.com/api/webhooks/658749059774808104/w8FiXE5csiB6cTrNmi4hbxL3OguBsKcIh2rAcg--koMiSemL4D13C_bAPuVpG5u6PKgY"
+      },
+      {
+        "name": "shopifyDSC",
+        "label": "shopifyDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358890475582525664/vdYFSTrCLDD2ioUwcESqKpfUTPPNsdDGUXST54SjOlyJuP480nA-2KI3uLfx33kiiUXh"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T02:18:06.339Z",
+    "profileId": "profile_1757297886322_24f5jo",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1753065305834": {
+    "label": "scheels",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1239373144666538044",
+    "targetChannels": [
+      "FamiliaScheels",
+      "Scheels"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaScheels",
+        "label": "FamiliaScheels",
+        "webhook_url": "https://discord.com/api/webhooks/1204449620894425108/7oy30LH-ZTnmS2dXp_Jxnfd07fud1eK_QOQ_30I3jtMZ-Y1BE06msz4f1ckIRV82btUG"
+      },
+      {
+        "name": "Scheels",
+        "label": "Scheels",
+        "webhook_url": "https://discord.com/api/webhooks/1358890099449794661/-FHv47fTFlXT3ThtdU0qPtbb6S0qNoMM1XgscoRN-aVKjFodKphOW_HkKSNqVsK6gSpd"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-07-21T02:35:06.055Z",
+    "profileId": "profile_1753065305834_5j4i3b",
+    "isTestingModule": true,
+    "enableAffiliateLinks": false,
+    "enableTweeting": true,
+    "tweetKeywords": [
+      "+pokemon"
+    ],
+    "tweetTimeout": 30,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757298523659": {
+    "label": "POP MART",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760568789602324",
+    "targetChannels": [
+      "POP MART"
+    ],
+    "webhookInfo": [
+      {
+        "name": "POP MART",
+        "label": "POP MART",
+        "webhook_url": "https://discord.com/api/webhooks/1358890099449794661/-FHv47fTFlXT3ThtdU0qPtbb6S0qNoMM1XgscoRN-aVKjFodKphOW_HkKSNqVsK6gSpd"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "createdTime": "2025-09-08T02:28:43.659Z",
+    "isTestingModule": true,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1744940040950": {
+    "label": "NikeRestocks",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+    "targetChannels": [
+      "nikeRestocks"
+    ],
+    "webhookInfo": [
+      {
+        "name": "nikeRestocks",
+        "label": "nikeRestocks",
+        "webhook_url": "https://discord.com/channels/1103122365396832256/1348761052992639096"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-04-18T01:34:01.191Z",
+    "profileId": "profile_1744940040951_qrqoby",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757298690734": {
+    "label": "NikeRestocks",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+    "targetChannels": [
+      "NikeStock"
+    ],
+    "webhookInfo": [
+      {
+        "name": "NikeStock",
+        "label": "https://discord.com/channels/1103122365396832256/1348760849581342790",
+        "webhook_url": "https://discord.com/channels/1103122365396832256/1348760849581342790"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T02:31:30.753Z",
+    "profileId": "profile_1757298690735_xr1dw0",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757299137287": {
+    "label": "NikeRestocks",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+    "targetChannels": [
+      "NikeStock"
+    ],
+    "webhookInfo": [
+      {
+        "name": "NikeStock",
+        "label": "https://discord.com/channels/1103122365396832256/1348760849581342790",
+        "webhook_url": "https://discord.com/channels/1103122365396832256/1348760849581342790"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T02:38:57.317Z",
+    "profileId": "profile_1757299137288_gjwm8j",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757299350291": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296440365028606042",
+    "targetChannels": [
+      "CostcoTheBar",
+      "FamiliaCostco",
+      "cosctoDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      },
+      {
+        "name": "FamiliaCostco",
+        "label": "FamiliaCostco",
+        "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+      },
+      {
+        "name": "cosctoDSC",
+        "label": "cosctoDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T02:42:30.310Z",
+    "profileId": "profile_1757299350291_tlfv5f",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757299383048": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296440365028606042",
+    "targetChannels": [
+      "CostcoTheBar",
+      "FamiliaCostco",
+      "cosctoDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      },
+      {
+        "name": "FamiliaCostco",
+        "label": "FamiliaCostco",
+        "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+      },
+      {
+        "name": "cosctoDSC",
+        "label": "cosctoDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T02:43:03.071Z",
+    "profileId": "profile_1757299383049_kziwm3",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757298571831": {
+    "label": "POP MART",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760568789602324",
+    "targetChannels": [
+      "POP MART"
+    ],
+    "webhookInfo": [
+      {
+        "name": "POP MART",
+        "label": "POP MART",
+        "webhook_url": "https://discord.com/api/webhooks/1358890099449794661/-FHv47fTFlXT3ThtdU0qPtbb6S0qNoMM1XgscoRN-aVKjFodKphOW_HkKSNqVsK6gSpd"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T02:29:31.852Z",
+    "profileId": "profile_1757298571832_fj00h1",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757342070485": {
+    "label": "POP MART",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760568789602324",
+    "targetChannels": [
+      "POP MART"
+    ],
+    "webhookInfo": [
+      {
+        "name": "POP MART",
+        "label": "POP MART",
+        "webhook_url": "https://discord.com/api/webhooks/1358890099449794661/-FHv47fTFlXT3ThtdU0qPtbb6S0qNoMM1XgscoRN-aVKjFodKphOW_HkKSNqVsK6gSpd"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T14:34:30.504Z",
+    "profileId": "profile_1757342070486_gvejhw",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757260076666": {
+    "label": "Macys",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760264383926332",
+    "targetChannels": [
+      "PokeMonitorBAR",
+      "MacysDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      },
+      {
+        "name": "MacysDSC",
+        "label": "MacysDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-07T15:47:56.681Z",
+    "profileId": "profile_1757260076667_frfgd8",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757342084797": {
+    "label": "Macys",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760264383926332",
+    "targetChannels": [
+      "PokeMonitorBAR",
+      "MacysDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      },
+      {
+        "name": "MacysDSC",
+        "label": "MacysDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T14:34:44.815Z",
+    "profileId": "profile_1757342084798_qxmm7f",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757342117575": {
+    "label": "familiaCollector",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1103123449167216730",
+    "targetChannels": [
+      "FamiliaCollector"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaCollector",
+        "label": "FamiliaCollector",
+        "webhook_url": "https://discord.com/api/webhooks/1391817439947260087/U_l0XBIwjfXMiIKqI3MS8SdDNway4k7EVCMV535qAu-9RwtVryuj16FvTOFhc9sP8uRh"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T14:35:17.601Z",
+    "profileId": "profile_1757342117575_waglu6",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757342140835": {
+    "label": "familiaCollector",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1103123449167216730",
+    "targetChannels": [
+      "FamiliaCollector"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaCollector",
+        "label": "FamiliaCollector",
+        "webhook_url": "https://discord.com/api/webhooks/1391817439947260087/U_l0XBIwjfXMiIKqI3MS8SdDNway4k7EVCMV535qAu-9RwtVryuj16FvTOFhc9sP8uRh"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T14:35:40.857Z",
+    "profileId": "profile_1757342140836_t5lucu",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757297718773": {
+    "label": "Pokemon",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296182795621634158",
+    "targetChannels": [
+      "PokeNotifyBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": true,
+    "startTime": "2025-09-08T02:15:18.790Z",
+    "profileId": "profile_1757297718773_u8z0rx",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757349718786": {
+    "label": "Pokemon",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296182795621634158",
+    "targetChannels": [
+      "PokeNotifyBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": true,
+    "startTime": "2025-09-08T16:41:58.810Z",
+    "profileId": "profile_1757349718787_h257z8",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1752981425601": {
+    "label": "pokemonAIO",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1339589432260431882",
+    "targetChannels": [
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889451081826577/Gs0M8QQgWvQj_7YifrM9nJJSsv5Nkwb0iAVlFj2sRi6DiWwS9MzEbjXM-211DZYPx4sv"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-08-01T21:01:31.489Z",
+    "profileId": "profile_1754082091281_t0004g",
+    "isTestingModule": false,
+    "enableAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false
+  },
+  "task_1757349727110": {
+    "label": "pokemonAIO",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1339589432260431882",
+    "targetChannels": [
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889451081826577/Gs0M8QQgWvQj_7YifrM9nJJSsv5Nkwb0iAVlFj2sRi6DiWwS9MzEbjXM-211DZYPx4sv"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-08T16:42:07.135Z",
+    "profileId": "profile_1757349727111_lcommt",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757260014064": {
+    "label": "Amazon",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347624199078023228",
+    "targetChannels": [
+      "FamiliaAmazon",
+      "AmazonDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaAmazon",
+        "label": "FamiliaAmazon",
+        "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      },
+      {
+        "name": "AmazonDSC",
+        "label": "AmazonDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887688463450293/9XKW8-0JPIJgLdRYRWdbAdI2wape4AElle-oxkz_5Oz5gtoESD_O9mQqtBG4YOzbwVVD"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-07T15:46:54.079Z",
+    "profileId": "profile_1757260014064_xsxscc",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757378488092": {
+    "label": "Amazon",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347624199078023228",
+    "targetChannels": [
+      "FamiliaAmazon",
+      "AmazonDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaAmazon",
+        "label": "FamiliaAmazon",
+        "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      },
+      {
+        "name": "AmazonDSC",
+        "label": "AmazonDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887688463450293/9XKW8-0JPIJgLdRYRWdbAdI2wape4AElle-oxkz_5Oz5gtoESD_O9mQqtBG4YOzbwVVD"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-09T00:41:28.114Z",
+    "profileId": "profile_1757378488094_mvbsjg",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757378534578": {
+    "label": "Amazon",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347624199078023228",
+    "targetChannels": [
+      "FamiliaAmazon",
+      "AmazonDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaAmazon",
+        "label": "FamiliaAmazon",
+        "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      },
+      {
+        "name": "AmazonDSC",
+        "label": "AmazonDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887688463450293/9XKW8-0JPIJgLdRYRWdbAdI2wape4AElle-oxkz_5Oz5gtoESD_O9mQqtBG4YOzbwVVD"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-09T00:42:14.602Z",
+    "profileId": "profile_1757378534579_r7t8t6",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757511348005": {
+    "label": "pokemonCenter",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1351589557753221190",
+    "targetChannels": [
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889451081826577/Gs0M8QQgWvQj_7YifrM9nJJSsv5Nkwb0iAVlFj2sRi6DiWwS9MzEbjXM-211DZYPx4sv"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T13:35:48.015Z",
+    "profileId": "profile_1757511348005_ku0vdd",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757514256089": {
+    "label": "PokemonAIO",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347810490973163570",
+    "targetChannels": [
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889451081826577/Gs0M8QQgWvQj_7YifrM9nJJSsv5Nkwb0iAVlFj2sRi6DiWwS9MzEbjXM-211DZYPx4sv"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "createdTime": "2025-09-10T14:24:16.090Z",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757514268954": {
+    "label": "PokemonAIO",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347810490973163570",
+    "targetChannels": [
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T14:24:28.967Z",
+    "profileId": "profile_1757514268955_iz7rso",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757555786452": {
+    "label": "PokemonAIO",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347810490973163570",
+    "targetChannels": [
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-11T01:56:26.464Z",
+    "profileId": "profile_1757555786453_k3ah25",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757513835924": {
+    "label": "NikeRestocks",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+    "targetChannels": [
+      "nikeRestocks"
+    ],
+    "webhookInfo": [
+      {
+        "name": "nikeRestocks",
+        "label": "nikeRestocks",
+        "webhook_url": "https://discord.com/api/webhooks/1358899787478339754/US9RBMIOkW2Juo0SFwHGS4M5uiUQjcb2M8Q0vsPIlqJDHlJMqX3_meldmR1wEWDWFqHA"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T14:17:15.937Z",
+    "profileId": "profile_1757513835925_7mmkm2",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757555943174": {
+    "label": "NikeRestocks",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+    "targetChannels": [
+      "nikeRestocks"
+    ],
+    "webhookInfo": [
+      {
+        "name": "nikeRestocks",
+        "label": "nikeRestocks",
+        "webhook_url": "https://discord.com/api/webhooks/1358899787478339754/US9RBMIOkW2Juo0SFwHGS4M5uiUQjcb2M8Q0vsPIlqJDHlJMqX3_meldmR1wEWDWFqHA"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-11T01:59:03.187Z",
+    "profileId": "profile_1757555943175_f3v64y",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757514156482": {
+    "label": "pokemonCenter",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1351589557753221190",
+    "targetChannels": [
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T14:22:36.493Z",
+    "profileId": "profile_1757514156482_5yrqn5",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757556295074": {
+    "label": "pokemonCenter",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1351589557753221190",
+    "targetChannels": [
+      "PokeNotifyBar",
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      },
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-11T02:04:55.085Z",
+    "profileId": "profile_1757556295074_8ked9r",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false
+  },
+  "task_1757511298505": {
+    "label": "familiaCollector",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1103123449167216730",
+    "targetChannels": [
+      "FamiliaCollector"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaCollector",
+        "label": "FamiliaCollector",
+        "webhook_url": "https://discord.com/api/webhooks/1391817439947260087/U_l0XBIwjfXMiIKqI3MS8SdDNway4k7EVCMV535qAu-9RwtVryuj16FvTOFhc9sP8uRh"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T13:34:58.523Z",
+    "profileId": "profile_1757511298505_jui74s",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": true
+  },
+  "task_1757511282037": {
+    "label": "Amazon",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347624199078023228",
+    "targetChannels": [
+      "FamiliaAmazon",
+      "AmazonDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaAmazon",
+        "label": "FamiliaAmazon",
+        "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      },
+      {
+        "name": "AmazonDSC",
+        "label": "AmazonDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887688463450293/9XKW8-0JPIJgLdRYRWdbAdI2wape4AElle-oxkz_5Oz5gtoESD_O9mQqtBG4YOzbwVVD"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T13:34:42.052Z",
+    "profileId": "profile_1757511282038_11jttr",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false
+  },
+  "task_1757730813841": {
+    "label": "Amazon",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347624199078023228",
+    "targetChannels": [
+      "FamiliaAmazon",
+      "AmazonDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaAmazon",
+        "label": "FamiliaAmazon",
+        "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      },
+      {
+        "name": "AmazonDSC",
+        "label": "AmazonDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887688463450293/9XKW8-0JPIJgLdRYRWdbAdI2wape4AElle-oxkz_5Oz5gtoESD_O9mQqtBG4YOzbwVVD"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:33:33.887Z",
+    "profileId": "profile_1757730813842_v9xi9s",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": true,
+    "tweetKeywords": [
+      "+pop"
+    ],
+    "tweetTimeout": 30
+  },
+  "task_1757731561435": {
+    "label": "Amazon",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347624199078023228",
+    "targetChannels": [
+      "FamiliaAmazon",
+      "AmazonDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaAmazon",
+        "label": "FamiliaAmazon",
+        "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      },
+      {
+        "name": "AmazonDSC",
+        "label": "AmazonDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887688463450293/9XKW8-0JPIJgLdRYRWdbAdI2wape4AElle-oxkz_5Oz5gtoESD_O9mQqtBG4YOzbwVVD"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:46:01.455Z",
+    "profileId": "profile_1757731561436_tu1qh4",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731561435",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": true,
+    "tweetKeywords": [
+      "+pop"
+    ],
+    "tweetTimeout": 30
+  },
+  "task_1757511293485": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296440365028606042",
+    "targetChannels": [
+      "CostcoTheBar",
+      "FamiliaCostco",
+      "cosctoDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      },
+      {
+        "name": "FamiliaCostco",
+        "label": "FamiliaCostco",
+        "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+      },
+      {
+        "name": "cosctoDSC",
+        "label": "cosctoDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T13:34:53.496Z",
+    "profileId": "profile_1757511293485_hbpb3h",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757511286938": {
+    "label": "BEST BUY",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347811221046562877",
+    "targetChannels": [
+      "FamiliaBestBuy",
+      "BestBuyDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaBestBuy",
+        "label": "FamiliaBestBuy",
+        "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
+      },
+      {
+        "name": "BestBuyDSC",
+        "label": "BestBuyDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887875546058812/bRkrzukJt4lYj6jPTx35i2vtjd4e0RO8pIha_8z8ki3ZgO-Q1eKmOS873Jy-xH-xnwHH"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T13:34:46.948Z",
+    "profileId": "profile_1757511286938_f7rsj0",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": true,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731618670": {
+    "label": "BEST BUY",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347811221046562877",
+    "targetChannels": [
+      "FamiliaBestBuy",
+      "BestBuyDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaBestBuy",
+        "label": "FamiliaBestBuy",
+        "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
+      },
+      {
+        "name": "BestBuyDSC",
+        "label": "BestBuyDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887875546058812/bRkrzukJt4lYj6jPTx35i2vtjd4e0RO8pIha_8z8ki3ZgO-Q1eKmOS873Jy-xH-xnwHH"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:46:58.684Z",
+    "profileId": "profile_1757731618671_2v5uxq",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731618670",
+    "enableBestBuyAffiliateLinks": true,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757726622545": {
+    "label": "familiaCollector",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1103123449167216730",
+    "targetChannels": [
+      "FamiliaCollector"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaCollector",
+        "label": "FamiliaCollector",
+        "webhook_url": "https://discord.com/api/webhooks/1391817439947260087/U_l0XBIwjfXMiIKqI3MS8SdDNway4k7EVCMV535qAu-9RwtVryuj16FvTOFhc9sP8uRh"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T01:23:42.636Z",
+    "profileId": "profile_1757726622547_76wplh",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731661945": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296440365028606042",
+    "targetChannels": [
+      "CostcoTheBar",
+      "FamiliaCostco",
+      "cosctoDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      },
+      {
+        "name": "FamiliaCostco",
+        "label": "FamiliaCostco",
+        "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+      },
+      {
+        "name": "cosctoDSC",
+        "label": "cosctoDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:47:41.963Z",
+    "profileId": "profile_1757731661946_g0g6tl",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731661945",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731652507": {
+    "label": "familiaCollector",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1103123449167216730",
+    "targetChannels": [
+      "FamiliaCollector"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaCollector",
+        "label": "FamiliaCollector",
+        "webhook_url": "https://discord.com/api/webhooks/1391817439947260087/U_l0XBIwjfXMiIKqI3MS8SdDNway4k7EVCMV535qAu-9RwtVryuj16FvTOFhc9sP8uRh"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:47:32.524Z",
+    "profileId": "profile_1757731652508_eu5gbe",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731652507",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": true,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731695593": {
+    "label": "familiaCollector",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1103123449167216730",
+    "targetChannels": [
+      "FamiliaCollector"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaCollector",
+        "label": "FamiliaCollector",
+        "webhook_url": "https://discord.com/api/webhooks/1391817439947260087/U_l0XBIwjfXMiIKqI3MS8SdDNway4k7EVCMV535qAu-9RwtVryuj16FvTOFhc9sP8uRh"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:48:15.610Z",
+    "profileId": "profile_1757731695594_wkbim2",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731695593",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": true,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757511302654": {
+    "label": "Macys",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760264383926332",
+    "targetChannels": [
+      "PokeMonitorBAR",
+      "MacysDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      },
+      {
+        "name": "MacysDSC",
+        "label": "MacysDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T13:35:02.665Z",
+    "profileId": "profile_1757511302655_m7rvxr",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": true,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757511312322": {
+    "label": "PKCnotify",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1407738759968981012",
+    "targetChannels": [
+      "PokeNotifyBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T13:35:12.334Z",
+    "profileId": "profile_1757511312323_3cy6lm",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731743086": {
+    "label": "PKCnotify",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1407738759968981012",
+    "targetChannels": [
+      "PokeNotifyBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:49:03.102Z",
+    "profileId": "profile_1757731743087_xmi073",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731743086",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731708971": {
+    "label": "Macys",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760264383926332",
+    "targetChannels": [
+      "PokeMonitorBAR",
+      "MacysDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      },
+      {
+        "name": "MacysDSC",
+        "label": "MacysDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:48:28.987Z",
+    "profileId": "profile_1757731708972_ubw23k",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731708971",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731788989": {
+    "label": "Macys",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760264383926332",
+    "targetChannels": [
+      "PokeMonitorBAR",
+      "MacysDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      },
+      {
+        "name": "MacysDSC",
+        "label": "MacysDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:49:49.004Z",
+    "profileId": "profile_1757731788990_0dwccz",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731788989",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757511330405": {
+    "label": "Shopify",
+    "channelUrl": "https://discord.com/channels/664957247373180958/1307019920130707496",
+    "targetChannels": [
+      "FamiliaShopify",
+      "shopifyDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaShopify",
+        "label": "FamiliaShopify",
+        "webhook_url": "https://discord.com/api/webhooks/658749059774808104/w8FiXE5csiB6cTrNmi4hbxL3OguBsKcIh2rAcg--koMiSemL4D13C_bAPuVpG5u6PKgY"
+      },
+      {
+        "name": "shopifyDSC",
+        "label": "shopifyDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358890475582525664/vdYFSTrCLDD2ioUwcESqKpfUTPPNsdDGUXST54SjOlyJuP480nA-2KI3uLfx33kiiUXh"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T13:35:30.416Z",
+    "profileId": "profile_1757511330405_xo2rt5",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731804173": {
+    "label": "Shopify",
+    "channelUrl": "https://discord.com/channels/664957247373180958/1307019920130707496",
+    "targetChannels": [
+      "FamiliaShopify",
+      "shopifyDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaShopify",
+        "label": "FamiliaShopify",
+        "webhook_url": "https://discord.com/api/webhooks/658749059774808104/w8FiXE5csiB6cTrNmi4hbxL3OguBsKcIh2rAcg--koMiSemL4D13C_bAPuVpG5u6PKgY"
+      },
+      {
+        "name": "shopifyDSC",
+        "label": "shopifyDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358890475582525664/vdYFSTrCLDD2ioUwcESqKpfUTPPNsdDGUXST54SjOlyJuP480nA-2KI3uLfx33kiiUXh"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:50:04.188Z",
+    "profileId": "profile_1757731804174_yl63pv",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731804173",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757511323556": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347623618774958151",
+    "targetChannels": [
+      "FamiliaTarget",
+      "TargetDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaTarget",
+        "label": "FamiliaTarget",
+        "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
+      },
+      {
+        "name": "TargetDSC",
+        "label": "TargetDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889025116836050/55QdKYqf0M4yUK9zYa7gAEH_7TJzBYpaJFnqT_dqHbBX5u7jE1TruKnhDXnLMdexAzdt"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T13:35:23.565Z",
+    "profileId": "profile_1757511323556_tet4b7",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731836173": {
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347623618774958151",
+    "targetChannels": [
+      "FamiliaTarget",
+      "TargetDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaTarget",
+        "label": "FamiliaTarget",
+        "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
+      },
+      {
+        "name": "TargetDSC",
+        "label": "TargetDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889025116836050/55QdKYqf0M4yUK9zYa7gAEH_7TJzBYpaJFnqT_dqHbBX5u7jE1TruKnhDXnLMdexAzdt"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:50:36.189Z",
+    "profileId": "profile_1757731836174_bb3j73",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731836173",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757511314357": {
+    "label": "Pokemon",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296182795621634158",
+    "targetChannels": [
+      "PokeNotifyBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": true,
+    "startTime": "2025-09-10T13:35:14.368Z",
+    "profileId": "profile_1757511314358_0xagrs",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731855775": {
+    "label": "Pokemon",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296182795621634158",
+    "targetChannels": [
+      "PokeNotifyBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": true,
+    "startTime": "2025-09-13T02:50:55.792Z",
+    "profileId": "profile_1757731855775_m1z2f3",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731855775",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757556431399": {
+    "label": "pokemonCenter",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1351589557753221190",
+    "targetChannels": [
+      "PokeNotifyBar",
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      },
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-11T02:07:11.413Z",
+    "profileId": "profile_1757556431400_pzyy9w",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731905945": {
+    "label": "pokemonCenter",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1351589557753221190",
+    "targetChannels": [
+      "PokeNotifyBar",
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      },
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:51:45.962Z",
+    "profileId": "profile_1757731905946_wtur6g",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731905945",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757511318958": {
+    "label": "Sams",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296980944389017610",
+    "targetChannels": [
+      "FamiliaSams",
+      "SamsClubDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaSams",
+        "label": "FamiliaSams",
+        "webhook_url": "https://discord.com/api/webhooks/1350574314407071784/XycvTqWYRvy6mh_KRL4L3dybWS-OCar2G77LZMYjTrihc-_QvWEfLjtGPZ1OV_ZF3I4X"
+      },
+      {
+        "name": "SamsClubDSC",
+        "label": "SamsClubDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888223056728174/_RxikHW--bXgtbnTdV2eHePl4uBLIW7LOaDpmVu6q88k7mVqxCIZAOy0ZAdTTf61D1Av"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T13:35:18.972Z",
+    "profileId": "profile_1757511318959_sxt5ey",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731942153": {
+    "label": "Sams",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296980944389017610",
+    "targetChannels": [
+      "FamiliaSams",
+      "SamsClubDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaSams",
+        "label": "FamiliaSams",
+        "webhook_url": "https://discord.com/api/webhooks/1350574314407071784/XycvTqWYRvy6mh_KRL4L3dybWS-OCar2G77LZMYjTrihc-_QvWEfLjtGPZ1OV_ZF3I4X"
+      },
+      {
+        "name": "SamsClubDSC",
+        "label": "SamsClubDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888223056728174/_RxikHW--bXgtbnTdV2eHePl4uBLIW7LOaDpmVu6q88k7mVqxCIZAOy0ZAdTTf61D1Av"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:52:22.180Z",
+    "profileId": "profile_1757731942155_8cqm26",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731942153",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757511336211": {
+    "label": "POP MART",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760568789602324",
+    "targetChannels": [
+      "POP MART"
+    ],
+    "webhookInfo": [
+      {
+        "name": "POP MART",
+        "label": "POP MART",
+        "webhook_url": "https://discord.com/api/webhooks/1358890099449794661/-FHv47fTFlXT3ThtdU0qPtbb6S0qNoMM1XgscoRN-aVKjFodKphOW_HkKSNqVsK6gSpd"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T13:35:36.233Z",
+    "profileId": "profile_1757511336212_a61pul",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731956812": {
+    "label": "POP MART",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760568789602324",
+    "targetChannels": [
+      "POP MART"
+    ],
+    "webhookInfo": [
+      {
+        "name": "POP MART",
+        "label": "POP MART",
+        "webhook_url": "https://discord.com/api/webhooks/1358890099449794661/-FHv47fTFlXT3ThtdU0qPtbb6S0qNoMM1XgscoRN-aVKjFodKphOW_HkKSNqVsK6gSpd"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:52:36.838Z",
+    "profileId": "profile_1757731956812_t3xrf8",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731956812",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757511327107": {
+    "label": "Walmart",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347810319875047465",
+    "targetChannels": [
+      "FamiliaWalmart",
+      "WalmartDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaWalmart",
+        "label": "FamiliaWalmart",
+        "webhook_url": "https://discord.com/api/webhooks/1350576171133435934/fATR03W1IczspfvZi0yogWo0PoZ0bSUjc2b0AeeL1tTUYIIgJUOF-Z-SJ3t4dwJdjlzJ"
+      },
+      {
+        "name": "WalmartDSC",
+        "label": "WalmartDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889123863335004/IcTdNLk5DKDvmdYuBNg1JA7rS4n2sXKzVkdlyOoqy7f5IpYDAJf6LrTOH8UQ8lVsZwM1"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-10T13:35:27.119Z",
+    "profileId": "profile_1757511327107_caafrl",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757731983474": {
+    "label": "Walmart",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347810319875047465",
+    "targetChannels": [
+      "FamiliaWalmart",
+      "WalmartDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaWalmart",
+        "label": "FamiliaWalmart",
+        "webhook_url": "https://discord.com/api/webhooks/1350576171133435934/fATR03W1IczspfvZi0yogWo0PoZ0bSUjc2b0AeeL1tTUYIIgJUOF-Z-SJ3t4dwJdjlzJ"
+      },
+      {
+        "name": "WalmartDSC",
+        "label": "WalmartDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889123863335004/IcTdNLk5DKDvmdYuBNg1JA7rS4n2sXKzVkdlyOoqy7f5IpYDAJf6LrTOH8UQ8lVsZwM1"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:53:03.531Z",
+    "profileId": "profile_1757731983475_r0hijv",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757731983474",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757555838750": {
+    "label": "PokemonAIO",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347810490973163570",
+    "targetChannels": [
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-11T01:57:18.765Z",
+    "profileId": "profile_1757555838750_4pspx9",
+    "isTestingModule": false,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757732003299": {
+    "label": "PokemonAIO",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347810490973163570",
+    "targetChannels": [
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": true,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-13T02:53:23.320Z",
+    "profileId": "profile_1757732003300_4axxap",
+    "isTestingModule": false,
+    "pm2_task_id": "monitor_task_1757732003299",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": true,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1757259949875": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+    "targetChannels": [
+      "cosctoDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "cosctoDSC",
+        "label": "cosctoDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-07T15:45:49.894Z",
+    "profileId": "profile_1757259949876_maikee",
+    "isTestingModule": true,
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
+  },
+  "task_1758074606189": {
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+    "targetChannels": [
+      "cosctoDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "cosctoDSC",
+        "label": "cosctoDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
+      }
+    ],
+    "enableUrlUnshortening": false,
+    "headless": false,
+    "enableRegularMessages": false,
+    "startTime": "2025-09-17T02:03:26.217Z",
+    "profileId": "profile_1758074606190_oj2a34",
+    "isTestingModule": true,
+    "pm2_task_id": "monitor_task_1758074606189",
+    "enableBestBuyAffiliateLinks": false,
+    "enableMavelyAffiliateLinks": false,
+    "disableEmbedWebhook": false,
+    "enableTweeting": false,
+    "tweetKeywords": [],
+    "tweetTimeout": 30
   }
 }

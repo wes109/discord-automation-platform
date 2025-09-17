@@ -30,8 +30,7 @@
       "headless": true,
       "enableRegularMessages": false,
       "startTime": "2025-04-14T02:37:33.611Z",
-      "profileId": "profile_1744598253516_ax2jco",
-      "pm2_task_id": "monitor_task_1744598253516"
+      "profileId": "profile_1744598253516_ax2jco"
     },
     "profileId": "profile_1744598253516_ax2jco",
     "createdTime": "2025-04-14T02:37:34.445Z"
@@ -67,48 +66,10 @@
       "headless": true,
       "enableRegularMessages": false,
       "startTime": "2025-04-14T02:37:45.849Z",
-      "profileId": "profile_1744598265570_f4vgg9",
-      "pm2_task_id": "monitor_task_1744598265569"
+      "profileId": "profile_1744598265570_f4vgg9"
     },
     "profileId": "profile_1744598265570_f4vgg9",
     "createdTime": "2025-04-14T02:37:46.387Z"
-  },
-  {
-    "taskId": "task_1744940040950",
-    "label": "NikeRestocks",
-    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
-    "targetChannels": [
-      "nikeRestocks"
-    ],
-    "webhookInfo": [
-      {
-        "name": "nikeRestocks",
-        "label": "nikeRestocks",
-        "webhook_url": "https://discord.com/channels/1103122365396832256/1348761052992639096"
-      }
-    ],
-    "settings": {
-      "label": "NikeRestocks",
-      "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
-      "targetChannels": [
-        "nikeRestocks"
-      ],
-      "webhookInfo": [
-        {
-          "name": "nikeRestocks",
-          "label": "nikeRestocks",
-          "webhook_url": "https://discord.com/channels/1103122365396832256/1348761052992639096"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": true,
-      "enableRegularMessages": false,
-      "startTime": "2025-04-18T01:34:01.191Z",
-      "profileId": "profile_1744940040951_qrqoby",
-      "isTestingModule": false
-    },
-    "profileId": "profile_1744940040951_qrqoby",
-    "createdTime": "2025-04-18T01:34:01.710Z"
   },
   {
     "taskId": "task_1747966594454",
@@ -229,126 +190,6 @@
     "createdTime": "2025-05-24T16:24:45.962Z"
   },
   {
-    "taskId": "task_1744942422359",
-    "label": "gamestop",
-    "channelUrl": "https://discord.com/channels/1103122365396832256/1347811397257400380",
-    "targetChannels": [
-      "Gamestop"
-    ],
-    "webhookInfo": [
-      {
-        "name": "Gamestop",
-        "label": "Gamestop",
-        "webhook_url": "https://discord.com/api/webhooks/1358890319357411498/pZxyIotU4kg_B6N9lAWyo_BTRfVofaAuD5mz1_l56ZZlBkHqQ-lwjxn6d84rriUyCYMh"
-      }
-    ],
-    "settings": {
-      "label": "gamestop",
-      "channelUrl": "https://discord.com/channels/1103122365396832256/1347811397257400380",
-      "targetChannels": [
-        "Gamestop"
-      ],
-      "webhookInfo": [
-        {
-          "name": "Gamestop",
-          "label": "Gamestop",
-          "webhook_url": "https://discord.com/api/webhooks/1358890319357411498/pZxyIotU4kg_B6N9lAWyo_BTRfVofaAuD5mz1_l56ZZlBkHqQ-lwjxn6d84rriUyCYMh"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": false,
-      "enableRegularMessages": false,
-      "startTime": "2025-04-18T02:13:42.434Z",
-      "profileId": "profile_1744942422359_7gn16h",
-      "isTestingModule": false,
-      "enableAffiliateLinks": false
-    },
-    "profileId": "profile_1744942422359_7gn16h",
-    "createdTime": "2025-04-18T02:13:42.556Z"
-  },
-  {
-    "taskId": "task_1754082076879",
-    "label": "dicks",
-    "channelUrl": "https://discord.com/channels/580944366751711252/1200248781850030170",
-    "targetChannels": [
-      "MacysDSC"
-    ],
-    "webhookInfo": [
-      {
-        "name": "MacysDSC",
-        "label": "MacysDSC",
-        "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
-      }
-    ],
-    "settings": {
-      "label": "dicks",
-      "channelUrl": "https://discord.com/channels/580944366751711252/1200248781850030170",
-      "targetChannels": [
-        "MacysDSC"
-      ],
-      "webhookInfo": [
-        {
-          "name": "MacysDSC",
-          "label": "MacysDSC",
-          "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": false,
-      "enableRegularMessages": false,
-      "startTime": "2025-08-01T21:01:17.073Z",
-      "profileId": "profile_1754082076879_9jvku8",
-      "isTestingModule": false,
-      "enableAffiliateLinks": true,
-      "disableEmbedWebhook": false
-    },
-    "profileId": "profile_1754082076879_9jvku8",
-    "createdTime": "2025-08-01T21:01:17.909Z",
-    "enableRegularMessages": false,
-    "isHeadless": false,
-    "isTestingModule": false,
-    "enableAffiliateLinks": true
-  },
-  {
-    "taskId": "task_1752981425601",
-    "label": "pokemonAIO",
-    "channelUrl": "https://discord.com/channels/1296182793407168614/1339589432260431882",
-    "targetChannels": [
-      "pokemonAIO-DSC"
-    ],
-    "webhookInfo": [
-      {
-        "name": "pokemonAIO-DSC",
-        "label": "pokemonAIO-DSC",
-        "webhook_url": "https://discord.com/api/webhooks/1358889451081826577/Gs0M8QQgWvQj_7YifrM9nJJSsv5Nkwb0iAVlFj2sRi6DiWwS9MzEbjXM-211DZYPx4sv"
-      }
-    ],
-    "settings": {
-      "label": "pokemonCenter",
-      "channelUrl": "https://discord.com/channels/1296182793407168614/1296277459242848287",
-      "targetChannels": [
-        "pokemonAIO-DSC"
-      ],
-      "webhookInfo": [
-        {
-          "name": "pokemonAIO-DSC",
-          "label": "pokemonAIO-DSC",
-          "webhook_url": "https://discord.com/api/webhooks/1358889451081826577/Gs0M8QQgWvQj_7YifrM9nJJSsv5Nkwb0iAVlFj2sRi6DiWwS9MzEbjXM-211DZYPx4sv"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": true,
-      "enableRegularMessages": false,
-      "startTime": "2025-08-01T21:01:31.489Z",
-      "profileId": "profile_1754082091281_t0004g",
-      "isTestingModule": false,
-      "enableAffiliateLinks": true,
-      "disableEmbedWebhook": false
-    },
-    "profileId": "profile_1752981425602_95cls2",
-    "createdTime": "2025-07-20T03:17:06.301Z"
-  },
-  {
     "taskId": "task_1753065282644",
     "label": "test",
     "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
@@ -401,92 +242,6 @@
     }
   },
   {
-    "taskId": "task_1753065305834",
-    "label": "test",
-    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
-    "targetChannels": [
-      "TargetDSC"
-    ],
-    "webhookInfo": [
-      {
-        "name": "TargetDSC",
-        "label": "TargetDSC",
-        "webhook_url": "https://discord.com/api/webhooks/1358889025116836050/55QdKYqf0M4yUK9zYa7gAEH_7TJzBYpaJFnqT_dqHbBX5u7jE1TruKnhDXnLMdexAzdt"
-      }
-    ],
-    "settings": {
-      "label": "test",
-      "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
-      "targetChannels": [
-        "TargetDSC"
-      ],
-      "webhookInfo": [
-        {
-          "name": "TargetDSC",
-          "label": "TargetDSC",
-          "webhook_url": "https://discord.com/api/webhooks/1358889025116836050/55QdKYqf0M4yUK9zYa7gAEH_7TJzBYpaJFnqT_dqHbBX5u7jE1TruKnhDXnLMdexAzdt"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": false,
-      "enableRegularMessages": false,
-      "startTime": "2025-07-21T02:35:06.055Z",
-      "profileId": "profile_1753065305834_5j4i3b",
-      "isTestingModule": false,
-      "enableAffiliateLinks": false,
-      "enableTweeting": true,
-      "tweetKeywords": [
-        "+pokemon"
-      ],
-      "tweetTimeout": 30
-    },
-    "profileId": "profile_1753065305834_5j4i3b",
-    "createdTime": "2025-07-21T02:35:06.377Z"
-  },
-  {
-    "taskId": "task_1753066220699",
-    "label": "NikeRestocks",
-    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
-    "targetChannels": [
-      "nikeRestocks"
-    ],
-    "webhookInfo": [
-      {
-        "name": "nikeRestocks",
-        "label": "nikeRestocks",
-        "webhook_url": "https://discord.com/api/webhooks/1358899787478339754/US9RBMIOkW2Juo0SFwHGS4M5uiUQjcb2M8Q0vsPIlqJDHlJMqX3_meldmR1wEWDWFqHA"
-      }
-    ],
-    "settings": {
-      "label": "NikeRestocks",
-      "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
-      "targetChannels": [
-        "nikeRestocks"
-      ],
-      "webhookInfo": [
-        {
-          "name": "nikeRestocks",
-          "label": "nikeRestocks",
-          "webhook_url": "https://discord.com/api/webhooks/1358899787478339754/US9RBMIOkW2Juo0SFwHGS4M5uiUQjcb2M8Q0vsPIlqJDHlJMqX3_meldmR1wEWDWFqHA"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": false,
-      "enableRegularMessages": false,
-      "startTime": "2025-07-21T02:50:20.913Z",
-      "profileId": "profile_1753066220700_o9f1m1",
-      "isTestingModule": false,
-      "enableAffiliateLinks": false,
-      "enableTweeting": true,
-      "tweetKeywords": [
-        "+pokemon"
-      ],
-      "tweetTimeout": 30
-    },
-    "profileId": "profile_1753066220700_o9f1m1",
-    "createdTime": "2025-07-21T02:50:21.137Z"
-  },
-  {
     "taskId": "task_1753499478375",
     "label": "Target2",
     "channelUrl": "https://discord.com/channels/580944366751711252/1098278755157418044",
@@ -534,287 +289,132 @@
     "createdTime": "2025-07-26T03:11:18.745Z"
   },
   {
-    "taskId": "task_1755380288314",
-    "label": "Shopify",
-    "channelUrl": "https://discord.com/channels/664957247373180958/1307019920130707496",
+    "taskId": "task_1757297485805",
+    "label": "dicks",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1200248781850030170",
     "targetChannels": [
-      "FamiliaShopify"
+      "MacysDSC"
     ],
     "webhookInfo": [
       {
-        "name": "FamiliaShopify",
-        "label": "FamiliaShopify",
-        "webhook_url": "https://discord.com/api/webhooks/658749059774808104/w8FiXE5csiB6cTrNmi4hbxL3OguBsKcIh2rAcg--koMiSemL4D13C_bAPuVpG5u6PKgY"
+        "name": "MacysDSC",
+        "label": "MacysDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
       }
     ],
     "settings": {
-      "label": "Shopify",
-      "channelUrl": "https://discord.com/channels/664957247373180958/1307019920130707496",
+      "label": "dicks",
+      "channelUrl": "https://discord.com/channels/580944366751711252/1200248781850030170",
       "targetChannels": [
-        "FamiliaShopify"
+        "MacysDSC"
       ],
       "webhookInfo": [
         {
-          "name": "FamiliaShopify",
-          "label": "FamiliaShopify",
-          "webhook_url": "https://discord.com/api/webhooks/658749059774808104/w8FiXE5csiB6cTrNmi4hbxL3OguBsKcIh2rAcg--koMiSemL4D13C_bAPuVpG5u6PKgY"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": true,
-      "enableRegularMessages": false,
-      "startTime": "2025-08-16T21:38:08.519Z",
-      "profileId": "profile_1755380288315_jw0bze",
-      "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1755380288314",
-      "enableAffiliateLinks": false,
-      "disableEmbedWebhook": false
-    },
-    "profileId": "profile_1755380288315_jw0bze",
-    "createdTime": "2025-08-16T21:38:09.392Z"
-  },
-  {
-    "taskId": "task_1755444116857",
-    "label": "Sams",
-    "channelUrl": "https://discord.com/channels/1296182793407168614/1296980944389017610",
-    "targetChannels": [
-      "FamiliaSams"
-    ],
-    "webhookInfo": [
-      {
-        "name": "FamiliaSams",
-        "label": "FamiliaSams",
-        "webhook_url": "https://discord.com/api/webhooks/1350574314407071784/XycvTqWYRvy6mh_KRL4L3dybWS-OCar2G77LZMYjTrihc-_QvWEfLjtGPZ1OV_ZF3I4X"
-      }
-    ],
-    "settings": {
-      "label": "Sams",
-      "channelUrl": "https://discord.com/channels/1296182793407168614/1296980944389017610",
-      "targetChannels": [
-        "FamiliaSams"
-      ],
-      "webhookInfo": [
-        {
-          "name": "FamiliaSams",
-          "label": "FamiliaSams",
-          "webhook_url": "https://discord.com/api/webhooks/1350574314407071784/XycvTqWYRvy6mh_KRL4L3dybWS-OCar2G77LZMYjTrihc-_QvWEfLjtGPZ1OV_ZF3I4X"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": true,
-      "enableRegularMessages": false,
-      "startTime": "2025-08-17T15:21:57.098Z",
-      "profileId": "profile_1755444116857_q0kt4b",
-      "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1755444116857",
-      "enableAffiliateLinks": true,
-      "disableEmbedWebhook": false
-    },
-    "profileId": "profile_1755444116857_q0kt4b",
-    "createdTime": "2025-08-17T15:21:57.929Z"
-  },
-  {
-    "taskId": "task_1757000522652",
-    "label": "Costco",
-    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
-    "targetChannels": [
-      "cosctoDSC"
-    ],
-    "webhookInfo": [
-      {
-        "name": "cosctoDSC",
-        "label": "cosctoDSC",
-        "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
-      }
-    ],
-    "settings": {
-      "label": "Costco",
-      "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
-      "targetChannels": [
-        "cosctoDSC"
-      ],
-      "webhookInfo": [
-        {
-          "name": "cosctoDSC",
-          "label": "cosctoDSC",
-          "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
+          "name": "MacysDSC",
+          "label": "MacysDSC",
+          "webhook_url": "https://discord.com/api/webhooks/1358899511019438151/QHrPJv8GrGHLRLdd55LGJjfa00m6Zkp0B9v-qnmQx0Zr12Gyro6cQXx4BRLm8Q0N0S5o"
         }
       ],
       "enableUrlUnshortening": false,
       "headless": false,
       "enableRegularMessages": false,
-      "startTime": "2025-09-04T15:42:02.900Z",
-      "profileId": "profile_1757000522653_kn2ldl",
-      "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1757000522652",
-      "enableAffiliateLinks": false,
+      "startTime": "2025-09-08T02:11:25.825Z",
+      "profileId": "profile_1757297485806_7loyzf",
+      "isTestingModule": true,
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": false,
       "disableEmbedWebhook": false
     },
-    "profileId": "profile_1757000522653_kn2ldl",
-    "createdTime": "2025-09-04T15:42:03.940Z"
+    "profileId": "profile_1757297485806_7loyzf",
+    "createdTime": "2025-09-08T02:11:27.804Z"
   },
   {
-    "taskId": "task_1757011431889",
-    "label": "Walmart",
-    "channelUrl": "https://discord.com/channels/1103122365396832256/1347810319875047465",
+    "taskId": "task_1757299176599",
+    "label": "gamestop",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347811397257400380",
     "targetChannels": [
-      "FamiliaWalmart",
-      "PokeMonitorBAR"
+      "Gamestop"
     ],
     "webhookInfo": [
       {
-        "name": "FamiliaWalmart",
-        "label": "FamiliaWalmart",
-        "webhook_url": "https://discord.com/api/webhooks/1350576171133435934/fATR03W1IczspfvZi0yogWo0PoZ0bSUjc2b0AeeL1tTUYIIgJUOF-Z-SJ3t4dwJdjlzJ"
-      },
-      {
-        "name": "PokeMonitorBAR",
-        "label": "PokeMonitorBAR",
-        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+        "name": "Gamestop",
+        "label": "Gamestop",
+        "webhook_url": "https://discord.com/api/webhooks/1358890319357411498/pZxyIotU4kg_B6N9lAWyo_BTRfVofaAuD5mz1_l56ZZlBkHqQ-lwjxn6d84rriUyCYMh"
       }
     ],
     "settings": {
-      "label": "Walmart",
-      "channelUrl": "https://discord.com/channels/1103122365396832256/1347810319875047465",
+      "label": "gamestop",
+      "channelUrl": "https://discord.com/channels/1103122365396832256/1347811397257400380",
       "targetChannels": [
-        "FamiliaWalmart",
-        "PokeMonitorBAR"
+        "Gamestop"
       ],
       "webhookInfo": [
         {
-          "name": "FamiliaWalmart",
-          "label": "FamiliaWalmart",
-          "webhook_url": "https://discord.com/api/webhooks/1350576171133435934/fATR03W1IczspfvZi0yogWo0PoZ0bSUjc2b0AeeL1tTUYIIgJUOF-Z-SJ3t4dwJdjlzJ"
-        },
+          "name": "Gamestop",
+          "label": "Gamestop",
+          "webhook_url": "https://discord.com/api/webhooks/1358890319357411498/pZxyIotU4kg_B6N9lAWyo_BTRfVofaAuD5mz1_l56ZZlBkHqQ-lwjxn6d84rriUyCYMh"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": false,
+      "enableRegularMessages": false,
+      "startTime": "2025-09-08T02:39:36.618Z",
+      "profileId": "profile_1757299176600_ga7925",
+      "isTestingModule": true,
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": false,
+      "disableEmbedWebhook": false
+    },
+    "profileId": "profile_1757299176600_ga7925",
+    "createdTime": "2025-09-08T02:39:38.538Z"
+  },
+  {
+    "taskId": "task_1757556216988",
+    "label": "NikeRestocks",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+    "targetChannels": [
+      "nikeRestocks"
+    ],
+    "webhookInfo": [
+      {
+        "name": "nikeRestocks",
+        "label": "nikeRestocks",
+        "webhook_url": "https://discord.com/api/webhooks/1358899787478339754/US9RBMIOkW2Juo0SFwHGS4M5uiUQjcb2M8Q0vsPIlqJDHlJMqX3_meldmR1wEWDWFqHA"
+      }
+    ],
+    "settings": {
+      "label": "NikeRestocks",
+      "channelUrl": "https://discord.com/channels/1103122365396832256/1348761052992639096",
+      "targetChannels": [
+        "nikeRestocks"
+      ],
+      "webhookInfo": [
         {
-          "name": "PokeMonitorBAR",
-          "label": "PokeMonitorBAR",
-          "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+          "name": "nikeRestocks",
+          "label": "nikeRestocks",
+          "webhook_url": "https://discord.com/api/webhooks/1358899787478339754/US9RBMIOkW2Juo0SFwHGS4M5uiUQjcb2M8Q0vsPIlqJDHlJMqX3_meldmR1wEWDWFqHA"
         }
       ],
       "enableUrlUnshortening": false,
       "headless": true,
       "enableRegularMessages": false,
-      "startTime": "2025-09-04T18:43:52.110Z",
-      "profileId": "profile_1757011431889_3uille",
+      "startTime": "2025-09-11T02:03:37.008Z",
+      "profileId": "profile_1757556216988_7skc7h",
       "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1757011431889",
-      "enableAffiliateLinks": true,
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": true,
       "disableEmbedWebhook": false
     },
-    "profileId": "profile_1757011431889_3uille",
-    "createdTime": "2025-09-04T18:43:53.075Z"
+    "profileId": "profile_1757556216988_7skc7h",
+    "createdTime": "2025-09-11T02:03:38.059Z"
   },
   {
-    "taskId": "task_1757011441207",
-    "label": "Target",
-    "channelUrl": "https://discord.com/channels/1103122365396832256/1347623618774958151",
-    "targetChannels": [
-      "FamiliaTarget",
-      "PokeMonitorBAR"
-    ],
-    "webhookInfo": [
-      {
-        "name": "FamiliaTarget",
-        "label": "FamiliaTarget",
-        "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
-      },
-      {
-        "name": "PokeMonitorBAR",
-        "label": "PokeMonitorBAR",
-        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
-      }
-    ],
-    "settings": {
-      "label": "Target",
-      "channelUrl": "https://discord.com/channels/1103122365396832256/1347623618774958151",
-      "targetChannels": [
-        "FamiliaTarget",
-        "PokeMonitorBAR"
-      ],
-      "webhookInfo": [
-        {
-          "name": "FamiliaTarget",
-          "label": "FamiliaTarget",
-          "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
-        },
-        {
-          "name": "PokeMonitorBAR",
-          "label": "PokeMonitorBAR",
-          "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": true,
-      "enableRegularMessages": false,
-      "startTime": "2025-09-04T18:44:01.426Z",
-      "profileId": "profile_1757011441207_tpnwji",
-      "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1757011441207",
-      "enableAffiliateLinks": true,
-      "disableEmbedWebhook": false
-    },
-    "profileId": "profile_1757011441207_tpnwji",
-    "createdTime": "2025-09-04T18:44:02.388Z"
-  },
-  {
-    "taskId": "task_1757011458340",
-    "label": "BEST BUY",
-    "channelUrl": "https://discord.com/channels/1103122365396832256/1347811221046562877",
-    "targetChannels": [
-      "FamiliaBestBuy",
-      "PokeMonitorBAR"
-    ],
-    "webhookInfo": [
-      {
-        "name": "FamiliaBestBuy",
-        "label": "FamiliaBestBuy",
-        "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
-      },
-      {
-        "name": "PokeMonitorBAR",
-        "label": "PokeMonitorBAR",
-        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
-      }
-    ],
-    "settings": {
-      "label": "BEST BUY",
-      "channelUrl": "https://discord.com/channels/1103122365396832256/1347811221046562877",
-      "targetChannels": [
-        "FamiliaBestBuy",
-        "PokeMonitorBAR"
-      ],
-      "webhookInfo": [
-        {
-          "name": "FamiliaBestBuy",
-          "label": "FamiliaBestBuy",
-          "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
-        },
-        {
-          "name": "PokeMonitorBAR",
-          "label": "PokeMonitorBAR",
-          "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": true,
-      "enableRegularMessages": false,
-      "startTime": "2025-09-04T18:44:18.569Z",
-      "profileId": "profile_1757011458340_51ragq",
-      "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1757011458340",
-      "enableAffiliateLinks": true,
-      "disableEmbedWebhook": false
-    },
-    "profileId": "profile_1757011458340_51ragq",
-    "createdTime": "2025-09-04T18:44:19.778Z"
-  },
-  {
-    "taskId": "task_1757011466994",
+    "taskId": "task_1757731561435",
     "label": "Amazon",
     "channelUrl": "https://discord.com/channels/1103122365396832256/1347624199078023228",
     "targetChannels": [
       "FamiliaAmazon",
+      "AmazonDSC",
       "PokeMonitorBAR"
     ],
     "webhookInfo": [
@@ -822,6 +422,11 @@
         "name": "FamiliaAmazon",
         "label": "FamiliaAmazon",
         "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+      },
+      {
+        "name": "AmazonDSC",
+        "label": "AmazonDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887688463450293/9XKW8-0JPIJgLdRYRWdbAdI2wape4AElle-oxkz_5Oz5gtoESD_O9mQqtBG4YOzbwVVD"
       },
       {
         "name": "PokeMonitorBAR",
@@ -834,6 +439,7 @@
       "channelUrl": "https://discord.com/channels/1103122365396832256/1347624199078023228",
       "targetChannels": [
         "FamiliaAmazon",
+        "AmazonDSC",
         "PokeMonitorBAR"
       ],
       "webhookInfo": [
@@ -841,6 +447,11 @@
           "name": "FamiliaAmazon",
           "label": "FamiliaAmazon",
           "webhook_url": "https://discord.com/api/webhooks/711034719508365335/5fFOtTHEYIkBBvOYFFoFW8Wt_6gBoXixBI7PFc_zPF-tOU2-MjfoKd_mTw0ZOEB9lKVS"
+        },
+        {
+          "name": "AmazonDSC",
+          "label": "AmazonDSC",
+          "webhook_url": "https://discord.com/api/webhooks/1358887688463450293/9XKW8-0JPIJgLdRYRWdbAdI2wape4AElle-oxkz_5Oz5gtoESD_O9mQqtBG4YOzbwVVD"
         },
         {
           "name": "PokeMonitorBAR",
@@ -851,18 +462,248 @@
       "enableUrlUnshortening": false,
       "headless": true,
       "enableRegularMessages": false,
-      "startTime": "2025-09-04T18:44:27.224Z",
-      "profileId": "profile_1757011466994_s62gxq",
+      "startTime": "2025-09-13T02:46:01.455Z",
+      "profileId": "profile_1757731561436_tu1qh4",
       "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1757011466994",
-      "enableAffiliateLinks": true,
-      "disableEmbedWebhook": false
+      "pm2_task_id": "monitor_task_1757731561435",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": false,
+      "disableEmbedWebhook": false,
+      "enableTweeting": true,
+      "tweetKeywords": [
+        "+pop"
+      ],
+      "tweetTimeout": 30
     },
-    "profileId": "profile_1757011466994_s62gxq",
-    "createdTime": "2025-09-04T18:44:28.404Z"
+    "profileId": "profile_1757731561436_tu1qh4",
+    "createdTime": "2025-09-13T02:46:02.025Z"
   },
   {
-    "taskId": "task_1757089786442",
+    "taskId": "task_1757731618670",
+    "label": "BEST BUY",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347811221046562877",
+    "targetChannels": [
+      "FamiliaBestBuy",
+      "BestBuyDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaBestBuy",
+        "label": "FamiliaBestBuy",
+        "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
+      },
+      {
+        "name": "BestBuyDSC",
+        "label": "BestBuyDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358887875546058812/bRkrzukJt4lYj6jPTx35i2vtjd4e0RO8pIha_8z8ki3ZgO-Q1eKmOS873Jy-xH-xnwHH"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "settings": {
+      "label": "BEST BUY",
+      "channelUrl": "https://discord.com/channels/1103122365396832256/1347811221046562877",
+      "targetChannels": [
+        "FamiliaBestBuy",
+        "BestBuyDSC",
+        "PokeMonitorBAR"
+      ],
+      "webhookInfo": [
+        {
+          "name": "FamiliaBestBuy",
+          "label": "FamiliaBestBuy",
+          "webhook_url": "https://discord.com/api/webhooks/755152610922725518/RVINKMmGB2X3BJxi3VFG2ssfPz7Z8JDVyRChTfuNN-si49bGzeaEoTc2Qd3TN66jHQkm"
+        },
+        {
+          "name": "BestBuyDSC",
+          "label": "BestBuyDSC",
+          "webhook_url": "https://discord.com/api/webhooks/1358887875546058812/bRkrzukJt4lYj6jPTx35i2vtjd4e0RO8pIha_8z8ki3ZgO-Q1eKmOS873Jy-xH-xnwHH"
+        },
+        {
+          "name": "PokeMonitorBAR",
+          "label": "PokeMonitorBAR",
+          "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": true,
+      "enableRegularMessages": false,
+      "startTime": "2025-09-13T02:46:58.684Z",
+      "profileId": "profile_1757731618671_2v5uxq",
+      "isTestingModule": false,
+      "pm2_task_id": "monitor_task_1757731618670",
+      "enableBestBuyAffiliateLinks": true,
+      "enableMavelyAffiliateLinks": false,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
+    },
+    "profileId": "profile_1757731618671_2v5uxq",
+    "createdTime": "2025-09-13T02:46:59.441Z"
+  },
+  {
+    "taskId": "task_1757731661945",
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296440365028606042",
+    "targetChannels": [
+      "CostcoTheBar",
+      "FamiliaCostco",
+      "cosctoDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "CostcoTheBar",
+        "label": "CostcoTheBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+      },
+      {
+        "name": "FamiliaCostco",
+        "label": "FamiliaCostco",
+        "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+      },
+      {
+        "name": "cosctoDSC",
+        "label": "cosctoDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
+      }
+    ],
+    "settings": {
+      "label": "Costco",
+      "channelUrl": "https://discord.com/channels/1296182793407168614/1296440365028606042",
+      "targetChannels": [
+        "CostcoTheBar",
+        "FamiliaCostco",
+        "cosctoDSC"
+      ],
+      "webhookInfo": [
+        {
+          "name": "CostcoTheBar",
+          "label": "CostcoTheBar",
+          "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+        },
+        {
+          "name": "FamiliaCostco",
+          "label": "FamiliaCostco",
+          "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+        },
+        {
+          "name": "cosctoDSC",
+          "label": "cosctoDSC",
+          "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": true,
+      "enableRegularMessages": false,
+      "startTime": "2025-09-13T02:47:41.963Z",
+      "profileId": "profile_1757731661946_g0g6tl",
+      "isTestingModule": false,
+      "pm2_task_id": "monitor_task_1757731661945",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": false,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
+    },
+    "profileId": "profile_1757731661946_g0g6tl",
+    "createdTime": "2025-09-13T02:47:42.724Z"
+  },
+  {
+    "taskId": "task_1757731695593",
+    "label": "familiaCollector",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1103123449167216730",
+    "targetChannels": [
+      "FamiliaCollector"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaCollector",
+        "label": "FamiliaCollector",
+        "webhook_url": "https://discord.com/api/webhooks/1391817439947260087/U_l0XBIwjfXMiIKqI3MS8SdDNway4k7EVCMV535qAu-9RwtVryuj16FvTOFhc9sP8uRh"
+      }
+    ],
+    "settings": {
+      "label": "familiaCollector",
+      "channelUrl": "https://discord.com/channels/1103122365396832256/1103123449167216730",
+      "targetChannels": [
+        "FamiliaCollector"
+      ],
+      "webhookInfo": [
+        {
+          "name": "FamiliaCollector",
+          "label": "FamiliaCollector",
+          "webhook_url": "https://discord.com/api/webhooks/1391817439947260087/U_l0XBIwjfXMiIKqI3MS8SdDNway4k7EVCMV535qAu-9RwtVryuj16FvTOFhc9sP8uRh"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": true,
+      "enableRegularMessages": false,
+      "startTime": "2025-09-13T02:48:15.610Z",
+      "profileId": "profile_1757731695594_wkbim2",
+      "isTestingModule": false,
+      "pm2_task_id": "monitor_task_1757731695593",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": true,
+      "disableEmbedWebhook": true,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
+    },
+    "profileId": "profile_1757731695594_wkbim2",
+    "createdTime": "2025-09-13T02:48:16.378Z"
+  },
+  {
+    "taskId": "task_1757731743086",
+    "label": "PKCnotify",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1407738759968981012",
+    "targetChannels": [
+      "PokeNotifyBar"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      }
+    ],
+    "settings": {
+      "label": "PKCnotify",
+      "channelUrl": "https://discord.com/channels/1296182793407168614/1407738759968981012",
+      "targetChannels": [
+        "PokeNotifyBar"
+      ],
+      "webhookInfo": [
+        {
+          "name": "PokeNotifyBar",
+          "label": "PokeNotifyBar",
+          "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": true,
+      "enableRegularMessages": false,
+      "startTime": "2025-09-13T02:49:03.102Z",
+      "profileId": "profile_1757731743087_xmi073",
+      "isTestingModule": false,
+      "pm2_task_id": "monitor_task_1757731743086",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": false,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
+    },
+    "profileId": "profile_1757731743087_xmi073",
+    "createdTime": "2025-09-13T02:49:03.979Z"
+  },
+  {
+    "taskId": "task_1757731788989",
     "label": "Macys",
     "channelUrl": "https://discord.com/channels/1103122365396832256/1348760264383926332",
     "targetChannels": [
@@ -903,150 +744,146 @@
       "enableUrlUnshortening": false,
       "headless": true,
       "enableRegularMessages": false,
-      "startTime": "2025-09-05T16:29:46.668Z",
-      "profileId": "profile_1757089786443_5bhbcq",
+      "startTime": "2025-09-13T02:49:49.004Z",
+      "profileId": "profile_1757731788990_0dwccz",
       "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1757089786442",
-      "enableAffiliateLinks": true,
-      "disableEmbedWebhook": false
+      "pm2_task_id": "monitor_task_1757731788989",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": true,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
     },
-    "profileId": "profile_1757089786443_5bhbcq",
-    "createdTime": "2025-09-05T16:29:47.972Z"
+    "profileId": "profile_1757731788990_0dwccz",
+    "createdTime": "2025-09-13T02:49:49.826Z"
   },
   {
-    "taskId": "task_1757089793474",
-    "label": "familiaCollector",
-    "channelUrl": "https://discord.com/channels/1103122365396832256/1103123449167216730",
+    "taskId": "task_1757731804173",
+    "label": "Shopify",
+    "channelUrl": "https://discord.com/channels/664957247373180958/1307019920130707496",
     "targetChannels": [
-      "FamiliaCollector"
+      "FamiliaShopify",
+      "shopifyDSC"
     ],
     "webhookInfo": [
       {
-        "name": "FamiliaCollector",
-        "label": "FamiliaCollector",
-        "webhook_url": "https://discord.com/api/webhooks/1391817439947260087/U_l0XBIwjfXMiIKqI3MS8SdDNway4k7EVCMV535qAu-9RwtVryuj16FvTOFhc9sP8uRh"
-      }
-    ],
-    "settings": {
-      "label": "familiaCollector",
-      "channelUrl": "https://discord.com/channels/1103122365396832256/1103123449167216730",
-      "targetChannels": [
-        "FamiliaCollector"
-      ],
-      "webhookInfo": [
-        {
-          "name": "FamiliaCollector",
-          "label": "FamiliaCollector",
-          "webhook_url": "https://discord.com/api/webhooks/1391817439947260087/U_l0XBIwjfXMiIKqI3MS8SdDNway4k7EVCMV535qAu-9RwtVryuj16FvTOFhc9sP8uRh"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": true,
-      "enableRegularMessages": false,
-      "startTime": "2025-09-05T16:29:53.730Z",
-      "profileId": "profile_1757089793475_0gmhk8",
-      "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1757089793474",
-      "enableAffiliateLinks": false,
-      "disableEmbedWebhook": true
-    },
-    "profileId": "profile_1757089793475_0gmhk8",
-    "createdTime": "2025-09-05T16:29:55.248Z"
-  },
-  {
-    "taskId": "task_1757089801863",
-    "label": "PKCnotify",
-    "channelUrl": "https://discord.com/channels/1296182793407168614/1407738759968981012",
-    "targetChannels": [
-      "PokeNotifyBar"
-    ],
-    "webhookInfo": [
-      {
-        "name": "PokeNotifyBar",
-        "label": "PokeNotifyBar",
-        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
-      }
-    ],
-    "settings": {
-      "label": "PKCnotify",
-      "channelUrl": "https://discord.com/channels/1296182793407168614/1407738759968981012",
-      "targetChannels": [
-        "PokeNotifyBar"
-      ],
-      "webhookInfo": [
-        {
-          "name": "PokeNotifyBar",
-          "label": "PokeNotifyBar",
-          "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
-        }
-      ],
-      "enableUrlUnshortening": false,
-      "headless": true,
-      "enableRegularMessages": true,
-      "startTime": "2025-09-05T16:30:02.089Z",
-      "profileId": "profile_1757089801863_f12pkc",
-      "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1757089801863",
-      "enableAffiliateLinks": false,
-      "disableEmbedWebhook": false
-    },
-    "profileId": "profile_1757089801863_f12pkc",
-    "createdTime": "2025-09-05T16:30:03.842Z"
-  },
-  {
-    "taskId": "task_1757089845537",
-    "label": "Costco",
-    "channelUrl": "https://discord.com/channels/1296182793407168614/1296440365028606042",
-    "targetChannels": [
-      "CostcoTheBar",
-      "FamiliaCostco"
-    ],
-    "webhookInfo": [
-      {
-        "name": "CostcoTheBar",
-        "label": "CostcoTheBar",
-        "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+        "name": "FamiliaShopify",
+        "label": "FamiliaShopify",
+        "webhook_url": "https://discord.com/api/webhooks/658749059774808104/w8FiXE5csiB6cTrNmi4hbxL3OguBsKcIh2rAcg--koMiSemL4D13C_bAPuVpG5u6PKgY"
       },
       {
-        "name": "FamiliaCostco",
-        "label": "FamiliaCostco",
-        "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+        "name": "shopifyDSC",
+        "label": "shopifyDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358890475582525664/vdYFSTrCLDD2ioUwcESqKpfUTPPNsdDGUXST54SjOlyJuP480nA-2KI3uLfx33kiiUXh"
       }
     ],
     "settings": {
-      "label": "Costco",
-      "channelUrl": "https://discord.com/channels/1296182793407168614/1296440365028606042",
+      "label": "Shopify",
+      "channelUrl": "https://discord.com/channels/664957247373180958/1307019920130707496",
       "targetChannels": [
-        "CostcoTheBar",
-        "FamiliaCostco"
+        "FamiliaShopify",
+        "shopifyDSC"
       ],
       "webhookInfo": [
         {
-          "name": "CostcoTheBar",
-          "label": "CostcoTheBar",
-          "webhook_url": "https://discord.com/api/webhooks/1350122088819720224/XNBv7gGk3e51gyAc3-O5QKXypfz_YcU5s52EP6QdZ7HtHGNDBi2x7SWmV60YXD7seg7v"
+          "name": "FamiliaShopify",
+          "label": "FamiliaShopify",
+          "webhook_url": "https://discord.com/api/webhooks/658749059774808104/w8FiXE5csiB6cTrNmi4hbxL3OguBsKcIh2rAcg--koMiSemL4D13C_bAPuVpG5u6PKgY"
         },
         {
-          "name": "FamiliaCostco",
-          "label": "FamiliaCostco",
-          "webhook_url": "https://discord.com/api/webhooks/775494567297548318/qBPOJdxQn9_DXfUjcBs9Sq5IwFMnGAFjv3gphCZOiHrpr7NPpoYyj4f-VHIxjCteac0i"
+          "name": "shopifyDSC",
+          "label": "shopifyDSC",
+          "webhook_url": "https://discord.com/api/webhooks/1358890475582525664/vdYFSTrCLDD2ioUwcESqKpfUTPPNsdDGUXST54SjOlyJuP480nA-2KI3uLfx33kiiUXh"
         }
       ],
       "enableUrlUnshortening": false,
       "headless": true,
       "enableRegularMessages": false,
-      "startTime": "2025-09-05T16:30:45.769Z",
-      "profileId": "profile_1757089845537_5cf0q2",
+      "startTime": "2025-09-13T02:50:04.188Z",
+      "profileId": "profile_1757731804174_yl63pv",
       "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1757089845537",
-      "enableAffiliateLinks": false,
-      "disableEmbedWebhook": false
+      "pm2_task_id": "monitor_task_1757731804173",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": false,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
     },
-    "profileId": "profile_1757089845537_5cf0q2",
-    "createdTime": "2025-09-05T16:30:47.116Z"
+    "profileId": "profile_1757731804174_yl63pv",
+    "createdTime": "2025-09-13T02:50:05.172Z"
   },
   {
-    "taskId": "task_1757089884603",
+    "taskId": "task_1757731836173",
+    "label": "Target",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347623618774958151",
+    "targetChannels": [
+      "FamiliaTarget",
+      "TargetDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaTarget",
+        "label": "FamiliaTarget",
+        "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
+      },
+      {
+        "name": "TargetDSC",
+        "label": "TargetDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889025116836050/55QdKYqf0M4yUK9zYa7gAEH_7TJzBYpaJFnqT_dqHbBX5u7jE1TruKnhDXnLMdexAzdt"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "settings": {
+      "label": "Target",
+      "channelUrl": "https://discord.com/channels/1103122365396832256/1347623618774958151",
+      "targetChannels": [
+        "FamiliaTarget",
+        "TargetDSC",
+        "PokeMonitorBAR"
+      ],
+      "webhookInfo": [
+        {
+          "name": "FamiliaTarget",
+          "label": "FamiliaTarget",
+          "webhook_url": "https://discord.com/api/webhooks/712008711681474610/-HvopSCe7IIhDQO6yAi-q81E1dQMBEa090dZzPwNHhmigFSEHsMWF0o1piGAa-B2qA3Z"
+        },
+        {
+          "name": "TargetDSC",
+          "label": "TargetDSC",
+          "webhook_url": "https://discord.com/api/webhooks/1358889025116836050/55QdKYqf0M4yUK9zYa7gAEH_7TJzBYpaJFnqT_dqHbBX5u7jE1TruKnhDXnLMdexAzdt"
+        },
+        {
+          "name": "PokeMonitorBAR",
+          "label": "PokeMonitorBAR",
+          "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": true,
+      "enableRegularMessages": false,
+      "startTime": "2025-09-13T02:50:36.189Z",
+      "profileId": "profile_1757731836174_bb3j73",
+      "isTestingModule": false,
+      "pm2_task_id": "monitor_task_1757731836173",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": true,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
+    },
+    "profileId": "profile_1757731836174_bb3j73",
+    "createdTime": "2025-09-13T02:50:37.192Z"
+  },
+  {
+    "taskId": "task_1757731855775",
     "label": "Pokemon",
     "channelUrl": "https://discord.com/channels/1296182793407168614/1296182795621634158",
     "targetChannels": [
@@ -1075,14 +912,330 @@
       "enableUrlUnshortening": false,
       "headless": true,
       "enableRegularMessages": true,
-      "startTime": "2025-09-05T16:31:25.000Z",
-      "profileId": "profile_1757089884603_fclfyy",
+      "startTime": "2025-09-13T02:50:55.792Z",
+      "profileId": "profile_1757731855775_m1z2f3",
       "isTestingModule": false,
-      "pm2_task_id": "monitor_task_1757089884603",
-      "enableAffiliateLinks": false,
-      "disableEmbedWebhook": false
+      "pm2_task_id": "monitor_task_1757731855775",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": false,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
     },
-    "profileId": "profile_1757089884603_fclfyy",
-    "createdTime": "2025-09-05T16:31:26.469Z"
+    "profileId": "profile_1757731855775_m1z2f3",
+    "createdTime": "2025-09-13T02:50:56.767Z"
+  },
+  {
+    "taskId": "task_1757731905945",
+    "label": "pokemonCenter",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1351589557753221190",
+    "targetChannels": [
+      "PokeNotifyBar",
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "PokeNotifyBar",
+        "label": "PokeNotifyBar",
+        "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+      },
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+      }
+    ],
+    "settings": {
+      "label": "pokemonCenter",
+      "channelUrl": "https://discord.com/channels/1103122365396832256/1351589557753221190",
+      "targetChannels": [
+        "PokeNotifyBar",
+        "pokemonAIO-DSC"
+      ],
+      "webhookInfo": [
+        {
+          "name": "PokeNotifyBar",
+          "label": "PokeNotifyBar",
+          "webhook_url": "https://discord.com/api/webhooks/1350608766218932264/R2xEKLU4TG5CxwLUynkGTTT3P0rMmhdXJGOYEwhIyH9oh0tQTgNN410MEWS0BwnbTWl2"
+        },
+        {
+          "name": "pokemonAIO-DSC",
+          "label": "pokemonAIO-DSC",
+          "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": true,
+      "enableRegularMessages": false,
+      "startTime": "2025-09-13T02:51:45.962Z",
+      "profileId": "profile_1757731905946_wtur6g",
+      "isTestingModule": false,
+      "pm2_task_id": "monitor_task_1757731905945",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": false,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
+    },
+    "profileId": "profile_1757731905946_wtur6g",
+    "createdTime": "2025-09-13T02:51:47.023Z"
+  },
+  {
+    "taskId": "task_1757731942153",
+    "label": "Sams",
+    "channelUrl": "https://discord.com/channels/1296182793407168614/1296980944389017610",
+    "targetChannels": [
+      "FamiliaSams",
+      "SamsClubDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaSams",
+        "label": "FamiliaSams",
+        "webhook_url": "https://discord.com/api/webhooks/1350574314407071784/XycvTqWYRvy6mh_KRL4L3dybWS-OCar2G77LZMYjTrihc-_QvWEfLjtGPZ1OV_ZF3I4X"
+      },
+      {
+        "name": "SamsClubDSC",
+        "label": "SamsClubDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888223056728174/_RxikHW--bXgtbnTdV2eHePl4uBLIW7LOaDpmVu6q88k7mVqxCIZAOy0ZAdTTf61D1Av"
+      }
+    ],
+    "settings": {
+      "label": "Sams",
+      "channelUrl": "https://discord.com/channels/1296182793407168614/1296980944389017610",
+      "targetChannels": [
+        "FamiliaSams",
+        "SamsClubDSC"
+      ],
+      "webhookInfo": [
+        {
+          "name": "FamiliaSams",
+          "label": "FamiliaSams",
+          "webhook_url": "https://discord.com/api/webhooks/1350574314407071784/XycvTqWYRvy6mh_KRL4L3dybWS-OCar2G77LZMYjTrihc-_QvWEfLjtGPZ1OV_ZF3I4X"
+        },
+        {
+          "name": "SamsClubDSC",
+          "label": "SamsClubDSC",
+          "webhook_url": "https://discord.com/api/webhooks/1358888223056728174/_RxikHW--bXgtbnTdV2eHePl4uBLIW7LOaDpmVu6q88k7mVqxCIZAOy0ZAdTTf61D1Av"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": true,
+      "enableRegularMessages": false,
+      "startTime": "2025-09-13T02:52:22.180Z",
+      "profileId": "profile_1757731942155_8cqm26",
+      "isTestingModule": false,
+      "pm2_task_id": "monitor_task_1757731942153",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": true,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
+    },
+    "profileId": "profile_1757731942155_8cqm26",
+    "createdTime": "2025-09-13T02:52:23.412Z"
+  },
+  {
+    "taskId": "task_1757731956812",
+    "label": "POP MART",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1348760568789602324",
+    "targetChannels": [
+      "POP MART"
+    ],
+    "webhookInfo": [
+      {
+        "name": "POP MART",
+        "label": "POP MART",
+        "webhook_url": "https://discord.com/api/webhooks/1358890099449794661/-FHv47fTFlXT3ThtdU0qPtbb6S0qNoMM1XgscoRN-aVKjFodKphOW_HkKSNqVsK6gSpd"
+      }
+    ],
+    "settings": {
+      "label": "POP MART",
+      "channelUrl": "https://discord.com/channels/1103122365396832256/1348760568789602324",
+      "targetChannels": [
+        "POP MART"
+      ],
+      "webhookInfo": [
+        {
+          "name": "POP MART",
+          "label": "POP MART",
+          "webhook_url": "https://discord.com/api/webhooks/1358890099449794661/-FHv47fTFlXT3ThtdU0qPtbb6S0qNoMM1XgscoRN-aVKjFodKphOW_HkKSNqVsK6gSpd"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": true,
+      "enableRegularMessages": false,
+      "startTime": "2025-09-13T02:52:36.838Z",
+      "profileId": "profile_1757731956812_t3xrf8",
+      "isTestingModule": false,
+      "pm2_task_id": "monitor_task_1757731956812",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": true,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
+    },
+    "profileId": "profile_1757731956812_t3xrf8",
+    "createdTime": "2025-09-13T02:52:38.109Z"
+  },
+  {
+    "taskId": "task_1757731983474",
+    "label": "Walmart",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347810319875047465",
+    "targetChannels": [
+      "FamiliaWalmart",
+      "WalmartDSC",
+      "PokeMonitorBAR"
+    ],
+    "webhookInfo": [
+      {
+        "name": "FamiliaWalmart",
+        "label": "FamiliaWalmart",
+        "webhook_url": "https://discord.com/api/webhooks/1350576171133435934/fATR03W1IczspfvZi0yogWo0PoZ0bSUjc2b0AeeL1tTUYIIgJUOF-Z-SJ3t4dwJdjlzJ"
+      },
+      {
+        "name": "WalmartDSC",
+        "label": "WalmartDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889123863335004/IcTdNLk5DKDvmdYuBNg1JA7rS4n2sXKzVkdlyOoqy7f5IpYDAJf6LrTOH8UQ8lVsZwM1"
+      },
+      {
+        "name": "PokeMonitorBAR",
+        "label": "PokeMonitorBAR",
+        "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+      }
+    ],
+    "settings": {
+      "label": "Walmart",
+      "channelUrl": "https://discord.com/channels/1103122365396832256/1347810319875047465",
+      "targetChannels": [
+        "FamiliaWalmart",
+        "WalmartDSC",
+        "PokeMonitorBAR"
+      ],
+      "webhookInfo": [
+        {
+          "name": "FamiliaWalmart",
+          "label": "FamiliaWalmart",
+          "webhook_url": "https://discord.com/api/webhooks/1350576171133435934/fATR03W1IczspfvZi0yogWo0PoZ0bSUjc2b0AeeL1tTUYIIgJUOF-Z-SJ3t4dwJdjlzJ"
+        },
+        {
+          "name": "WalmartDSC",
+          "label": "WalmartDSC",
+          "webhook_url": "https://discord.com/api/webhooks/1358889123863335004/IcTdNLk5DKDvmdYuBNg1JA7rS4n2sXKzVkdlyOoqy7f5IpYDAJf6LrTOH8UQ8lVsZwM1"
+        },
+        {
+          "name": "PokeMonitorBAR",
+          "label": "PokeMonitorBAR",
+          "webhook_url": "https://discord.com/api/webhooks/1372599027564019854/dIfugPHzg484CwAYyxSTmLvPQsY8-uMa-7Zfha_3tis99O824Q-Mt19YcOQGSFFQix6N"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": true,
+      "enableRegularMessages": false,
+      "startTime": "2025-09-13T02:53:03.531Z",
+      "profileId": "profile_1757731983475_r0hijv",
+      "isTestingModule": false,
+      "pm2_task_id": "monitor_task_1757731983474",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": true,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
+    },
+    "profileId": "profile_1757731983475_r0hijv",
+    "createdTime": "2025-09-13T02:53:04.858Z"
+  },
+  {
+    "taskId": "task_1757732003299",
+    "label": "PokemonAIO",
+    "channelUrl": "https://discord.com/channels/1103122365396832256/1347810490973163570",
+    "targetChannels": [
+      "pokemonAIO-DSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "pokemonAIO-DSC",
+        "label": "pokemonAIO-DSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+      }
+    ],
+    "settings": {
+      "label": "PokemonAIO",
+      "channelUrl": "https://discord.com/channels/1103122365396832256/1347810490973163570",
+      "targetChannels": [
+        "pokemonAIO-DSC"
+      ],
+      "webhookInfo": [
+        {
+          "name": "pokemonAIO-DSC",
+          "label": "pokemonAIO-DSC",
+          "webhook_url": "https://discord.com/api/webhooks/1358889342214607120/yVPZGpciksr2L7mCYFfrLMQHVdG6IW7-td_XQxt0EXp1IulGB_rpJNjktGiDz7D5b4uQ"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": true,
+      "enableRegularMessages": false,
+      "startTime": "2025-09-13T02:53:23.320Z",
+      "profileId": "profile_1757732003300_4axxap",
+      "isTestingModule": false,
+      "pm2_task_id": "monitor_task_1757732003299",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": true,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
+    },
+    "profileId": "profile_1757732003300_4axxap",
+    "createdTime": "2025-09-13T02:53:24.732Z"
+  },
+  {
+    "taskId": "task_1758074606189",
+    "label": "Costco",
+    "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+    "targetChannels": [
+      "cosctoDSC"
+    ],
+    "webhookInfo": [
+      {
+        "name": "cosctoDSC",
+        "label": "cosctoDSC",
+        "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
+      }
+    ],
+    "settings": {
+      "label": "Costco",
+      "channelUrl": "https://discord.com/channels/580944366751711252/1346509673641017384",
+      "targetChannels": [
+        "cosctoDSC"
+      ],
+      "webhookInfo": [
+        {
+          "name": "cosctoDSC",
+          "label": "cosctoDSC",
+          "webhook_url": "https://discord.com/api/webhooks/1358888136293351555/x5dmF6aDNeuYKcmtEPOmg-9aQtv9pwPhD0lgiCgt3KWnuU3hlf84DPOA6ve861pONGoA"
+        }
+      ],
+      "enableUrlUnshortening": false,
+      "headless": false,
+      "enableRegularMessages": false,
+      "startTime": "2025-09-17T02:03:26.217Z",
+      "profileId": "profile_1758074606190_oj2a34",
+      "isTestingModule": true,
+      "pm2_task_id": "monitor_task_1758074606189",
+      "enableBestBuyAffiliateLinks": false,
+      "enableMavelyAffiliateLinks": false,
+      "disableEmbedWebhook": false,
+      "enableTweeting": false,
+      "tweetKeywords": [],
+      "tweetTimeout": 30
+    },
+    "profileId": "profile_1758074606190_oj2a34",
+    "createdTime": "2025-09-17T02:03:28.322Z"
   }
 ]
