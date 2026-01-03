@@ -274,11 +274,19 @@ async function ScrapeData(page, enableRegularMessages) {
                 try {
                     nameEl = await fieldElement.$('div[class*="embedFieldName"]');
                     valueEl = await fieldElement.$('div[class*="embedFieldValue"]');
-                    if (nameEl && valueEl) {
-                        const name = await nameEl.evaluate(node => node.textContent.trim());
+                    // Only require valueEl to exist; nameEl can be empty or missing
+                    if (valueEl) {
+                        let name = '';
+                        if (nameEl) {
+                            name = await nameEl.evaluate(node => node.textContent.trim());
+                        }
                         // Call processTextWithLinks, passing the handle. It won't dispose valueEl itself.
                         const value = await processTextWithLinks(valueEl);
-                        if (name && value) localEmbedArray.push({ title: name, value: value });
+                        // Only require value to be present; empty names are allowed in Discord embeds
+                        if (value && value.trim().length > 0) {
+                            // Use zero-width space for empty names to ensure Discord accepts the field
+                            localEmbedArray.push({ title: name || '\u200B', value: value });
+                        }
                     }
                 } catch(fieldProcError) {
                      console.error("Error processing field content:", fieldProcError);
@@ -359,7 +367,9 @@ async function ScrapeData(page, enableRegularMessages) {
                  try {
                      fieldsContainer = await container.$('div[class*="embedFields"]');
                      if (fieldsContainer) {
-                         fields = await fieldsContainer.$$('div[class*="embedField_"]');
+                         // Match embedField (singular) but not embedFields (plural)
+                         // The class is like "_623de82e76ad7f82-embedField" (no underscore at end)
+                         fields = await fieldsContainer.$$('div[class*="embedField"]:not([class*="embedFields"])');
                          for (const field of fields) { // field is a handle
                               // processField is responsible for disposing its internal handles (nameEl, valueEl)
                              await processField(field);

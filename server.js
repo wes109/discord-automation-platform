@@ -696,7 +696,10 @@ app.get('/api/tasks', (req, res) => {
       return {
         ...task,
         status,
-        settings: taskSettings[task.taskId] || {}
+        settings: {
+          ...task.settings, // Use task's own settings first
+          ...taskSettings[task.taskId] // Then override with any additional settings
+        }
       };
     });
     
@@ -723,7 +726,8 @@ app.get('/api/tasks/:taskId', (req, res) => {
     // Combine task info with settings and active status
     const taskDetails = {
       ...task,
-      ...taskSettings[taskId],  // Spread settings at top level for easier access
+      ...task.settings, // Use task's own settings first
+      ...taskSettings[taskId],  // Then override with any additional settings
       isActive: activeTasks.has(taskId)
     };
     
@@ -1037,9 +1041,12 @@ app.put('/api/tasks/:taskId/settings', (req, res) => {
   const savedTasksSuccess = writeSavedTasks(savedTasks);
   const taskSettingsSuccess = writeTaskSettings(taskId, updatedSettings);
   
+  console.log(`[API] Save results - savedTasks: ${savedTasksSuccess}, taskSettings: ${taskSettingsSuccess}`);
+  
   if (savedTasksSuccess && taskSettingsSuccess) {
     res.json({ success: true });
   } else {
+    console.error(`[API] Failed to save - savedTasks: ${savedTasksSuccess}, taskSettings: ${taskSettingsSuccess}`);
     res.status(500).json({ success: false, message: 'Failed to save task settings' });
   }
 });
