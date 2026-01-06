@@ -12,6 +12,14 @@ bestbuy_link_cache.json
 # Environment files
 .env
 
+# Sensitive files - never commit these
+cookies.json
+*.token
+auth-token.txt
+config.json
+config2.json
+prepareCookies.js
+
 # OS files
 .DS_Store
 
