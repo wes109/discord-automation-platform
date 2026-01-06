@@ -2,6 +2,30 @@
 
 A sophisticated e-commerce monitoring and automation system built with Node.js, focusing on real-time product tracking and automated notifications.
 
+---
+
+<div align="center">
+
+# 🎬 SHOWCASE
+
+</div>
+
+<div align="center">
+
+## Video Explanation
+
+*[Insert video explanation here]*
+
+</div>
+
+---
+
+## ⚠️ Important Notice
+
+**Note:** Multiple proprietary files and sensitive information have been removed from this repository to prevent commercial use and protect intellectual property. This is a showcase version intended for demonstration purposes only.
+
+---
+
 ## ⚠️ Prerequisites
 
 - Node.js (>=20.19 and <=24.x) for n8n compatibility
@@ -66,16 +90,16 @@ npm install
 ```
 
 3. Configure the application:
-- Set up your `config.json` file with:
-  - Discord channel URLs to monitor
-  - Webhook URLs for notifications
-  - Browser profile settings
-  - Affiliate network credentials
+   - Set up your `config.json` file with:
+     - Discord channel URLs to monitor
+     - Webhook URLs for notifications
+     - Browser profile settings
+     - Affiliate network credentials
 
 4. Configure n8n (optional):
-- Copy `.env.example` to `.env`
-- Set up your Twitter OAuth2 credentials in `.env`
-- Configure n8n port and host settings if needed
+   - Copy `.env.example` to `.env`
+   - Set up your Twitter OAuth2 credentials in `.env`
+   - Configure n8n port and host settings if needed
 
 ## 🚦 Usage
 
@@ -163,6 +187,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 Wesley Connell
 - GitHub: [@wes109](https://github.com/wes109)
+
+---
 
 # Discord Monitor Dashboard
 
@@ -275,4 +301,4 @@ curl -X POST http://localhost:5678/webhook/tweet \
    - Open n8n interface (http://localhost:5678)
    - Go to Settings > Credentials
    - Add new Twitter OAuth2 credentials
-   - Update the workflow with your credential ID 
+   - Update the workflow with your credential ID
