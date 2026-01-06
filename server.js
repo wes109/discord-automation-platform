@@ -458,6 +458,15 @@ async function startMonitoringTask(channelUrl, targetChannels, taskSettings = {}
   if (settings.disableEmbedWebhook === true) {
     scriptArgs.push('--disable-embed-webhook');
   }
+  if (settings.enableTweeting === true) {
+    scriptArgs.push('--enable-tweeting');
+  }
+  if (settings.tweetKeywords && settings.tweetKeywords.length > 0) {
+    scriptArgs.push('--tweet-keywords', settings.tweetKeywords.join(','));
+  }
+  if (settings.tweetTimeout) {
+    scriptArgs.push('--tweet-timeout', settings.tweetTimeout);
+  }
 
   // --- No Cron Restarts - Run Continuously --- 
   console.log(`[Task Manager] Starting ${pm2_task_id} without cron restarts (continuous mode)`);
@@ -1517,20 +1526,16 @@ app.post('/api/bestbuy/generate-link', async (req, res) => {
 // Check Tweet Processor Status (n8n availability)
 app.get('/api/tweet-processor/status', async (req, res) => {
   try {
-    // Check if n8n is running by testing the webhook endpoint with a POST request
-    // Send a test payload with a flag to prevent actual tweet processing
-    const n8nResponse = await fetch('http://localhost:5678/webhook/tweet', {
+    // Check if n8n is running by testing a separate health check endpoint
+    // This prevents health checks from creating execution records in the main workflow
+    const n8nResponse = await fetch('http://localhost:5678/webhook/tweet/health', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         isHealthCheck: true,
-        test: true,
-        messageId: 'health-check',
-        taskId: 'health-check',
-        timestamp: new Date().toISOString(),
-        source: 'health-check'
+        timestamp: new Date().toISOString()
       }),
       timeout: 5000 // 5 second timeout
     });

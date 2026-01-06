@@ -1286,6 +1286,10 @@ async function editTask(taskId) {
             return;
         }
 
+        console.log('Loading task for editing:', task);
+        console.log('Task settings:', task.settings);
+        console.log('enableRegularMessages value:', task.settings?.enableRegularMessages);
+
         // Set form values
         document.getElementById('editTaskId').value = taskId;
         document.getElementById('editChannelUrl').value = task.channelUrl || '';
@@ -1389,8 +1393,12 @@ async function saveEditedTask() {
             enableTweeting: document.getElementById('editEnableTweeting').checked,
             tweetKeywords: tweetKeywords,
             tweetTimeout: tweetTimeout,
-            disableEmbedWebhook: document.getElementById('editDisableEmbedWebhook').checked
+            disableEmbedWebhook: document.getElementById('editDisableEmbedWebhook').checked,
+            enableUrlUnshortening: document.getElementById('editEnableUrlUnshortening').checked
         };
+
+        console.log('Saving task with settings:', taskSettings);
+        console.log('enableRegularMessages checkbox checked:', document.getElementById('editEnableRegularMessages').checked);
 
         // Send update request
         const response = await fetch(`/api/tasks/${taskId}/settings`, {

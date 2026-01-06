@@ -97,13 +97,16 @@ exports.buildWebhook = async (embedArray, webhookUrl, isTestingModule = false) =
 
         embedArray.forEach((embed, index) => {
             try {
-                if (!embed || !embed.title || !embed.value) {
-                    console.warn('Skipping embed item due to missing title or value:', embed);
+                // Allow empty titles (zero-width space) but require value
+                if (!embed || !embed.value) {
+                    console.warn('Skipping embed item due to missing value:', embed);
                     return;
                 }
                 var { title, value, url } = embed;
+                // Normalize title - handle empty strings and zero-width spaces
+                const normalizedTitle = (title || '').trim() || '\u200B';
 
-                switch (title.toLowerCase()) {
+                switch (normalizedTitle.toLowerCase()) {
                     case 'author':
                         embedMessage.setAuthor(value, 'https://pbs.twimg.com/profile_images/1563967215438790656/y8DLGAKv_400x400.jpg');
                         break;
@@ -134,25 +137,33 @@ exports.buildWebhook = async (embedArray, webhookUrl, isTestingModule = false) =
                         break;
                     default:
                         try {
-                            if (skipNext) {
-                                skipNext = false;
-                                break;
-                            }
-                            
                             let addInline = false;
-                            if (index + 1 < embedArray.length && embedArray[index + 1].title) {
-                                if (embedArray[index + 1].title.length < 2) {
-                                    addInline = true;
+                            
+                            // If skipNext is set, this field was already determined to be inline in previous iteration
+                            // Still add it, but don't re-check inline layout
+                            if (skipNext) {
+                                addInline = true;
+                                skipNext = false;
+                            } else {
+                                // Check if next field exists and has a short/empty title for inline layout
+                                if (index + 1 < embedArray.length && embedArray[index + 1]) {
+                                    const nextTitle = (embedArray[index + 1].title || '').trim() || '\u200B';
+                                    // Zero-width space or titles < 2 chars should be inline
+                                    if (nextTitle === '\u200B' || nextTitle.length < 2) {
+                                        addInline = true;
+                                    }
                                 }
                             }
 
                             if(value && value.trim().length > 0) {
-                                embedMessage.addField(title, value, addInline);
-                                if (addInline) {
-                                    skipNext = embedArray[index + 1].title.length < 2;
+                                embedMessage.addField(normalizedTitle, value, addInline);
+                                // Set skipNext for next iteration if this field was inline and next field also has empty/short name
+                                if (addInline && index + 1 < embedArray.length && embedArray[index + 1]) {
+                                    const nextTitle = (embedArray[index + 1].title || '').trim() || '\u200B';
+                                    skipNext = (nextTitle === '\u200B' || nextTitle.length < 2);
                                 }
                             } else {
-                                console.warn('Skipping empty field:', { title });
+                                console.warn('Skipping empty field:', { title: normalizedTitle });
                             }
                         } catch (err) {
                             console.error('Error processing default field:', err, 'Embed data:', embed, 'Next embed:', embedArray[index + 1]);

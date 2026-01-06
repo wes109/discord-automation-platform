@@ -119,7 +119,7 @@ enableBestBuyAffiliateLinksGlobal = argv['enable-bestbuy-affiliate-links'];
 enableMavelyAffiliateLinksGlobal = argv['enable-affiliate-links'];
 const isTestingModuleGlobal = argv['testing-mode'];
 const enableTweetingGlobal = argv['enable-tweeting'];
-const tweetKeywordsGlobal = argv['tweet-keywords'] ? argv['tweet-keywords'].split(',') : [];
+const tweetKeywordsGlobal = argv['tweet-keywords'] ? argv['tweet-keywords'].split(',').map(k => k.trim()).filter(k => k) : [];
 const tweetTimeoutGlobal = argv['tweet-timeout'] || 30;
 let disableEmbedWebhook = false;
 disableEmbedWebhook = argv['disable-embed-webhook'];
@@ -604,7 +604,61 @@ async function triggerTweetForMatch(messageId, embedArray, regularMessage, taskI
             return;
         }
         
-        // Only proceed if we have a valid URL to extract store information
+        // Only proceed if we have the required information for embeds
+        if (embedArray && embedArray.length > 0) {
+            // For embeds, prepare embedArray for n8n workflow
+            // The workflow expects Title embed to have both 'value' and 'description' (it checks description first, then value)
+            const processedEmbedArray = embedArray.map(embed => {
+                const processed = { ...embed };
+                // Ensure Title embed has description field (workflow looks for description first, then value)
+                if (embed.title && embed.title.toLowerCase() === 'title') {
+                    // Set description from value if description doesn't exist, or use value as fallback
+                    if (!processed.description && processed.value) {
+                        processed.description = processed.value;
+                    }
+                    // Ensure value exists if description exists but value doesn't
+                    if (!processed.value && processed.description) {
+                        processed.value = processed.description;
+                    }
+                }
+                return processed;
+            });
+            
+            const n8nPayload = {
+                isHealthCheck: false, // Important: ensure it's not treated as health check
+                embedArray: processedEmbedArray, // Send processed embed array with description field
+                messageId: messageId,
+                taskId: taskId,
+                matchedKeywords: matchResult.matchedGroup,
+                timestamp: new Date().toISOString(),
+                source: 'discord-monitor'
+            };
+            
+            // Debug: Log the payload being sent
+            logTask(taskId, 'DEBUG', `Sending embedArray payload to n8n: ${JSON.stringify(n8nPayload, null, 2)}`);
+            
+            const response = await fetch(n8nWebhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(n8nPayload)
+            });
+
+            if (response.ok) {
+                logTask(taskId, 'SUCCESS', `Tweet triggered successfully for message ${messageId}`);
+                
+                // Record the global tweet time
+                tweetedProducts.set('__last_tweet_time__', Date.now());
+                logTask(taskId, 'DEBUG', `Recorded global tweet time for timeout: ${tweetTimeout} minutes`);
+            } else {
+                const errorText = await response.text();
+                logTask(taskId, 'ERROR', `Failed to trigger tweet for message ${messageId}: HTTP ${response.status} - ${errorText}`);
+            }
+            return; // Exit early for embeds
+        }
+        
+        // Only proceed if we have a valid URL to extract store information (for regular messages)
         if (!productInfo.imageUrl) {
             logTask(taskId, 'WARN', `Skipping tweet for message ${messageId} - no product URL available`);
             return;
@@ -622,8 +676,9 @@ async function triggerTweetForMatch(messageId, embedArray, regularMessage, taskI
             return;
         }
         
-        // Create payload matching n8n expected format - only with accurate data
+        // Create payload matching n8n expected format for regular messages (legacy format)
         const n8nPayload = {
+            isHealthCheck: false,
             tweetText: `🚨RESTOCK ALERT (${storeName})🚨\n\n${productInfo.title || productInfo.description || productInfo.content}\n\n${productInfo.imageUrl}\n\n🎮 JOIN OUR DISCORD: https://discord.gg/8u9nWThtyk`,
             thumbnailUrl: productInfo.thumbnailUrl || productInfo.imageUrl,
             storeName: storeName,
@@ -639,7 +694,7 @@ async function triggerTweetForMatch(messageId, embedArray, regularMessage, taskI
         };
         
         // Debug: Log the payload being sent
-        logTask(taskId, 'DEBUG', `Sending payload to n8n: ${JSON.stringify(n8nPayload, null, 2)}`);
+        logTask(taskId, 'DEBUG', `Sending payload to n8n for regular message: ${JSON.stringify(n8nPayload, null, 2)}`);
         
         const response = await fetch(n8nWebhookUrl, {
             method: 'POST',
@@ -937,6 +992,34 @@ async function monitorChannel(browser, channelUrl, targetChannels, currentTaskId
                             logTask(currentTaskId, 'DEBUG', `Finished processing target channel: ${channelName}`);
                         }
                         logTask(currentTaskId, 'DEBUG', `Finished looping through all target channels for message ${messageId}`);
+                        
+                        // Check keywords after all webhooks are sent (asynchronous, non-blocking, runs once per message)
+                        logTask(currentTaskId, 'DEBUG', `About to check keywords for embed message ${messageId}. Keywords: ${JSON.stringify(currentTweetKeywords)}`);
+                        if (currentTweetKeywords && currentTweetKeywords.length > 0) {
+                            setImmediate(async () => {
+                                try {
+                                    const { checkWebhookKeywords } = require('./utils/keyword_matcher');
+                                    logTask(currentTaskId, 'DEBUG', `Checking keywords for embed message ${messageId}: ${JSON.stringify(currentTweetKeywords)}`);
+                                    const matchResult = checkWebhookKeywords(embedArray, currentTweetKeywords);
+                                    if (matchResult) {
+                                        logTask(currentTaskId, 'INFO', `Keyword match found for embed message ${messageId}: Group "${matchResult.matchedGroup}" (index ${matchResult.groupIndex})`);
+                                        
+                                        // Trigger tweet if tweeting is enabled
+                                        if (currentEnableTweeting) {
+                                            await triggerTweetForMatch(messageId, embedArray, null, currentTaskId, matchResult, tweetedProducts, currentTweetTimeout);
+                                        } else {
+                                            logTask(currentTaskId, 'DEBUG', `Tweeting is disabled, skipping tweet trigger for message ${messageId}`);
+                                        }
+                                    } else {
+                                        logTask(currentTaskId, 'DEBUG', `No keyword match for embed message ${messageId}`);
+                                    }
+                                } catch (error) {
+                                    logTask(currentTaskId, 'WARNING', `Error checking keywords for embed message ${messageId}: ${error.message}`);
+                                }
+                            });
+                        } else {
+                            logTask(currentTaskId, 'DEBUG', `No tweet keywords configured for message ${messageId}`);
+                        }
                     }
                     else {
                         logTask(currentTaskId, 'WARNING', `Message ${messageId} has neither regular content nor embeds.`);
