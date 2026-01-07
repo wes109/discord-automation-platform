@@ -8,6 +8,7 @@ my-profile*
 # BestBuy manager cache files
 .bestbuy_token
 bestbuy_link_cache.json
+mavely_link_cache.json
 
 # Environment files
 .env
@@ -45,6 +46,10 @@ yarn-error.log*
 # Cache directories
 .npm
 .eslintcache
+
+# Runtime data files
+saved_tasks.json
+task_settings.json
 
 # External dependencies and libraries
 panda/
