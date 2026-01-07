@@ -14,7 +14,7 @@ A sophisticated e-commerce monitoring and automation system built with Node.js, 
 
 ## Video Explanation
 
-*[Insert video explanation here]*
+[![Project Demo on YouTube](https://img.youtube.com/vi/VZSv23n7bpk/maxresdefault.jpg)](https://youtu.be/VZSv23n7bpk)
 
 </div>
 
